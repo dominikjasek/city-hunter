@@ -5,7 +5,11 @@
   },
   "settings": {
       "react": {
-        "version": "detect"
+        "version": "detect",
+        "self-closing-comp": ["error", {
+          "component": true,
+          "html": true
+        }]
       }
   },
   "extends": [
@@ -30,6 +34,7 @@
     "semi": ["error", "never"],
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["error", "always"],
-    "computed-property-spacing": ["error", "always"]
+    "computed-property-spacing": ["error", "always"],
+    "indent": ["error", 2]
   }
 }
