@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <div>
-      <img src={logo} className="App-logo" alt="logo"/>
+      <img src={logo} className="app-logo" alt="logo"/>
       <p>Hello Vite + React!</p>
       <Link to={`/about`}>About</Link>
       <p>
@@ -27,7 +27,7 @@ const Home = () => {
       </p>
       <p>
         <a
-          className="App-link"
+          className="app-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
@@ -36,7 +36,7 @@ const Home = () => {
         </a>
         {' | '}
         <a
-          className="App-link"
+          className="app-link"
           href="https://vitejs.dev/guide/features.html"
           target="_blank"
           rel="noopener noreferrer"
