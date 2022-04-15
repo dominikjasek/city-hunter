@@ -1,15 +1,17 @@
-import {useState} from 'react';
-import './App.css';
-import logo from './logo.svg';
+import { useState } from 'react'
+import { Link } from "react-router-dom"
+import './App.css'
+import logo from './logo.svg'
 
 function App() {
-    const [count, setCount] = useState(0);
+    const [ count, setCount ] = useState(0)
 
     return (
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo"/>
                 <p>Hello Vite + React!</p>
+                <Link to={`/about`}>About</Link>
                 <p>
 
                     <button type="button" onClick={() => setCount((count) => count + 1)}>
@@ -46,7 +48,7 @@ function App() {
                 </p>
             </header>
         </div>
-    );
+    )
 }
 
-export default App;
+export default App
