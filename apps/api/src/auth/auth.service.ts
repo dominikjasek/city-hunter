@@ -1,6 +1,6 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { sign } from 'jsonwebtoken';
-import { UsersService } from '~/src/users/users.service';
+import { Injectable, InternalServerErrorException } from '@nestjs/common'
+import { sign } from 'jsonwebtoken'
+import { UsersService } from '~/src/users/users.service'
 
 export enum Provider {
   GOOGLE = 'google',
@@ -8,7 +8,7 @@ export enum Provider {
 
 @Injectable()
 export class AuthService {
-  private readonly JWT_SECRET_KEY = process.env.AUTH_JWT_SECRET;
+  private readonly JWT_SECRET_KEY = process.env.AUTH_JWT_SECRET
 
   constructor(private readonly usersService: UsersService) {}
 
@@ -23,20 +23,20 @@ export class AuthService {
 
       // if (!user)
       // user = await this.usersService.registerOAuthUser(thirdPartyId, provider);
-      const user = await this.usersService.findOne('maria');
-      console.log('user from userService', user);
+      const user = await this.usersService.findOne('maria')
+      console.log('user from userService', user)
 
       const payload = {
         thirdPartyId,
         provider,
-      };
+      }
 
       const jwt: string = sign(payload, this.JWT_SECRET_KEY, {
         expiresIn: 3600000, // 1000 hours, TODO: change this to a more appropriate value
-      });
-      return jwt;
+      })
+      return jwt
     } catch (err) {
-      throw new InternalServerErrorException('validateOAuthLogin', err.message);
+      throw new InternalServerErrorException('validateOAuthLogin', err.message)
     }
   }
 }
