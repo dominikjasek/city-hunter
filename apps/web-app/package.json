@@ -14,7 +14,8 @@
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "react-social-login-buttons": "^3.6.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
@@ -28,6 +29,7 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
+    "react-error-overlay": "^6.0.9",
     "sass": "^1.50.0",
     "stylelint": "^14.6.1",
     "stylelint-config-standard": "^25.0.0",

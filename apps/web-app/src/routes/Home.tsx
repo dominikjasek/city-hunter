@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom"
+import LoginGoogleButton from "~/src/components/LoginGoogleButton"
 import logo from "~/src/logo.svg"
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
     <div>
       <img src={logo} className="app-logo" alt="logo"/>
       <p>Hello Vite + React!</p>
+      <LoginGoogleButton />
       <Link to={`/about`}>About</Link>
       <p>
 
