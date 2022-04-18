@@ -6,6 +6,13 @@ import { JwtGuard } from '~/auth/strategy/jwt/jwt.guard'
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Get('ping')
+  ping() {
+    return {
+      data: 'pong',
+    }
+  }
+
   @Get()
   @UseGuards(JwtGuard)
   getHello(): any {
