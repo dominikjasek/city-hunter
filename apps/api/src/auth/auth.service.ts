@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import { sign } from 'jsonwebtoken'
-import { UsersService } from '~/src/users/users.service'
+import { UsersService } from '~/users/users.service'
 
 export enum Provider {
   GOOGLE = 'google',
