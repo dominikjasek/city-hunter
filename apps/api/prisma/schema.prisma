@@ -10,7 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @default(autoincrement()) @id
-  title     String
+model User {
+  id           Int           @id @default(autoincrement())
+  thirdPartyId String
+  email        String
+  photoUrl     String
+  firstName    String
+  lastName     String
+  provider     LoginProvider
+}
+
+enum LoginProvider {
+  GOOGLE
 }

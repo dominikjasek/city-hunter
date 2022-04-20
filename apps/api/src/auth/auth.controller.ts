@@ -16,7 +16,6 @@ export class AuthController {
   googleLoginCallback(@Req() req, @Res() res: Response) {
     // handles the Google OAuth2 callback
     const jwt: string = req.user.jwt
-    console.log('google/callback', jwt)
     if (jwt) res.redirect(`${process.env.WEB_APP_URL}/about?jwt=${jwt}`)
     else res.redirect(`${process.env.WEB_APP_URL}/about`)
   }
