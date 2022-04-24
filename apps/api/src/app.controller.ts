@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards } from '@nestjs/common'
 import { AppService } from '~/app.service'
-import { JwtGuard } from '~/auth/strategy/jwt/jwt.guard'
+import { AccessTokenGuard } from '~/auth/strategy/access-token/access-token.guard'
 
 @Controller()
 export class AppController {
@@ -14,7 +14,7 @@ export class AppController {
   }
 
   @Get()
-  @UseGuards(JwtGuard)
+  @UseGuards(AccessTokenGuard)
   getHello(): any {
     return this.appService.getHello()
   }

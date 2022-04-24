@@ -1,9 +1,34 @@
-import { Link } from "react-router-dom"
+import axios from "axios"
+import { useState } from "react"
+import { Link, useSearchParams } from "react-router-dom"
 
 export default function About() {
+  const [ data, setData ] = useState<string>('')
+  const [ searchParams ] = useSearchParams()
+  const jwt = searchParams.get("jwt")
+  console.log(jwt)
+  
+  const fetchProtectedData = async () => {
+    console.log(jwt)
+    const val = await axios.get(`http://localhost:8080/auth/protected`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    })
+
+    console.log(val.data.data)
+    setData(val.data.data)
+
+  }
+  
   return (
     <main style={{ padding: "1rem 0" }}>
-      <h2>About</h2>
+      <button onClick={fetchProtectedData}>Fetch data</button>
+      <ul>
+        { 
+          data
+        }
+      </ul>
       <Link to={`/`}>Go home</Link>
     </main>
   )

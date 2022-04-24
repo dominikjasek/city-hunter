@@ -3,17 +3,20 @@ import { sign, verify } from 'jsonwebtoken'
 
 @Injectable()
 export class JwtService {
-  private readonly secretKey: string | undefined
+  private readonly secretKey: string
   private readonly algorithm: string
+  private readonly expirationTime: string //https://www.npmjs.com/package/jsonwebtoken
 
   constructor() {
-    this.secretKey = process.env.AUTH_JWT_SECRET
-    this.algorithm = 'HS256'
+    this.secretKey = process.env.AUTH_JWT_SECRET as string
+    this.algorithm = process.env.AUTH_JWT_ALGORITHM as string
+    this.expirationTime = process.env.AUTH_JWT_EXPIRATION_TIME as string
   }
 
   async sign(payload: any): Promise<string> {
     return sign(payload, this.secretKey, {
       algorithm: this.algorithm,
+      expiresIn: this.expirationTime,
     })
   }
 

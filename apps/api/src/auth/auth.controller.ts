@@ -1,7 +1,7 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common'
 import { Response } from 'express'
-import { GoogleAuthGuard } from '~/auth/strategy/google/google-auth.guard'
-import { JwtGuard } from '~/auth/strategy/jwt/jwt.guard'
+import { GoogleAuthGuard } from '~/auth/strategy/providers/google/google-auth.guard'
+import { AccessTokenGuard } from '~/auth/strategy/access-token/access-token.guard'
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +21,7 @@ export class AuthController {
   }
 
   @Get('protected')
-  @UseGuards(JwtGuard)
+  @UseGuards(AccessTokenGuard)
   protectedResource() {
     return {
       data: 'JWT is working!',
