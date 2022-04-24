@@ -50,6 +50,7 @@
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
     "@prisma/client": "^3.12.0",
+    "argon2": "^0.28.5",
     "jsonwebtoken": "^8.5.1",
     "newrelic": "^8.9.1",
     "passport": "^0.5.2",

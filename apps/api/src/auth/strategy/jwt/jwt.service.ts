@@ -13,10 +13,14 @@ export class JwtService {
     this.expirationTime = process.env.AUTH_JWT_EXPIRATION_TIME as string
   }
 
-  async sign(payload: any): Promise<string> {
-    return sign(payload, this.secretKey, {
+  async sign(
+    payload: any,
+    secretKey = this.secretKey,
+    expiresIn = this.expirationTime,
+  ): Promise<string> {
+    return sign(payload, secretKey, {
       algorithm: this.algorithm,
-      expiresIn: this.expirationTime,
+      expiresIn,
     })
   }
 

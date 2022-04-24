@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport'
 import { LoginProvider, Prisma } from '@prisma/client'
 import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20'
 import { AuthService } from '~/auth/auth.service'
+import { ITokens } from '~/auth/types/JwtPayload.type'
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
@@ -35,11 +36,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         },
       }
 
-      const jwt: string = await this.authService.validateOAuthLogin(
+      const tokens: ITokens = await this.authService.loginWithOAuth(
         userCreateObj,
       )
+
       const user = {
-        jwt,
+        tokens,
       }
 
       done(null, user)

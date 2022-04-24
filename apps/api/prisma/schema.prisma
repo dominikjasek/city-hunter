@@ -10,14 +10,14 @@ datasource db {
 model User {
   id           Int           @id @default(autoincrement())
   createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
   thirdPartyId String
   email        String
   photoUrl     String
   firstName    String
   lastName     String
   provider     LoginProvider
-  refreshToken String        @default("default-value-by-prisma")
+  refreshToken String?
 
   @@map("users")
 }

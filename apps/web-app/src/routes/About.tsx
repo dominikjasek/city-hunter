@@ -5,7 +5,7 @@ import { Link, useSearchParams } from "react-router-dom"
 export default function About() {
   const [ data, setData ] = useState<string>('')
   const [ searchParams ] = useSearchParams()
-  const jwt = searchParams.get("jwt")
+  const jwt = searchParams.get("access_token")
   console.log(jwt)
   
   const fetchProtectedData = async () => {

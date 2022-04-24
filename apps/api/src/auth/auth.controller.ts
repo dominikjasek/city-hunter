@@ -1,23 +1,43 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common'
 import { Response } from 'express'
 import { GoogleAuthGuard } from '~/auth/strategy/providers/google/google-auth.guard'
 import { AccessTokenGuard } from '~/auth/strategy/access-token/access-token.guard'
+import { RefreshTokenGuard } from '~/auth/strategy/refresh-token/refresh-token.guard'
+import { AuthService } from '~/auth/auth.service'
+import { GetCurrentUserId } from '~/auth/common/decorators'
+import { GetCurrentUser } from '~/auth/common/decorators'
+import { ITokens } from '~/auth/types/JwtPayload.type'
+import { Public } from '~/auth/common/decorators'
 
 @Controller('auth')
 export class AuthController {
-  @Get('google-login')
-  @UseGuards(GoogleAuthGuard)
-  googleLogin() {
-    // initiates the Google OAuth2 login flow
+  constructor(private authService: AuthService) {}
+
+  @Public()
+  @UseGuards(RefreshTokenGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  refreshTokens(
+    @GetCurrentUserId() userId: number,
+    @GetCurrentUser('refreshToken') refreshToken: string,
+  ): Promise<ITokens> {
+    return this.authService.refreshTokens(userId, refreshToken)
   }
 
-  @Get('google-login/callback')
-  @UseGuards(GoogleAuthGuard)
-  googleLoginCallback(@Req() req, @Res() res: Response) {
-    // handles the Google OAuth2 callback
-    const jwt: string = req.user.jwt
-    if (jwt) res.redirect(`${process.env.WEB_APP_URL}/about?jwt=${jwt}`)
-    else res.redirect(`${process.env.WEB_APP_URL}/about`)
+  @Post('logout')
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.OK)
+  logout(@GetCurrentUserId() userId: number): Promise<boolean> {
+    return this.authService.logout(userId)
   }
 
   @Get('protected')
