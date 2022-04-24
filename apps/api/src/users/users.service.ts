@@ -6,7 +6,7 @@ import { PrismaService } from '~/prisma/prisma.service'
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async registerOAuthUser(user: Prisma.UserCreateArgs) {
+  async registerOAuthUser(user: Prisma.UserCreateArgs): Promise<User> {
     return await this.prisma.user.create(user)
   }
 

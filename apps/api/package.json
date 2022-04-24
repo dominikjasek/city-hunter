@@ -19,11 +19,19 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "test:ci": "dotenv -e .env.test npx prisma migrate dev --name postgres-init && dotenv -e .env.test jest",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "jest": {
+    "clearMocks": true,
+    "preset": "ts-jest",
+    "setupFilesAfterEnv": [
+      "<rootDir>/../test/mock/prisma/singleton.ts"
+    ],
     "moduleFileExtensions": [
       "js",
       "json",
@@ -71,6 +79,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
+    "dotenv-cli": "^5.1.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",

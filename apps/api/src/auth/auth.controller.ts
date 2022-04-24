@@ -4,12 +4,8 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Req,
-  Res,
   UseGuards,
 } from '@nestjs/common'
-import { Response } from 'express'
-import { GoogleAuthGuard } from '~/auth/strategy/providers/google/google-auth.guard'
 import { AccessTokenGuard } from '~/auth/strategy/access-token/access-token.guard'
 import { RefreshTokenGuard } from '~/auth/strategy/refresh-token/refresh-token.guard'
 import { AuthService } from '~/auth/auth.service'
