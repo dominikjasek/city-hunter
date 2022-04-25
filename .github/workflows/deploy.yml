@@ -1,8 +1,13 @@
 name: Deploy Applications
 
+on:
+  workflow_run:
+    workflows: ["Node.js CI"]
+    types:
+      - completed
+
 jobs:
   deploy-api:
-    needs: ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,7 +18,7 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
 
   deploy-web-app:
-    needs: [ci, deploy-api]
+    needs: [deploy-api]
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     steps:
