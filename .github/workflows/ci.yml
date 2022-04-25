@@ -70,3 +70,30 @@ jobs:
 
       - name: STOP DOCKER TEST DATABASE
         run: npm run docker:down
+
+  frontend-build:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apps/web-app
+    strategy:
+      matrix:
+        node-version: [14.x]
+        architecture: [x64]
+    steps:
+      - name: CHECK-OUT GIT REPOSITORY
+        uses: actions/checkout@v2
+
+      - name: USE NODEJS ${{ matrix.node-version }} - ${{ matrix.architecture }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version}}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: INSTALL PROJECT DEPENDENCIES (NPM)
+        run: npm ci
+
+      - name: BUILD APPLICATION
+        run: npm run build --if-present
