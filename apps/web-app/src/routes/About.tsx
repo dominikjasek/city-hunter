@@ -10,7 +10,7 @@ export default function About() {
   
   const fetchProtectedData = async () => {
     console.log(jwt)
-    const val = await axios.get(`http://localhost:8080/auth/protected`, {
+    const val = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/protected`, {
       headers: {
         Authorization: `Bearer ${jwt}`
       }
