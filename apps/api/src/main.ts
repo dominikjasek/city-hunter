@@ -9,7 +9,7 @@ async function bootstrap() {
   app.enableCors({
     origin: process.env.WEB_APP_URL,
   })
-  await app.listen(process.env.PORT || 8080)
+  await app.listen(process.env.PORT || 8888)
 }
 
 bootstrap()
