@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import '~/src/styles/index.scss'
 import About from "~/src/routes/About"
 import Home from "~/src/routes/Home"
+import '~/src/styles/index.scss'
 import App from './App'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

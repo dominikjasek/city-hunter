@@ -76,6 +76,7 @@ describe('Auth Flow', () => {
       expect(userFromDb).not.toBeNull()
 
       // logout
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       await authService.logout(userFromDb!.id)
 
       userFromDb = await prisma.user.findFirst({
@@ -162,7 +163,7 @@ describe('Auth Flow', () => {
       const userId = Number(decoded?.sub)
 
       // since jwt uses seconds signature we need to wait for 1 second to have new jwts
-      await new Promise((resolve, reject) => {
+      await new Promise((resolve) => {
         setTimeout(() => {
           resolve(true)
         }, 1000)
