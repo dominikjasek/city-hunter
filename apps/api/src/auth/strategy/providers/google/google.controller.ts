@@ -22,8 +22,8 @@ export class GoogleAuthController {
     console.log(tokens)
     if (tokens)
       res.redirect(
-        `${process.env.WEB_APP_URL}/about?access_token=${tokens.access_token}&refresh_token=${tokens.refresh_token}`,
+        `${process.env.WEB_APP_URL}/login-redirect?access_token=${tokens.access_token}&refresh_token=${tokens.refresh_token}`,
       )
-    else res.redirect(`${process.env.WEB_APP_URL}/about`)
+    else res.redirect(`${process.env.WEB_APP_URL}/login-redirect`)
   }
 }

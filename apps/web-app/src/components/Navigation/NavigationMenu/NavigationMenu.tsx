@@ -1,6 +1,6 @@
 import React from 'react'
-import NavigationMenuItemButton
-  from "~/src/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuItemButton"
+import NavigationMenuAuthHandler
+  from "~/src/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler"
 import NavigationMenuItem, {
   NavigationMenuItemProps
 } from '~/src/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuItemLink'
@@ -31,9 +31,10 @@ export default function NavigationMenu(props: Props) {
       id="example-navbar-danger"
     >
       <ul className="flex flex-col md:flex-row list-none md:ml-auto">
-        {navigationMenuItems.map(item => <NavigationMenuItem key={item.label} to={item.to}
-          label={item.label}/>)}
-        <NavigationMenuItemButton onClickCb={() => alert("a")} innerContent={<h2>Přihlásit se</h2>}/>
+        {
+          navigationMenuItems.map(item => <NavigationMenuItem key={item.label} to={item.to} label={item.label}/>)
+        }
+        <NavigationMenuAuthHandler />
       </ul>
     </div>
   )
