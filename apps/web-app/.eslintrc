@@ -39,6 +39,7 @@
     "no-multi-spaces": "error",
     "no-trailing-spaces": "error",
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "quotes": ["error", "single"]
   }
 }
