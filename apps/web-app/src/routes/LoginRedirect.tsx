@@ -1,37 +1,21 @@
-import axios from "axios"
-import { useState } from "react"
-import { Link, useSearchParams } from "react-router-dom"
+import { Fragment, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useAuthStore } from '~/src/utils/auth/AuthStore'
 
 const LoginRedirect = () => {
-  const [ data, setData ] = useState<string>('')
+  const { auth } = useAuthStore()
+  const navigate = useNavigate()
   const [ searchParams ] = useSearchParams()
-  const jwt = searchParams.get("access_token")
-  console.log(jwt)
 
-  const fetchProtectedData = async () => {
-    console.log(jwt)
-    const val = await axios.get(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/protected`, {
-      headers: {
-        Authorization: `Bearer ${jwt}`
-      }
-    })
+  const access_token = searchParams.get('access_token') ?? undefined
+  const refresh_token = searchParams.get('refresh_token') ?? undefined
 
-    console.log(val.data.data)
-    setData(val.data.data)
+  useEffect(() => {
+    auth.setTokens({ access_token, refresh_token })
+    navigate('/')
+  }, [])
 
-  }
-
-  return (
-    <main style={{ padding: "1rem 0" }}>
-      <button onClick={fetchProtectedData}>Fetch data</button>
-      <ul>
-        {
-          data
-        }
-      </ul>
-      <Link to={`/`}>Go home</Link>
-    </main>
-  )
+  return (Fragment)
 }
 
 export default LoginRedirect

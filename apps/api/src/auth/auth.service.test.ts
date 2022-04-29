@@ -132,9 +132,6 @@ describe('Auth Flow', () => {
 
     it('should throw if refresh token incorrect', async () => {
       const _tokens = await authService.loginWithOAuth(userCreateObj)
-      console.log({
-        _tokens,
-      })
 
       const rt = _tokens.refresh_token
 

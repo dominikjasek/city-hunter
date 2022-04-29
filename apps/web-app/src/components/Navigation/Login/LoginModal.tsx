@@ -1,13 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
 import React, { Fragment, useEffect, useState } from 'react'
-import LoginGoogleButton from "~/src/components/LoginGoogleButton"
+import LoginGoogleButton from '~/src/components/LoginGoogleButton'
 
 interface LoginModalProps {
-  isOpen: boolean
-  onCloseModal: () => void
+    isOpen: boolean
+    onCloseModal: () => void
 }
 
-export default function LoginModal (props: LoginModalProps) {
+export default function LoginModal(props: LoginModalProps) {
 
   const [ isShowing, setIsShowing ] = useState(false)
 
@@ -22,7 +22,7 @@ export default function LoginModal (props: LoginModalProps) {
 
   return (
     <Transition appear show={isShowing} as={Fragment}>
-      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeModal} >
+      <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeModal}>
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
             as={Fragment}
@@ -52,14 +52,15 @@ export default function LoginModal (props: LoginModalProps) {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+            <div
+              className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
               <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                Přihlášení
+                                Přihlášení
               </Dialog.Title>
               <div className="mt-2">
                 <p className="text-sm text-gray-500">
-                  Your payment has been successfully submitted. We’ve sent you
-                  an email with all of the details of your order.
+                                    Your payment has been successfully submitted. We’ve sent you
+                                    an email with all of the details of your order.
                 </p>
                 <LoginGoogleButton/>
               </div>
@@ -70,7 +71,7 @@ export default function LoginModal (props: LoginModalProps) {
                   className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                   onClick={closeModal}
                 >
-                  Ok!
+                                    Ok!
                 </button>
               </div>
             </div>

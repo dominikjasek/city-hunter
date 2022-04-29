@@ -1,11 +1,9 @@
-import React, { useContext, useState } from 'react'
-import { Link } from "react-router-dom"
-import LoginModal from "~/src/components/Navigation/Login/LoginModal"
-import { AuthContext } from '~/src/utils/auth/AuthProvider'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import LoginModal from '~/src/components/Navigation/Login/LoginModal'
 import './navigation-menu-item.scss'
 
 const NavigationMenuAuthHandler = () => {
-  const { isLoggedIn } = useContext(AuthContext)
   let [ isOpen, setIsOpen ] = useState(false)
 
   function closeModal() {
@@ -17,14 +15,14 @@ const NavigationMenuAuthHandler = () => {
   }
 
   const logout = () => {
-    console.log("logout")
+    console.log('logout')
   }
 
-  if (isLoggedIn) {
+  if (false) {
     return (
       <li className="nav-item">
         <Link to="#" onClick={logout} className="navigation-menu-item-link">
-          Odhlásit se
+                    Odhlásit se
         </Link>
       </li>
     )
@@ -32,10 +30,10 @@ const NavigationMenuAuthHandler = () => {
 
   return (
     <li className="nav-item">
-      <Link to={"#"} onClick={openModal}>
+      <Link to={'#'} onClick={openModal}>
         <>Přihlásit se</>
         {isOpen &&
-          <LoginModal onCloseModal={() => setIsOpen(false)} isOpen={isOpen} />
+                    <LoginModal onCloseModal={() => setIsOpen(false)} isOpen={isOpen}/>
         }
       </Link>
     </li>

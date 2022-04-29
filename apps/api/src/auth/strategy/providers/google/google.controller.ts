@@ -19,7 +19,6 @@ export class GoogleAuthController {
   googleLoginCallback(@Req() req, @Res() res: Response) {
     // handles the Google OAuth2 callback
     const tokens: ITokens = req.user.tokens
-    console.log(tokens)
     if (tokens)
       res.redirect(
         `${process.env.WEB_APP_URL}/login-redirect?access_token=${tokens.access_token}&refresh_token=${tokens.refresh_token}`,

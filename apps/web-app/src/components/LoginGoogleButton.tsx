@@ -1,15 +1,13 @@
 import React from 'react'
-import { GoogleLoginButton } from "react-social-login-buttons"
+import { GoogleLoginButton } from 'react-social-login-buttons'
+import { useAuthStore } from '~/src/utils/auth/AuthStore'
 
 function LoginGoogleButton() {
-  const handleGoogleLogin = () => {
-    console.log('trying to google login')
-    window.location.href = `${import.meta.env.VITE_REACT_APP_API_URL}/auth/google-login`
-  }
+  const { auth } = useAuthStore()
 
   return (
-    // @ts-ignore
-    <GoogleLoginButton onClick={() => handleGoogleLogin()}>
+  // @ts-ignore
+    <GoogleLoginButton onClick={auth.loginWithGoogle}>
       <span>Přihlásit se pomocí Google</span>
     </GoogleLoginButton>
   )
