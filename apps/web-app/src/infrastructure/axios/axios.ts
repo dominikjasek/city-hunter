@@ -40,11 +40,13 @@ axiosApiInstance.interceptors.response.use((response) => {
       return response.data
     }
 
-    const {
-      access_token,
-      refresh_token
-    } = await refreshAccessToken((store!.getState().auth.tokens as ITokens).refresh_token)
-        store!.dispatch(setTokens({ access_token, refresh_token }))
+    const refreshToken = (store?.getState().auth.tokens as ITokens).refresh_token
+    if (refreshToken == '') {
+      return
+    }
+
+    const tokens = await refreshAccessToken((store!.getState().auth.tokens as ITokens).refresh_token)
+        store!.dispatch(setTokens(tokens))
         return axiosApiInstance(originalRequest)
   }
   return Promise.reject(error)
