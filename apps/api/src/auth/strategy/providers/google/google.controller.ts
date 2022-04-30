@@ -20,8 +20,8 @@ export class GoogleAuthController {
   @UseGuards(GoogleAuthGuard)
   async googleLoginCallback(@Req() req, @Res() res: Response) {
     // handles the Google OAuth2 callback
-
     const user = await this.usersService.getById(req.user.id)
+
     const userData = {
       id: user.id.toString(),
       firstName: user.firstName,

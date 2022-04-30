@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import logo from '~/src/assets/Logo.svg'
-import NavigationMenu from '~/src/components/Navigation/NavigationMenu/NavigationMenu'
+import logo from '~/assets/Logo.svg'
+import NavigationMenu from '~/components/Navigation/NavigationMenu/NavigationMenu'
 import './navigation.scss'
 
 export default function Navigation() {

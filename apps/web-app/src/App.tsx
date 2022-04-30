@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
-import Navigation from '~/src/components/Navigation/Navigation'
-import '~/src/styles/app.scss'
-import '~/src/styles/tailwind.css'
+import Navigation from '~/components/Navigation/Navigation'
+import '~/styles/app.scss'
+import '~/styles/tailwind.css'
 
 function App() {
 

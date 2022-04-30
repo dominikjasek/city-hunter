@@ -10,6 +10,9 @@
     "paths": {
       "~/*": [
         "./src/*"
+      ],
+      "#types/*": [
+        "./../shared/types/*"
       ]
     },
     "sourceMap": true,

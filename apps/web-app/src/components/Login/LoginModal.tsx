@@ -1,6 +1,6 @@
 import React from 'react'
-import LoginGoogleButton from '~/src/components/Login/LoginGoogleButton'
-import Modal from '~/src/components/UIBaseComponents/Modal/Modal'
+import LoginGoogleButton from '~/components/Login/LoginGoogleButton'
+import Modal from '~/components/UIBaseComponents/Modal/Modal'
 
 interface LoginModalProps {
     isOpen: boolean

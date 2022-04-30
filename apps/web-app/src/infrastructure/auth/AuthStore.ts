@@ -1,8 +1,10 @@
+import { ITokens } from '#types/Auth'
+import { IUser } from '#types/User'
 import { AnyAction, Dispatch, ThunkDispatch } from '@reduxjs/toolkit'
-import { IAuthReducer, initialState, ITokens, IUser } from '~/src/infrastructure/auth/auth.types'
-import { setTokens, setUser } from '~/src/infrastructure/auth/AuthSlice'
-import { AuthRepository } from '~/src/infrastructure/auth/repository/UseAuthRepository'
-import { useAppDispatch, useAppSelector } from '~/src/store/UseAppStore'
+import { IAuthReducer, initialState } from '~/infrastructure/auth/auth.types'
+import { setTokens, setUser } from '~/infrastructure/auth/AuthSlice'
+import { AuthRepository } from '~/infrastructure/auth/repository/UseAuthRepository'
+import { useAppDispatch, useAppSelector } from '~/store/UseAppStore'
 
 export class AuthStore {
   private readonly _auth: IAuthReducer

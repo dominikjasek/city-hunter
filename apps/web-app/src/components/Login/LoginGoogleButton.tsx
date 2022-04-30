@@ -1,6 +1,6 @@
 import React from 'react'
 import { GoogleLoginButton } from 'react-social-login-buttons'
-import { useAuthStore } from '~/src/infrastructure/auth/AuthStore'
+import { useAuthStore } from '~/infrastructure/auth/AuthStore'
 
 function LoginGoogleButton() {
   const { auth } = useAuthStore()

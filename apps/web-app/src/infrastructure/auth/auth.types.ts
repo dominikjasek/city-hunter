@@ -1,19 +1,5 @@
-export interface ITokens {
-    access_token: string
-    refresh_token: string
-}
-
-export interface IUserName {
-    firstName: string
-    lastName: string
-}
-
-export interface IUser {
-    id: number
-    name: IUserName
-    email: string
-    photoUrl: string,
-}
+import { ITokens } from '#types/Auth'
+import { IUser } from '#types/User'
 
 export type IAuthReducer = {
     user: IUser | null

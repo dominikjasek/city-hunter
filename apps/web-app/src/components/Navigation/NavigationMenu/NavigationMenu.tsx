@@ -1,9 +1,9 @@
 import React from 'react'
 import NavigationMenuAuthHandler
-  from '~/src/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler'
+  from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler'
 import NavigationMenuItem, {
   NavigationMenuItemProps
-} from '~/src/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuItemLink'
+} from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuItemLink'
 
 interface Props {
     isNavbarOpen: boolean
