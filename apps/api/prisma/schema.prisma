@@ -3,13 +3,17 @@ generator client {
 }
 
 generator dbml {
-  provider = "prisma-dbml-generator"
+  provider      = "prisma-dbml-generator"
+  // not working though https://github.com/notiz-dev/prisma-dbml-generator/issues/18#issuecomment-1114025514
+  mapToDbSchema = "true"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// ------------------- User -------------------
 
 model User {
   id           Int           @id @default(autoincrement())
@@ -22,10 +26,51 @@ model User {
   lastName     String
   provider     LoginProvider
   refreshToken String?
+  answers      Answer[]
 
   @@map("users")
 }
 
 enum LoginProvider {
   GOOGLE
+}
+
+// ------------------- Place -------------------
+model Place {
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+  name           String
+  lat            Float
+  lng            Float
+  riddlePhotUrl  String
+  answerPhotoUrl String
+  riddle         Riddle?
+
+  @@map("places")
+}
+
+// ------------------- Riddle -------------------
+model Riddle {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  place     Place    @relation(fields: [placeId], references: [id])
+  placeId   Int      @unique
+  answers   Answer[]
+
+  @@map("riddles")
+}
+
+// ------------------- Answer -------------------
+model Answer {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  riddle    Riddle   @relation(fields: [riddleId], references: [id])
+  riddleId  Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+
+  @@map("answers")
 }

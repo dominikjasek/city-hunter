@@ -13,8 +13,46 @@ Table users {
   lastName String [not null]
   provider LoginProvider [not null]
   refreshToken String
+  answers Answer [not null]
+}
+
+Table places {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  name String [not null]
+  lat Float [not null]
+  lng Float [not null]
+  riddlePhotUrl String [not null]
+  answerPhotoUrl String [not null]
+  riddle Riddle
+}
+
+Table riddles {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  place Place [not null]
+  placeId Int [unique, not null]
+  answers Answer [not null]
+}
+
+Table answers {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  riddle Riddle [not null]
+  riddleId Int [not null]
+  user User [not null]
+  userId Int [not null]
 }
 
 Enum LoginProvider {
   GOOGLE
 }
+
+Ref: Riddle.placeId - Place.id
+
+Ref: Answer.riddleId > Riddle.id
+
+Ref: Answer.userId > User.id
