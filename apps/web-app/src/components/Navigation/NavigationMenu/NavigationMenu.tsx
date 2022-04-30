@@ -1,6 +1,6 @@
 import React from 'react'
 import NavigationMenuAuthHandler
-  from "~/src/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler"
+  from '~/src/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler'
 import NavigationMenuItem, {
   NavigationMenuItemProps
 } from '~/src/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuItemLink'
@@ -27,14 +27,15 @@ export default function NavigationMenu(props: Props) {
 
   return (
     <div
-      className={"md:flex flex-grow items-center" + (props.isNavbarOpen ? " flex" : " hidden")}
+      className={'md:flex flex-grow items-center' + (props.isNavbarOpen ? ' flex' : ' hidden')}
       id="example-navbar-danger"
     >
       <ul className="flex flex-col md:flex-row list-none md:ml-auto">
         {
-          navigationMenuItems.map(item => <NavigationMenuItem key={item.label} to={item.to} label={item.label}/>)
+          navigationMenuItems.map(item => <NavigationMenuItem key={item.label} to={item.to}
+            label={item.label}/>)
         }
-        <NavigationMenuAuthHandler />
+        <NavigationMenuAuthHandler/>
       </ul>
     </div>
   )

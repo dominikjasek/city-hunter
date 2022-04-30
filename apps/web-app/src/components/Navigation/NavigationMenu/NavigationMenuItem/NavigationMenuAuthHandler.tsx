@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import LoginModal from '~/src/components/Navigation/Login/LoginModal'
+import { LoginModal } from '~/src/components/Login/LoginModal'
 import { useAuthStore } from '~/src/utils/auth/AuthStore'
 import './navigation-menu-item.scss'
 

@@ -8,7 +8,7 @@ function LoginGoogleButton() {
   return (
   // @ts-ignore
     <GoogleLoginButton onClick={auth.loginWithGoogle}>
-      <span>Přihlásit se pomocí Google</span>
+      <span>Přihlásit se přes Google</span>
     </GoogleLoginButton>
   )
 }
