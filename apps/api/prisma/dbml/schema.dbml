@@ -1,0 +1,20 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table users {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  thirdPartyId String [not null]
+  email String [not null]
+  photoUrl String [not null]
+  firstName String [not null]
+  lastName String [not null]
+  provider LoginProvider [not null]
+  refreshToken String
+}
+
+Enum LoginProvider {
+  GOOGLE
+}
