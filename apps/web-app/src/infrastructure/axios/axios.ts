@@ -1,7 +1,7 @@
 import { Store } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { ITokens } from '~/src/utils/auth/auth.types'
-import { setTokens } from '~/src/utils/auth/AuthSlice'
+import { ITokens } from '~/src/infrastructure/auth/auth.types'
+import { setTokens } from '~/src/infrastructure/auth/AuthSlice'
 
 let store: Store | null = null
 

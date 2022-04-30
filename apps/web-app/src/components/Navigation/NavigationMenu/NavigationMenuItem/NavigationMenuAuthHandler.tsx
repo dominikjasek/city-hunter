@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LoginModal } from '~/src/components/Login/LoginModal'
-import { useAuthStore } from '~/src/utils/auth/AuthStore'
+import { useAuthStore } from '~/src/infrastructure/auth/AuthStore'
 import './navigation-menu-item.scss'
 
 const NavigationMenuAuthHandler = () => {

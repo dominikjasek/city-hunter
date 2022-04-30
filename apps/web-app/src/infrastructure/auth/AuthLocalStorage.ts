@@ -1,5 +1,5 @@
-import { IAuthReducer, ITokens, IUser } from '~/src/utils/auth/auth.types'
-import { LocalStorage } from '~/src/utils/localStorage/localStorage'
+import { IAuthReducer, ITokens, IUser } from '~/src/infrastructure/auth/auth.types'
+import { LocalStorage } from '~/src/infrastructure/localStorage/localStorage'
 
 export class AuthLocalStorage {
   private readonly _localStorage = new LocalStorage()

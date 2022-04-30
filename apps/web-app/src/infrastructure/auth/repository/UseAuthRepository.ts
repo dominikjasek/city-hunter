@@ -1,4 +1,4 @@
-import { axiosApiInstance } from '~/src/utils/axios/axios'
+import { axiosApiInstance } from '~/src/infrastructure/axios/axios'
 
 export class AuthRepository {
   public async getProtectedRoute() {

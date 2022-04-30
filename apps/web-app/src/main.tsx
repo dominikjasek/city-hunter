@@ -2,12 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { injectStore } from '~/src/infrastructure/axios/axios'
 import About from '~/src/routes/About'
 import Home from '~/src/routes/Home'
 import LoginRedirect from '~/src/routes/LoginRedirect'
 import { store } from '~/src/store/store'
 import '~/src/styles/index.scss'
-import { injectStore } from '~/src/utils/axios/axios'
 import App from './App'
 
 injectStore(store)

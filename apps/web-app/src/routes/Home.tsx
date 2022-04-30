@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useAuthStore } from '~/src/utils/auth/AuthStore'
-import { useAuthRepository } from '~/src/utils/auth/repository/UseAuthRepository'
+import { useAuthStore } from '~/src/infrastructure/auth/AuthStore'
+import { useAuthRepository } from '~/src/infrastructure/auth/repository/UseAuthRepository'
 
 const Home = () => {
   const { auth } = useAuthStore()

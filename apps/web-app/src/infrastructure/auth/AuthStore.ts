@@ -1,15 +1,13 @@
 import { AnyAction, Dispatch, ThunkDispatch } from '@reduxjs/toolkit'
+import { IAuthReducer, initialState, ITokens, IUser } from '~/src/infrastructure/auth/auth.types'
+import { setTokens, setUser } from '~/src/infrastructure/auth/AuthSlice'
+import { AuthRepository } from '~/src/infrastructure/auth/repository/UseAuthRepository'
 import { useAppDispatch, useAppSelector } from '~/src/store/UseAppStore'
-import { IAuthReducer, initialState, ITokens, IUser } from '~/src/utils/auth/auth.types'
-import { setTokens, setUser } from '~/src/utils/auth/AuthSlice'
-import { AuthRepository } from '~/src/utils/auth/repository/UseAuthRepository'
 
 export class AuthStore {
   private readonly _auth: IAuthReducer
   private readonly _dispatch: ThunkDispatch<{ auth: IAuthReducer }, undefined, AnyAction> & Dispatch<AnyAction>
   private readonly _authRepository = new AuthRepository()
-
-  // private readonly authRepository:
 
   constructor() {
     this._auth = useAppSelector((state) => state.auth)
