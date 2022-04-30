@@ -9,8 +9,12 @@ export const authSlice = createSlice({
       state.user = action.payload
     },
     setTokens: (state, action: PayloadAction<Partial<ITokens>>) => {
-      state.user.tokens = {
-        ...state.user.tokens,
+      if (state.user === null) {
+        throw new Error('User is not set, can not set tokens')
+      }
+
+      state.user = {
+        ...state.user,
         ...action.payload,
       }
     },

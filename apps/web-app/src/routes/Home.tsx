@@ -17,7 +17,7 @@ const Home = () => {
     <div>
       <Link to={'/about'}>About</Link>
       <div>
-        <div>email: {auth.user.email}</div>
+        <div>email: {auth.user?.email}</div>
         <button type="button" onClick={fetchProtectedData}>Fetch data</button>
         <ul>
           {data}

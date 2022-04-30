@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import LoginModal from '~/src/components/Navigation/Login/LoginModal'
+import { useAuthStore } from '~/src/utils/auth/AuthStore'
 import './navigation-menu-item.scss'
 
 const NavigationMenuAuthHandler = () => {
+  const { auth } = useAuthStore()
+
   let [ isOpen, setIsOpen ] = useState(false)
 
   function closeModal() {
@@ -15,10 +18,10 @@ const NavigationMenuAuthHandler = () => {
   }
 
   const logout = () => {
-    console.log('logout')
+    console.log('logout is not implemented yet')
   }
 
-  if (false) {
+  if (auth.isLoggedIn) {
     return (
       <li className="nav-item">
         <Link to="#" onClick={logout} className="navigation-menu-item-link">
@@ -33,7 +36,7 @@ const NavigationMenuAuthHandler = () => {
       <Link to={'#'} onClick={openModal}>
         <>Přihlásit se</>
         {isOpen &&
-                    <LoginModal onCloseModal={() => setIsOpen(false)} isOpen={isOpen}/>
+                    <LoginModal onCloseModal={closeModal} isOpen={isOpen}/>
         }
       </Link>
     </li>

@@ -14,7 +14,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async loginWithOAuth(userCreateObj: Prisma.UserCreateArgs): Promise<ITokens> {
+  async loginWithOAuth(
+    userCreateObj: Prisma.UserCreateArgs,
+  ): Promise<ITokens & { id: number }> {
     let user = await this.usersService.findUserByThirdPartyId(
       userCreateObj.data.thirdPartyId,
       userCreateObj.data.provider,
@@ -27,7 +29,10 @@ export class AuthService {
     const tokens = await this.getTokens(user.id, user.email)
     await this.updateRtHash(user.id, tokens.refresh_token)
 
-    return tokens
+    return {
+      ...tokens,
+      id: user.id,
+    }
   }
 
   async logout(userId: number): Promise<boolean> {

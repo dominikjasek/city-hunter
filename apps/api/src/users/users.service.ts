@@ -6,6 +6,13 @@ import { PrismaService } from '~/prisma/prisma.service'
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
+  async getById(id: number): Promise<User> {
+    return await this.prisma.user.findUnique({
+      where: { id },
+      rejectOnNotFound: true,
+    })
+  }
+
   async registerOAuthUser(user: Prisma.UserCreateArgs): Promise<User> {
     return await this.prisma.user.create(user)
   }

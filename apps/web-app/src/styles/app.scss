@@ -19,12 +19,6 @@
   pointer-events: none;
 }
 
-//@media (prefers-reduced-motion: no-preference) {
-//.app-logo {
-//animation: app-logo-spin infinite 0.8s ease-in-out;
-//}
-//}
-
 .app-link {
   color: #61dafb;
 }
@@ -41,8 +35,4 @@
   100% {
     transform: scale(1);
   }
-}
-
-button {
-  font-size: calc(10px + 2vmin);
 }

@@ -12,16 +12,16 @@ export class AuthStore {
     this._dispatch = useAppDispatch()
   }
 
-  public get user(): IUser {
+  public get user(): IUser | null {
     return this._auth.user
   }
 
-  public get tokens(): ITokens {
-    return this._auth.user.tokens
+  public get tokens(): ITokens | null {
+    return this.user?.tokens ?? null
   }
 
-  public get isLoggedIn(): boolean { //TODO: zmenit na user !== null
-    return this._auth.user.tokens.access_token !== ''
+  public get isLoggedIn(): boolean {
+    return this.user !== null
   }
 
   public setUser(user: IUser): void {

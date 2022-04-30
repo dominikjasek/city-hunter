@@ -9,6 +9,7 @@ export interface IUserName {
 }
 
 export interface IUser {
+    id: number
     name: IUserName
     email: string
     photoUrl: string,
@@ -16,20 +17,9 @@ export interface IUser {
 }
 
 export const initialState: IAuthReducer = {
-  user: {
-    name: {
-      firstName: '',
-      lastName: ''
-    },
-    email: '',
-    photoUrl: '',
-    tokens: {
-      refresh_token: '',
-      access_token: ''
-    }
-  },
+  user: null
 }
 
 export interface IAuthReducer {
-    user: IUser
+    user: IUser | null
 }
