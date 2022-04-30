@@ -13,13 +13,17 @@ export interface IUser {
     name: IUserName
     email: string
     photoUrl: string,
+}
+
+export type IAuthReducer = {
+    user: IUser | null
     tokens: ITokens
 }
 
 export const initialState: IAuthReducer = {
-  user: null
-}
-
-export interface IAuthReducer {
-    user: IUser | null
+  user: null,
+  tokens: {
+    access_token: '',
+    refresh_token: '',
+  },
 }

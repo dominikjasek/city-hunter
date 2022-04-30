@@ -1,6 +1,6 @@
 import { Store } from '@reduxjs/toolkit'
-import axios, { AxiosInstance } from 'axios'
-import { ITokens, IUser } from '~/src/utils/auth/auth.types'
+import axios from 'axios'
+import { ITokens } from '~/src/utils/auth/auth.types'
 import { setTokens } from '~/src/utils/auth/AuthSlice'
 
 let store: Store | null = null
@@ -9,14 +9,14 @@ export const injectStore = (_store: Store) => {
   store = _store
 }
 
-const axiosApiInstance = axios.create()
+export const axiosApiInstance = axios.create()
 axiosApiInstance.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL
 
 // Request interceptor for API calls
 axiosApiInstance.interceptors.request.use(
   async config => {
     config.headers = {
-      'Authorization': `Bearer ${(store?.getState().auth.user as IUser).tokens.access_token}`
+      'Authorization': `Bearer ${(store?.getState().auth.tokens as ITokens).access_token}`
     }
     return config
   }
@@ -43,16 +43,10 @@ axiosApiInstance.interceptors.response.use((response) => {
     const {
       access_token,
       refresh_token
-    } = await refreshAccessToken((store!.getState().auth.user as IUser).tokens.refresh_token)
+    } = await refreshAccessToken((store!.getState().auth.tokens as ITokens).refresh_token)
         store!.dispatch(setTokens({ access_token, refresh_token }))
         return axiosApiInstance(originalRequest)
   }
   return Promise.reject(error)
 })
-
-export const useAxiosInstance = (): AxiosInstance => {
-  return axiosApiInstance
-}
-
-export default useAxiosInstance
 

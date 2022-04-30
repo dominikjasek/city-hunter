@@ -1,22 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { initialState, ITokens, IUser } from '~/src/utils/auth/auth.types'
+import { AuthLocalStorage } from '~/src/utils/auth/AuthLocalStorage'
+
+const authLocalStorage = new AuthLocalStorage()
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: authLocalStorage.auth ?? initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<IUser>) => {
+    setUser: (state, action: PayloadAction<IUser | null>) => {
       state.user = action.payload
+      authLocalStorage.setUser(action.payload)
     },
-    setTokens: (state, action: PayloadAction<Partial<ITokens>>) => {
+    setTokens: (state, action: PayloadAction<ITokens>) => {
       if (state.user === null) {
-        throw new Error('User is not set, can not set tokens')
+        throw new Error('User is null, hence can not set tokens!')
       }
 
-      state.user = {
-        ...state.user,
-        ...action.payload,
-      }
+      state.tokens = action.payload
+
+      authLocalStorage.setTokens(action.payload)
     },
   },
 })

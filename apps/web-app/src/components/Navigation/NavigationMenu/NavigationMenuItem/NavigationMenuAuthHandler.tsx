@@ -17,8 +17,8 @@ const NavigationMenuAuthHandler = () => {
     setIsOpen(true)
   }
 
-  const logout = () => {
-    console.log('logout is not implemented yet')
+  const logout = async () => {
+    await auth.logout()
   }
 
   if (auth.isLoggedIn) {

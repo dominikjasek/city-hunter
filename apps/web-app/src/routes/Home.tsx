@@ -17,7 +17,9 @@ const Home = () => {
     <div>
       <Link to={'/about'}>About</Link>
       <div>
+        <div>Hi, {auth.user?.name.firstName} {auth.user?.name.lastName}</div>
         <div>email: {auth.user?.email}</div>
+        <img className="m-auto" src={auth.user?.photoUrl} alt={auth.user?.name.firstName}/>
         <button type="button" onClick={fetchProtectedData}>Fetch data</button>
         <ul>
           {data}

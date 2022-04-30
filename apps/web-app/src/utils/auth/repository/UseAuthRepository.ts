@@ -1,11 +1,15 @@
-import useAxios from '~/src/utils/axios/axios'
+import { axiosApiInstance } from '~/src/utils/axios/axios'
+
+export class AuthRepository {
+  public async getProtectedRoute() {
+    return (await axiosApiInstance.get('/auth/protected')).data
+  }
+
+  public async logout() {
+    return (await axiosApiInstance.post('/auth/logout')).data
+  }
+}
 
 export const useAuthRepository = () => {
-  const axios = useAxios()
-
-  const getProtectedRoute = async () => (await axios.get('/auth/protected')).data
-
-  return {
-    getProtectedRoute
-  }
+  return new AuthRepository()
 }
