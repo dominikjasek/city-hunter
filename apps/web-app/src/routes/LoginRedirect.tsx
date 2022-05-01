@@ -1,7 +1,7 @@
+import { ITokens } from '#types/Auth'
+import { IUser } from '#types/User'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { ITokens } from 'types/Auth'
-import { IUser } from 'types/User'
 import { useAuthStore } from '~/infrastructure/auth/AuthStore'
 
 const LoginRedirect = () => {

@@ -1,5 +1,5 @@
-import { ITokens } from 'types/Auth'
-import { IUser } from 'types/User'
+import { ITokens } from '#types/Auth'
+import { IUser } from '#types/User'
 
 export type IAuthReducer = {
     user: IUser | null
