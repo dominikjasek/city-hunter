@@ -1,6 +1,6 @@
-import { IRiddle } from '#types/Riddle'
 import { Injectable } from '@nestjs/common'
 import { User } from '@prisma/client'
+import { IRiddle } from 'types/Riddle'
 import { PrismaService } from '~/prisma/prisma.service'
 import { UsersService } from '~/users/users.service'
 

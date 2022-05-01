@@ -24,7 +24,7 @@
         "./src/*"
       ],
       "#types/*": [
-        "./../shared/types/*"
+        "./../api/types/*"
       ]
     }
   },

@@ -1,5 +1,5 @@
-import { IRiddle } from '#types/Riddle'
 import { Controller, HttpCode, HttpStatus } from '@nestjs/common'
+import { IRiddle } from 'types/Riddle'
 import { GetCurrentUserId } from '~/auth/common/decorators/index'
 import { RiddleService } from '~/riddle/riddle.service'
 
