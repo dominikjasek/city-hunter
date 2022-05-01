@@ -1,5 +1,14 @@
-import { ITokens } from '#types/Auth'
-import { IUser } from '#types/User'
+export interface IUser {
+    id: number
+    name: IUserName
+    email: string
+    photoUrl: string,
+}
+
+export interface ITokens {
+    access_token: string
+    refresh_token: string
+}
 
 export type IAuthReducer = {
     user: IUser | null
@@ -12,4 +21,9 @@ export const initialState: IAuthReducer = {
     access_token: '',
     refresh_token: '',
   },
+}
+
+export interface IUserName {
+    firstName: string
+    lastName: string
 }
