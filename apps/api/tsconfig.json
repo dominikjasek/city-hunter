@@ -10,9 +10,6 @@
     "paths": {
       "~/*": [
         "./src/*"
-      ],
-      "#types/*": [
-        "./types/*"
       ]
     },
     "sourceMap": true,

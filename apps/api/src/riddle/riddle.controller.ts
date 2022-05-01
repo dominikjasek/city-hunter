@@ -1,5 +1,4 @@
 import { Controller, HttpCode, HttpStatus } from '@nestjs/common'
-import { IRiddle } from 'types/Riddle'
 import { GetCurrentUserId } from '~/auth/common/decorators/index'
 import { RiddleService } from '~/riddle/riddle.service'
 
@@ -8,7 +7,7 @@ export class RiddleController {
   constructor(private readonly riddleService: RiddleService) {}
 
   @HttpCode(HttpStatus.OK)
-  async getRiddle(@GetCurrentUserId() userId: number): Promise<IRiddle> {
+  async getRiddle(@GetCurrentUserId() userId: number): Promise<any> {
     return await this.riddleService.getRiddleForUserId(userId)
   }
 }

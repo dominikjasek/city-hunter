@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { User } from '@prisma/client'
-import { IRiddle } from 'types/Riddle'
 import { PrismaService } from '~/prisma/prisma.service'
 import { UsersService } from '~/users/users.service'
 
@@ -11,7 +10,7 @@ export class RiddleService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  async generateRandomRiddleForUser(user: User): Promise<IRiddle> {
+  async generateRandomRiddleForUser(user: User): Promise<any> {
     const availableRiddles = await this.prismaService.riddle.findMany({
       where: {
         answers: {
@@ -45,7 +44,7 @@ export class RiddleService {
     return randomRiddle
   }
 
-  async getRiddleForUserId(userId: number): Promise<IRiddle> {
+  async getRiddleForUserId(userId: number): Promise<any> {
     const user = await this.userService.getById(userId)
 
     if (user.currentRiddleId) {
