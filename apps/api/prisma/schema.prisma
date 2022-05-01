@@ -16,17 +16,20 @@ datasource db {
 // ------------------- User -------------------
 
 model User {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @default(now()) @updatedAt
-  thirdPartyId String
-  email        String
-  photoUrl     String
-  firstName    String
-  lastName     String
-  provider     LoginProvider
-  refreshToken String?
-  answers      Answer[]
+  id              Int           @id @default(autoincrement())
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now()) @updatedAt
+  thirdPartyId    String
+  email           String
+  photoUrl        String
+  firstName       String
+  lastName        String
+  provider        LoginProvider
+  refreshToken    String?
+  answers         Answer[]
+  currentRiddle   Riddle?       @relation(fields: [currentRiddleId], references: [id])
+  currentRiddleId Int?
+
 
   @@map("users")
 }
@@ -52,12 +55,13 @@ model Place {
 
 // ------------------- Riddle -------------------
 model Riddle {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  place     Place    @relation(fields: [placeId], references: [id])
-  placeId   Int      @unique
-  answers   Answer[]
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  place        Place    @relation(fields: [placeId], references: [id])
+  placeId      Int      @unique
+  answers      Answer[]
+  currentUsers User[]
 
   @@map("riddles")
 }
@@ -66,7 +70,6 @@ model Riddle {
 model Answer {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
   riddle    Riddle   @relation(fields: [riddleId], references: [id])
   riddleId  Int
   user      User     @relation(fields: [userId], references: [id])

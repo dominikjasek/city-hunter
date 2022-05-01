@@ -16,7 +16,7 @@ describe('AppController', () => {
   })
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
+    it('ping should return pong', () => {
       const expectedResult = { data: 'pong' }
       expect(appController.ping()).toMatchObject(expectedResult)
     })

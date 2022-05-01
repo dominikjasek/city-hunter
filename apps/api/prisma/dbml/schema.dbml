@@ -14,6 +14,8 @@ Table users {
   provider LoginProvider [not null]
   refreshToken String
   answers Answer [not null]
+  currentRiddle Riddle
+  currentRiddleId Int
 }
 
 Table places {
@@ -35,12 +37,12 @@ Table riddles {
   place Place [not null]
   placeId Int [unique, not null]
   answers Answer [not null]
+  currentUsers User [not null]
 }
 
 Table answers {
   id Int [pk, increment]
   createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [default: `now()`, not null]
   riddle Riddle [not null]
   riddleId Int [not null]
   user User [not null]
@@ -50,6 +52,8 @@ Table answers {
 Enum LoginProvider {
   GOOGLE
 }
+
+Ref: User.currentRiddleId > Riddle.id
 
 Ref: Riddle.placeId - Place.id
 
