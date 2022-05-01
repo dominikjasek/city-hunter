@@ -22,6 +22,9 @@
     "paths": {
       "~/*": [
         "./src/*"
+      ],
+      "@api/*": [
+        "./../api/src/interfaces/*"
       ]
     }
   },
