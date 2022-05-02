@@ -17,6 +17,14 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     if (process.env.NODE_ENV === 'production') return
 
     // teardown logic
-    return Promise.all([this.user.deleteMany()])
+    const prismaCleanUp = [
+      this.answer.deleteMany(),
+      this.riddle.deleteMany(),
+      this.user.deleteMany(),
+      this.place.deleteMany(),
+    ]
+
+    await this.$transaction(prismaCleanUp)
+    await this.$disconnect()
   }
 }

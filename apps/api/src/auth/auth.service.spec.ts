@@ -20,19 +20,19 @@ const userCreateObj: Prisma.UserCreateArgs = {
 describe('Auth Flow', () => {
   let prisma: PrismaService
   let authService: AuthService
-  let moduleRef: TestingModule
+  let module: TestingModule
 
   beforeAll(async () => {
-    moduleRef = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       imports: [AppModule],
     }).compile()
 
-    prisma = moduleRef.get(PrismaService)
-    authService = moduleRef.get(AuthService)
+    prisma = module.get(PrismaService)
+    authService = module.get(AuthService)
   })
 
   afterAll(async () => {
-    await moduleRef.close()
+    await module.close()
   })
 
   it('should be defined', () => {
