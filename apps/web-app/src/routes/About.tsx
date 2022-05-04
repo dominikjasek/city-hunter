@@ -1,6 +1,7 @@
+import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function About() {
+export const About: FC = () => {
 
   return (
     <main style={{ padding: '1rem 0' }}>

@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
-import React, { Fragment, ReactNode, useEffect, useState } from 'react'
+import React, { FC, Fragment, ReactNode, useEffect, useState } from 'react'
 
 interface LoginModalProps {
     isOpen: boolean
@@ -8,7 +8,7 @@ interface LoginModalProps {
     children: ReactNode
 }
 
-export default function Modal(props: LoginModalProps) {
+export const Modal: FC<LoginModalProps> = (props) => {
 
   const [ isOpenedInternal, setIsOpenedInternal ] = useState(false)
 

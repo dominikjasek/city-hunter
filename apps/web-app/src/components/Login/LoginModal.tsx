@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { FC } from 'react'
 import LoginGoogleButton from '~/components/Login/LoginGoogleButton'
-import Modal from '~/components/UIBaseComponents/Modal/Modal'
+import { Modal } from '~/components/UIBaseComponents/Modal/Modal'
 
 interface LoginModalProps {
     isOpen: boolean
     onCloseModal: () => void
 }
 
-export const LoginModal = (props: LoginModalProps) => {
+export const LoginModal: FC<LoginModalProps> = (props) => {
 
   return (
     <Modal onCloseModal={props.onCloseModal} isOpen={props.isOpen} title={'Přihlášení'}>
