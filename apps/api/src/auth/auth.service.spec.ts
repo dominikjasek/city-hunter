@@ -3,7 +3,7 @@ import { Prisma, User } from '@prisma/client'
 import { decode } from 'jsonwebtoken'
 import { AppModule } from '~/app.module'
 import { AuthService } from '~/auth/auth.service'
-import { ITokens } from '~/auth/types/JwtPayload.type'
+import { ITokens } from '~/auth/types/auth.type'
 import { PrismaService } from '~/prisma/prisma.service'
 
 const userCreateObj: Prisma.UserCreateArgs = {

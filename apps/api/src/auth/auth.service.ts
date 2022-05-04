@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
 import * as argon from 'argon2'
 import { JwtService } from '~/auth/strategy/jwt/jwt.service'
-import { IJwtPayload, ITokens } from '~/auth/types/JwtPayload.type'
+import { IJwtPayload, ITokens } from '~/auth/types/auth.type'
 import { PrismaService } from '~/prisma/prisma.service'
 import { UsersService } from '~/users/users.service'
 

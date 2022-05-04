@@ -13,7 +13,7 @@ import {
   Public,
 } from '~/auth/common/decorators'
 import { RefreshTokenGuard } from '~/auth/strategy/refresh-token/refresh-token.guard'
-import { ITokens } from '~/auth/types/JwtPayload.type'
+import { ITokens } from '~/auth/types/auth.type'
 
 @Controller('auth')
 export class AuthController {

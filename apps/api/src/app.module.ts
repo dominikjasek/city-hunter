@@ -7,6 +7,7 @@ import { AuthModule } from '~/auth/auth.module'
 import { AccessTokenGuard } from '~/auth/strategy/access-token/access-token.guard'
 import { PrismaModule } from '~/prisma/prisma.module'
 import { UsersModule } from '~/users/users.module'
+import { FileModule } from './file/file.module'
 import { RiddleModule } from './riddle/riddle.module'
 
 @Module({
@@ -16,6 +17,7 @@ import { RiddleModule } from './riddle/riddle.module'
     UsersModule,
     PrismaModule,
     RiddleModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [
