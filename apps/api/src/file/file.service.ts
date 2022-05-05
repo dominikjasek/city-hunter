@@ -2,13 +2,12 @@ import { Injectable } from '@nestjs/common'
 import * as S3 from 'aws-sdk/clients/s3'
 import * as stream from 'stream'
 import { v4 as uuid } from 'uuid'
-import { IUploadService } from '~/file/file.types'
 import { IFile } from '~/file/types/file.types'
 
 export const S3_SERVICE = 'S3Service'
 
 @Injectable()
-export class S3Service implements IUploadService {
+export class FileService {
   private readonly s3: S3
 
   constructor() {

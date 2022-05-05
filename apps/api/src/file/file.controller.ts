@@ -3,7 +3,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Inject,
   Param,
   Post,
   Res,
@@ -12,18 +11,13 @@ import {
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { Response } from 'express'
-
 import { Public } from '~/auth/common/decorators/index'
-import { IUploadService } from '~/file/file.types'
-import { S3_SERVICE } from '~/file/services/s3.service'
+import { FileService } from '~/file/file.service'
 import { IFile } from '~/file/types/file.types'
 
 @Controller('file')
 export class FileController {
-  constructor(
-    @Inject(S3_SERVICE)
-    private readonly uploadService: IUploadService,
-  ) {}
+  constructor(private readonly uploadService: FileService) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -37,11 +31,11 @@ export class FileController {
   async getFile(
     @Param('fileName') fileName: string,
     @Res() res: Response,
-  ): Promise<any> {
+  ): Promise<void> {
     const fileStream = await this.uploadService.getFileStream(fileName)
     fileStream.on('error', () => {
       res.end('This file does not exist')
     })
-    return fileStream.pipe(res)
+    fileStream.pipe(res)
   }
 }

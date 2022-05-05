@@ -1,14 +1,10 @@
 import { Module } from '@nestjs/common'
 import { FileController } from '~/file/file.controller'
-import { S3_SERVICE, S3Service } from '~/file/services/s3.service'
+import { FileService } from '~/file/file.service'
 
 @Module({
   controllers: [FileController],
-  providers: [
-    {
-      useClass: S3Service,
-      provide: S3_SERVICE,
-    },
-  ],
+  providers: [FileService],
+  exports: [FileService],
 })
 export class FileModule {}
