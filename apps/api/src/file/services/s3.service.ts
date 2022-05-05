@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import * as S3 from 'aws-sdk/clients/s3'
-import stream from 'stream'
+import * as stream from 'stream'
 import { v4 as uuid } from 'uuid'
 import { IUploadService } from '~/file/file.types'
 import { IFile } from '~/file/types/file.types'
@@ -38,11 +38,11 @@ export class S3Service implements IUploadService {
   }
 
   async getFileStream(fileKey: string): Promise<stream.Readable> {
-    return this.s3
-      .getObject({
-        Key: fileKey,
-        Bucket: process.env.AWS_BUCKET_NAME as string,
-      })
-      .createReadStream()
+    const params = {
+      Key: fileKey,
+      Bucket: process.env.AWS_BUCKET_NAME as string,
+    }
+
+    return this.s3.getObject(params).createReadStream()
   }
 }

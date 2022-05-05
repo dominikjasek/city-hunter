@@ -1,6 +1,8 @@
 import {
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Inject,
   Param,
   Post,
@@ -31,11 +33,15 @@ export class FileController {
 
   @Get('/:fileName')
   @Public()
+  @HttpCode(HttpStatus.CREATED)
   async getFile(
     @Param('fileName') fileName: string,
     @Res() res: Response,
   ): Promise<any> {
     const fileStream = await this.uploadService.getFileStream(fileName)
+    fileStream.on('error', () => {
+      res.end('This file does not exist')
+    })
     return fileStream.pipe(res)
   }
 }
