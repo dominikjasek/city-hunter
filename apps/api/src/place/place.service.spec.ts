@@ -5,7 +5,7 @@ import { PlaceService } from '~/place/place.service'
 import { PrismaService } from '~/prisma/prisma.service'
 
 describe('PlaceService', () => {
-  const userId = 3
+  let userId = 0  // initial value - will be resolved in beforeEach
   let prisma: PrismaService
   let placeService: PlaceService
   let fileService: FileService
@@ -31,9 +31,8 @@ describe('PlaceService', () => {
   beforeEach(async () => {
     await prisma.cleanDatabase()
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
-        id: userId,
         firstName: 'John',
         lastName: 'Doe',
         photoUrl: 'https://photo-url.com',
@@ -43,6 +42,8 @@ describe('PlaceService', () => {
         currentRiddleId: null,
       },
     })
+
+    userId = user.id
   })
 
   it('should be defined', () => {

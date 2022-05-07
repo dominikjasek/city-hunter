@@ -5,6 +5,7 @@ import { UsersService } from '~/users/users.service'
 import { RiddleService } from './riddle.service'
 
 describe('RiddleService', () => {
+  let userId = 0
   let prisma: PrismaService
   let riddleService: RiddleService
   let module: TestingModule
@@ -21,9 +22,8 @@ describe('RiddleService', () => {
   beforeEach(async () => {
     await prisma.cleanDatabase()
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
-        id: 1,
         firstName: 'John',
         lastName: 'Doe',
         photoUrl: 'https://photo-url.com',
@@ -33,6 +33,8 @@ describe('RiddleService', () => {
         currentRiddleId: null,
       },
     })
+
+    userId = user.id
 
     await prisma.place.createMany({
       data: [
@@ -44,7 +46,7 @@ describe('RiddleService', () => {
           lng: 14.42,
           answerPhotoUrl: 'https://answer-photo-url.com',
           riddlePhotoUrl: 'https://riddle-photo-url.com',
-          authorId: 1
+          authorId: userId
         },
         {
           id: 2,
@@ -54,7 +56,7 @@ describe('RiddleService', () => {
           lng: 5.42,
           answerPhotoUrl: 'https://answer-photo-url.com',
           riddlePhotoUrl: 'https://riddle-photo-url.com',
-          authorId: 1
+          authorId: userId
         },
       ],
     })
@@ -72,7 +74,6 @@ describe('RiddleService', () => {
       ],
     })
 
-
   })
 
   afterAll(async () => {
@@ -85,8 +86,6 @@ describe('RiddleService', () => {
   })
 
   it('should return current riddle of user if user already has current riddle', async () => {
-    const userId = 1
-
     await prisma.user.update({
       where: { id: userId },
       data: {
@@ -118,7 +117,7 @@ describe('RiddleService', () => {
     )
     generateRandomRiddleForUserMock.mockResolvedValueOnce(mockRiddle)
 
-    const riddle = await riddleService.getRiddleForUserId(1)
+    const riddle = await riddleService.getRiddleForUserId(userId)
 
     expect(riddle).toMatchObject(mockRiddle)
     expect(riddleFindUniqueSpy).not.toHaveBeenCalled()
@@ -129,16 +128,16 @@ describe('RiddleService', () => {
     await prisma.answer.create({
       data: {
         id: 1,
-        userId: 1,
+        userId,
         riddleId: 1,
       },
     })
 
     const riddleFindManySpy = jest.spyOn(prisma.riddle, 'findMany')
 
-    const riddle = await riddleService.getRiddleForUserId(1)
+    const riddle = await riddleService.getRiddleForUserId(userId)
 
-    const user = await prisma.user.findUnique({ where: { id: 1 } })
+    const user = await prisma.user.findUnique({ where: { id: userId } })
 
     expect(riddleFindManySpy).toHaveBeenCalled()
     expect(riddle).toMatchObject({
@@ -155,12 +154,12 @@ describe('RiddleService', () => {
     await prisma.answer.createMany({
       data: [
         {
-          userId: 1,
+          userId,
           id: 1,
           riddleId: 1,
         },
         {
-          userId: 1,
+          userId,
           id: 2,
           riddleId: 2,
         },
@@ -169,9 +168,9 @@ describe('RiddleService', () => {
 
     const riddleFindManySpy = jest.spyOn(prisma.riddle, 'findMany')
 
-    const riddle = await riddleService.getRiddleForUserId(1)
+    const riddle = await riddleService.getRiddleForUserId(userId)
 
-    const user = await prisma.user.findUnique({ where: { id: 1 } })
+    const user = await prisma.user.findUnique({ where: { id: userId } })
 
     expect(riddleFindManySpy).toHaveBeenCalled()
     expect(riddle).toMatchObject({
