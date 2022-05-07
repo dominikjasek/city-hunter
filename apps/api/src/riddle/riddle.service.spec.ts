@@ -20,6 +20,20 @@ describe('RiddleService', () => {
 
   beforeEach(async () => {
     await prisma.cleanDatabase()
+
+    await prisma.user.create({
+      data: {
+        id: 1,
+        firstName: 'John',
+        lastName: 'Doe',
+        photoUrl: 'https://photo-url.com',
+        provider: 'GOOGLE',
+        email: 'john.doe@gmail.com',
+        thirdPartyId: '211321342',
+        currentRiddleId: null,
+      },
+    })
+
     await prisma.place.createMany({
       data: [
         {
@@ -29,7 +43,8 @@ describe('RiddleService', () => {
           lat: 50.087,
           lng: 14.42,
           answerPhotoUrl: 'https://answer-photo-url.com',
-          riddlePhotUrl: 'https://riddle-photo-url.com',
+          riddlePhotoUrl: 'https://riddle-photo-url.com',
+          authorId: 1
         },
         {
           id: 2,
@@ -38,7 +53,8 @@ describe('RiddleService', () => {
           lat: 20.087,
           lng: 5.42,
           answerPhotoUrl: 'https://answer-photo-url.com',
-          riddlePhotUrl: 'https://riddle-photo-url.com',
+          riddlePhotoUrl: 'https://riddle-photo-url.com',
+          authorId: 1
         },
       ],
     })
@@ -56,18 +72,7 @@ describe('RiddleService', () => {
       ],
     })
 
-    await prisma.user.create({
-      data: {
-        id: 1,
-        firstName: 'John',
-        lastName: 'Doe',
-        photoUrl: 'https://photo-url.com',
-        provider: 'GOOGLE',
-        email: 'john.doe@gmail.com',
-        thirdPartyId: '211321342',
-        currentRiddleId: null,
-      },
-    })
+
   })
 
   afterAll(async () => {

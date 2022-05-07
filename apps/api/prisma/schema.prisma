@@ -30,8 +30,8 @@ model User {
   currentRiddle   Riddle?       @relation(fields: [currentRiddleId], references: [id])
   currentRiddleId Int?
 
-
   @@map("users")
+  Place Place[]
 }
 
 enum LoginProvider {
@@ -40,17 +40,26 @@ enum LoginProvider {
 
 // ------------------- Place -------------------
 model Place {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now()) @updatedAt
+  id             Int         @id @default(autoincrement())
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @default(now()) @updatedAt
   name           String
   lat            Float
   lng            Float
-  riddlePhotUrl  String
-  answerPhotoUrl String
+  riddlePhotoUrl String
+  answerPhotoUrl String?
+  author         User        @relation(fields: [authorId], references: [id])
+  authorId       Int
+  status         PlaceStatus @default(value: PENDING)
   riddle         Riddle?
 
   @@map("places")
+}
+
+enum PlaceStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }
 
 // ------------------- Riddle -------------------

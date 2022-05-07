@@ -4,8 +4,6 @@ import * as stream from 'stream'
 import { v4 as uuid } from 'uuid'
 import { IFile } from '~/file/types/file.types'
 
-export const S3_SERVICE = 'S3Service'
-
 @Injectable()
 export class FileService {
   private readonly s3: S3
@@ -33,6 +31,7 @@ export class FileService {
 
     return {
       url,
+      key: data.Key,
     }
   }
 

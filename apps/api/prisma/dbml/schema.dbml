@@ -16,6 +16,7 @@ Table users {
   answers Answer [not null]
   currentRiddle Riddle
   currentRiddleId Int
+  Place Place [not null]
 }
 
 Table places {
@@ -25,8 +26,11 @@ Table places {
   name String [not null]
   lat Float [not null]
   lng Float [not null]
-  riddlePhotUrl String [not null]
-  answerPhotoUrl String [not null]
+  riddlePhotoUrl String [not null]
+  answerPhotoUrl String
+  author User [not null]
+  authorId Int [not null]
+  status PlaceStatus [not null, default: 'PENDING']
   riddle Riddle
 }
 
@@ -53,7 +57,15 @@ Enum LoginProvider {
   GOOGLE
 }
 
+Enum PlaceStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 Ref: User.currentRiddleId > Riddle.id
+
+Ref: Place.authorId > User.id
 
 Ref: Riddle.placeId - Place.id
 

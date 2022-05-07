@@ -5,6 +5,7 @@ import { AppController } from '~/app.controller'
 import { AppService } from '~/app.service'
 import { AuthModule } from '~/auth/auth.module'
 import { AccessTokenGuard } from '~/auth/strategy/access-token/access-token.guard'
+import { PlaceModule } from '~/place/place.module'
 import { PrismaModule } from '~/prisma/prisma.module'
 import { UsersModule } from '~/users/users.module'
 import { FileModule } from './file/file.module'
@@ -18,6 +19,7 @@ import { RiddleModule } from './riddle/riddle.module'
     PrismaModule,
     RiddleModule,
     FileModule,
+    PlaceModule,
   ],
   controllers: [AppController],
   providers: [
@@ -28,4 +30,5 @@ import { RiddleModule } from './riddle/riddle.module'
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+}
