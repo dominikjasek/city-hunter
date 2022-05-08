@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useMatch } from 'react-router-dom'
 import './navigation-menu-item.scss'
 
 export interface NavigationMenuItemProps {
@@ -7,14 +7,15 @@ export interface NavigationMenuItemProps {
     label: string,
 }
 
-const NavigationMenuItem = (props: NavigationMenuItemProps) => {
+export const NavigationMenuItem = (props: NavigationMenuItemProps) => {
+
+  const isLinkCurrentlyVisited = useMatch(props.to)
+
   return (
-    <li className="nav-item">
-      <Link to={props.to}>
+    <Link to={props.to} className={`nav-item ${isLinkCurrentlyVisited ? 'active' : ''} `}>
+      <li>
         {props.label}
-      </Link>
-    </li>
+      </li>
+    </Link>
   )
 }
-
-export default NavigationMenuItem
