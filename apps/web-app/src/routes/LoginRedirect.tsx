@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { ITokens, IUser } from '~/infrastructure/auth/auth.types'
+import { ITokens, IUser, UserRole } from '~/infrastructure/auth/auth.types'
 import { useAuthStore } from '~/infrastructure/auth/AuthStore'
 
 const LoginRedirect = () => {
@@ -15,6 +15,7 @@ const LoginRedirect = () => {
       lastName: searchParams.get('lastName') ?? '',
     },
     email: searchParams.get('email') ?? '',
+    role: searchParams.get('role') as UserRole ?? '',
     photoUrl: searchParams.get('photoUrl') ?? '',
   }
 

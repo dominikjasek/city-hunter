@@ -6,7 +6,8 @@ import { UsersService } from '~/users/users.service'
 
 @Controller('auth/google-login')
 export class GoogleAuthController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) {
+  }
 
   @Public()
   @Get('')
@@ -30,6 +31,7 @@ export class GoogleAuthController {
       access_token: req.user.access_token,
       refresh_token: req.user.refresh_token,
       email: user.email,
+      role: user.role
     }
     const queryParams: string = new URLSearchParams(userData).toString()
 
