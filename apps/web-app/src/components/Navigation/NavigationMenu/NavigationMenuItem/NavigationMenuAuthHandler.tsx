@@ -32,14 +32,14 @@ const NavigationMenuAuthHandler = () => {
   }
 
   return (
-    <li className="nav-item">
-      <Link to={'#'} onClick={openModal}>
+    <Link to={'#'} className="nav-item" onClick={openModal}>
+      <li>
         <>Přihlásit se</>
         {isOpen &&
                     <LoginModal onCloseModal={closeModal} isOpen={isOpen}/>
         }
-      </Link>
-    </li>
+      </li>
+    </Link>
   )
 }
 
