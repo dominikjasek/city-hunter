@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { injectStore } from '~/infrastructure/axios/axios'
-import { About } from '~/routes/About'
+import { Contribute } from '~/routes/Contribute'
+import { Play } from '~/routes/Game/Play'
 import Home from '~/routes/Home'
 import LoginRedirect from '~/routes/LoginRedirect'
+import { Rules } from '~/routes/Rules'
+import { Score } from '~/routes/Score'
 import { store } from '~/store/store'
 import '~/styles/index.scss'
 import App from './App'
@@ -19,8 +22,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<App/>}>
             <Route path="/" element={<Home/>}/>
-            <Route path="/about" element={<About/>}/>
             <Route path="/login-redirect" element={<LoginRedirect/>}/>
+            <Route path="/hrat" element={<Play/>}/>
+            <Route path="/nahrat-misto" element={<Contribute/>}/>
+            <Route path="/pravidla" element={<Rules/>}/>
+            <Route path="/skore" element={<Score/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

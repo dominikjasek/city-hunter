@@ -30,7 +30,7 @@ export default function NavigationMenu(props: Props) {
       className={'md:flex flex-grow items-center' + (props.isNavbarOpen ? ' flex' : ' hidden')}
       id="example-navbar-danger"
     >
-      <ul className="flex flex-col md:flex-row list-none md:ml-auto">
+      <ul className="flex flex-col mt-4 md:flex-row list-none md:ml-auto">
         {
           navigationMenuItems.map(item => <NavigationMenuItem key={item.label} to={item.to}
             label={item.label}/>)
