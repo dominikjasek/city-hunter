@@ -11,16 +11,16 @@ export class PlaceService {
   constructor(private readonly fileService: FileService, private prisma: PrismaService) {
   }
 
-  async uploadPhotos(riddlePhotoFile: Express.Multer.File, answerPhotoFile?: Express.Multer.File): Promise<{ riddlePhoto: IFile; answerPhoto: IFile | null }> {
+  async uploadPhotos(riddlePhotoFile: Express.Multer.File, solutionPhotoFile?: Express.Multer.File): Promise<{ riddlePhoto: IFile; solutionPhoto: IFile | null }> {
     const riddlePhotoPromise = this.fileService.uploadFile(riddlePhotoFile)
-    let answerPhotoPromise: Promise<IFile | void> = Promise.resolve()
-    if (answerPhotoFile) {
-      answerPhotoPromise = this.fileService.uploadFile(answerPhotoFile)
+    let solutionPhotoPromise: Promise<IFile | void> = Promise.resolve()
+    if (solutionPhotoFile) {
+      solutionPhotoPromise = this.fileService.uploadFile(solutionPhotoFile)
     }
 
-    const [riddlePhoto, answerPhoto] = await Promise.all([riddlePhotoPromise, answerPhotoPromise])
+    const [riddlePhoto, solutionPhoto] = await Promise.all([riddlePhotoPromise, solutionPhotoPromise])
 
-    return { riddlePhoto, answerPhoto: answerPhoto ?? null }
+    return { riddlePhoto, solutionPhoto: solutionPhoto ?? null }
   }
 
   async validate(placeSuggestionArgs: Prisma.PlaceCreateArgs) {
@@ -35,9 +35,9 @@ export class PlaceService {
 
   async createPlace(userId: number, placeSuggestionDto: PlaceSuggestionDto): Promise<IPlaceSuggestion> {
     const {
-      answerPhoto,
+      solutionPhoto,
       riddlePhoto
-    } = await this.uploadPhotos(placeSuggestionDto.riddlePhoto, placeSuggestionDto.answerPhoto)
+    } = await this.uploadPhotos(placeSuggestionDto.riddlePhoto, placeSuggestionDto.solutionPhoto)
 
     const placeSuggestionArgs: Prisma.PlaceCreateArgs = {
       data: {
@@ -46,7 +46,7 @@ export class PlaceService {
         lng: Number(placeSuggestionDto.location.lng),
         name: placeSuggestionDto.name,
         riddlePhotoUrl: riddlePhoto?.url,
-        answerPhotoUrl: answerPhoto?.url,
+        solutionPhotoUrl: solutionPhoto?.url,
       },
     }
 
@@ -65,7 +65,7 @@ export class PlaceService {
         lat: placeSuggestionResult.lat.toString(),
       },
       riddlePhotoUrl: placeSuggestionResult.riddlePhotoUrl,
-      answerPhotoUrl: placeSuggestionResult.answerPhotoUrl ?? undefined,
+      solutionPhotoUrl: placeSuggestionResult.solutionPhotoUrl ?? undefined,
     }
   }
 }

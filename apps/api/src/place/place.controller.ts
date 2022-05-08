@@ -12,12 +12,15 @@ export class PlaceController {
   }
 
   @Post('suggest')
-  @UseInterceptors(FileFieldsInterceptor([{ name: 'riddlePhoto', maxCount: 1 }, { name: 'answerPhoto', maxCount: 1 },]),)
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'riddlePhoto', maxCount: 1 }, {
+    name: 'solutionPhoto',
+    maxCount: 1
+  },]),)
   async create(
   @UploadedFiles()
     files: {
       riddlePhoto: Express.Multer.File[]
-      answerPhoto?: Express.Multer.File[]
+      solutionPhoto?: Express.Multer.File[]
     },
     @GetCurrentUserId() userId: number,
     @Body() placeSuggestionDto: PlaceSuggestionDto,
@@ -28,7 +31,7 @@ export class PlaceController {
 
     return await this.placeService.createPlace(userId, {
       ...placeSuggestionDto,
-      answerPhoto: files.answerPhoto?.[0],
+      solutionPhoto: files.solutionPhoto?.[0],
       riddlePhoto: files.riddlePhoto[0],
     })
   }

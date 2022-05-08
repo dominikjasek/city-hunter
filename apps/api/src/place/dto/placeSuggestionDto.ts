@@ -20,5 +20,5 @@ export class PlaceSuggestionDto {
   riddlePhoto: Express.Multer.File
 
   @IsOptional()
-    answerPhoto?: Express.Multer.File
+    solutionPhoto?: Express.Multer.File
 }

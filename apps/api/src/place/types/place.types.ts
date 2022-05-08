@@ -7,5 +7,5 @@ export interface IPlaceSuggestion {
   name: string
   location: IPlaceLocation
   riddlePhotoUrl: string
-  answerPhotoUrl?: string
+  solutionPhotoUrl?: string
 }

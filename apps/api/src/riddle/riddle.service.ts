@@ -9,14 +9,15 @@ export class RiddleService {
   constructor(
     private readonly userService: UsersService,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) {
+  }
 
   async generateRandomRiddleForUser(
     user: User,
   ): Promise<IRiddleWithAvailability> {
     const availableRiddles = await this.prismaService.riddle.findMany({
       where: {
-        answers: {
+        solvedRiddles: {
           none: {
             userId: {
               equals: user.id,
@@ -33,7 +34,7 @@ export class RiddleService {
     }
 
     const randomRiddle =
-      availableRiddles[Math.floor(Math.random() * availableRiddles.length)]
+            availableRiddles[Math.floor(Math.random() * availableRiddles.length)]
 
     await this.prismaService.user.update({
       where: {

@@ -16,9 +16,9 @@ datasource db {
 // ------------------- User -------------------
 
 model User {
-  id              Int           @id @default(autoincrement())
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @default(now()) @updatedAt
+  id              Int            @id @default(autoincrement())
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @default(now()) @updatedAt
   thirdPartyId    String
   email           String
   photoUrl        String
@@ -26,12 +26,12 @@ model User {
   lastName        String
   provider        LoginProvider
   refreshToken    String?
-  answers         Answer[]
-  currentRiddle   Riddle?       @relation(fields: [currentRiddleId], references: [id])
+  solvedRiddles   SolvedRiddle[]
+  currentRiddle   Riddle?        @relation(fields: [currentRiddleId], references: [id])
   currentRiddleId Int?
 
-  @@map("users")
   Place Place[]
+  @@map("users")
 }
 
 enum LoginProvider {
@@ -40,18 +40,18 @@ enum LoginProvider {
 
 // ------------------- Place -------------------
 model Place {
-  id             Int         @id @default(autoincrement())
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @default(now()) @updatedAt
-  name           String
-  lat            Float
-  lng            Float
-  riddlePhotoUrl String
-  answerPhotoUrl String?
-  author         User        @relation(fields: [authorId], references: [id])
-  authorId       Int
-  status         PlaceStatus @default(value: PENDING)
-  riddle         Riddle?
+  id               Int         @id @default(autoincrement())
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @default(now()) @updatedAt
+  name             String
+  lat              Float
+  lng              Float
+  riddlePhotoUrl   String
+  solutionPhotoUrl String?
+  author           User        @relation(fields: [authorId], references: [id])
+  authorId         Int
+  status           PlaceStatus @default(value: PENDING)
+  riddle           Riddle?
 
   @@map("places")
 }
@@ -64,19 +64,19 @@ enum PlaceStatus {
 
 // ------------------- Riddle -------------------
 model Riddle {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @default(now()) @updatedAt
-  place        Place    @relation(fields: [placeId], references: [id])
-  placeId      Int      @unique
-  answers      Answer[]
-  currentUsers User[]
+  id            Int            @id @default(autoincrement())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
+  place         Place          @relation(fields: [placeId], references: [id])
+  placeId       Int            @unique
+  solvedRiddles SolvedRiddle[]
+  currentUsers  User[]
 
   @@map("riddles")
 }
 
-// ------------------- Answer -------------------
-model Answer {
+// ------------------- SolvedRiddle -------------------
+model SolvedRiddle {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   riddle    Riddle   @relation(fields: [riddleId], references: [id])
@@ -84,5 +84,5 @@ model Answer {
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
 
-  @@map("answers")
+  @@map("solved_riddles")
 }

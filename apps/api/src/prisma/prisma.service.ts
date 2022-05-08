@@ -1,5 +1,5 @@
-import {INestApplication, Injectable, OnModuleInit} from '@nestjs/common'
-import {PrismaClient} from '@prisma/client'
+import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common'
+import { PrismaClient } from '@prisma/client'
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -18,7 +18,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
     // teardown logic
     const prismaCleanUp = [
-      this.answer.deleteMany(),
+      this.solvedRiddle.deleteMany(),
       this.riddle.deleteMany(),
       this.place.deleteMany(),
       this.user.deleteMany(),

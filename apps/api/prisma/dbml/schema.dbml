@@ -13,7 +13,7 @@ Table users {
   lastName String [not null]
   provider LoginProvider [not null]
   refreshToken String
-  answers Answer [not null]
+  solvedRiddles SolvedRiddle [not null]
   currentRiddle Riddle
   currentRiddleId Int
   Place Place [not null]
@@ -27,7 +27,7 @@ Table places {
   lat Float [not null]
   lng Float [not null]
   riddlePhotoUrl String [not null]
-  answerPhotoUrl String
+  solutionPhotoUrl String
   author User [not null]
   authorId Int [not null]
   status PlaceStatus [not null, default: 'PENDING']
@@ -40,11 +40,11 @@ Table riddles {
   updatedAt DateTime [default: `now()`, not null]
   place Place [not null]
   placeId Int [unique, not null]
-  answers Answer [not null]
+  solvedRiddles SolvedRiddle [not null]
   currentUsers User [not null]
 }
 
-Table answers {
+Table solved_riddles {
   id Int [pk, increment]
   createdAt DateTime [default: `now()`, not null]
   riddle Riddle [not null]
@@ -69,6 +69,6 @@ Ref: Place.authorId > User.id
 
 Ref: Riddle.placeId - Place.id
 
-Ref: Answer.riddleId > Riddle.id
+Ref: SolvedRiddle.riddleId > Riddle.id
 
-Ref: Answer.userId > User.id
+Ref: SolvedRiddle.userId > User.id

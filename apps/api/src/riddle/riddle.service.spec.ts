@@ -44,7 +44,7 @@ describe('RiddleService', () => {
           name: 'Náměstí Svobody',
           lat: 50.087,
           lng: 14.42,
-          answerPhotoUrl: 'https://answer-photo-url.com',
+          solutionPhotoUrl: 'https://solution-riddle-photo-url.com',
           riddlePhotoUrl: 'https://riddle-photo-url.com',
           authorId: userId
         },
@@ -54,7 +54,7 @@ describe('RiddleService', () => {
           name: 'Jakubské náměstí',
           lat: 20.087,
           lng: 5.42,
-          answerPhotoUrl: 'https://answer-photo-url.com',
+          solutionPhotoUrl: 'https://solution-riddle-photo-url.com',
           riddlePhotoUrl: 'https://riddle-photo-url.com',
           authorId: userId
         },
@@ -125,7 +125,7 @@ describe('RiddleService', () => {
   })
 
   it('should generate available riddle when only one is remaining', async () => {
-    await prisma.answer.create({
+    await prisma.solvedRiddle.create({
       data: {
         id: 1,
         userId,
@@ -151,7 +151,7 @@ describe('RiddleService', () => {
   })
 
   it('should return not available response when all riddles are answered', async () => {
-    await prisma.answer.createMany({
+    await prisma.solvedRiddle.createMany({
       data: [
         {
           userId,

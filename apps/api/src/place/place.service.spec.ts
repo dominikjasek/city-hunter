@@ -50,7 +50,7 @@ describe('PlaceService', () => {
     expect(placeService).toBeDefined()
   })
 
-  it('should create a place without answerPhoto', async () => {
+  it('should create a place without solutionPhoto', async () => {
     const placeSuggestionDto: PlaceSuggestionDto = {
       name: 'Test name of the place',
       location: {
@@ -68,10 +68,10 @@ describe('PlaceService', () => {
     expect(place.location.lng).toBe(placeSuggestionDto.location.lng)
     expect(place.location.lat).toBe(placeSuggestionDto.location.lat)
     expect(place.riddlePhotoUrl).toBe('http://localhost:3000/files/test.jpg')
-    expect(place.answerPhotoUrl).toBeUndefined()
+    expect(place.solutionPhotoUrl).toBeUndefined()
   })
 
-  it('should create a place with answerPhoto', async () => {
+  it('should create a place with solutionPhoto', async () => {
     const placeSuggestionDto: PlaceSuggestionDto = {
       name: 'Test name of the place',
       location: {
@@ -81,7 +81,7 @@ describe('PlaceService', () => {
       // @ts-ignore
       riddlePhoto: 'dummy variable to mock the file',
       // @ts-ignore
-      answerPhoto: 'dummy variable to mock the file'
+      solutionPhoto: 'dummy variable to mock the file'
     }
 
     const place = await placeService.createPlace(userId, placeSuggestionDto)
@@ -91,6 +91,6 @@ describe('PlaceService', () => {
     expect(place.location.lng).toBe(placeSuggestionDto.location.lng)
     expect(place.location.lat).toBe(placeSuggestionDto.location.lat)
     expect(place.riddlePhotoUrl).toBe('http://localhost:3000/files/test.jpg')
-    expect(place.answerPhotoUrl).toBe('http://localhost:3000/files/test.jpg')
+    expect(place.solutionPhotoUrl).toBe('http://localhost:3000/files/test.jpg')
   })
 })
