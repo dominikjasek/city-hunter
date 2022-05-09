@@ -12,7 +12,7 @@ export const LoginModal: FC<LoginModalProps> = (props) => {
   return (
     <Modal onCloseModal={props.onCloseModal} isOpen={props.isOpen} title={'Přihlášení'}>
       <div className="mt-2">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 mb-4">
                     Přihlásit se můžete pomocí svého účtu na Google.
         </p>
         <LoginGoogleButton/>
