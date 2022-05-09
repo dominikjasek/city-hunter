@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import logo from '~/assets/Logo.svg'
-import NavigationMenu from '~/components/Navigation/NavigationMenu/NavigationMenu'
+import { NavigationMenu } from '~/components/Navigation/NavigationMenu/NavigationMenu'
 import './navigation.scss'
 
 export default function Navigation() {
-  const [ navbarOpen, setNavbarOpen ] = useState(false)
+  const [ isNavbarOpen, setNavbarOpen ] = useState(false)
 
   const location = useLocation()
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function Navigation() {
           <button data-collapse-toggle="mobile-menu" type="button"
             className="inline-flex my-auto items-center p-2 ml-3 text-sm rounded-lg md:hidden hover:bg-gray-100/20 focus:outline-none focus:ring-2 focus:ring-gray-200"
             aria-controls="mobile-menu" aria-expanded="false"
-            onClick={() => setNavbarOpen(!navbarOpen)}>
+            onClick={() => setNavbarOpen(!isNavbarOpen)}>
             <span className="sr-only">Open main menu</span>
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg">
@@ -47,9 +47,11 @@ export default function Navigation() {
             </svg>
           </button>
         </div>
+
         <NavigationMenu
-          isNavbarOpen={navbarOpen}
+          isOpenForMobile={isNavbarOpen}
         />
+
       </div>
     </nav>
   )
