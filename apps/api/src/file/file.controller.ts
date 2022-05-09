@@ -18,13 +18,14 @@ import { IFile } from '~/file/types/file.types'
 
 @Controller('file')
 export class FileController {
-  constructor(private readonly uploadService: FileService) {}
+  constructor(private readonly uploadService: FileService) {
+  }
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
-    @UploadedFile() file: Express.Multer.File,
     @Body() dto,
+      @UploadedFile() file: Express.Multer.File,
   ): Promise<IFile> {
     console.log('dto', dto)
     return await this.uploadService.uploadFile(file)
@@ -35,7 +36,7 @@ export class FileController {
   @HttpCode(HttpStatus.CREATED)
   async getFile(
     @Param('fileName') fileName: string,
-    @Res() res: Response,
+      @Res() res: Response,
   ): Promise<void> {
     const fileStream = await this.uploadService.getFileStream(fileName)
     fileStream.on('error', () => {
