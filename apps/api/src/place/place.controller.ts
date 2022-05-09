@@ -1,6 +1,7 @@
 import { Body, Controller, HttpException, HttpStatus, Post, UploadedFiles, UseInterceptors, } from '@nestjs/common'
 import { FileFieldsInterceptor } from '@nestjs/platform-express'
 import { GetCurrentUserId } from '~/auth/common/decorators'
+import { imageFileFilter } from '~/file/filters/imageFileFilter'
 import { PlaceSuggestionDto } from '~/place/dto/placeSuggestionDto'
 import { PlaceService } from '~/place/place.service'
 
@@ -12,10 +13,13 @@ export class PlaceController {
   }
 
   @Post('suggest')
-  @UseInterceptors(FileFieldsInterceptor([{ name: 'riddlePhoto', maxCount: 1 }, {
-    name: 'solutionPhoto',
-    maxCount: 1
-  },]),)
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'riddlePhoto', maxCount: 1 },
+    { name: 'solutionPhoto', maxCount: 1 }
+  ],
+  {
+    fileFilter: imageFileFilter
+  }))
   async create(
   @UploadedFiles()
     files: {

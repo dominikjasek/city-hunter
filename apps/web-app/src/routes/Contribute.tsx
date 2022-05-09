@@ -25,7 +25,7 @@ export const Contribute = () => {
     <div>
             Nahrej vlastní fotku!
       <div>
-        <input type="file" onChange={onFileChange}/>
+        <input type="file" accept="image/png, image/jpeg, image/heic" onChange={onFileChange}/>
         <div>
           <button onClick={uploadFile}>
                         Nahrát
