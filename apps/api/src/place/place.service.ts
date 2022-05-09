@@ -8,64 +8,64 @@ import { PrismaService } from '~/prisma/prisma.service'
 
 @Injectable()
 export class PlaceService {
-  constructor(private readonly fileService: FileService, private prisma: PrismaService) {
-  }
-
-  async uploadPhotos(riddlePhotoFile: Express.Multer.File, solutionPhotoFile?: Express.Multer.File): Promise<{ riddlePhoto: IFile; solutionPhoto: IFile | null }> {
-    const riddlePhotoPromise = this.fileService.uploadFile(riddlePhotoFile)
-    let solutionPhotoPromise: Promise<IFile | void> = Promise.resolve()
-    if (solutionPhotoFile) {
-      solutionPhotoPromise = this.fileService.uploadFile(solutionPhotoFile)
+    constructor(private readonly fileService: FileService, private prisma: PrismaService) {
     }
 
-    const [riddlePhoto, solutionPhoto] = await Promise.all([riddlePhotoPromise, solutionPhotoPromise])
+    async uploadPhotos(riddlePhotoFile: Express.Multer.File, solutionPhotoFile?: Express.Multer.File): Promise<{ riddlePhoto: IFile; solutionPhoto: IFile | null }> {
+        const riddlePhotoPromise = this.fileService.uploadFile(riddlePhotoFile)
+        let solutionPhotoPromise: Promise<IFile | void> = Promise.resolve()
+        if (solutionPhotoFile) {
+            solutionPhotoPromise = this.fileService.uploadFile(solutionPhotoFile)
+        }
 
-    return { riddlePhoto, solutionPhoto: solutionPhoto ?? null }
-  }
+        const [riddlePhoto, solutionPhoto] = await Promise.all([riddlePhotoPromise, solutionPhotoPromise])
 
-  async validate(placeSuggestionArgs: Prisma.PlaceCreateArgs) {
-    if ([placeSuggestionArgs.data.lat, placeSuggestionArgs.data.lng].some(isNaN)) {
-      console.log('lat or lng is not a number')
-      return false
+        return { riddlePhoto, solutionPhoto: solutionPhoto ?? null }
     }
 
-    // check if there is already existing placeSuggestion with the same lat and lng etc.
-    return true
-  }
+    async validate(placeSuggestionArgs: Prisma.PlaceCreateArgs) {
+        if ([placeSuggestionArgs.data.lat, placeSuggestionArgs.data.lng].some(isNaN)) {
+            console.log('lat or lng is not a number')
+            return false
+        }
 
-  async createPlace(userId: number, placeSuggestionDto: PlaceSuggestionDto): Promise<IPlaceSuggestion> {
-    const {
-      solutionPhoto,
-      riddlePhoto
-    } = await this.uploadPhotos(placeSuggestionDto.riddlePhoto, placeSuggestionDto.solutionPhoto)
-
-    const placeSuggestionArgs: Prisma.PlaceCreateArgs = {
-      data: {
-        authorId: userId,
-        lat: Number(placeSuggestionDto.location.lat),
-        lng: Number(placeSuggestionDto.location.lng),
-        name: placeSuggestionDto.name,
-        riddlePhotoUrl: riddlePhoto?.url,
-        solutionPhotoUrl: solutionPhoto?.url,
-      },
+        // check if there is already existing placeSuggestion with the same lat and lng etc.
+        return true
     }
 
-    const isValidSuggestion = await this.validate(placeSuggestionArgs)
+    async createPlace(userId: number, placeSuggestionDto: PlaceSuggestionDto): Promise<IPlaceSuggestion> {
+        const {
+            solutionPhoto,
+            riddlePhoto
+        } = await this.uploadPhotos(placeSuggestionDto.riddlePhoto, placeSuggestionDto.solutionPhoto)
 
-    if (!isValidSuggestion) {
-      throw new HttpException('Place suggestion is not valid', HttpStatus.BAD_REQUEST)
+        const placeSuggestionArgs: Prisma.PlaceCreateArgs = {
+            data: {
+                authorId: userId,
+                lat: Number(placeSuggestionDto.lat),
+                lng: Number(placeSuggestionDto.lng),
+                name: placeSuggestionDto.name,
+                riddlePhotoUrl: riddlePhoto?.url,
+                solutionPhotoUrl: solutionPhoto?.url,
+            },
+        }
+
+        const isValidSuggestion = await this.validate(placeSuggestionArgs)
+
+        if (!isValidSuggestion) {
+            throw new HttpException('Place suggestion is not valid', HttpStatus.BAD_REQUEST)
+        }
+
+        const placeSuggestionResult = await this.prisma.place.create(placeSuggestionArgs)
+
+        return {
+            name: placeSuggestionResult.name,
+            location: {
+                lng: placeSuggestionResult.lng.toString(),
+                lat: placeSuggestionResult.lat.toString(),
+            },
+            riddlePhotoUrl: placeSuggestionResult.riddlePhotoUrl,
+            solutionPhotoUrl: placeSuggestionResult.solutionPhotoUrl ?? undefined,
+        }
     }
-
-    const placeSuggestionResult = await this.prisma.place.create(placeSuggestionArgs)
-
-    return {
-      name: placeSuggestionResult.name,
-      location: {
-        lng: placeSuggestionResult.lng.toString(),
-        lat: placeSuggestionResult.lat.toString(),
-      },
-      riddlePhotoUrl: placeSuggestionResult.riddlePhotoUrl,
-      solutionPhotoUrl: placeSuggestionResult.solutionPhotoUrl ?? undefined,
-    }
-  }
 }

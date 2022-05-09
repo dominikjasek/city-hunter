@@ -5,92 +5,88 @@ import { PlaceService } from '~/place/place.service'
 import { PrismaService } from '~/prisma/prisma.service'
 
 describe('PlaceService', () => {
-  let userId = 0  // initial value - will be resolved in beforeEach
-  let prisma: PrismaService
-  let placeService: PlaceService
-  let fileService: FileService
+    let userId = 0  // initial value - will be resolved in beforeEach
+    let prisma: PrismaService
+    let placeService: PlaceService
+    let fileService: FileService
 
-  beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [PlaceService, PrismaService, FileService],
-    }).compile()
+    beforeAll(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [PlaceService, PrismaService, FileService],
+        }).compile()
 
-    placeService = module.get<PlaceService>(PlaceService)
-    prisma = module.get<PrismaService>(PrismaService)
-    fileService = module.get<FileService>(FileService)
+        placeService = module.get<PlaceService>(PlaceService)
+        prisma = module.get<PrismaService>(PrismaService)
+        fileService = module.get<FileService>(FileService)
 
-    const uploadFileMock = jest.spyOn(fileService, 'uploadFile')
-    uploadFileMock.mockImplementation(async () =>
-      Promise.resolve({
-        url: 'http://localhost:3000/files/test.jpg',
-        key: 'test.jpg',
-      })
-    )
-  })
-
-  beforeEach(async () => {
-    await prisma.cleanDatabase()
-
-    const user = await prisma.user.create({
-      data: {
-        firstName: 'John',
-        lastName: 'Doe',
-        photoUrl: 'https://photo-url.com',
-        provider: 'GOOGLE',
-        email: 'john.doe@gmail.com',
-        thirdPartyId: '211321342',
-        currentRiddleId: null,
-      },
+        const uploadFileMock = jest.spyOn(fileService, 'uploadFile')
+        uploadFileMock.mockImplementation(async () =>
+            Promise.resolve({
+                url: 'http://localhost:3000/files/test.jpg',
+                key: 'test.jpg',
+            })
+        )
     })
 
-    userId = user.id
-  })
+    beforeEach(async () => {
+        await prisma.cleanDatabase()
 
-  it('should be defined', () => {
-    expect(placeService).toBeDefined()
-  })
+        const user = await prisma.user.create({
+            data: {
+                firstName: 'John',
+                lastName: 'Doe',
+                photoUrl: 'https://photo-url.com',
+                provider: 'GOOGLE',
+                email: 'john.doe@gmail.com',
+                thirdPartyId: '211321342',
+                currentRiddleId: null,
+            },
+        })
 
-  it('should create a place without solutionPhoto', async () => {
-    const placeSuggestionDto: PlaceSuggestionDto = {
-      name: 'Test name of the place',
-      location: {
-        lng: '1.23',
-        lat: '2.34',
-      },
-      // @ts-ignore
-      riddlePhoto: 'I dunno how to mock this file...'
-    }
+        userId = user.id
+    })
 
-    const place = await placeService.createPlace(userId, placeSuggestionDto)
+    it('should be defined', () => {
+        expect(placeService).toBeDefined()
+    })
 
-    expect(place).toBeDefined()
-    expect(place.name).toBe(placeSuggestionDto.name)
-    expect(place.location.lng).toBe(placeSuggestionDto.location.lng)
-    expect(place.location.lat).toBe(placeSuggestionDto.location.lat)
-    expect(place.riddlePhotoUrl).toBe('http://localhost:3000/files/test.jpg')
-    expect(place.solutionPhotoUrl).toBeUndefined()
-  })
+    it('should create a place without solutionPhoto', async () => {
+        const placeSuggestionDto: PlaceSuggestionDto = {
+            name: 'Test name of the place',
+            lng: '1.23',
+            lat: '2.34',
+            // @ts-ignore
+            riddlePhoto: 'I dunno how to mock this file...'
+        }
 
-  it('should create a place with solutionPhoto', async () => {
-    const placeSuggestionDto: PlaceSuggestionDto = {
-      name: 'Test name of the place',
-      location: {
-        lng: '1.23',
-        lat: '2.34',
-      },
-      // @ts-ignore
-      riddlePhoto: 'dummy variable to mock the file',
-      // @ts-ignore
-      solutionPhoto: 'dummy variable to mock the file'
-    }
+        const place = await placeService.createPlace(userId, placeSuggestionDto)
 
-    const place = await placeService.createPlace(userId, placeSuggestionDto)
+        expect(place).toBeDefined()
+        expect(place.name).toBe(placeSuggestionDto.name)
+        expect(place.location.lng).toBe(placeSuggestionDto.lng)
+        expect(place.location.lat).toBe(placeSuggestionDto.lat)
+        expect(place.riddlePhotoUrl).toBe('http://localhost:3000/files/test.jpg')
+        expect(place.solutionPhotoUrl).toBeUndefined()
+    })
 
-    expect(place).toBeDefined()
-    expect(place.name).toBe(placeSuggestionDto.name)
-    expect(place.location.lng).toBe(placeSuggestionDto.location.lng)
-    expect(place.location.lat).toBe(placeSuggestionDto.location.lat)
-    expect(place.riddlePhotoUrl).toBe('http://localhost:3000/files/test.jpg')
-    expect(place.solutionPhotoUrl).toBe('http://localhost:3000/files/test.jpg')
-  })
+    it('should create a place with solutionPhoto', async () => {
+        const placeSuggestionDto: PlaceSuggestionDto = {
+            name: 'Test name of the place',
+            lng: '1.23',
+            lat: '2.34',
+            // @ts-ignore
+            riddlePhoto: 'dummy variable to mock the file',
+            // @ts-ignore
+            solutionPhoto: 'dummy variable to mock the file'
+        }
+
+        const place = await placeService.createPlace(userId, placeSuggestionDto)
+
+        expect(place).toBeDefined()
+        expect(place.name).toBe(placeSuggestionDto.name)
+        expect(place.location.lng).toBe(placeSuggestionDto.lng)
+        expect(place.location.lat).toBe(placeSuggestionDto.lat)
+        expect(place.riddlePhotoUrl).toBe('http://localhost:3000/files/test.jpg')
+        expect(place.solutionPhotoUrl).toBe('http://localhost:3000/files/test.jpg')
+    })
 })
