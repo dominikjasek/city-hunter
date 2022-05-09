@@ -10,7 +10,7 @@ export default function Navigation() {
   const location = useLocation()
   useEffect(() => {
     setNavbarOpen(false)
-  }, [ location ])
+  }, [ location.pathname ])
 
   return (
     <nav className="relative w-full max-w-7xl mx-auto flex flex-wrap items-center justify-between px-2 py-5 mb-3">
