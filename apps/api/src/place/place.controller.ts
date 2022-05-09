@@ -18,7 +18,10 @@ export class PlaceController {
     { name: 'solutionPhoto', maxCount: 1 }
   ],
   {
-    fileFilter: imageFileFilter
+    fileFilter: imageFileFilter,
+    limits: {
+      fileSize: 10 * 1024 * 1024, // 10MB
+    }
   }))
   async create(
   @UploadedFiles()
