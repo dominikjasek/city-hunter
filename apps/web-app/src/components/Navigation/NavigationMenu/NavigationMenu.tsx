@@ -36,7 +36,7 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
 
   if (isMd) {
     return (
-      <div className={'md:flex flex-grow mt-4 items-center'}>
+      <div className={'md:flex flex-grow items-center'}>
         <ul className="flex flex-col md:w-auto md:flex-row list-none md:ml-auto">
           {
             navigationMenuItems.map(item =>
