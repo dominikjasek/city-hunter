@@ -124,6 +124,28 @@ describe('RiddleService', () => {
     expect(generateRandomRiddleForUserMock).toHaveBeenCalled()
   })
 
+  it('should try to generate riddle but none has status "ACCEPTED"', async () => {
+    await prisma.solvedRiddle.create({
+      data: {
+        id: 1,
+        userId,
+        riddleId: 1,
+      },
+    })
+
+    const riddleFindManySpy = jest.spyOn(prisma.riddle, 'findMany')
+
+    const riddle = await riddleService.getRiddleForUserId(userId)
+
+    const user = await prisma.user.findUnique({ where: { id: userId } })
+
+    expect(riddleFindManySpy).toHaveBeenCalled()
+    expect(riddle).toMatchObject({
+      availability: { isAvailable: false },
+    })
+    expect(user).toHaveProperty('currentRiddleId', null)
+  })
+
   it('should generate available riddle when only one is remaining', async () => {
     await prisma.solvedRiddle.create({
       data: {
@@ -131,6 +153,11 @@ describe('RiddleService', () => {
         userId,
         riddleId: 1,
       },
+    })
+
+    await prisma.place.update({
+      where: { id: 2 },
+      data: { status: 'ACCEPTED' }
     })
 
     const riddleFindManySpy = jest.spyOn(prisma.riddle, 'findMany')
@@ -148,6 +175,33 @@ describe('RiddleService', () => {
       },
     })
     expect(user).toHaveProperty('currentRiddleId', 2)
+  })
+
+  it('should not generate riddle when only one is remaining but it has a place which is "REJECTED', async () => {
+    await prisma.solvedRiddle.create({
+      data: {
+        id: 1,
+        userId,
+        riddleId: 1,
+      },
+    })
+
+    await prisma.place.update({
+      where: { id: 2 },
+      data: { status: 'REJECTED' }
+    })
+
+    const riddleFindManySpy = jest.spyOn(prisma.riddle, 'findMany')
+
+    const riddle = await riddleService.getRiddleForUserId(userId)
+
+    const user = await prisma.user.findUnique({ where: { id: userId } })
+
+    expect(riddleFindManySpy).toHaveBeenCalled()
+    expect(riddle).toMatchObject({
+      availability: { isAvailable: false },
+    })
+    expect(user).toHaveProperty('currentRiddleId', null)
   })
 
   it('should return not available response when all riddles are answered', async () => {

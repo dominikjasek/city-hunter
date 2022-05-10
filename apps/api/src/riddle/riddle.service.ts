@@ -24,6 +24,13 @@ export class RiddleService {
             },
           },
         },
+        AND: {
+          place: {
+            status: {
+              equals: 'ACCEPTED'
+            }
+          }
+        }
       },
     })
 

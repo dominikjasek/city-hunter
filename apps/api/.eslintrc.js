@@ -20,7 +20,7 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/semi': ['error', 'never'],
         '@typescript-eslint/quotes': ['error', 'single'],
-        // "@typescript-eslint/indent": ["error", 2],  // knwon problem https://github.com/typescript-eslint/typescript-eslint/issues/1232
+        "@typescript-eslint/indent": ["error", 2],  // knwon problem https://github.com/typescript-eslint/typescript-eslint/issues/1232
         "object-curly-spacing": ["error", "always"],
         "no-multiple-empty-lines": ["error", {"max": 1, "maxEOF": 0}],
         "@typescript-eslint/ban-ts-comment": "off"
