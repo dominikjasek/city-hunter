@@ -26,11 +26,11 @@ model User {
   lastName        String
   provider        LoginProvider
   refreshToken    String?
-  role            UserRole     @default(value: USER)
+  role            UserRole       @default(value: USER)
   solvedRiddles   SolvedRiddle[]
   currentRiddle   Riddle?        @relation(fields: [currentRiddleId], references: [id])
   currentRiddleId Int?
-  createdPlaces Place[]
+  createdPlaces   Place[]
 
   @@map("users")
 }

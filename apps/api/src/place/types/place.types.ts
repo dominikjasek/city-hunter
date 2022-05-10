@@ -4,6 +4,7 @@ export interface IPlaceLocation {
 }
 
 export interface IPlaceSuggestion {
+  id: number
   name: string
   location: IPlaceLocation
   riddlePhotoUrl: string

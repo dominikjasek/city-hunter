@@ -6,30 +6,30 @@ import { ITokens } from '~/auth/types/auth.type'
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {
-    }
+  constructor(private authService: AuthService) {
+  }
 
-    @Public()
-    @UseGuards(RefreshTokenGuard)
-    @Post('refresh')
-    @HttpCode(HttpStatus.OK)
-    refreshTokens(
-        @GetCurrentUserId() userId: number,
-        @GetCurrentUser('refreshToken') refreshToken: string,
-    ): Promise<ITokens> {
-        return this.authService.refreshTokens(userId, refreshToken)
-    }
+  @Public()
+  @UseGuards(RefreshTokenGuard)
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  refreshTokens(
+    @GetCurrentUserId() userId: number,
+      @GetCurrentUser('refreshToken') refreshToken: string,
+  ): Promise<ITokens> {
+    return this.authService.refreshTokens(userId, refreshToken)
+  }
 
-    @Post('logout')
-    @HttpCode(HttpStatus.OK)
-    logout(@GetCurrentUserId() userId: number): Promise<boolean> {
-        return this.authService.logout(userId)
-    }
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  logout(@GetCurrentUserId() userId: number): Promise<boolean> {
+    return this.authService.logout(userId)
+  }
 
-    @Get('protected')
-    protectedResource() {
-        return {
-            data: 'JWT is working!',
-        }
+  @Get('protected')
+  protectedResource() {
+    return {
+      data: 'JWT is working!',
     }
+  }
 }
