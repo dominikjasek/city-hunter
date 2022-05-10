@@ -34,6 +34,8 @@ const refreshAccessToken = async (): Promise<void> => {
     await authRepository.logout()
         store!.dispatch(setTokens(initialState.tokens))
         store!.dispatch(setUser(initialState.user))
+        throw e
+
   }
 }
 
