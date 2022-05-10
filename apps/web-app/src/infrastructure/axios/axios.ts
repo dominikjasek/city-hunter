@@ -1,7 +1,10 @@
 import { Store } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { ITokens } from '~/infrastructure/auth/auth.types'
-import { setTokens } from '~/infrastructure/auth/AuthSlice'
+import jwt_decode from 'jwt-decode'
+import { initialState, ITokens } from '~/infrastructure/auth/auth.types'
+import { setTokens, setUser } from '~/infrastructure/auth/AuthSlice'
+import { useAuthRepository } from '~/infrastructure/auth/repository/UseAuthRepository'
+import { IJwtDecoded } from '~/infrastructure/axios/axios.types'
 
 let store: Store | null = null
 
@@ -12,9 +15,36 @@ export const injectStore = (_store: Store) => {
 export const axiosApiInstance = axios.create()
 axiosApiInstance.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL
 
+const refreshAccessToken = async (): Promise<void> => {
+  const refreshToken = (store?.getState().auth.tokens as ITokens).refresh_token
+  if (refreshToken == '') {
+    return
+  }
+
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/refresh`, null,
+      {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`
+        }
+      })
+        store!.dispatch(setTokens(response.data))
+  } catch (e) {
+    const authRepository = useAuthRepository()
+    await authRepository.logout()
+        store!.dispatch(setTokens(initialState.tokens))
+        store!.dispatch(setUser(initialState.user))
+  }
+}
+
 // Request interceptor for API calls
 axiosApiInstance.interceptors.request.use(
   async config => {
+    const accessToken = (store?.getState().auth.tokens as ITokens).access_token
+    const decoded: IJwtDecoded = jwt_decode(accessToken)
+    if (decoded.exp * 1000 < Date.now()) {
+      await refreshAccessToken()
+    }
     config.headers = {
       'Authorization': `Bearer ${(store?.getState().auth.tokens as ITokens).access_token}`
     }
@@ -30,24 +60,9 @@ axiosApiInstance.interceptors.response.use((response) => {
   if (error.response?.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true
 
-    const refreshAccessToken = async (refresh_token: string): Promise<ITokens> => {
-      const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/refresh`, null,
-        {
-          headers: {
-            Authorization: `Bearer ${refresh_token}`
-          }
-        })
-      return response.data
-    }
+    await refreshAccessToken()
 
-    const refreshToken = (store?.getState().auth.tokens as ITokens).refresh_token
-    if (refreshToken == '') {
-      return
-    }
-
-    const tokens = await refreshAccessToken((store!.getState().auth.tokens as ITokens).refresh_token)
-        store!.dispatch(setTokens(tokens))
-        return axiosApiInstance(originalRequest)
+    return axiosApiInstance(originalRequest)
   }
   return Promise.reject(error)
 })
