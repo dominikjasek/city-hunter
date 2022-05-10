@@ -17,7 +17,7 @@ Table users {
   solvedRiddles SolvedRiddle [not null]
   currentRiddle Riddle
   currentRiddleId Int
-  Place Place [not null]
+  createdPlaces Place [not null]
 }
 
 Table places {

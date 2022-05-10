@@ -30,8 +30,8 @@ model User {
   solvedRiddles   SolvedRiddle[]
   currentRiddle   Riddle?        @relation(fields: [currentRiddleId], references: [id])
   currentRiddleId Int?
+  createdPlaces Place[]
 
-  Place Place[]
   @@map("users")
 }
 
