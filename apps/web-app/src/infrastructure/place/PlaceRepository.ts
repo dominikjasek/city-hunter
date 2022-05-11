@@ -1,18 +1,14 @@
 import { axiosApiInstance } from '~/infrastructure/axios/axios'
 
 export class PlaceRepository {
-  public async createPlaceSuggestion(riddlePhoto: File, name: string, lat: string, lng: string): Promise<void> {
-    const formData = new FormData()
-    formData.append(
-      'riddlePhoto',
-      riddlePhoto,
-      riddlePhoto.name
-    )
-    formData.set('name', name)
-    formData.set('lat', lat)
-    formData.set('lng', lng)
+  public async createPlaceSuggestion(riddlePhotoUrl: string, name: string, lat: string, lng: string): Promise<void> {
 
-    return (await axiosApiInstance.post('/place/suggest', formData)).data
+    return (await axiosApiInstance.post('/place/suggest', {
+      riddlePhotoUrl,
+      name,
+      lat,
+      lng
+    })).data
   }
 }
 

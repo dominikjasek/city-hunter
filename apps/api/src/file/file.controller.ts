@@ -24,13 +24,15 @@ export class FileController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', {
-    fileFilter: imageFileFilter
+    fileFilter: imageFileFilter,
+    limits: {
+      fileSize: 4 * 1024 * 1024,  //4MB
+    }
   }))
   async uploadFile(
     @Body() dto,
       @UploadedFile() file: Express.Multer.File,
   ): Promise<IFile> {
-    console.log('dto', dto)
     return await this.uploadService.uploadFile(file)
   }
 

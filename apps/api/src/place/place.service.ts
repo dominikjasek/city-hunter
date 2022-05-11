@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { PlaceStatus, Prisma } from '@prisma/client'
 import { FileService } from '~/file/file.service'
-import { IFile } from '~/file/types/file.types'
 import { PlaceSuggestionDto } from '~/place/dto/placeSuggestionDto'
 import { IPlaceSuggestion } from '~/place/types/place.types'
 import { PrismaService } from '~/prisma/prisma.service'
@@ -9,18 +8,6 @@ import { PrismaService } from '~/prisma/prisma.service'
 @Injectable()
 export class PlaceService {
   constructor(private readonly fileService: FileService, private prisma: PrismaService) {
-  }
-
-  async uploadPhotos(riddlePhotoFile: Express.Multer.File, solutionPhotoFile?: Express.Multer.File): Promise<{ riddlePhoto: IFile; solutionPhoto: IFile | null }> {
-    const riddlePhotoPromise = this.fileService.uploadFile(riddlePhotoFile)
-    let solutionPhotoPromise: Promise<IFile | void> = Promise.resolve()
-    if (solutionPhotoFile) {
-      solutionPhotoPromise = this.fileService.uploadFile(solutionPhotoFile)
-    }
-
-    const [riddlePhoto, solutionPhoto] = await Promise.all([riddlePhotoPromise, solutionPhotoPromise])
-
-    return { riddlePhoto, solutionPhoto: solutionPhoto ?? null }
   }
 
   async validate(placeSuggestionArgs: Prisma.PlaceCreateArgs) {
@@ -34,19 +21,14 @@ export class PlaceService {
   }
 
   async createPlace(userId: number, placeSuggestionDto: PlaceSuggestionDto): Promise<IPlaceSuggestion> {
-    const {
-      solutionPhoto,
-      riddlePhoto
-    } = await this.uploadPhotos(placeSuggestionDto.riddlePhoto, placeSuggestionDto.solutionPhoto)
-
     const placeSuggestionArgs: Prisma.PlaceCreateArgs = {
       data: {
         authorId: userId,
         lat: Number(placeSuggestionDto.lat),
         lng: Number(placeSuggestionDto.lng),
         name: placeSuggestionDto.name,
-        riddlePhotoUrl: riddlePhoto?.url,
-        solutionPhotoUrl: solutionPhoto?.url,
+        riddlePhotoUrl: placeSuggestionDto.riddlePhotoUrl,
+        solutionPhotoUrl: placeSuggestionDto.solutionPhotoUrl,
       },
     }
 

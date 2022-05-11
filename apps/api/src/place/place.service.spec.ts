@@ -55,8 +55,7 @@ describe('PlaceService', () => {
       name: 'Test name of the place',
       lng: '1.23',
       lat: '2.34',
-      // @ts-ignore
-      riddlePhoto: 'I dunno how to mock this file...'
+      riddlePhotoUrl: 'http://localhost:3000/files/test.jpg'
     }
 
     const place = await placeService.createPlace(userId, placeSuggestionDto)
@@ -74,10 +73,8 @@ describe('PlaceService', () => {
       name: 'Test name of the place',
       lng: '1.23',
       lat: '2.34',
-      // @ts-ignore
-      riddlePhoto: 'dummy variable to mock the file',
-      // @ts-ignore 
-      solutionPhoto: 'dummy variable to mock the file'
+      riddlePhotoUrl: 'http://localhost:3000/files/test.jpg',
+      solutionPhotoUrl: 'http://localhost:3000/files/test.jpg'
     }
 
     const place = await placeService.createPlace(userId, placeSuggestionDto)
@@ -95,10 +92,8 @@ describe('PlaceService', () => {
       name: 'Test name of the place',
       lng: '1.23',
       lat: '2.34',
-      // @ts-ignore
-      riddlePhoto: 'dummy variable to mock the file',
-      // @ts-ignore
-      solutionPhoto: 'dummy variable to mock the file'
+      riddlePhotoUrl: 'http://localhost:3000/files/test.jpg',
+      solutionPhotoUrl: 'http://localhost:3000/files/test.jpg'
     }
 
     const createdPlace = await placeService.createPlace(userId, placeSuggestionDto)

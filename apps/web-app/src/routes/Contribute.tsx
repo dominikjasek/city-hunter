@@ -1,43 +1,19 @@
 import { Formik } from 'formik'
 import React from 'react'
+import { useFileRepository } from '~/infrastructure/File/FileRepository'
 import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
 
 interface IFormValues {
     name: string
     lng: string
     lat: string
-    riddlePhoto: File | null
-    answerPhoto: File | null
+    riddlePhotoUrl: string
+    solutionPhotoUrl: string
 }
 
-export const Contribute = () => {
+export function Contribute() {
   const placeRepository = usePlaceRepository()
-
-  // const [ state ] = useState({
-  //   selectedFile: null as File | null,
-  // })
-
-  // const [ email, setEmail ] = useState('')
-
-  // const onFileChange = (event: any) => {
-  //   // Update the state
-  //   setState({ selectedFile: event.target.files[ 0 ] })
-  // }
-
-  // const uploadFile = async () => {
-  //   // Upload the file
-  //   if (state.selectedFile) {
-  //     const res = await fileRepository.uploadFile(state.selectedFile)
-  //     console.log(res)
-  //   }
-  // }
-
-  // const uploadPlaceSuggestion = async (values: IFormValues, { setSubmitting }: FormikHelpers<IFormValues>) => {
-  //   console.log('uploadPlaceSuggestion', values)
-  //   setSubmitting(true)
-  //   await uploadFile()
-  //   setSubmitting(false)
-  // }
+  const fileRepository = useFileRepository()
 
   return (
     <div>
@@ -48,16 +24,16 @@ export const Contribute = () => {
             name: '',
             lng: '',
             lat: '',
-            riddlePhoto: null,
-            answerPhoto: null
+            riddlePhotoUrl: '',
+            solutionPhotoUrl: ''
           } as IFormValues}
           validate={(values) => {
             const errors = {
               name: '',
               lng: '',
               lat: '',
-              riddlePhoto: '',
-              answerPhoto: ''
+              riddlePhotoUrl: '',
+              solutionPhotoUrl: ''
             }
             if (!values.name) {
               errors.name = 'Jméno je povinné'
@@ -71,9 +47,8 @@ export const Contribute = () => {
             return Object.values(errors).some(Boolean) ? errors : {}
           }}
           onSubmit={async (values, { setSubmitting }) => {
-            console.log('uploadPlaceSuggestion', values)
             setSubmitting(true)
-            await placeRepository.createPlaceSuggestion(values.riddlePhoto!, values.name, values.lat, values.lng)
+            await placeRepository.createPlaceSuggestion(values.riddlePhotoUrl, values.name, values.lat, values.lng)
             setSubmitting(false)
           }}
         >
@@ -90,13 +65,17 @@ export const Contribute = () => {
             <form onSubmit={handleSubmit}>
               <>
                 <input type="file" accept="image/png, image/jpeg, image/heic"
-                  onChange={(event: any) => {
+                  onChange={async (event: any) => {
                     // Update the state
-                    // setState({ selectedFile: event.target.files[ 0 ] })
-                    values.riddlePhoto = event.target.files[ 0 ]
-                    touched.riddlePhoto = true
+                    const riddlePhoto = event.target.files[ 0 ]
+                    if (!riddlePhoto) {
+                      return
+                    }
+                    const uploadedPhoto = await fileRepository.uploadFile(riddlePhoto)
+                    values.riddlePhotoUrl = uploadedPhoto.url
+                    touched.riddlePhotoUrl = true
                   }}/>
-                {errors.riddlePhoto && touched.riddlePhoto && errors.riddlePhoto}
+                {errors.riddlePhotoUrl && touched.riddlePhotoUrl && errors.riddlePhotoUrl}
                 <div>
                   <label>
                                         Název místa
