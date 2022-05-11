@@ -6,7 +6,7 @@ import '~/styles/tailwind.css'
 function App() {
 
   return (
-    <div className="app">
+    <div className="app overflow-hidden">
       <Navigation/>
       <div className="app-header">
         <Outlet/>
