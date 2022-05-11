@@ -3,7 +3,6 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import { initialState, ITokens } from '~/infrastructure/auth/auth.types'
 import { setTokens, setUser } from '~/infrastructure/auth/AuthSlice'
-import { useAuthRepository } from '~/infrastructure/auth/repository/UseAuthRepository'
 import { IJwtDecoded } from '~/infrastructure/axios/axios.types'
 
 let store: Store | null = null
@@ -22,7 +21,8 @@ const refreshAccessToken = async (): Promise<void> => {
   }
 
   try {
-    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/refresh`, null,
+    const axiosRefreshTokenInstance = axios.create()
+    const response = await axiosRefreshTokenInstance.post(`${import.meta.env.VITE_REACT_APP_API_URL}/auth/refresh`, null,
       {
         headers: {
           Authorization: `Bearer ${refreshToken}`
@@ -30,11 +30,10 @@ const refreshAccessToken = async (): Promise<void> => {
       })
         store!.dispatch(setTokens(response.data))
   } catch (e) {
-    const authRepository = useAuthRepository()
-    await authRepository.logout()
+    console.log('Error refreshing token')
+        // Refresh token is invalid, logout on client
         store!.dispatch(setTokens(initialState.tokens))
         store!.dispatch(setUser(initialState.user))
-        throw e
 
   }
 }
@@ -60,6 +59,7 @@ axiosApiInstance.interceptors.response.use((response) => {
 }, async function (error) {
   const originalRequest = error.config
   if (error.response?.status === 401 && !originalRequest._retry) {
+    console.log('originalRequest', originalRequest)
     originalRequest._retry = true
 
     await refreshAccessToken()
