@@ -4,7 +4,7 @@ export class ImageCompressor {
   private readonly maxSizeMb: number
 
   constructor() {
-    this.maxSizeMb = 0.5
+    this.maxSizeMb = import.meta.env.VITE_MAX_IMAGE_COMPRESSION_SIZE ?? 0.5
   }
 
   public async compressImage(originalFile: File): Promise<File> {

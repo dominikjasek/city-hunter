@@ -1,5 +1,6 @@
+import exifr from 'exifr'
 import { Formik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import { useFileRepository } from '~/infrastructure/File/FileRepository'
 import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
 
@@ -14,6 +15,12 @@ interface IFormValues {
 export function Contribute() {
   const placeRepository = usePlaceRepository()
   const fileRepository = useFileRepository()
+
+  const [ isSubmitted, setIsSubmitted ] = useState(false)
+
+  if (isSubmitted) {
+    return <div>Thank you for your contribution!</div>
+  }
 
   return (
     <div>
@@ -50,6 +57,7 @@ export function Contribute() {
             setSubmitting(true)
             await placeRepository.createPlaceSuggestion(values.riddlePhotoUrl, values.name, values.lat, values.lng)
             setSubmitting(false)
+            setIsSubmitted(true)
           }}
         >
           {({
@@ -74,6 +82,8 @@ export function Contribute() {
                     const uploadedPhoto = await fileRepository.uploadFile(riddlePhoto)
                     values.riddlePhotoUrl = uploadedPhoto.url
                     touched.riddlePhotoUrl = true
+
+                    exifr.gps(riddlePhoto).then(console.log)
                   }}/>
                 {errors.riddlePhotoUrl && touched.riddlePhotoUrl && errors.riddlePhotoUrl}
                 <div>
@@ -124,6 +134,7 @@ export function Contribute() {
                 <button type="submit" disabled={!isValid || isSubmitting}>
                                     Nahrát
                 </button>
+                <span>{isSubmitting ? 'Submitting...' : ''}</span>
               </>
             </form>
           )}
