@@ -8,11 +8,15 @@ module.exports = {
       'white': '#fff',
       'transparent': 'transparent',
       'grey': {
-        '100': '#F5DDDD'
+        '900': '#2e2e2e',
+        '700': '#757575',
+        '500': '#9c9c9c',
+        '300': '#d0d0d0',
+        '100': '#F5DDDD',
       },
       'orange': {
-        '900': '#FFC913',
-        '700': '#FFCF2D',
+        '900': '#deae0a',
+        '700': '#f8c61e',
         '500': '#FFE17B',
         '300': '#FFEAA1',
         '100': '#FFF2C5',

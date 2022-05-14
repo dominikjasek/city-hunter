@@ -2,6 +2,7 @@ import exifr from 'exifr'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { BaseMapPicker } from '~/components/MapPicker/BaseMapPicker'
+import { BaseButton } from '~/components/UIBaseComponents/Button/BaseButton'
 import { useFileRepository } from '~/infrastructure/File/FileRepository'
 import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
 
@@ -151,9 +152,15 @@ export function Contribute() {
                   }}
                 />
 
-                <button type="submit" disabled={!isValid || isSubmitting}>
-                                    Nahrát
-                </button>
+                <BaseButton
+                  type={'submit'}
+                  disabled={!isValid || isSubmitting}
+                  className={'my-3'}
+                  color={'orange'}
+                  onClick={() => console.log('ahoj')}>
+                                    NAHRÁT
+                </BaseButton>
+
                 <span>{isSubmitting ? 'Submitting...' : ''}</span>
               </>
             </form>
