@@ -1,13 +1,14 @@
 import exifr from 'exifr'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
+import { BaseMapPicker } from '~/components/MapPicker/BaseMapPicker'
 import { useFileRepository } from '~/infrastructure/File/FileRepository'
 import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
 
 interface IFormValues {
     name: string
-    lng: string
-    lat: string
+    lng: number
+    lat: number
     riddlePhotoUrl: string
     solutionPhotoUrl: string
 }
@@ -17,6 +18,7 @@ export function Contribute() {
   const fileRepository = useFileRepository()
 
   const [ isSubmitted, setIsSubmitted ] = useState(false)
+  const [ zoomOnPointChange, setZoomOnPointChange ] = useState(false)
 
   if (isSubmitted) {
     return <div>Thank you for your contribution!</div>
@@ -29,8 +31,8 @@ export function Contribute() {
         <Formik
           initialValues={{
             name: '',
-            lng: '',
-            lat: '',
+            lng: 0,
+            lat: 0,
             riddlePhotoUrl: '',
             solutionPhotoUrl: ''
           } as IFormValues}
@@ -55,7 +57,7 @@ export function Contribute() {
           }}
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true)
-            await placeRepository.createPlaceSuggestion(values.riddlePhotoUrl, values.name, values.lat, values.lng)
+            await placeRepository.createPlaceSuggestion(values.riddlePhotoUrl, values.name, values.lat.toString(), values.lng.toString())
             setSubmitting(false)
             setIsSubmitted(true)
           }}
@@ -68,24 +70,32 @@ export function Contribute() {
             handleBlur,
             handleSubmit,
             isSubmitting,
-            isValid
+            isValid,
+            setFieldValue
           }) => (
             <form onSubmit={handleSubmit}>
               <>
                 <input type="file" accept="image/png, image/jpeg, image/heic"
                   onChange={async (event: any) => {
-                    // Update the state
                     const riddlePhoto = event.target.files[ 0 ]
                     if (!riddlePhoto) {
                       return
                     }
+
+                    exifr.gps(riddlePhoto).then((gps) => {
+                      console.log('GPS:', gps)
+                      setFieldValue('lat', gps.latitude)
+                      setFieldValue('lng', gps.longitude)
+                      setZoomOnPointChange(true)
+                    })
+
                     const uploadedPhoto = await fileRepository.uploadFile(riddlePhoto)
                     values.riddlePhotoUrl = uploadedPhoto.url
                     touched.riddlePhotoUrl = true
 
-                    exifr.gps(riddlePhoto).then(console.log)
                   }}/>
                 {errors.riddlePhotoUrl && touched.riddlePhotoUrl && errors.riddlePhotoUrl}
+
                 <div>
                   <label>
                                         Název místa
@@ -130,6 +140,16 @@ export function Contribute() {
                   </label>
                 </div>
                 {errors.lat && touched.lat && errors.lat}
+
+                <BaseMapPicker
+                  selectedPoint={{ lat: values.lat, lng: values.lng }}
+                  zoomOnPointChange={zoomOnPointChange}
+                  onPointSelected={({ lat, lng }) => {
+                    setFieldValue('lat', lat)
+                    setFieldValue('lng', lng)
+                    setZoomOnPointChange(false)
+                  }}
+                />
 
                 <button type="submit" disabled={!isValid || isSubmitting}>
                                     Nahrát

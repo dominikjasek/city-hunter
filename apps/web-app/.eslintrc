@@ -32,6 +32,16 @@
     "react/react-in-jsx-scope": "off",
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
     "semi": ["error", "never"],
+    "@typescript-eslint/member-delimiter-style": ["error", {
+      "multiline": {
+        "delimiter": "none",
+        "requireLast": true
+      },
+      "singleline": {
+        "delimiter": "semi",
+        "requireLast": false
+      }
+    }],
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["error", "always"],
     "computed-property-spacing": ["error", "always"],
