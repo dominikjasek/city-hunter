@@ -1,7 +1,7 @@
 import React, { FC, PropsWithChildren } from 'react'
 
 interface IProps extends PropsWithChildren<any> {
-    onClick: () => void
+    onClick?: () => void
     className?: string
     disabled?: boolean
     bold?: boolean

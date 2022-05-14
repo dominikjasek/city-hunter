@@ -61,8 +61,8 @@ export const BaseMapPicker: FC<IProps> = (props) => {
     mapRef.current = map
   }, [])
 
-  if (loadError) return <span>Error</span>
-  if (!isLoaded) return <span>Loading...</span>
+  if (loadError) return <span>Chyba při načítání Google mapy</span>
+  if (!isLoaded) return <span>Načítání google mapy...</span>
 
   return (
     <div>

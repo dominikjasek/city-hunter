@@ -27,7 +27,7 @@ export function Contribute() {
 
   return (
     <div>
-      <h1>Nahrej vlastní fotku!</h1>
+      <h1>Nahraj vlastní fotku!</h1>
       <div>
         <Formik
           initialValues={{
@@ -84,7 +84,6 @@ export function Contribute() {
                     }
 
                     exifr.gps(riddlePhoto).then((gps) => {
-                      console.log('GPS:', gps)
                       setFieldValue('lat', gps.latitude)
                       setFieldValue('lng', gps.longitude)
                       setZoomOnPointChange(true)
@@ -112,38 +111,8 @@ export function Contribute() {
                 </div>
                 {errors.name && touched.name && errors.name}
 
-                <div>
-                  <label>
-                                        Lng:
-                    <input
-                      type="lng"
-                      name="lng"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.lng}
-                      className={'text-black mx-2 my-1'}
-                    />
-                  </label>
-                </div>
-                {errors.lng && touched.lng && errors.lng}
-
-                <div>
-                  <label>
-                                        Lat:
-                    <input
-                      type="lat"
-                      name="lat"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.lat}
-                      className={'text-black mx-2 my-1'}
-                    />
-                  </label>
-                </div>
-                {errors.lat && touched.lat && errors.lat}
-
                 <BaseMapPicker
-                  selectedPoint={{ lat: values.lat, lng: values.lng }}
+                  selectedPoint={{ lat: Number(values.lat), lng: Number(values.lng) }}
                   zoomOnPointChange={zoomOnPointChange}
                   onPointSelected={({ lat, lng }) => {
                     setFieldValue('lat', lat)
@@ -157,7 +126,7 @@ export function Contribute() {
                   disabled={!isValid || isSubmitting}
                   className={'my-3'}
                   color={'orange'}
-                  onClick={() => console.log('ahoj')}>
+                >
                                     NAHRÁT
                 </BaseButton>
 
