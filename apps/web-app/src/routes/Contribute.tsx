@@ -90,7 +90,7 @@ export function Contribute() {
                     })
 
                     const uploadedPhoto = await fileRepository.uploadFile(riddlePhoto)
-                    values.riddlePhotoUrl = uploadedPhoto.url
+                    setFieldValue('riddlePhotoUrl', uploadedPhoto.url)
                     touched.riddlePhotoUrl = true
 
                   }}/>
@@ -110,6 +110,9 @@ export function Contribute() {
                   </label>
                 </div>
                 {errors.name && touched.name && errors.name}
+
+                {values.riddlePhotoUrl &&
+                                    <img className="max-w-2xl mx-auto my-2" src={values.riddlePhotoUrl} alt="riddle"/>}
 
                 <BaseMapPicker
                   selectedPoint={{ lat: Number(values.lat), lng: Number(values.lng) }}
