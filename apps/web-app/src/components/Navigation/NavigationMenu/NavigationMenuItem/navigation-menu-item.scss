@@ -1,11 +1,11 @@
 .nav-item {
-  @apply px-3 py-2 flex text-sm items-center uppercase font-bold md:border-b-0 border-b border-opacity-10 border-grey-100;
+  @apply px-3 py-2 flex text-base items-center uppercase font-bold md:border-b-0 border-b border-opacity-10 border-grey-100;
 
   &.active {
-    @apply text-orange-900;
+    @apply text-orange-700;
   }
 
   &:hover {
-    @apply text-orange-900;
+    @apply text-orange-700;
   }
 }

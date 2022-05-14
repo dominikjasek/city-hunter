@@ -21,7 +21,8 @@ export default function Navigation() {
             to="/"
           >
             <img src={logo} className="app-logo max-h-14 mr-4" alt="HledejBrno-logo"/>
-            <span className="font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-white">
+            <span
+              className="text-2xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap">
               Hledej Brno
             </span>
           </Link>
