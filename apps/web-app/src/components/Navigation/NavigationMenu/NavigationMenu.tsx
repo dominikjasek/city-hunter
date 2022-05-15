@@ -9,7 +9,7 @@ import {
 import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 
 interface Props {
-    isOpenForMobile: boolean
+  isOpenForMobile: boolean
 }
 
 export const NavigationMenu: FC<Props> = (props: Props) => {
@@ -17,18 +17,24 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
     {
       to: '/hrat',
       label: 'Hrát',
+      authRequired: false
     },
     {
       to: '/skore',
       label: 'Skóre',
+      authRequired: false
+
     },
     {
       to: '/pravidla',
       label: 'Pravidla',
+      authRequired: false
+
     },
     {
       to: '/pridat-misto',
       label: 'Přidat místo',
+      authRequired: true
     },
   ]
 
@@ -40,9 +46,8 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
         <ul className="flex flex-col md:w-auto md:flex-row list-none md:ml-auto">
           {
             navigationMenuItems.map(item =>
-              <NavigationMenuItem key={item.label} to={item.to}
-                label={item.label}
-              />)
+              <NavigationMenuItem key={item.label} to={item.to} label={item.label}
+                authRequired={item.authRequired}/>)
           }
           <NavigationMenuAuthHandler/>
         </ul>
@@ -64,9 +69,12 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
       <ul className="flex flex-col mt-4 w-full list-none -z-10">
         {
           navigationMenuItems.map(item =>
-            <NavigationMenuItem key={item.label} to={item.to}
+            <NavigationMenuItem
+              key={item.label}
+              to={item.to}
               label={item.label}
-            />)
+              authRequired={item.authRequired}/>
+          )
         }
         <NavigationMenuAuthHandler/>
       </ul>
