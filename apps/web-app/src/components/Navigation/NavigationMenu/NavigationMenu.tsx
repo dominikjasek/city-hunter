@@ -9,7 +9,7 @@ import {
 import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 
 interface Props {
-  isOpenForMobile: boolean
+    isOpenForMobile: boolean
 }
 
 export const NavigationMenu: FC<Props> = (props: Props) => {
@@ -60,9 +60,9 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
       show={props.isOpenForMobile}
       enter="transform transition-all ease-out duration-75"
       enterFrom="opacity-0 h-0 "
-      enterTo={'opacity-100 h-[201px] '}
+      enterTo={'opacity-100 h-[229px] '}
       leave="transition-all duration-75"
-      leaveFrom="opacity-100 h-[201px] "
+      leaveFrom="opacity-100 h-[229px] "
       leaveTo="opacity-0 h-0 "
       className="transform flex-grow w-full items-center overflow-hidden"
     >
