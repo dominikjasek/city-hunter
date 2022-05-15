@@ -20,6 +20,7 @@ export function Contribute() {
 
   const [ isSubmitted, setIsSubmitted ] = useState(false)
   const [ zoomOnPointChange, setZoomOnPointChange ] = useState(false)
+  const [ isFileUploadPending, setIsFileUploadPending ] = useState(false)
 
   if (isSubmitted) {
     return <div>Thank you for your contribution!</div>
@@ -89,11 +90,14 @@ export function Contribute() {
                       setZoomOnPointChange(true)
                     })
 
+                    setIsFileUploadPending(true)
                     const uploadedPhoto = await fileRepository.uploadFile(riddlePhoto)
+                    setIsFileUploadPending(false)
                     setFieldValue('riddlePhotoUrl', uploadedPhoto.url)
                     touched.riddlePhotoUrl = true
 
                   }}/>
+                {isFileUploadPending && <div>Nahrávání souboru...</div>}
                 {errors.riddlePhotoUrl && touched.riddlePhotoUrl && errors.riddlePhotoUrl}
 
                 <div>
