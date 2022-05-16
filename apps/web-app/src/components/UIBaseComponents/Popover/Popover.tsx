@@ -4,7 +4,7 @@ import React, { FC, Fragment, ReactNode } from 'react'
 interface IProps {
     onClose?: () => void
     className?: string
-    button: ReactNode
+    button: (_isPopoverOpen: boolean) => ReactNode
     panel: ReactNode
 }
 
@@ -18,7 +18,7 @@ export const BasePopover: FC<IProps> = (props) => {
                 ${open ? '' : 'text-opacity-90'}
                 ${props.className}`}
           >
-            {props.button}
+            {props.button(open)}
           </Popover.Button>
           <Transition
             as={Fragment}

@@ -44,18 +44,19 @@ const NavigationMenuAuthHandler = () => {
   return (
     <BasePopover
       className={'mr-auto'}
-      button={
-        <li className="nav-item normal-case ">
+      button={(isPopoverOpen) =>
+        <li className='nav-item normal-case group'>
           {
             isMd && auth.user?.photoUrl ?
-              <img className="rounded-full h-8 w-8 ring-2 ring-blue-500 "
+              <img
+                className={`rounded-full h-8 w-8 group-hover:ring-2 group-hover:ring-orange-700 ${isPopoverOpen ? 'ring-2 ring-orange-700' : ''}`}
                 src={auth.user.photoUrl}
                 alt={`${auth.user.name.firstName} ${auth.user.name.lastName}`}
               /> :
               <span>{`${auth.user?.name.firstName} ${auth.user?.name.lastName}`}</span>
           }
           <ChevronDownIcon
-            className={'ml-1 h-5 w-5 transition duration-150 ease-in-out hover:text-opacity-80'}
+            className={`ml-1 h-5 w-5 transition ease-in-out ${isPopoverOpen ? 'text-orange-700' : ''} `}
             aria-hidden="true"
           />
         </li>
