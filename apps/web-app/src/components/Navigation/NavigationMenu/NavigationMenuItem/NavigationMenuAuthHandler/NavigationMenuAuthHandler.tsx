@@ -30,7 +30,7 @@ const NavigationMenuAuthHandler = () => {
         <li>
           <>Přihlásit se</>
           {isOpen &&
-                <LoginModal onCloseModal={closeModal} isOpen={isOpen}/>
+                        <LoginModal onCloseModal={closeModal} isOpen={isOpen}/>
           }
         </li>
       </Link>
@@ -48,14 +48,14 @@ const NavigationMenuAuthHandler = () => {
         <li className="nav-item normal-case ">
           {
             isMd && auth.user?.photoUrl ?
-              <img className="rounded-full h-8 w-8"
+              <img className="rounded-full h-8 w-8 ring-2 ring-blue-500 "
                 src={auth.user.photoUrl}
                 alt={`${auth.user.name.firstName} ${auth.user.name.lastName}`}
               /> :
               <span>{`${auth.user?.name.firstName} ${auth.user?.name.lastName}`}</span>
           }
           <ChevronDownIcon
-            className={'ml-1 h-5 w-5 transition duration-150 ease-in-out group-hover:text-opacity-80'}
+            className={'ml-1 h-5 w-5 transition duration-150 ease-in-out hover:text-opacity-80'}
             aria-hidden="true"
           />
         </li>
