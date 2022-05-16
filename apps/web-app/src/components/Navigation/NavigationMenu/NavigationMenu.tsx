@@ -1,7 +1,7 @@
 import { Transition } from '@headlessui/react'
 import React, { FC } from 'react'
 import NavigationMenuAuthHandler
-  from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler'
+  from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler/NavigationMenuAuthHandler'
 import {
   NavigationMenuItem,
   NavigationMenuItemProps
@@ -55,14 +55,16 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
     )
   }
 
+  const mobileNavigationHeigth = 229 //static variable, needs to be edited every time the menu is changed
+
   return (
     <Transition
       show={props.isOpenForMobile}
       enter="transform transition-all ease-out duration-75"
       enterFrom="opacity-0 h-0 "
-      enterTo={'opacity-100 h-[229px] '}
+      enterTo={`opacity-100 h-[${mobileNavigationHeigth}px]`}
       leave="transition-all duration-75"
-      leaveFrom="opacity-100 h-[229px] "
+      leaveFrom={`opacity-100 h-[${mobileNavigationHeigth}px]`}
       leaveTo="opacity-0 h-0 "
       className="transform flex-grow w-full items-center overflow-hidden"
     >

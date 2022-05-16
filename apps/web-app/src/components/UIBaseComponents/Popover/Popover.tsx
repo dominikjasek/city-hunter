@@ -10,7 +10,7 @@ interface IProps {
 
 export const BasePopover: FC<IProps> = (props) => {
   return (
-    <Popover className="relative">
+    <Popover className={`relative ${props.className}`}>
       {({ open }) => (
         <>
           <Popover.Button
