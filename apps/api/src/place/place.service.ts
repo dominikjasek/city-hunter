@@ -1,13 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { PlaceStatus, Prisma } from '@prisma/client'
 import { FileService } from '~/file/file.service'
-import { PlaceSuggestionDto } from '~/place/dto/placeSuggestionDto'
+import { PlaceChangeStatusDto } from '~/place/dto/placeChangeStatusDto'
+import { PlaceSuggestDto } from '~/place/dto/placeSuggestDto'
 import { IPlaceSuggestion } from '~/place/types/place.types'
 import { PrismaService } from '~/prisma/prisma.service'
+import { RiddleService } from '~/riddle/riddle.service'
 
 @Injectable()
 export class PlaceService {
-  constructor(private readonly fileService: FileService, private prisma: PrismaService) {
+  constructor(private readonly fileService: FileService, private prisma: PrismaService, private readonly riddleService: RiddleService) {
   }
 
   async validate(placeSuggestionArgs: Prisma.PlaceCreateArgs) {
@@ -20,7 +22,7 @@ export class PlaceService {
     return true
   }
 
-  async createPlace(userId: number, placeSuggestionDto: PlaceSuggestionDto): Promise<IPlaceSuggestion> {
+  async createPlace(userId: number, placeSuggestionDto: PlaceSuggestDto): Promise<IPlaceSuggestion> {
     const placeSuggestionArgs: Prisma.PlaceCreateArgs = {
       data: {
         authorId: userId,
@@ -61,5 +63,44 @@ export class PlaceService {
         status: newStatus,
       },
     })
+  }
+
+  async changeStatus(placeChangeStatusDto: PlaceChangeStatusDto) {
+    const place = await this.prisma.place.update({
+      where: {
+        id: placeChangeStatusDto.id,
+      },
+      data: {
+        status: placeChangeStatusDto.status,
+      },
+    })
+
+    switch (placeChangeStatusDto.status) {
+      case PlaceStatus.ACCEPTED:
+        return await this.riddleService.createRiddle(placeChangeStatusDto.id)
+
+      default:
+        break
+    }
+
+  }
+
+  async getSuggestionsWithStatus(status?: PlaceStatus): Promise<IPlaceSuggestion[]> {
+    const suggestions = await this.prisma.place.findMany({
+      where: {
+        status,
+      },
+    })
+
+    return suggestions.map(suggestion => ({
+      id: suggestion.id,
+      name: suggestion.name,
+      location: {
+        lng: suggestion.lng.toString(),
+        lat: suggestion.lat.toString(),
+      },
+      riddlePhotoUrl: suggestion.riddlePhotoUrl,
+      solutionPhotoUrl: suggestion.solutionPhotoUrl ?? undefined,
+    }))
   }
 }

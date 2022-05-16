@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { FileService } from '~/file/file.service'
-import { PlaceSuggestionDto } from '~/place/dto/placeSuggestionDto'
+import { PlaceSuggestDto } from '~/place/dto/placeSuggestDto'
 import { PlaceService } from '~/place/place.service'
 import { PrismaService } from '~/prisma/prisma.service'
 
@@ -51,7 +51,7 @@ describe('PlaceService', () => {
   })
 
   it('should create a place without solutionPhoto', async () => {
-    const placeSuggestionDto: PlaceSuggestionDto = {
+    const placeSuggestionDto: PlaceSuggestDto = {
       name: 'Test name of the place',
       lng: '1.23',
       lat: '2.34',
@@ -69,7 +69,7 @@ describe('PlaceService', () => {
   })
 
   it('should create a place with solutionPhoto', async () => {
-    const placeSuggestionDto: PlaceSuggestionDto = {
+    const placeSuggestionDto: PlaceSuggestDto = {
       name: 'Test name of the place',
       lng: '1.23',
       lat: '2.34',
@@ -88,7 +88,7 @@ describe('PlaceService', () => {
   })
 
   it('should update status of place', async () => {
-    const placeSuggestionDto: PlaceSuggestionDto = {
+    const placeSuggestionDto: PlaceSuggestDto = {
       name: 'Test name of the place',
       lng: '1.23',
       lat: '2.34',

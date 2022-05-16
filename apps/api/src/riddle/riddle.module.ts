@@ -7,5 +7,7 @@ import { RiddleService } from './riddle.service'
   imports: [UsersModule],
   controllers: [RiddleController],
   providers: [RiddleService],
+  exports: [RiddleService],
 })
-export class RiddleModule {}
+export class RiddleModule {
+}

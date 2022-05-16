@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
-export class PlaceSuggestionDto {
+export class PlaceSuggestDto {
   @ApiProperty({
     description: 'Brief description of the place',
   })

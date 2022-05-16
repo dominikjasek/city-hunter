@@ -12,7 +12,8 @@ export class AuthService {
     private prisma: PrismaService,
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) {
+  }
 
   async loginWithOAuth(
     userCreateObj: Prisma.UserCreateArgs,
@@ -26,7 +27,7 @@ export class AuthService {
       user = await this.usersService.registerOAuthUser(userCreateObj)
     }
 
-    const tokens = await this.getTokens(user.id, user.email)
+    const tokens = await this.getTokens(user.id, user.email, user.role)
     await this.updateRtHash(user.id, tokens.refresh_token)
 
     return {
@@ -62,7 +63,7 @@ export class AuthService {
     const rtMatches = await argon.verify(user.refreshToken, refresh_token)
     if (!rtMatches) throw new ForbiddenException('Access Denied')
 
-    const tokens = await this.getTokens(user.id, user.email)
+    const tokens = await this.getTokens(user.id, user.email, user.role)
     await this.updateRtHash(user.id, tokens.refresh_token)
 
     return tokens
@@ -80,10 +81,11 @@ export class AuthService {
     })
   }
 
-  async getTokens(userId: number, email: string): Promise<ITokens> {
+  async getTokens(userId: number, email: string, role: string): Promise<ITokens> {
     const jwtPayload: IJwtPayload = {
       sub: userId,
-      email: email,
+      email,
+      role
     }
 
     const [access_token, refresh_token] = await Promise.all([
