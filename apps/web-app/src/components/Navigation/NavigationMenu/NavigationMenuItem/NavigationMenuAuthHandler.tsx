@@ -27,11 +27,15 @@ const NavigationMenuAuthHandler = () => {
     return (
       <BasePopover
         button={
-          <li className="nav-item normal-case">
-            {auth.user?.photoUrl &&
-                            <img className="rounded-full h-8 w-8"
-                              src={'https://tailwindcss.com/_next/static/media/sarah-dayan.a8ff3f1095a58085a82e3bb6aab12eb2.jpg'}
-                              alt="User"/>}
+          <li className="nav-item normal-case ">
+            {
+              auth.user?.photoUrl ?
+                <img className="rounded-full h-8 w-8"
+                  src={auth.user.photoUrl}
+                  alt={`${auth.user.name.firstName} ${auth.user.name.lastName}`}
+                /> :
+                <span>{`${auth.user?.name.firstName} ${auth.user?.name.lastName}`}</span>
+            }
             <ChevronDownIcon
               className={'ml-1 h-5 w-5 transition duration-150 ease-in-out group-hover:text-opacity-80'}
               aria-hidden="true"
@@ -39,8 +43,8 @@ const NavigationMenuAuthHandler = () => {
           </li>
         }
         panel={
-          <div className={'py-2 px-9 border-red-900 border-2'}>
-                        to be implemented
+          <div className={'py-2 px-9 rounded-md shadow-md bg-blue-700'}>
+            <Link to="#" className="nav-item" onClick={logout}>Odhlásit{'\u00a0'}se</Link>
           </div>
         }
       />
