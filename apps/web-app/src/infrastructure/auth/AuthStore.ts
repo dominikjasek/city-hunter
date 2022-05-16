@@ -1,4 +1,5 @@
 import { AnyAction, Dispatch, ThunkDispatch } from '@reduxjs/toolkit'
+import { useNavigate } from 'react-router-dom'
 import { IAuthReducer, initialState, ITokens, IUser } from '~/infrastructure/auth/auth.types'
 import { setTokens, setUser } from '~/infrastructure/auth/AuthSlice'
 import { AuthRepository } from '~/infrastructure/auth/repository/UseAuthRepository'
@@ -8,6 +9,7 @@ export class AuthStore {
   private readonly _auth: IAuthReducer
   private readonly _dispatch: ThunkDispatch<{ auth: IAuthReducer }, undefined, AnyAction> & Dispatch<AnyAction>
   private readonly _authRepository = new AuthRepository()
+  private readonly _navigate = useNavigate()
 
   constructor() {
     this._auth = useAppSelector((state) => state.auth)
@@ -42,6 +44,7 @@ export class AuthStore {
     await this._authRepository.logout()
     this._dispatch(setTokens(initialState.tokens))
     this._dispatch(setUser(initialState.user))
+    this._navigate('/')
   }
 }
 
