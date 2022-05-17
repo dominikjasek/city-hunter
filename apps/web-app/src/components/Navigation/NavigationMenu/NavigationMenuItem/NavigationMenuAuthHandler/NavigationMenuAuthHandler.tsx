@@ -56,7 +56,7 @@ const NavigationMenuAuthHandler = () => {
               <span>{`${auth.user?.name.firstName} ${auth.user?.name.lastName}`}</span>
           }
           <ChevronDownIcon
-            className={`ml-1 h-5 w-5 transition ease-in-out ${isPopoverOpen ? 'text-orange-700' : ''} `}
+            className={`ml-1 h-5 w-5 ${isPopoverOpen ? 'text-orange-700' : ''} `}
             aria-hidden="true"
           />
         </li>
