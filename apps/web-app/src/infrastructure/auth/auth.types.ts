@@ -1,6 +1,6 @@
 export enum UserRole {
-    USER = 'USER',
-    ADMIN = 'ADMIN',
+    user = 'user',
+    admin = 'admin',
 }
 
 export interface IUser {
@@ -8,7 +8,7 @@ export interface IUser {
     name: IUserName
     email: string
     role: UserRole
-    photoUrl: string,
+    photoUrl: string
 }
 
 export interface ITokens {

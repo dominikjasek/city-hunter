@@ -2,22 +2,27 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { FileService } from '~/file/file.service'
 import { PlaceSuggestDto } from '~/place/dto/placeSuggestDto'
 import { PlaceService } from '~/place/place.service'
+import { PrismaModule } from '~/prisma/prisma.module'
 import { PrismaService } from '~/prisma/prisma.service'
+import { RiddleModule } from '~/riddle/riddle.module'
 
 describe('PlaceService', () => {
   let userId = 0  // initial value - will be resolved in beforeEach
   let prisma: PrismaService
   let placeService: PlaceService
   let fileService: FileService
+  // let riddeService: RiddleService
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PlaceService, PrismaService, FileService],
+      providers: [PlaceService, FileService],
+      imports: [RiddleModule, PrismaModule]
     }).compile()
 
     placeService = module.get<PlaceService>(PlaceService)
     prisma = module.get<PrismaService>(PrismaService)
     fileService = module.get<FileService>(FileService)
+    // riddeService = module.get<RiddleService>(RiddleService)
 
     const uploadFileMock = jest.spyOn(fileService, 'uploadFile')
     uploadFileMock.mockImplementation(async () =>

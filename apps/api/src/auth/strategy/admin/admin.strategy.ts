@@ -17,7 +17,7 @@ export class AdminStrategy extends PassportStrategy(
 
   async validate(payload, done) {
     try {
-      if (payload.role !== UserRole.ADMIN) {
+      if (payload.role !== UserRole.admin) {
         return done(new UnauthorizedException('You need to have role ADMIN to acces this.'), false)
       }
 

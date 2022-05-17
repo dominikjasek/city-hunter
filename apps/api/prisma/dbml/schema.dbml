@@ -13,7 +13,7 @@ Table users {
   lastName String [not null]
   provider LoginProvider [not null]
   refreshToken String
-  role UserRole [not null, default: 'USER']
+  role UserRole [not null, default: 'user']
   solvedRiddles SolvedRiddle [not null]
   currentRiddle Riddle
   currentRiddleId Int
@@ -59,8 +59,8 @@ Enum LoginProvider {
 }
 
 Enum UserRole {
-  USER
-  ADMIN
+  user
+  admin
 }
 
 Enum PlaceStatus {

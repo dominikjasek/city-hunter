@@ -26,7 +26,7 @@ model User {
   lastName        String
   provider        LoginProvider
   refreshToken    String?
-  role            UserRole       @default(value: USER)
+  role            UserRole       @default(value: user)
   solvedRiddles   SolvedRiddle[]
   currentRiddle   Riddle?        @relation(fields: [currentRiddleId], references: [id])
   currentRiddleId Int?
@@ -40,8 +40,8 @@ enum LoginProvider {
 }
 
 enum UserRole {
-  USER
-  ADMIN
+  user
+  admin
 }
 
 // ------------------- Place -------------------
