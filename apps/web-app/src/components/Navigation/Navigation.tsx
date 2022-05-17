@@ -13,7 +13,7 @@ export default function Navigation() {
   }, [ location.pathname ])
 
   return (
-    <nav className="relative w-full max-w-7xl mx-auto flex flex-wrap items-center justify-between px-2 py-5 mb-3">
+    <nav className="relative w-full max-w-7xl mx-auto flex flex-wrap items-center justify-between px-2 py-5">
       <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
         <div className="w-full relative flex justify-between md:w-auto md:static md:block md:justify-start">
           <Link
