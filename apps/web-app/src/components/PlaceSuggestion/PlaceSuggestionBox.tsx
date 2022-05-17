@@ -16,18 +16,19 @@ export const PlaceSuggestionBox: FC<IProps> = (props) => {
   const { isMd } = useWindowDimensions()
 
   const mapContainerStyle: CSSProperties = isMd ? {
-    height: '300px',
     width: '33.3333333%',
+    flexGrow: 2,
   } : {
     height: '33.333333%',
-    width: '100%',
+    flexGrow: 2,
+
   }
 
   return (
     <div
-      className={'flex flex-col md:flex-row rounded-[20px] shadow-xl bg-blue-700 h-[800px] md:h-[300px] overflow-hidden' + ` ${props.className}`}
+      className={'flex flex-col md:flex-row rounded-[20px] shadow-xl bg-blue-700 h-[900px] md:h-[300px] overflow-hidden' + ` ${props.className}`}
     >
-      <div className='flex flex-col p-3 h-1/3 md:h-auto md:w-1/3'>
+      <div className='flex flex-col p-3 md:h-auto'>
         <h4 className='pt-6 text-2xl'>
           {props.placeSuggestion.name}
         </h4>
@@ -42,6 +43,8 @@ export const PlaceSuggestionBox: FC<IProps> = (props) => {
           />
         </div>
       </div>
+      <img src={props.placeSuggestion.riddlePhotoUrl} className="max-h-[450px] md:h-auto object-contain"
+        alt={props.placeSuggestion.name}/>
       <BaseMapPicker onPointSelected={(point) => console.log(point)}
         selectedPoint={{
           lat: Number(props.placeSuggestion.location.lat),
@@ -50,7 +53,6 @@ export const PlaceSuggestionBox: FC<IProps> = (props) => {
         initialZoom={15}
         mapContainerStyle={mapContainerStyle}
       />
-      <img src={props.placeSuggestion.riddlePhotoUrl} className="h-1/3 md:h-auto md:w-1/3 object-cover "/>
     </div>
   )
 }
