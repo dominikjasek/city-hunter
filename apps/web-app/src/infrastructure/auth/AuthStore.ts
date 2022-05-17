@@ -1,6 +1,6 @@
 import { AnyAction, Dispatch, ThunkDispatch } from '@reduxjs/toolkit'
 import { useNavigate } from 'react-router-dom'
-import { IAuthReducer, initialState, ITokens, IUser } from '~/infrastructure/auth/auth.types'
+import { IAuthReducer, initialState, ITokens, IUser, UserRole } from '~/infrastructure/auth/auth.types'
 import { setTokens, setUser } from '~/infrastructure/auth/AuthSlice'
 import { AuthRepository } from '~/infrastructure/auth/repository/UseAuthRepository'
 import { useAppDispatch, useAppSelector } from '~/store/UseAppStore'
@@ -26,6 +26,10 @@ export class AuthStore {
 
   public get isLoggedIn(): boolean {
     return this.user !== null
+  }
+
+  public get role(): UserRole | null {
+    return this.user?.role ?? null
   }
 
   public setUser(user: IUser): void {

@@ -14,7 +14,7 @@ interface IFormValues {
     solutionPhotoUrl: string
 }
 
-export function Contribute() {
+export function SuggestPlace() {
   const placeRepository = usePlaceRepository()
   const fileRepository = useFileRepository()
 
