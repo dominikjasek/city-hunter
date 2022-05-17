@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
+import { LoginProvider } from '@prisma/client'
 import { PrismaService } from '~/prisma/prisma.service'
 import { IRiddleWithAvailability } from '~/riddle/riddle.interface'
 import { UsersService } from '~/users/users.service'
@@ -27,7 +28,7 @@ describe('RiddleService', () => {
         firstName: 'John',
         lastName: 'Doe',
         photoUrl: 'https://photo-url.com',
-        provider: 'GOOGLE',
+        provider: LoginProvider.google,
         email: 'john.doe@gmail.com',
         thirdPartyId: '211321342',
         currentRiddleId: null,
@@ -124,7 +125,7 @@ describe('RiddleService', () => {
     expect(generateRandomRiddleForUserMock).toHaveBeenCalled()
   })
 
-  it('should try to generate riddle but none has status "ACCEPTED"', async () => {
+  it('should try to generate riddle but none has status "accepted"', async () => {
     await prisma.solvedRiddle.create({
       data: {
         id: 1,
@@ -157,7 +158,7 @@ describe('RiddleService', () => {
 
     await prisma.place.update({
       where: { id: 2 },
-      data: { status: 'ACCEPTED' }
+      data: { status: 'accepted' }
     })
 
     const riddleFindManySpy = jest.spyOn(prisma.riddle, 'findMany')
@@ -177,7 +178,7 @@ describe('RiddleService', () => {
     expect(user).toHaveProperty('currentRiddleId', 2)
   })
 
-  it('should not generate riddle when only one is remaining but it has a place which is "REJECTED', async () => {
+  it('should not generate riddle when only one is remaining but it has a place which is "rejected', async () => {
     await prisma.solvedRiddle.create({
       data: {
         id: 1,
@@ -188,7 +189,7 @@ describe('RiddleService', () => {
 
     await prisma.place.update({
       where: { id: 2 },
-      data: { status: 'REJECTED' }
+      data: { status: 'rejected' }
     })
 
     const riddleFindManySpy = jest.spyOn(prisma.riddle, 'findMany')

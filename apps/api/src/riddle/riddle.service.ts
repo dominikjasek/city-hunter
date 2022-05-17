@@ -27,7 +27,7 @@ export class RiddleService {
         AND: {
           place: {
             status: {
-              equals: 'ACCEPTED'
+              equals: 'accepted'
             }
           }
         }

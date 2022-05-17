@@ -36,7 +36,7 @@ model User {
 }
 
 enum LoginProvider {
-  GOOGLE
+  google
 }
 
 enum UserRole {
@@ -56,16 +56,16 @@ model Place {
   solutionPhotoUrl String?
   author           User        @relation(fields: [authorId], references: [id])
   authorId         Int
-  status           PlaceStatus @default(value: PENDING)
+  status           PlaceStatus @default(value: pending)
   riddle           Riddle?
 
   @@map("places")
 }
 
 enum PlaceStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
+  pending
+  accepted
+  rejected
 }
 
 // ------------------- Riddle -------------------

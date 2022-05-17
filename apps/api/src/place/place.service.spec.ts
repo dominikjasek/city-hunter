@@ -41,7 +41,7 @@ describe('PlaceService', () => {
         firstName: 'John',
         lastName: 'Doe',
         photoUrl: 'https://photo-url.com',
-        provider: 'GOOGLE',
+        provider: 'google',
         email: 'john.doe@gmail.com',
         thirdPartyId: '211321342',
         currentRiddleId: null,
@@ -103,9 +103,9 @@ describe('PlaceService', () => {
 
     const createdPlace = await placeService.createPlace(userId, placeSuggestionDto)
 
-    await placeService.updateStatus(createdPlace.id, 'ACCEPTED')
+    await placeService.updateStatus(createdPlace.id, 'accepted')
     const place = await prisma.place.findUnique({ where: { id: createdPlace.id } })
 
-    expect(place).toHaveProperty('status', 'ACCEPTED')
+    expect(place).toHaveProperty('status', 'accepted')
   })
 })

@@ -12,7 +12,7 @@ const userCreateObj: Prisma.UserCreateArgs = {
     firstName: 'John',
     lastName: 'Doe',
     photoUrl: 'https://test.com',
-    provider: 'GOOGLE',
+    provider: 'google',
     thirdPartyId: 'test',
   },
 }

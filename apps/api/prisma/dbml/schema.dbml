@@ -31,7 +31,7 @@ Table places {
   solutionPhotoUrl String
   author User [not null]
   authorId Int [not null]
-  status PlaceStatus [not null, default: 'PENDING']
+  status PlaceStatus [not null, default: 'pending']
   riddle Riddle
 }
 
@@ -55,7 +55,7 @@ Table solved_riddles {
 }
 
 Enum LoginProvider {
-  GOOGLE
+  google
 }
 
 Enum UserRole {
@@ -64,9 +64,9 @@ Enum UserRole {
 }
 
 Enum PlaceStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
+  pending
+  accepted
+  rejected
 }
 
 Ref: User.currentRiddleId > Riddle.id

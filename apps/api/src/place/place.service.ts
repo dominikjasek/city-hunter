@@ -76,7 +76,7 @@ export class PlaceService {
     })
 
     switch (placeChangeStatusDto.status) {
-      case PlaceStatus.ACCEPTED:
+      case PlaceStatus.accepted:
         return await this.riddleService.createRiddle(placeChangeStatusDto.id)
 
       default:
