@@ -1,12 +1,7 @@
 import { GoogleMap, GoogleMapProps, Marker, useLoadScript } from '@react-google-maps/api'
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import React, { CSSProperties, FC, useCallback, useEffect, useRef, useState } from 'react'
 import { MapPoint } from '~/components/MapPicker/Map.types'
 import { NonUndefined } from '~/types/utility/NonUndefined'
-
-const mapContainerStyle = {
-  height: '100vh',
-  width: '100vw',
-}
 
 const options: GoogleMapProps['options'] = {
   zoomControl: true,
@@ -23,7 +18,9 @@ const center: GoogleMapProps['center'] = {
 interface IProps {
     onPointSelected: (_point: MapPoint) => void
     selectedPoint: MapPoint | null
-    zoomOnPointChange: boolean
+    initialZoom?: number
+    zoomOnPointChange?: boolean
+    mapContainerStyle?: CSSProperties
 }
 
 export const BaseMapPicker: FC<IProps> = (props) => {
@@ -65,23 +62,19 @@ export const BaseMapPicker: FC<IProps> = (props) => {
   if (!isLoaded) return <span>Načítání google mapy...</span>
 
   return (
-    <div>
-      <GoogleMap
-        id="map"
-        mapContainerStyle={mapContainerStyle}
-        zoom={12}
-        center={center}
-        options={options}
-        onClick={onMapClick}
-        onLoad={onMapLoad}
-      >
-        <Marker
-          key={`${selectedPoint?.lat}-${selectedPoint?.lng}`}
-          position={selectedPoint}
-        />
-      </GoogleMap>
-
-    </div>
+    <GoogleMap
+      id="map"
+      mapContainerStyle={props.mapContainerStyle}
+      zoom={props.initialZoom || 12}
+      center={selectedPoint ? selectedPoint : center}
+      options={options}
+      onClick={onMapClick}
+      onLoad={onMapLoad}
+    >
+      <Marker
+        key={`${selectedPoint?.lat}-${selectedPoint?.lng}`}
+        position={selectedPoint}
+      />
+    </GoogleMap>
   )
 }
-

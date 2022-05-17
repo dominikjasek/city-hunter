@@ -5,6 +5,8 @@ export class PlaceSuggestDto {
   @ApiProperty({
     description: 'Brief description of the place',
   })
+
+  @IsNotEmpty()
   @IsString()
     name: string
 

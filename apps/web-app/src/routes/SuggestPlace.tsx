@@ -126,6 +126,10 @@ export function SuggestPlace() {
                     setFieldValue('lng', lng)
                     setZoomOnPointChange(false)
                   }}
+                  mapContainerStyle={{
+                    height: '100vh',
+                    width: '100vw',
+                  }}
                 />
 
                 <BaseButton
