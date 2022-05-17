@@ -22,9 +22,12 @@ export const ManagePlaceSuggestions = () => {
     fetchPendingPlaceSuggestions()
   }, [])
 
+  if (placeSuggestions.length === 0) {
+    return <div>Nejsou dostupné žádné návrhy míst ke zpracování</div>
+  }
+
   return (
     <div>
-
       <h1 className={'text-2xl uppercase mb-8'}>Návrhy míst ke schválení</h1>
 
       {placeSuggestions.map(placeSuggestion => (
