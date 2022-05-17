@@ -1,4 +1,3 @@
-import { Transition } from '@headlessui/react'
 import React, { FC } from 'react'
 import NavigationMenuAuthHandler
   from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler/NavigationMenuAuthHandler'
@@ -36,6 +35,12 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
       label: 'Přidat místo',
       authRequired: true
     },
+    {
+      to: '/spravovat-navrhy',
+      label: 'Návrhy',
+      authRequired: true,
+      adminRequired: true
+    },
   ]
 
   const { isMd } = useWindowDimensions()
@@ -55,19 +60,12 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
     )
   }
 
-  const mobileNavigationHeigth = 229 //static variable, needs to be edited every time the menu is changed
+  if (!props.isOpenForMobile) {
+    return <></>
+  }
 
   return (
-    <Transition
-      show={props.isOpenForMobile}
-      enter="transform transition-all ease-out duration-75"
-      enterFrom="opacity-0 h-0 "
-      enterTo={`opacity-100 h-[${mobileNavigationHeigth}px]`}
-      leave="transition-all duration-75"
-      leaveFrom={`opacity-100 h-[${mobileNavigationHeigth}px]`}
-      leaveTo="opacity-0 h-0 "
-      className="transform flex-grow w-full items-center overflow-hidden"
-    >
+    <div className='w-full items-center overflow-hidden'>
       <ul className="flex flex-col mt-4 w-full list-none -z-10">
         {
           navigationMenuItems.map(item =>
@@ -80,7 +78,7 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
         }
         <NavigationMenuAuthHandler/>
       </ul>
-    </Transition>
+    </div>
 
   )
 }

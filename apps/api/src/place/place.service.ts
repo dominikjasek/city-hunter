@@ -77,10 +77,21 @@ export class PlaceService {
 
     switch (placeChangeStatusDto.status) {
       case PlaceStatus.accepted:
-        return await this.riddleService.createRiddle(placeChangeStatusDto.id)
+        await this.riddleService.createRiddle(placeChangeStatusDto.id)
 
       default:
         break
+    }
+
+    return {
+      id: place.id,
+      name: place.name,
+      location: {
+        lng: place.lng.toString(),
+        lat: place.lat.toString(),
+      },
+      riddlePhotoUrl: place.riddlePhotoUrl,
+      solutionPhotoUrl: place.solutionPhotoUrl ?? undefined,
     }
 
   }

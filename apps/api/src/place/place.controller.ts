@@ -7,7 +7,7 @@ import { PlaceSuggestDto } from '~/place/dto/placeSuggestDto'
 import { PlaceService } from '~/place/place.service'
 import { IPlaceSuggestion } from '~/place/types/place.types'
 
-@Controller('place')
+@Controller('places')
 export class PlaceController {
   constructor(
     private readonly placeService: PlaceService,
@@ -22,7 +22,7 @@ export class PlaceController {
     return await this.placeService.createPlace(userId, placeSuggestionDto)
   }
 
-  @Get('suggestions/:status?')
+  @Get(':status?')
   async getAllSuggestions(
     @Param() placeSuggestionDto: PlaceGetSuggestionsDto,
   ): Promise<IPlaceSuggestion[]> {
@@ -32,8 +32,8 @@ export class PlaceController {
   @Post('change-status')
   @UseGuards(AdminGuard)
   async changeStatus(
-  @Body() placeChangeStatusDto: PlaceChangeStatusDto,
-  ) {
+    @Body() placeChangeStatusDto: PlaceChangeStatusDto,
+  ): Promise<IPlaceSuggestion> {
     return await this.placeService.changeStatus(placeChangeStatusDto)
   }
 }

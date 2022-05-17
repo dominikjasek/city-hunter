@@ -8,6 +8,6 @@ export const RouteAdmin: FC<IProps> = (props) => {
   const { auth } = useAuthStore()
 
   return (
-    auth.role === 'admin' ? props.children : <Navigate to="/login"/>
+    auth.isAdmin ? props.children : <Navigate to="/login"/>
   )
 }

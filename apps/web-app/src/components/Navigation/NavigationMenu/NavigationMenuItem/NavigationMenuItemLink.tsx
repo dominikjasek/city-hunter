@@ -7,6 +7,7 @@ export interface NavigationMenuItemProps {
     to: string
     label: string
     authRequired: boolean
+    adminRequired?: boolean
 }
 
 export const NavigationMenuItem = (props: NavigationMenuItemProps) => {
@@ -15,6 +16,10 @@ export const NavigationMenuItem = (props: NavigationMenuItemProps) => {
   const isLinkCurrentlyVisited = useMatch(props.to)
 
   if (props.authRequired && !auth.isLoggedIn) {
+    return <></>
+  }
+
+  if (props.adminRequired && !auth.isAdmin) {
     return <></>
   }
 

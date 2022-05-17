@@ -32,6 +32,10 @@ export class AuthStore {
     return this.user?.role ?? null
   }
 
+  public get isAdmin(): boolean {
+    return this.role === UserRole.admin
+  }
+
   public setUser(user: IUser): void {
     this._dispatch(setUser(user))
   }
