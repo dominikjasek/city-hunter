@@ -25,6 +25,7 @@
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
+    "react-simple-image-viewer": "^1.2.1",
     "react-social-login-buttons": "^3.6.0"
   },
   "devDependencies": {

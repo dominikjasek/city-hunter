@@ -1,6 +1,7 @@
 import { IPlaceSuggestion } from '@api/place/types/place.types'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/outline'
-import React, { CSSProperties, FC } from 'react'
+import React, { CSSProperties, FC, useState } from 'react'
+import ImageViewer from 'react-simple-image-viewer'
 import { BaseMapPicker } from '~/components/MapPicker/BaseMapPicker'
 import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 export const PlaceSuggestionBox: FC<IProps> = (props) => {
+  const [ isViewerOpen, setIsViewerOpen ] = useState(false)
 
   const { isMd } = useWindowDimensions()
 
@@ -43,8 +45,24 @@ export const PlaceSuggestionBox: FC<IProps> = (props) => {
           />
         </div>
       </div>
-      <img src={props.placeSuggestion.riddlePhotoUrl} className="max-h-[450px] md:h-auto object-contain"
-        alt={props.placeSuggestion.name}/>
+      <img
+        src={props.placeSuggestion.riddlePhotoUrl}
+        className="max-h-[450px] md:h-auto object-contain cursor-pointer"
+        alt={props.placeSuggestion.name}
+        onClick={() => setIsViewerOpen(true)}
+      />
+      {isViewerOpen && (
+        <ImageViewer
+          src={[ props.placeSuggestion.riddlePhotoUrl ]}
+          currentIndex={0}
+          disableScroll={true}
+          closeOnClickOutside={true}
+          backgroundStyle={{
+            backgroundColor: 'rgba(0, 0, 0, 0.7)'
+          }}
+          onClose={() => setIsViewerOpen(false)}
+        />
+      )}
       <BaseMapPicker onPointSelected={(point) => console.log(point)}
         selectedPoint={{
           lat: Number(props.placeSuggestion.location.lat),
