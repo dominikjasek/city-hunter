@@ -73,7 +73,9 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
               key={item.label}
               to={item.to}
               label={item.label}
-              authRequired={item.authRequired}/>
+              authRequired={item.authRequired}
+              adminRequired={item.adminRequired}
+            />
           )
         }
         <NavigationMenuAuthHandler/>
