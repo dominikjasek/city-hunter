@@ -45,28 +45,14 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
 
   const { isMd } = useWindowDimensions()
 
-  if (isMd) {
-    return (
-      <div className={'md:flex flex-grow items-center'}>
-        <ul className="flex flex-col md:w-auto md:flex-row list-none md:ml-auto">
-          {
-            navigationMenuItems.map(item =>
-              <NavigationMenuItem key={item.label} to={item.to} label={item.label}
-                authRequired={item.authRequired}/>)
-          }
-          <NavigationMenuAuthHandler/>
-        </ul>
-      </div>
-    )
-  }
-
-  if (!props.isOpenForMobile) {
+  if (!props.isOpenForMobile && !isMd) {
     return <></>
   }
 
   return (
-    <div className='w-full items-center overflow-hidden'>
-      <ul className="flex flex-col mt-4 w-full list-none -z-10">
+    <div
+      className='w-full items-center overflow-hidden md:overflow-visible md:w-auto md:flex'>
+      <ul className="flex flex-col mt-4 w-full list-none md:mt-0 md:flex md:w-auto md:flex-row md:list-none md:ml-auto">
         {
           navigationMenuItems.map(item =>
             <NavigationMenuItem

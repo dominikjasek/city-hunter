@@ -22,6 +22,7 @@ export const NavigationMenuItem = (props: NavigationMenuItemProps) => {
   if (props.adminRequired && !auth.isAdmin) {
     return <></>
   }
+  console.log(props.adminRequired)
 
   return (
     <Link to={props.to} className={`nav-item ${isLinkCurrentlyVisited ? 'active' : ''} `}>
