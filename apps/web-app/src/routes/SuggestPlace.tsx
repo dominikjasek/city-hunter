@@ -116,7 +116,11 @@ export function SuggestPlace() {
                 {errors.name && touched.name && errors.name}
 
                 {values.riddlePhotoUrl &&
-                                    <img className="max-w-2xl mx-auto my-2" src={values.riddlePhotoUrl} alt="riddle"/>}
+                                    <img
+                                      className="max-w-full md:max-w-2xl mx-auto my-2"
+                                      src={values.riddlePhotoUrl}
+                                      alt="riddle"
+                                    />}
 
                 <BaseMapPicker
                   selectedPoint={{ lat: Number(values.lat), lng: Number(values.lng) }}
