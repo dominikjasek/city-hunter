@@ -11,7 +11,11 @@ export const ManagePlaceSuggestions = () => {
   const fetchPendingPlaceSuggestions = async () => {
     const placeSuggestionsResponse = await placeRepository.getPlaceSuggestions(IPlaceStatus.pending)
     setPlaceSuggestions(placeSuggestionsResponse)
+  }
 
+  const changeStatus = async (placeSuggestionId: number, status: IPlaceStatus) => {
+    await placeRepository.changePlaceSuggestionStatus(placeSuggestionId, status)
+    setPlaceSuggestions(placeSuggestions.filter(ps => ps.id !== placeSuggestionId))
   }
 
   useEffect(() => {
@@ -20,14 +24,18 @@ export const ManagePlaceSuggestions = () => {
 
   return (
     <div>
-      <button onClick={fetchPendingPlaceSuggestions}>
-                get suggestions
-      </button>
-      <div>
-        {placeSuggestions.map(placeSuggestion => (
-          <PlaceSuggestionBox className={'m-4'} placeSuggestion={placeSuggestion} key={placeSuggestion.id}/>
-        ))}
-      </div>
+
+      <h1 className={'text-2xl uppercase mb-8'}>Návrhy míst ke schválení</h1>
+
+      {placeSuggestions.map(placeSuggestion => (
+        <PlaceSuggestionBox
+          key={placeSuggestion.id}
+          className={'m-4'}
+          placeSuggestion={placeSuggestion}
+          onAccept={() => changeStatus(placeSuggestion.id, IPlaceStatus.accepted)}
+          onReject={() => changeStatus(placeSuggestion.id, IPlaceStatus.rejected)}
+        />
+      ))}
 
     </div>
   )

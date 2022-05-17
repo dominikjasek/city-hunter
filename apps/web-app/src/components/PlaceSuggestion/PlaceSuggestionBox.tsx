@@ -7,6 +7,8 @@ import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 interface IProps {
     placeSuggestion: IPlaceSuggestion
     className?: string
+    onAccept: () => void
+    onReject: () => void
 }
 
 export const PlaceSuggestionBox: FC<IProps> = (props) => {
@@ -31,9 +33,13 @@ export const PlaceSuggestionBox: FC<IProps> = (props) => {
         </h4>
         <div className={'flex flex-row my-auto justify-center items-center'}>
           <XCircleIcon
-            className={'mx-1 duration-100 text-error-100 hover:text-error-200 hover:cursor-pointer w-24'}/>
+            className={'mx-1 duration-100 text-error-100 hover:text-error-200 hover:cursor-pointer w-24'}
+            onClick={() => props.onReject()}
+          />
           <CheckCircleIcon
-            className={'mx-1 duration-100 text-success-100 hover:text-success-200 hover:cursor-pointer w-24'}/>
+            className={'mx-1 duration-100 text-success-100 hover:text-success-200 hover:cursor-pointer w-24'}
+            onClick={() => props.onAccept()}
+          />
         </div>
       </div>
       <BaseMapPicker onPointSelected={(point) => console.log(point)}
