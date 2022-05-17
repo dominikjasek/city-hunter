@@ -123,7 +123,10 @@ export function SuggestPlace() {
                                     />}
 
                 <BaseMapPicker
-                  selectedPoint={{ lat: Number(values.lat), lng: Number(values.lng) }}
+                  selectedPoint={values.lat === 0 && values.lng === 0 ? null : {
+                    lat: Number(values.lat),
+                    lng: Number(values.lng)
+                  }}
                   zoomOnPointChange={zoomOnPointChange}
                   onPointSelected={({ lat, lng }) => {
                     setFieldValue('lat', lat)
