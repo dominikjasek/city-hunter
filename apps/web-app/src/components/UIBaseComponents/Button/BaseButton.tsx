@@ -29,6 +29,7 @@ export const BaseButton: FC<IProps> = (props) => {
     <button
       type={props.type}
       disabled={props.disabled}
+      onClick={props.onClick}
       className={`px-5 py-1 shadow-md rounded-lg duration-100 ${fontStyle} ${disabledStyle} ${bgColorStyle} ${props.className}`}
     >
       {props.children}

@@ -50,8 +50,7 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
   }
 
   return (
-    <div
-      className='w-full items-center overflow-hidden md:overflow-visible md:w-auto md:flex'>
+    <div className='w-full items-center overflow-hidden md:overflow-visible md:w-auto md:flex'>
       <ul className="flex flex-col mt-4 w-full list-none md:mt-0 md:flex md:w-auto md:flex-row md:list-none md:ml-auto">
         {
           navigationMenuItems.map(item =>
