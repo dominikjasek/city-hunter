@@ -68,6 +68,7 @@ export const PlaceSuggestionBox: FC<IProps> = (props) => {
           lat: Number(props.placeSuggestion.location.lat),
           lng: Number(props.placeSuggestion.location.lng)
         }}
+        zoomOnPointChange={true}
         initialZoom={15}
         mapContainerStyle={mapContainerStyle}
       />

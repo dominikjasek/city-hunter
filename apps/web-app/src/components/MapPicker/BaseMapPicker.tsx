@@ -37,6 +37,7 @@ export const BaseMapPicker: FC<IProps> = (props) => {
     }
     setSelectedPoint(props.selectedPoint)
     if (props.zoomOnPointChange && mapRef.current) {
+      console.log('zoomOnPointChange')
       mapRef.current.panTo(props.selectedPoint)
       mapRef.current.setZoom(18)
     }
@@ -66,7 +67,7 @@ export const BaseMapPicker: FC<IProps> = (props) => {
       id="map"
       mapContainerStyle={props.mapContainerStyle}
       zoom={props.initialZoom || 12}
-      center={center}
+      center={(props.selectedPoint && props.zoomOnPointChange) ? selectedPoint : center}
       options={options}
       onClick={onMapClick}
       onLoad={onMapLoad}
