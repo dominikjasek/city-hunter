@@ -2,14 +2,14 @@ import exifr from 'exifr'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { BaseMapPicker } from '~/components/MapPicker/BaseMapPicker'
+import { MapPoint } from '~/components/MapPicker/Map.types'
 import { BaseButton } from '~/components/UIBaseComponents/Button/BaseButton'
 import { useFileRepository } from '~/infrastructure/File/FileRepository'
 import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
 
 interface IFormValues {
     name: string
-    lng: number
-    lat: number
+    location: MapPoint | null
     riddlePhotoUrl: string
     solutionPhotoUrl: string
 }
@@ -32,33 +32,36 @@ export function SuggestPlace() {
       <Formik
         initialValues={{
           name: '',
-          lng: 0,
-          lat: 0,
+          location: null,
           riddlePhotoUrl: '',
           solutionPhotoUrl: ''
         } as IFormValues}
         validate={(values) => {
           const errors = {
             name: '',
-            lng: '',
-            lat: '',
+            location: '',
             riddlePhotoUrl: '',
             solutionPhotoUrl: ''
           }
           if (!values.name) {
+            errors.riddlePhotoUrl = 'Fotka je povinná'
+          }
+          if (!values.name) {
             errors.name = 'Jméno je povinné'
           }
-          if (!values.lng) {
-            errors.lng = 'Prosím zvolte lng na mapě'
+          if (values.location === null) {
+            errors.location = 'Prosím zvolte místo na mapě'
           }
-          if (!values.lat) {
-            errors.lat = 'Prosím zvolte lat na mapě'
-          }
+          console.log(errors, values)
           return Object.values(errors).some(Boolean) ? errors : {}
         }}
         onSubmit={async (values, { setSubmitting }) => {
+          if (values.location === null) {
+            return
+          }
+
           setSubmitting(true)
-          await placeRepository.createPlaceSuggestion(values.riddlePhotoUrl, values.name, values.lat.toString(), values.lng.toString())
+          await placeRepository.createPlaceSuggestion(values.riddlePhotoUrl, values.name, values.location.lat.toString(), values.location.lng.toString())
           setSubmitting(false)
           setIsSubmitted(true)
         }}
@@ -84,8 +87,7 @@ export function SuggestPlace() {
 
                 try {
                   exifr.gps(riddlePhoto).then((gps) => {
-                    setFieldValue('lat', gps.latitude)
-                    setFieldValue('lng', gps.longitude)
+                    setFieldValue('location', { lat: gps.latitude, lng: gps.longitude })
                     setZoomOnPointChange(true)
                   })
                 } catch (e) {
@@ -125,14 +127,11 @@ export function SuggestPlace() {
                                 />}
 
               <BaseMapPicker
-                selectedPoint={values.lat === 0 && values.lng === 0 ? null : {
-                  lat: Number(values.lat),
-                  lng: Number(values.lng)
-                }}
+                selectedPoint={values.location}
                 zoomOnPointChange={zoomOnPointChange}
-                onPointSelected={({ lat, lng }) => {
-                  setFieldValue('lat', lat)
-                  setFieldValue('lng', lng)
+                onPointSelected={async (selectedMapPoint) => {
+                  console.log('onPointSelected', selectedMapPoint)
+                  setFieldValue('location', selectedMapPoint)
                   setZoomOnPointChange(false)
                 }}
                 mapContainerStyle={{
@@ -145,7 +144,7 @@ export function SuggestPlace() {
               <BaseButton
                 type={'submit'}
                 disabled={!isValid || isSubmitting}
-                className={'my-3 mx-auto'}
+                className={'my-4 mx-auto px-8 text-xl'}
                 color={'orange'}
               >
                                 NAHRÁT
