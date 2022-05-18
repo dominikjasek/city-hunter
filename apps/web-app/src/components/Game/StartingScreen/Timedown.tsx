@@ -3,6 +3,7 @@ import { Transition } from '@headlessui/react'
 import { FC, Fragment, useEffect, useState } from 'react'
 
 interface IProps {
+    onOneSecondRemaining: () => void
     onTimeElapsed: () => void
 }
 
@@ -18,7 +19,9 @@ export const Timedown: FC<IProps> = (props) => {
   }, 1000)
 
   useEffect(() => {
-    if (time === 0) {
+    if (time === 1) {
+      props.onOneSecondRemaining()
+    } else if (time === 0) {
       props.onTimeElapsed()
     }
   }, [ time ])
@@ -36,7 +39,7 @@ export const Timedown: FC<IProps> = (props) => {
             enterFrom="opacity-100 scale-[0.5]"
             enterTo="opacity-0 scale-[3]"
           >
-            <div className={'text-9xl text-orange-700'}>{time}</div>
+            <div className={'text-9xl text-orange-700 select-none'}>{time}</div>
           </Transition>))
       }
     </div>

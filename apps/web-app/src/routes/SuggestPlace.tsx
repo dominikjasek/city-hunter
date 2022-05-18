@@ -1,15 +1,15 @@
 import exifr from 'exifr'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
-import { BaseMapPicker } from '~/components/MapPicker/BaseMapPicker'
-import { MapPoint } from '~/components/MapPicker/Map.types'
+import { BaseMapPicker } from '~/components/Map/BaseMapPicker'
+import { IMapPoint } from '~/components/Map/Map.types'
 import { BaseButton } from '~/components/UIBaseComponents/Button/BaseButton'
 import { useFileRepository } from '~/infrastructure/File/FileRepository'
 import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
 
 interface IFormValues {
     name: string
-    location: MapPoint | null
+    location: IMapPoint | null
     riddlePhotoUrl: string
     solutionPhotoUrl: string
 }

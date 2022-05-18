@@ -1,4 +1,4 @@
-export interface MapPoint {
+export interface IMapPoint {
     lat: number
     lng: number
 }

@@ -32,16 +32,25 @@ export class RiddleService {
           }
         }
       },
+      include: {
+        place: {
+          select: {
+            riddlePhotoUrl: true
+          }
+        }
+      }
     })
 
     if (availableRiddles.length === 0) {
       return {
-        availability: { isAvailable: false },
+        availability: {
+          isAvailable: false,
+          message: 'Už jste odpověděli na všechny úlohy. Můžete přidat vlastní fotku a rozšířit tak databázi míst.'
+        },
       }
     }
 
-    const randomRiddle =
-            availableRiddles[Math.floor(Math.random() * availableRiddles.length)]
+    const randomRiddle = availableRiddles[Math.floor(Math.random() * availableRiddles.length)]
 
     await this.prismaService.user.update({
       where: {
@@ -55,7 +64,10 @@ export class RiddleService {
       availability: {
         isAvailable: true,
       },
-      riddle: randomRiddle,
+      riddle: {
+        id: randomRiddle.id,
+        riddlePhotoUrl: randomRiddle.place.riddlePhotoUrl,
+      },
     }
   }
 
@@ -67,6 +79,9 @@ export class RiddleService {
         where: {
           id: user.currentRiddleId,
         },
+        include: {
+          place: true,
+        }
       })
 
       if (!currentRiddle) {
@@ -77,7 +92,10 @@ export class RiddleService {
 
       return {
         availability: { isAvailable: true },
-        riddle: currentRiddle,
+        riddle: {
+          id: currentRiddle.id,
+          riddlePhotoUrl: currentRiddle.place.riddlePhotoUrl,
+        },
       }
     }
 

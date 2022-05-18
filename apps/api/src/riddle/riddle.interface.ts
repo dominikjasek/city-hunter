@@ -1,5 +1,6 @@
 export interface IRiddle {
   id: number
+  riddlePhotoUrl: string,
 }
 
 export interface IAvailability {

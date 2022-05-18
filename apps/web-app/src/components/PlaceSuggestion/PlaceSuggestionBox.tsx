@@ -2,7 +2,7 @@ import { IPlaceSuggestion } from '@api/place/types/place.types'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/outline'
 import React, { CSSProperties, FC, useState } from 'react'
 import ImageViewer from 'react-simple-image-viewer'
-import { BaseMapPicker } from '~/components/MapPicker/BaseMapPicker'
+import { BaseMapPicker } from '~/components/Map/BaseMapPicker'
 import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 
 interface IProps {

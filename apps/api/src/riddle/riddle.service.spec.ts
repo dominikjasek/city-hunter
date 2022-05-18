@@ -100,7 +100,7 @@ describe('RiddleService', () => {
       availability: { isAvailable: true },
       riddle: {
         id: 2,
-        placeId: 2,
+        riddlePhotoUrl: 'https://riddle-photo-url.com',
       },
     })
   })
@@ -110,7 +110,7 @@ describe('RiddleService', () => {
 
     const mockRiddle: IRiddleWithAvailability = {
       availability: { isAvailable: true },
-      riddle: { id: 1 },
+      riddle: { id: 1, riddlePhotoUrl: 'https://riddle-photo-url.com' },
     }
     const generateRandomRiddleForUserMock = jest.spyOn(
       riddleService,
@@ -172,7 +172,7 @@ describe('RiddleService', () => {
       availability: { isAvailable: true },
       riddle: {
         id: 2,
-        placeId: 2,
+        riddlePhotoUrl: 'https://riddle-photo-url.com',
       },
     })
     expect(user).toHaveProperty('currentRiddleId', 2)

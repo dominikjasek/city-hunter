@@ -1,6 +1,6 @@
 import { GoogleMap, GoogleMapProps, Marker, useLoadScript } from '@react-google-maps/api'
 import React, { CSSProperties, FC, useCallback, useEffect, useRef, useState } from 'react'
-import { MapPoint } from '~/components/MapPicker/Map.types'
+import { IMapPoint } from '~/components/Map/Map.types'
 import { NonUndefined } from '~/types/utility/NonUndefined'
 
 const options: GoogleMapProps['options'] = {
@@ -16,8 +16,8 @@ const center: GoogleMapProps['center'] = {
 }
 
 interface IProps {
-    onPointSelected: (_point: MapPoint) => void
-    selectedPoint: MapPoint | null
+    onPointSelected: (_point: IMapPoint) => void
+    selectedPoint: IMapPoint | null
     initialZoom?: number
     zoomOnPointChange?: boolean
     mapContainerStyle?: CSSProperties
@@ -28,7 +28,7 @@ export const BaseMapPicker: FC<IProps> = (props) => {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY,
   })
 
-  const [ selectedPoint, setSelectedPoint ] = useState<MapPoint | null>((props.selectedPoint) ? props.selectedPoint : null)
+  const [ selectedPoint, setSelectedPoint ] = useState<IMapPoint | null>((props.selectedPoint) ? props.selectedPoint : null)
 
   useEffect(() => {
     if (props.selectedPoint === null) {
@@ -47,7 +47,7 @@ export const BaseMapPicker: FC<IProps> = (props) => {
     if (!e.latLng) {
       return
     }
-    const selectedPoint: MapPoint = {
+    const selectedPoint: IMapPoint = {
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
     }
