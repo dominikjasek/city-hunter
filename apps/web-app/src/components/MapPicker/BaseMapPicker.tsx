@@ -66,7 +66,7 @@ export const BaseMapPicker: FC<IProps> = (props) => {
       id="map"
       mapContainerStyle={props.mapContainerStyle}
       zoom={props.initialZoom || 12}
-      center={selectedPoint ? selectedPoint : center}
+      center={center}
       options={options}
       onClick={onMapClick}
       onLoad={onMapLoad}
