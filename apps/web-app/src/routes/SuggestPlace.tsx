@@ -1,8 +1,8 @@
 import exifr from 'exifr'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
-import { BaseMapPicker } from '~/components/Map/BaseMapPicker'
 import { IMapPoint } from '~/components/Map/Map.types'
+import { MapPointPicker } from '~/components/Map/MapPointPicker'
 import { BaseButton } from '~/components/UIBaseComponents/Button/BaseButton'
 import { useFileRepository } from '~/infrastructure/File/FileRepository'
 import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
@@ -39,7 +39,7 @@ export function SuggestPlace() {
       }
 
       setSubmitting(true)
-      await placeRepository.createPlaceSuggestion(values.riddlePhotoUrl, values.name, values.location.lat.toString(), values.location.lng.toString())
+      await placeRepository.createPlaceSuggestion(values.riddlePhotoUrl, values.name, values.location.lat, values.location.lng)
       setSubmitting(false)
       setIsSubmitted(true)
     },
@@ -122,7 +122,7 @@ export function SuggestPlace() {
                           alt="riddle"
                         />}
 
-          <BaseMapPicker
+          <MapPointPicker
             selectedPoint={formik.values.location}
             zoomOnPointChange={zoomOnPointChange}
             onPointSelected={async (selectedMapPoint) => {

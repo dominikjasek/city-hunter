@@ -1,6 +1,6 @@
 export interface IPlaceLocation {
-  lat: string
-  lng: string
+  lat: number
+  lng: number
 }
 
 export interface IPlaceSuggestion {

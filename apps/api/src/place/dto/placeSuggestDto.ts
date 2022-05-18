@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator'
 
 export class PlaceSuggestDto {
   @ApiProperty({
@@ -11,12 +11,12 @@ export class PlaceSuggestDto {
     name: string
 
   @ApiProperty()
-  @IsString()
-    lng: string
+  @IsNumber()
+    lng: number
 
   @ApiProperty()
-  @IsString()
-    lat: string
+  @IsNumber()
+    lat: number
 
   @ApiProperty()
   @IsString()

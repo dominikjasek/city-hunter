@@ -8,7 +8,7 @@ export enum IPlaceStatus {
 }
 
 export class PlaceRepository {
-  public async createPlaceSuggestion(riddlePhotoUrl: string, name: string, lat: string, lng: string): Promise<IPlaceSuggestion> {
+  public async createPlaceSuggestion(riddlePhotoUrl: string, name: string, lat: number, lng: number): Promise<IPlaceSuggestion> {
 
     return (await axiosApiInstance.post('/places/suggest', {
       riddlePhotoUrl,

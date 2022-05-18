@@ -58,8 +58,8 @@ describe('PlaceService', () => {
   it('should create a place without solutionPhoto', async () => {
     const placeSuggestionDto: PlaceSuggestDto = {
       name: 'Test name of the place',
-      lng: '1.23',
-      lat: '2.34',
+      lng: 1.23,
+      lat: 2.34,
       riddlePhotoUrl: 'http://localhost:3000/files/test.jpg'
     }
 
@@ -76,8 +76,8 @@ describe('PlaceService', () => {
   it('should create a place with solutionPhoto', async () => {
     const placeSuggestionDto: PlaceSuggestDto = {
       name: 'Test name of the place',
-      lng: '1.23',
-      lat: '2.34',
+      lng: 1.23,
+      lat: 2.34,
       riddlePhotoUrl: 'http://localhost:3000/files/test.jpg',
       solutionPhotoUrl: 'http://localhost:3000/files/test.jpg'
     }
@@ -95,8 +95,8 @@ describe('PlaceService', () => {
   it('should update status of place', async () => {
     const placeSuggestionDto: PlaceSuggestDto = {
       name: 'Test name of the place',
-      lng: '1.23',
-      lat: '2.34',
+      lng: 1.23,
+      lat: 2.34,
       riddlePhotoUrl: 'http://localhost:3000/files/test.jpg',
       solutionPhotoUrl: 'http://localhost:3000/files/test.jpg'
     }

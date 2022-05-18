@@ -46,8 +46,8 @@ export class PlaceService {
       id: placeSuggestionResult.id,
       name: placeSuggestionResult.name,
       location: {
-        lng: placeSuggestionResult.lng.toString(),
-        lat: placeSuggestionResult.lat.toString(),
+        lng: placeSuggestionResult.lng,
+        lat: placeSuggestionResult.lat,
       },
       riddlePhotoUrl: placeSuggestionResult.riddlePhotoUrl,
       solutionPhotoUrl: placeSuggestionResult.solutionPhotoUrl ?? undefined,
@@ -87,8 +87,8 @@ export class PlaceService {
       id: place.id,
       name: place.name,
       location: {
-        lng: place.lng.toString(),
-        lat: place.lat.toString(),
+        lng: place.lng,
+        lat: place.lat,
       },
       riddlePhotoUrl: place.riddlePhotoUrl,
       solutionPhotoUrl: place.solutionPhotoUrl ?? undefined,
@@ -107,8 +107,8 @@ export class PlaceService {
       id: suggestion.id,
       name: suggestion.name,
       location: {
-        lng: suggestion.lng.toString(),
-        lat: suggestion.lat.toString(),
+        lng: suggestion.lng,
+        lat: suggestion.lat,
       },
       riddlePhotoUrl: suggestion.riddlePhotoUrl,
       solutionPhotoUrl: suggestion.solutionPhotoUrl ?? undefined,

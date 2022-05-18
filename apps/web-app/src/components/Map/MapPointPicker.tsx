@@ -23,7 +23,7 @@ interface IProps {
     mapContainerStyle?: CSSProperties
 }
 
-export const BaseMapPicker: FC<IProps> = (props) => {
+export const MapPointPicker: FC<IProps> = (props) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY,
   })

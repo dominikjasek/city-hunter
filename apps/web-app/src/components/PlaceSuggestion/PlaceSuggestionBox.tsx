@@ -2,7 +2,7 @@ import { IPlaceSuggestion } from '@api/place/types/place.types'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/outline'
 import React, { CSSProperties, FC, useState } from 'react'
 import ImageViewer from 'react-simple-image-viewer'
-import { BaseMapPicker } from '~/components/Map/BaseMapPicker'
+import { MapPoint } from '~/components/Map/MapPoint'
 import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 
 interface IProps {
@@ -63,13 +63,8 @@ export const PlaceSuggestionBox: FC<IProps> = (props) => {
           onClose={() => setIsViewerOpen(false)}
         />
       )}
-      <BaseMapPicker onPointSelected={(point) => console.log(point)}
-        selectedPoint={{
-          lat: Number(props.placeSuggestion.location.lat),
-          lng: Number(props.placeSuggestion.location.lng)
-        }}
-        zoomOnPointChange={true}
-        initialZoom={15}
+      <MapPoint
+        point={props.placeSuggestion.location}
         mapContainerStyle={mapContainerStyle}
       />
     </div>
