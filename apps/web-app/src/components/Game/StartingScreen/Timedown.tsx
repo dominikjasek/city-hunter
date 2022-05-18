@@ -24,7 +24,7 @@ export const Timedown: FC<IProps> = (props) => {
   }, [ time ])
 
   return (
-    <div className={'h-full flex flex-col justify-center items-center'}>
+    <div className={'flex-grow flex flex-col justify-center items-center'}>
       {
         transitionArray.map((secondsRemaining) => (
           secondsRemaining === time && time > 0 && <Transition
