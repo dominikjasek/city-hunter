@@ -6,11 +6,9 @@ import '~/styles/tailwind.css'
 function App() {
 
   return (
-    <div className="app h-screen flex flex-col overflow-hidden">
+    <div className="app flex flex-col overflow-hidden">
       <Navigation/>
-      <div className="h-full">
-        <Outlet/>
-      </div>
+      <Outlet/>
     </div>
   )
 }
