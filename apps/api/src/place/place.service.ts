@@ -26,8 +26,8 @@ export class PlaceService {
     const placeSuggestionArgs: Prisma.PlaceCreateArgs = {
       data: {
         authorId: userId,
-        lat: placeSuggestionDto.lat,
-        lng: placeSuggestionDto.lng,
+        lat: placeSuggestionDto.location.lat,
+        lng: placeSuggestionDto.location.lng,
         name: placeSuggestionDto.name,
         riddlePhotoUrl: placeSuggestionDto.riddlePhotoUrl,
         solutionPhotoUrl: placeSuggestionDto.solutionPhotoUrl,

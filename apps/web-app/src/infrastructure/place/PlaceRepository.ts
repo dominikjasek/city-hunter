@@ -1,5 +1,5 @@
-import { IPlaceSuggestion } from '@api/place/types/place.types'
 import { axiosApiInstance } from '~/infrastructure/axios/axios'
+import { IPlaceSuggestBody, IPlaceSuggestion } from '~/infrastructure/place/Place.types'
 
 export enum IPlaceStatus {
     pending = 'pending',
@@ -8,23 +8,17 @@ export enum IPlaceStatus {
 }
 
 export class PlaceRepository {
-  public async createPlaceSuggestion(riddlePhotoUrl: string, name: string, lat: number, lng: number): Promise<IPlaceSuggestion> {
-
-    return (await axiosApiInstance.post('/places/suggest', {
-      riddlePhotoUrl,
-      name,
-      lat,
-      lng
-    })).data
+  public async createPlaceSuggestion(suggestPlaceBody: IPlaceSuggestBody): Promise<IPlaceSuggestion> {
+    return (await axiosApiInstance.post('/place/suggest', suggestPlaceBody)).data
   }
 
   public async getPlaceSuggestions(status?: IPlaceStatus): Promise<IPlaceSuggestion[]> {
     const statusPath = status ? `/${status}` : ''
-    return (await axiosApiInstance.get(`/places${statusPath}`)).data
+    return (await axiosApiInstance.get(`/place${statusPath}`)).data
   }
 
   public async changePlaceSuggestionStatus(suggestionId: number, status: IPlaceStatus): Promise<IPlaceSuggestion[]> {
-    return (await axiosApiInstance.post('/places/change-status', {
+    return (await axiosApiInstance.post('/place/change-status', {
       id: suggestionId,
       status
     })).data

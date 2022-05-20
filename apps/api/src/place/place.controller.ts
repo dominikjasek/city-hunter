@@ -7,7 +7,7 @@ import { PlaceSuggestDto } from '~/place/dto/placeSuggestDto'
 import { PlaceService } from '~/place/place.service'
 import { IPlaceSuggestion } from '~/place/types/place.types'
 
-@Controller('places')
+@Controller('place')
 export class PlaceController {
   constructor(
     private readonly placeService: PlaceService,
@@ -19,6 +19,7 @@ export class PlaceController {
     @GetCurrentUserId() userId: number,
       @Body() placeSuggestionDto: PlaceSuggestDto,
   ): Promise<IPlaceSuggestion> {
+    console.log(placeSuggestionDto)
     return await this.placeService.createPlace(userId, placeSuggestionDto)
   }
 

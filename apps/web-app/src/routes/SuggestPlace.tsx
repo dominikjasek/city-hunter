@@ -5,6 +5,7 @@ import { IMapPoint } from '~/components/Map/Map.types'
 import { MapPointPicker } from '~/components/Map/MapPointPicker'
 import { BaseButton } from '~/components/UIBaseComponents/Button/BaseButton'
 import { useFileRepository } from '~/infrastructure/File/FileRepository'
+import { IPlaceSuggestBody } from '~/infrastructure/place/Place.types'
 import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
 
 interface IFormValues {
@@ -38,8 +39,17 @@ export function SuggestPlace() {
         return
       }
 
+      const placePayload: IPlaceSuggestBody = {
+        location: {
+          lat: values.location.lat,
+          lng: values.location.lng
+        },
+        name: values.name,
+        riddlePhotoUrl: values.riddlePhotoUrl,
+      }
+
       setSubmitting(true)
-      await placeRepository.createPlaceSuggestion(values.riddlePhotoUrl, values.name, values.location.lat, values.location.lng)
+      await placeRepository.createPlaceSuggestion(placePayload)
       setSubmitting(false)
       setIsSubmitted(true)
     },

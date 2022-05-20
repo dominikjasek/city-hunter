@@ -58,8 +58,10 @@ describe('PlaceService', () => {
   it('should create a place without solutionPhoto', async () => {
     const placeSuggestionDto: PlaceSuggestDto = {
       name: 'Test name of the place',
-      lng: 1.23,
-      lat: 2.34,
+      location: {
+        lng: 1.23,
+        lat: 2.34,
+      },
       riddlePhotoUrl: 'http://localhost:3000/files/test.jpg'
     }
 
@@ -67,8 +69,8 @@ describe('PlaceService', () => {
 
     expect(place).toBeDefined()
     expect(place.name).toBe(placeSuggestionDto.name)
-    expect(place.location.lng).toBe(placeSuggestionDto.lng)
-    expect(place.location.lat).toBe(placeSuggestionDto.lat)
+    expect(place.location.lng).toBe(placeSuggestionDto.location.lng)
+    expect(place.location.lat).toBe(placeSuggestionDto.location.lat)
     expect(place.riddlePhotoUrl).toBe('http://localhost:3000/files/test.jpg')
     expect(place.solutionPhotoUrl).toBeNull()
   })
@@ -76,8 +78,10 @@ describe('PlaceService', () => {
   it('should create a place with solutionPhoto', async () => {
     const placeSuggestionDto: PlaceSuggestDto = {
       name: 'Test name of the place',
-      lng: 1.23,
-      lat: 2.34,
+      location: {
+        lng: 1.23,
+        lat: 2.34
+      },
       riddlePhotoUrl: 'http://localhost:3000/files/test.jpg',
       solutionPhotoUrl: 'http://localhost:3000/files/test.jpg'
     }
@@ -86,8 +90,8 @@ describe('PlaceService', () => {
 
     expect(place).toBeDefined()
     expect(place.name).toBe(placeSuggestionDto.name)
-    expect(place.location.lng).toBe(placeSuggestionDto.lng)
-    expect(place.location.lat).toBe(placeSuggestionDto.lat)
+    expect(place.location.lng).toBe(placeSuggestionDto.location.lng)
+    expect(place.location.lat).toBe(placeSuggestionDto.location.lat)
     expect(place.riddlePhotoUrl).toBe('http://localhost:3000/files/test.jpg')
     expect(place.solutionPhotoUrl).toBe('http://localhost:3000/files/test.jpg')
   })
