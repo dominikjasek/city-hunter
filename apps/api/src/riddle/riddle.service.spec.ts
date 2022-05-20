@@ -113,7 +113,7 @@ describe('RiddleService', () => {
       riddle: { id: 1, riddlePhotoUrl: 'https://riddle-photo-url.com' },
     }
     const generateRandomRiddleForUserMock = jest.spyOn(
-      riddleService,
+      RiddleService.prototype as any,
       'generateRandomRiddleForUser',
     )
     generateRandomRiddleForUserMock.mockResolvedValueOnce(mockRiddle)

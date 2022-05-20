@@ -12,7 +12,7 @@ export class RiddleService {
   ) {
   }
 
-  async generateRandomRiddleForUser(
+  private async generateRandomRiddleForUser(
     user: User,
   ): Promise<IRiddleWithAvailability> {
     const availableRiddles = await this.prismaService.riddle.findMany({
