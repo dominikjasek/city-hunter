@@ -12,7 +12,7 @@
         "./src/*"
       ],
       "@shared/*": [
-        "./../shared/*"
+        "./src/_shared/*"
       ]
     },
     "sourceMap": true,
