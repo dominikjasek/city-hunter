@@ -1,7 +1,9 @@
-export interface IPlaceLocation {
-    lat: number
-    lng: number
-}
+// export interface IPlaceLocation {
+//     lat: number
+//     lng: number
+// }
+
+import { IPlaceLocation } from '@shared/types/Place/Place.types'
 
 export interface IPlaceSuggestBody {
     name: string
