@@ -115,7 +115,6 @@ export class RiddleService {
     })
   }
 
-  //TODO: tests
   async createRiddle(placeId: number): Promise<Riddle> {
     return await this.createRiddleTransaction(placeId)
   }
