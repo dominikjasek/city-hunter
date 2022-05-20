@@ -24,6 +24,5 @@ module.exports = {
         "object-curly-spacing": ["error", "always"],
         "no-multiple-empty-lines": ["error", {"max": 1, "maxEOF": 0}],
         "@typescript-eslint/ban-ts-comment": "off"
-
     },
 };

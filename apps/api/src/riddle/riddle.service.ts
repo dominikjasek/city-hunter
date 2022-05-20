@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { Riddle, User } from '@prisma/client'
 import { PrismaService } from '~/prisma/prisma.service'
 import { IRiddleWithAvailability } from '~/riddle/riddle.interface'
@@ -103,19 +103,8 @@ export class RiddleService {
     return newRiddle
   }
 
-  //TODO: tests
-  async createRiddle(placeId: number): Promise<Riddle> {
-    const existingRiddle = await this.prismaService.riddle.findUnique({
-      where: {
-        placeId,
-      },
-    })
-
-    if (existingRiddle) {
-      throw new HttpException('Riddle already exists', 400)
-    }
-
-    return await this.prismaService.riddle.create({
+  async createRiddleTransaction(placeId: number) {
+    return this.prismaService.riddle.create({
       data: {
         place: {
           connect: {
@@ -124,5 +113,10 @@ export class RiddleService {
         }
       },
     })
+  }
+
+  //TODO: tests
+  async createRiddle(placeId: number): Promise<Riddle> {
+    return await this.createRiddleTransaction(placeId)
   }
 }

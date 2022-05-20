@@ -70,7 +70,7 @@ describe('PlaceService', () => {
     expect(place.location.lng).toBe(placeSuggestionDto.lng)
     expect(place.location.lat).toBe(placeSuggestionDto.lat)
     expect(place.riddlePhotoUrl).toBe('http://localhost:3000/files/test.jpg')
-    expect(place.solutionPhotoUrl).toBeUndefined()
+    expect(place.solutionPhotoUrl).toBeNull()
   })
 
   it('should create a place with solutionPhoto', async () => {
@@ -92,20 +92,4 @@ describe('PlaceService', () => {
     expect(place.solutionPhotoUrl).toBe('http://localhost:3000/files/test.jpg')
   })
 
-  it('should update status of place', async () => {
-    const placeSuggestionDto: PlaceSuggestDto = {
-      name: 'Test name of the place',
-      lng: 1.23,
-      lat: 2.34,
-      riddlePhotoUrl: 'http://localhost:3000/files/test.jpg',
-      solutionPhotoUrl: 'http://localhost:3000/files/test.jpg'
-    }
-
-    const createdPlace = await placeService.createPlace(userId, placeSuggestionDto)
-
-    await placeService.updateStatus(createdPlace.id, 'accepted')
-    const place = await prisma.place.findUnique({ where: { id: createdPlace.id } })
-
-    expect(place).toHaveProperty('status', 'accepted')
-  })
 })

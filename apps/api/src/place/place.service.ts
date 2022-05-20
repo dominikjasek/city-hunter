@@ -26,8 +26,8 @@ export class PlaceService {
     const placeSuggestionArgs: Prisma.PlaceCreateArgs = {
       data: {
         authorId: userId,
-        lat: Number(placeSuggestionDto.lat),
-        lng: Number(placeSuggestionDto.lng),
+        lat: placeSuggestionDto.lat,
+        lng: placeSuggestionDto.lng,
         name: placeSuggestionDto.name,
         riddlePhotoUrl: placeSuggestionDto.riddlePhotoUrl,
         solutionPhotoUrl: placeSuggestionDto.solutionPhotoUrl,
@@ -50,22 +50,11 @@ export class PlaceService {
         lat: placeSuggestionResult.lat,
       },
       riddlePhotoUrl: placeSuggestionResult.riddlePhotoUrl,
-      solutionPhotoUrl: placeSuggestionResult.solutionPhotoUrl ?? undefined,
+      solutionPhotoUrl: placeSuggestionResult.solutionPhotoUrl,
     }
   }
 
-  async updateStatus(placeId: number, newStatus: PlaceStatus) {
-    return await this.prisma.place.update({
-      where: {
-        id: placeId,
-      },
-      data: {
-        status: newStatus,
-      },
-    })
-  }
-
-  async changeStatus(placeChangeStatusDto: PlaceChangeStatusDto) {
+  async changeStatus(placeChangeStatusDto: PlaceChangeStatusDto): Promise<IPlaceSuggestion> {
     const place = await this.prisma.place.update({
       where: {
         id: placeChangeStatusDto.id,
@@ -75,6 +64,7 @@ export class PlaceService {
       },
     })
 
+    // this can be done using RabbitMQ in the future
     switch (placeChangeStatusDto.status) {
       case PlaceStatus.accepted:
         await this.riddleService.createRiddle(placeChangeStatusDto.id)
@@ -91,7 +81,7 @@ export class PlaceService {
         lat: place.lat,
       },
       riddlePhotoUrl: place.riddlePhotoUrl,
-      solutionPhotoUrl: place.solutionPhotoUrl ?? undefined,
+      solutionPhotoUrl: place.solutionPhotoUrl,
     }
 
   }
@@ -111,7 +101,7 @@ export class PlaceService {
         lat: suggestion.lat,
       },
       riddlePhotoUrl: suggestion.riddlePhotoUrl,
-      solutionPhotoUrl: suggestion.solutionPhotoUrl ?? undefined,
+      solutionPhotoUrl: suggestion.solutionPhotoUrl,
     }))
   }
 }
