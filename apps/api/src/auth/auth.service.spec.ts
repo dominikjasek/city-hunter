@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { Prisma, User } from '@prisma/client'
+import { ITokens } from '@shared/types/Auth/Auth.types'
 import { decode } from 'jsonwebtoken'
 import { AppModule } from '~/app.module'
 import { AuthService } from '~/auth/auth.service'
-import { ITokens } from '~/auth/types/auth.type'
 import { PrismaService } from '~/prisma/prisma.service'
 
 const userCreateObj: Prisma.UserCreateArgs = {

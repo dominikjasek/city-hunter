@@ -1,4 +1,4 @@
-import { IPlaceSuggestion } from '@api/place/types/place.types'
+import { IPlaceSuggestion } from '@shared/types/Place/Place.types'
 import React, { useEffect, useState } from 'react'
 import { PlaceSuggestionBox } from '~/components/PlaceSuggestion/PlaceSuggestionBox'
 import { IPlaceStatus, usePlaceRepository } from '~/infrastructure/place/PlaceRepository'

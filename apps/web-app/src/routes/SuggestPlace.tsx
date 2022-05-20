@@ -1,3 +1,4 @@
+import { IPlaceSuggestBody } from '@shared/types/Place/Place.types'
 import exifr from 'exifr'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
@@ -5,7 +6,6 @@ import { IMapPoint } from '~/components/Map/Map.types'
 import { MapPointPicker } from '~/components/Map/MapPointPicker'
 import { BaseButton } from '~/components/UIBaseComponents/Button/BaseButton'
 import { useFileRepository } from '~/infrastructure/File/FileRepository'
-import { IPlaceSuggestBody } from '~/infrastructure/place/Place.types'
 import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
 
 interface IFormValues {

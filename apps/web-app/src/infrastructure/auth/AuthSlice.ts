@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { initialState, ITokens, IUser } from '~/infrastructure/auth/auth.types'
+import { ITokens } from '@shared/types/Auth/Auth.types'
+import { initialState, IUser } from '~/infrastructure/auth/auth.types'
 import { AuthLocalStorage } from '~/infrastructure/auth/AuthLocalStorage'
 
 const authLocalStorage = new AuthLocalStorage()

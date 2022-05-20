@@ -1,7 +1,8 @@
 import { Store } from '@reduxjs/toolkit'
+import { ITokens } from '@shared/types/Auth/Auth.types'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
-import { initialState, ITokens } from '~/infrastructure/auth/auth.types'
+import { initialState } from '~/infrastructure/auth/auth.types'
 import { setTokens, setUser } from '~/infrastructure/auth/AuthSlice'
 import { IJwtDecoded } from '~/infrastructure/axios/axios.types'
 

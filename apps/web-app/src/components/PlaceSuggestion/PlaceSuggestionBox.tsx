@@ -1,5 +1,5 @@
-import { IPlaceSuggestion } from '@api/place/types/place.types'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/outline'
+import { IPlaceSuggestion } from '@shared/types/Place/Place.types'
 import React, { CSSProperties, FC, useState } from 'react'
 import ImageViewer from 'react-simple-image-viewer'
 import { MapPoint } from '~/components/Map/MapPoint'

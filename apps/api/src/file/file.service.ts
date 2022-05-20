@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
+import { IFile } from '@shared/types/File/File.types'
 import * as S3 from 'aws-sdk/clients/s3'
 import * as stream from 'stream'
 import { v4 as uuid } from 'uuid'
-import { IFile } from '~/file/types/file.types'
 
 @Injectable()
 export class FileService {

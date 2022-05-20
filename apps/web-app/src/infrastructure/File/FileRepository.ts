@@ -1,4 +1,4 @@
-import { IFile } from '@api/file/types/file.types'
+import { IFile } from '@shared/types/File/File.types'
 import { axiosApiInstance } from '~/infrastructure/axios/axios'
 import { ImageCompressor } from '~/infrastructure/File/Image/ImageCompress/ImageCompressor'
 

@@ -1,4 +1,4 @@
-import { IRiddleWithAvailability } from '@api/riddle/riddle.interface'
+import { IRiddleWithAvailability } from '@shared/types/Riddle/Riddle.types'
 import React, { FC, useState } from 'react'
 import { Riddle } from '~/components/Game/GameScreen/Riddle'
 import { PressToPlay } from '~/components/Game/StartingScreen/PressToPlay'

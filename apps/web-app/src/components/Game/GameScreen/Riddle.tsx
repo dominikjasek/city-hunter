@@ -1,5 +1,5 @@
+import { IRiddle } from '@shared/types/Riddle/Riddle.types'
 import React, { FC } from 'react'
-import { IRiddle } from '~/infrastructure/riddle/Riddle.types'
 
 interface IProps {
     riddle: IRiddle

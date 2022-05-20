@@ -13,7 +13,7 @@ export const Timedown: FC<IProps> = (props) => {
   const transitionArray = [ ...Array(TIMEDOWN_DURATION).keys() ].map(i => i + 1)
   const [ time, setTime ] = useState<number>(TIMEDOWN_DURATION)
 
-  const timeInterval = setInterval(() => {
+  const timeInterval: any = setInterval(() => {
     setTime(time - 1)
     return clearInterval(timeInterval)
   }, 1000)

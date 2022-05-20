@@ -10,6 +10,9 @@
     "paths": {
       "~/*": [
         "./src/*"
+      ],
+      "@shared/*": [
+        "./../shared/*"
       ]
     },
     "sourceMap": true,
@@ -23,6 +26,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "strict": true,
-    "strictPropertyInitialization": false   //Nestjs DTO doesnt need to be initialized
+    "strictPropertyInitialization": false
+    //Nestjs DTO doesnt need to be initialized
   }
 }

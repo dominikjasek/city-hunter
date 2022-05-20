@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post, UseGuards, } from '@nestjs/common'
+import { IPlaceSuggestion } from '@shared/types/Place/Place.types'
 import { GetCurrentUserId } from '~/auth/common/decorators'
 import { AdminGuard } from '~/auth/strategy/admin/admin.guard'
 import { PlaceChangeStatusDto } from '~/place/dto/placeChangeStatusDto'
 import { PlaceGetSuggestionsDto } from '~/place/dto/placeGetSuggestionsDto'
 import { PlaceSuggestDto } from '~/place/dto/placeSuggestDto'
 import { PlaceService } from '~/place/place.service'
-import { IPlaceSuggestion } from '~/place/types/place.types'
 
 @Controller('place')
 export class PlaceController {

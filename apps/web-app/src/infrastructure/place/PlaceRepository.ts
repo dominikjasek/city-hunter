@@ -1,5 +1,5 @@
+import { IPlaceSuggestBody, IPlaceSuggestion } from '@shared/types/Place/Place.types'
 import { axiosApiInstance } from '~/infrastructure/axios/axios'
-import { IPlaceSuggestBody, IPlaceSuggestion } from '~/infrastructure/place/Place.types'
 
 export enum IPlaceStatus {
     pending = 'pending',

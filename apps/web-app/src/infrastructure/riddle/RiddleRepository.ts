@@ -1,4 +1,4 @@
-import { IRiddleWithAvailability } from '@api/riddle/riddle.interface'
+import { IRiddleWithAvailability } from '@shared/types/Riddle/Riddle.types'
 import { axiosApiInstance } from '~/infrastructure/axios/axios'
 
 export class RiddleRepository {

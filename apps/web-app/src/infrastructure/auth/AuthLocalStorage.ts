@@ -1,4 +1,5 @@
-import { IAuthReducer, ITokens, IUser } from '~/infrastructure/auth/auth.types'
+import { ITokens } from '@shared/types/Auth/Auth.types'
+import { IAuthReducer, IUser } from '~/infrastructure/auth/auth.types'
 import { LocalStorage } from '~/infrastructure/localStorage/localStorage'
 
 export class AuthLocalStorage {

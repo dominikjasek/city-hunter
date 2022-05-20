@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { PlaceStatus, Prisma } from '@prisma/client'
+import { IPlaceSuggestion } from '@shared/types/Place/Place.types'
 import { FileService } from '~/file/file.service'
 import { PlaceChangeStatusDto } from '~/place/dto/placeChangeStatusDto'
 import { PlaceSuggestDto } from '~/place/dto/placeSuggestDto'
-import { IPlaceSuggestion } from '~/place/types/place.types'
 import { PrismaService } from '~/prisma/prisma.service'
 import { RiddleService } from '~/riddle/riddle.service'
 

@@ -1,3 +1,5 @@
+import { ITokens } from '@shared/types/Auth/Auth.types'
+
 export enum UserRole {
     user = 'user',
     admin = 'admin',
@@ -9,11 +11,6 @@ export interface IUser {
     email: string
     role: UserRole
     photoUrl: string
-}
-
-export interface ITokens {
-    access_token: string
-    refresh_token: string
 }
 
 export type IAuthReducer = {

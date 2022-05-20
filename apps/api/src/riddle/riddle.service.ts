@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Riddle, User } from '@prisma/client'
+import { IRiddleWithAvailability } from '@shared/types/Riddle/Riddle.types'
 import { PrismaService } from '~/prisma/prisma.service'
-import { IRiddleWithAvailability } from '~/riddle/riddle.interface'
 import { UsersService } from '~/users/users.service'
 
 @Injectable()
