@@ -1,11 +1,12 @@
 import { IFile } from '@shared/types/File/File.types'
-import { axiosApiInstance } from '~/infrastructure/axios/axios'
+import { AxiosInstance } from 'axios'
+import { useAxios } from '~/infrastructure/ApiRepository/axios/axios'
 import { ImageCompressor } from '~/infrastructure/File/Image/ImageCompress/ImageCompressor'
 
 export class FileRepository {
   private readonly imageCompressor: ImageCompressor
 
-  constructor() {
+  constructor(private readonly axios: AxiosInstance) {
     this.imageCompressor = new ImageCompressor()
   }
 
@@ -19,10 +20,12 @@ export class FileRepository {
       compressedFile.name
     )
 
-    return (await axiosApiInstance.post('/file/upload', formData)).data
+    return (await this.axios.post('/file/upload', formData)).data
   }
 }
 
 export const useFileRepository = () => {
-  return new FileRepository()
+  const axios = useAxios()
+
+  return new FileRepository(axios)
 }

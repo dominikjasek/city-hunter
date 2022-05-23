@@ -1,26 +1,20 @@
 import { Module } from '@nestjs/common'
-import { PassportModule } from '@nestjs/passport'
+import { APP_GUARD } from '@nestjs/core'
 import { AuthController } from '~/auth/auth.controller'
 import { AuthService } from '~/auth/auth.service'
-import { AccessTokenStrategy } from '~/auth/strategy/access-token/access-token.strategy'
-import { AdminStrategy } from '~/auth/strategy/admin/admin.strategy'
-import { JwtService } from '~/auth/strategy/jwt/jwt.service'
-import { GoogleAuthController } from '~/auth/strategy/providers/google/google.controller'
-import { GoogleStrategy } from '~/auth/strategy/providers/google/google.strategy'
-import { RefreshTokenStrategy } from '~/auth/strategy/refresh-token/refresh-token.strategy'
+import { AuthorizationGuard } from '~/auth/guards/index'
 import { UsersModule } from '~/users/users.module'
 
 @Module({
-  imports: [UsersModule, PassportModule],
+  imports: [UsersModule],
   providers: [
     AuthService,
-    GoogleStrategy,
-    AccessTokenStrategy,
-    RefreshTokenStrategy,
-    AdminStrategy,
-    JwtService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthorizationGuard,
+    },
   ],
-  controllers: [AuthController, GoogleAuthController],
+  controllers: [AuthController],
 })
 export class AuthModule {
 }

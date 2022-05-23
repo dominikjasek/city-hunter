@@ -71,7 +71,7 @@ export class RiddleService {
     }
   }
 
-  async getRiddleForUserId(userId: number): Promise<IRiddleWithAvailability> {
+  async getRiddleForUserId(userId: string): Promise<IRiddleWithAvailability> {
     const user = await this.userService.getById(userId)
 
     if (user.currentRiddleId) {

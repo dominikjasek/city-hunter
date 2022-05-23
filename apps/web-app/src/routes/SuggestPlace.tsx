@@ -5,8 +5,8 @@ import React, { useState } from 'react'
 import { IMapPoint } from '~/components/Map/Map.types'
 import { MapPointPicker } from '~/components/Map/MapPointPicker'
 import { BaseButton } from '~/components/UIBaseComponents/Button/BaseButton'
-import { useFileRepository } from '~/infrastructure/File/FileRepository'
-import { usePlaceRepository } from '~/infrastructure/place/PlaceRepository'
+import { useFileRepository } from '~/infrastructure/ApiRepository/FileRepository'
+import { usePlaceRepository } from '~/infrastructure/ApiRepository/PlaceRepository'
 
 interface IFormValues {
     name: string

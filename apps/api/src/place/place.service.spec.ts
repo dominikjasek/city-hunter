@@ -7,7 +7,7 @@ import { PrismaService } from '~/prisma/prisma.service'
 import { RiddleModule } from '~/riddle/riddle.module'
 
 describe('PlaceService', () => {
-  let userId = 0  // initial value - will be resolved in beforeEach
+  let userId = ''  // initial value - will be resolved in beforeEach
   let prisma: PrismaService
   let placeService: PlaceService
   let fileService: FileService
@@ -40,10 +40,8 @@ describe('PlaceService', () => {
       data: {
         firstName: 'John',
         lastName: 'Doe',
-        photoUrl: 'https://photo-url.com',
-        provider: 'google',
+        id: '123',
         email: 'john.doe@gmail.com',
-        thirdPartyId: '211321342',
         currentRiddleId: null,
       },
     })

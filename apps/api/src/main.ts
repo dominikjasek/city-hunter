@@ -4,6 +4,8 @@ import { DocumentBuilder, OpenAPIObject, SwaggerCustomOptions, SwaggerModule } f
 import { AppModule } from '~/app.module'
 
 async function bootstrap() {
+  console.log(process.env.AUTH0_AUDIENCE)
+
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('newrelic')
 

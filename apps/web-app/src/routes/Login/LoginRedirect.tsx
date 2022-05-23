@@ -1,37 +1,36 @@
-import { ITokens } from '@shared/types/Auth/Auth.types'
+import { useAuth0 } from '@auth0/auth0-react'
+import { LoginRequest } from '@shared/types/Auth/Auth.types'
 import { useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { IUser, UserRole } from '~/infrastructure/auth/auth.types'
-import { useAuthStore } from '~/infrastructure/auth/AuthStore'
+import { useAuthRepository } from '~/infrastructure/ApiRepository/AuthRepository'
 
-const LoginRedirect = () => {
-  const { auth } = useAuthStore()
-  const navigate = useNavigate()
-  const [ searchParams ] = useSearchParams()
+export const LoginRedirect = () => {
+  const { user } = useAuth0()
+  const { login } = useAuthRepository()
 
-  const user: IUser = {
-    id: Number(searchParams.get('id')),
-    name: {
-      firstName: searchParams.get('firstName') ?? '',
-      lastName: searchParams.get('lastName') ?? '',
-    },
-    email: searchParams.get('email') ?? '',
-    role: searchParams.get('role') as UserRole ?? '',
-    photoUrl: searchParams.get('photoUrl') ?? '',
-  }
+  const onLogin = async () => {
+    if (!user) {
+      return
+    }
 
-  const tokens: ITokens = {
-    access_token: searchParams.get('access_token') ?? '',
-    refresh_token: searchParams.get('refresh_token') ?? '',
+    const loginRequest: LoginRequest = {
+      email: user?.email || '',
+      firstName: user.given_name || '',
+      lastName: user.family_name || '',
+      sub: user.sub || '',
+    }
+    await login(loginRequest)
   }
 
   useEffect(() => {
-    auth.setUser(user)
-    auth.setTokens(tokens)
-    navigate('/')
-  }, [])
+    onLogin()
+  }, [ user ])
 
-  return (<></>)
+  return (
+    <div>
+            LoginRedirect
+      <div>
+        <pre>{JSON.stringify(user, null, 2)}</pre>
+      </div>
+    </div>
+  )
 }
-
-export default LoginRedirect

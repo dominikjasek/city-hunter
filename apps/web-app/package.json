@@ -12,6 +12,7 @@
     "stylelint:fix": "npm run stylelint -- --fix"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.10.1",
     "@headlessui/react": "^1.6.0",
     "@heroicons/react": "^1.0.6",
     "@react-google-maps/api": "^2.10.2",

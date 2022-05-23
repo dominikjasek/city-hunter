@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react'
 import { Riddle } from '~/components/Game/GameScreen/Riddle'
 import { PressToPlay } from '~/components/Game/StartingScreen/PressToPlay'
 import { Timedown } from '~/components/Game/StartingScreen/Timedown'
-import { useRiddleRepository } from '~/infrastructure/riddle/RiddleRepository'
+import { useRiddleRepository } from '~/infrastructure/ApiRepository/RiddleRepository'
 
 enum GameState {
     START_SCREEN = 'START_SCREEN',

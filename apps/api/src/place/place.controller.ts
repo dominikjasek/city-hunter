@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Param, Post, UseGuards, } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, } from '@nestjs/common'
 import { IPlaceSuggestion } from '@shared/types/Place/Place.types'
 import { GetCurrentUserId } from '~/auth/common/decorators'
-import { AdminGuard } from '~/auth/strategy/admin/admin.guard'
 import { PlaceChangeStatusDto } from '~/place/dto/placeChangeStatusDto'
 import { PlaceGetSuggestionsDto } from '~/place/dto/placeGetSuggestionsDto'
 import { PlaceSuggestDto } from '~/place/dto/placeSuggestDto'
@@ -16,7 +15,7 @@ export class PlaceController {
 
   @Post('suggest')
   async create(
-    @GetCurrentUserId() userId: number,
+    @GetCurrentUserId() userId: string,
       @Body() placeSuggestionDto: PlaceSuggestDto,
   ): Promise<IPlaceSuggestion> {
     console.log(placeSuggestionDto)
@@ -31,7 +30,7 @@ export class PlaceController {
   }
 
   @Post('change-status')
-  @UseGuards(AdminGuard)
+  // @UseGuards(AuthorizationGuard)
   async changeStatus(
     @Body() placeChangeStatusDto: PlaceChangeStatusDto,
   ): Promise<IPlaceSuggestion> {

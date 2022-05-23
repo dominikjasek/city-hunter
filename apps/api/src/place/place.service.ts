@@ -22,7 +22,7 @@ export class PlaceService {
     return true
   }
 
-  async createPlace(userId: number, placeSuggestionDto: PlaceSuggestDto): Promise<IPlaceSuggestion> {
+  async createPlace(userId: string, placeSuggestionDto: PlaceSuggestDto): Promise<IPlaceSuggestion> {
     const placeSuggestionArgs: Prisma.PlaceCreateArgs = {
       data: {
         authorId: userId,

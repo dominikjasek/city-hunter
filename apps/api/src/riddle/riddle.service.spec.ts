@@ -1,12 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { LoginProvider } from '@prisma/client'
 import { IRiddleWithAvailability } from '@shared/types/Riddle/Riddle.types'
 import { PrismaService } from '~/prisma/prisma.service'
 import { UsersService } from '~/users/users.service'
 import { RiddleService } from './riddle.service'
 
 describe('RiddleService', () => {
-  let userId = 0
+  let userId = 'id'
   let prisma: PrismaService
   let riddleService: RiddleService
   let module: TestingModule
@@ -27,10 +26,8 @@ describe('RiddleService', () => {
       data: {
         firstName: 'John',
         lastName: 'Doe',
-        photoUrl: 'https://photo-url.com',
-        provider: LoginProvider.google,
         email: 'john.doe@gmail.com',
-        thirdPartyId: '211321342',
+        id: userId,
         currentRiddleId: null,
       },
     })

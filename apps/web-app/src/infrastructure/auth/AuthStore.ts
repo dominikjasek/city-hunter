@@ -1,20 +1,23 @@
+import { useAuth0 } from '@auth0/auth0-react'
 import { AnyAction, Dispatch, ThunkDispatch } from '@reduxjs/toolkit'
 import { ITokens } from '@shared/types/Auth/Auth.types'
 import { useNavigate } from 'react-router-dom'
-import { IAuthReducer, initialState, IUser, UserRole } from '~/infrastructure/auth/auth.types'
+import { IAuthRepository, useAuthRepository } from '~/infrastructure/ApiRepository/AuthRepository'
+import { IAuthReducer, IUser, UserRole } from '~/infrastructure/auth/auth.types'
 import { setTokens, setUser } from '~/infrastructure/auth/AuthSlice'
-import { AuthRepository } from '~/infrastructure/auth/repository/UseAuthRepository'
 import { useAppDispatch, useAppSelector } from '~/store/UseAppStore'
 
 export class AuthStore {
   private readonly _auth: IAuthReducer
   private readonly _dispatch: ThunkDispatch<{ auth: IAuthReducer }, undefined, AnyAction> & Dispatch<AnyAction>
-  private readonly _authRepository = new AuthRepository()
   private readonly _navigate = useNavigate()
+  private readonly _loginWithRedirect: any
 
-  constructor() {
+  constructor(private readonly _authRepository: IAuthRepository) {
     this._auth = useAppSelector((state) => state.auth)
     this._dispatch = useAppDispatch()
+    const { loginWithRedirect } = useAuth0()
+    this._loginWithRedirect = loginWithRedirect
   }
 
   public get user(): IUser | null {
@@ -45,20 +48,16 @@ export class AuthStore {
     this._dispatch(setTokens(tokens))
   }
 
-  public loginWithGoogle(): void {
-    window.location.href = `${import.meta.env.VITE_REACT_APP_API_URL}/auth/google-login`
+  public login() {
+    this._loginWithRedirect()
   }
 
-  public async logout(): Promise<void> {
-    await this._authRepository.logout()
-    this._dispatch(setTokens(initialState.tokens))
-    this._dispatch(setUser(initialState.user))
-    this._navigate('/')
-  }
 }
 
 export const useAuthStore = () => {
-  const auth = new AuthStore()
+  const authRepository = useAuthRepository()
+
+  const auth = new AuthStore(authRepository)
 
   return {
     auth

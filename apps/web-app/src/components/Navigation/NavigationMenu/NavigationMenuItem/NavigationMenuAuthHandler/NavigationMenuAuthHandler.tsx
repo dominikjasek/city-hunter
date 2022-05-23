@@ -1,37 +1,26 @@
+import { useAuth0 } from '@auth0/auth0-react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import 'src/components/Navigation/NavigationMenu/NavigationMenuItem/navigation-menu-item.scss'
-import { LoginModal } from '~/components/Login/LoginModal'
-import {
-  NavigationMenuAuthItems
-} from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler/NavigationMenuAuthItems'
+import { NavigationMenuAuthItems } from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler/NavigationMenuAuthItems'
 import { BasePopover } from '~/components/UIBaseComponents/Popover/Popover'
-import { useAuthStore } from '~/infrastructure/auth/AuthStore'
 import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 
 const NavigationMenuAuthHandler = () => {
-  const { auth } = useAuthStore()
+  const { loginWithRedirect, isAuthenticated, user, isLoading } = useAuth0()
+
   const { isMd } = useWindowDimensions()
 
-  let [ isOpen, setIsOpen ] = useState(false)
-
-  function closeModal() {
-    setIsOpen(false)
-  }
-
-  function openModal() {
-    setIsOpen(true)
-  }
-
-  if (!auth.isLoggedIn) {
+  if (!isAuthenticated) {
     return (
-      <Link to={'#'} className="nav-item" onClick={openModal}>
+      <Link to={'#'} className="nav-item" onClick={() => loginWithRedirect({
+        screen_hint: 'signup',
+        display: 'popup',
+
+      })}>
         <li>
-          <>Přihlásit se</>
-          {isOpen &&
-                        <LoginModal onCloseModal={closeModal} isOpen={isOpen}/>
-          }
+                    Přihlásit se
         </li>
       </Link>
     )
@@ -47,13 +36,13 @@ const NavigationMenuAuthHandler = () => {
       button={(isPopoverOpen) =>
         <li className='nav-item normal-case group'>
           {
-            isMd && auth.user?.photoUrl ?
+            isMd && user?.picture ?
               <img
                 className={`rounded-full h-8 w-8 group-hover:ring-2 group-hover:ring-orange-700 ${isPopoverOpen ? 'ring-2 ring-orange-700' : ''}`}
-                src={auth.user.photoUrl}
-                alt={`${auth.user.name.firstName} ${auth.user.name.lastName}`}
+                src={user.picture}
+                alt={`${user.name}`}
               /> :
-              <span>{`${auth.user?.name.firstName} ${auth.user?.name.lastName}`}</span>
+              <span>{`${user?.name} aaa`}</span>
           }
           <ChevronDownIcon
             className={`ml-1 h-5 w-5 ${isPopoverOpen ? 'text-orange-700' : ''} `}

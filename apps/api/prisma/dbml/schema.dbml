@@ -3,17 +3,12 @@
 //// ------------------------------------------------------
 
 Table users {
-  id Int [pk, increment]
+  id String [pk]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [default: `now()`, not null]
-  thirdPartyId String [not null]
   email String [not null]
-  photoUrl String [not null]
   firstName String [not null]
   lastName String [not null]
-  provider LoginProvider [not null]
-  refreshToken String
-  role UserRole [not null, default: 'user']
   solvedRiddles SolvedRiddle [not null]
   currentRiddle Riddle
   currentRiddleId Int
@@ -30,7 +25,7 @@ Table places {
   riddlePhotoUrl String [not null]
   solutionPhotoUrl String
   author User [not null]
-  authorId Int [not null]
+  authorId String [not null]
   status PlaceStatus [not null, default: 'pending']
   riddle Riddle
 }
@@ -49,18 +44,13 @@ Table solved_riddles {
   id Int [pk, increment]
   createdAt DateTime [default: `now()`, not null]
   riddle Riddle [not null]
-  riddleId Int [not null]
+  riddleId Int [unique, not null]
   user User [not null]
-  userId Int [not null]
+  userId String [not null]
 }
 
 Enum LoginProvider {
   google
-}
-
-Enum UserRole {
-  user
-  admin
 }
 
 Enum PlaceStatus {

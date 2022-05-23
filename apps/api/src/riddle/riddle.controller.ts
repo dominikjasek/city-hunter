@@ -11,7 +11,7 @@ export class RiddleController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async getRiddle(
-    @GetCurrentUserId() userId: number,
+    @GetCurrentUserId() userId: string,
   ): Promise<IRiddleWithAvailability> {
     return await this.riddleService.getRiddleForUserId(userId)
   }
