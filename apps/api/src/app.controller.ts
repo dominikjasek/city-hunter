@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common'
 import { PingResponse } from '@shared/types/Ping/Ping.types'
 import { AppService } from '~/app.service'
-import { GetCurrentUserId, Public } from '~/auth/common/decorators/index'
+import { Public } from '~/auth/common/decorators/index'
 
 @Controller()
 export class AppController {
@@ -10,7 +10,7 @@ export class AppController {
 
   @Public()
   @Get('ping')
-  async ping(@GetCurrentUserId() userId: string): Promise<PingResponse> {
+  async ping(): Promise<PingResponse> {
     return {
       data: 'pong',
     }
