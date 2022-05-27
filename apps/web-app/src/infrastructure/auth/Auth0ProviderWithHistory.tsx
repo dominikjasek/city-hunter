@@ -21,6 +21,7 @@ export const Auth0ProviderWithHistory: FC<PropsWithChildren<any>> = ({ children 
       redirectUri={`${window.location.origin}/login-redirect`}
       onRedirectCallback={onRedirectCallback}
       audience={audience}
+      cacheLocation={'localstorage'}
     >
       {children}
     </Auth0Provider>
