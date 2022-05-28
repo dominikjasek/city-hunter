@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useMatch } from 'react-router-dom'
-import { useAuthStore } from '~/infrastructure/auth/AuthStore'
+import { useAuth } from '~/infrastructure/auth/UseAuth'
 import './navigation-menu-item.scss'
 
 export interface NavigationMenuItemProps {
@@ -11,15 +11,15 @@ export interface NavigationMenuItemProps {
 }
 
 export const NavigationMenuItem = (props: NavigationMenuItemProps) => {
-  const { auth } = useAuthStore()
+  const { isAuthenticated } = useAuth()
 
   const isLinkCurrentlyVisited = useMatch(props.to)
 
-  if (props.authRequired && !auth.isLoggedIn) {
+  if (props.authRequired && !isAuthenticated) {
     return <></>
   }
 
-  if (props.adminRequired && !auth.isAdmin) {
+  if (props.adminRequired && !isAuthenticated) {
     return <></>
   }
 

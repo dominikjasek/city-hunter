@@ -1,10 +1,10 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { LoginRequest } from '@shared/types/Auth/Auth.types'
 import { useEffect } from 'react'
 import { useAuthRepository } from '~/infrastructure/ApiRepository/AuthRepository'
+import { useAuth } from '~/infrastructure/auth/UseAuth'
 
 export const LoginRedirect = () => {
-  const { user } = useAuth0()
+  const { user } = useAuth()
   const { login } = useAuthRepository()
 
   const onLogin = async () => {
@@ -23,7 +23,7 @@ export const LoginRedirect = () => {
 
   useEffect(() => {
     onLogin()
-  }, [ user ])
+  }, [user])
 
   return (
     <div>

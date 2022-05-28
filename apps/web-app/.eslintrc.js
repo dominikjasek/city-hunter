@@ -44,7 +44,7 @@ module.exports = {
             }
         }],
         "object-curly-spacing": ["error", "always"],
-        "array-bracket-spacing": ["error", "always"],
+        "array-bracket-spacing": ["error", "never"],
         "computed-property-spacing": ["error", "always"],
         "indent": ["error", 2],
         "no-multi-spaces": "error",

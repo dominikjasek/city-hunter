@@ -8,7 +8,7 @@ import { BasePopover } from '~/components/UIBaseComponents/Popover/Popover'
 import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 
 const NavigationMenuAuthHandler = () => {
-  const { loginWithRedirect, isAuthenticated, user, isLoading } = useAuth0()
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0()
 
   const { isMd } = useWindowDimensions()
 
@@ -17,7 +17,6 @@ const NavigationMenuAuthHandler = () => {
       <Link to={'#'} className="nav-item" onClick={() => loginWithRedirect({
         screen_hint: 'signup',
         display: 'popup',
-
       })}>
         <li>
                     Přihlásit se

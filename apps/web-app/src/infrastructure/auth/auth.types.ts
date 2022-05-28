@@ -1,32 +1,13 @@
-import { ITokens } from '@shared/types/Auth/Auth.types'
+import { User } from '@auth0/auth0-react'
 
-export enum UserRole {
-    user = 'user',
-    admin = 'admin',
+export const AUTH0_CUSTOM_NAMESPACE = 'https://city-hunter.vercel.app' //defined in auth0 rules - needs to have unique namespace to prevent conflict withd defaults https://auth0.com/docs/secure/tokens/json-web-tokens/create-namespaced-custom-claims
+
+interface Permissions {
+    permissions: string[]
 }
 
-export interface IUser {
-    id: number
-    name: IUserName
-    email: string
-    role: UserRole
-    photoUrl: string
+export interface IUserWithCustomIdToken extends User {
+    [AUTH0_CUSTOM_NAMESPACE]: Permissions
 }
 
-export type IAuthReducer = {
-    user: IUser | null
-    tokens: ITokens
-}
-
-export const initialState: IAuthReducer = {
-  user: null,
-  tokens: {
-    access_token: '',
-    refresh_token: '',
-  },
-}
-
-export interface IUserName {
-    firstName: string
-    lastName: string
-}
+export type IUser = User & Permissions

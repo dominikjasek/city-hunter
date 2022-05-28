@@ -1,13 +1,13 @@
 import React, { FC, PropsWithChildren } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuthStore } from '~/infrastructure/auth/AuthStore'
+import { useAuth } from '~/infrastructure/auth/UseAuth'
 
 type IProps = PropsWithChildren<any>
 
 export const RoutePrivate: FC<IProps> = (props) => {
-  const { auth } = useAuthStore()
+  const { isAuthenticated } = useAuth()
 
   return (
-    auth.isLoggedIn ? props.children : <Navigate to="/"/>
+    isAuthenticated ? props.children : <Navigate to="/"/>
   )
 }

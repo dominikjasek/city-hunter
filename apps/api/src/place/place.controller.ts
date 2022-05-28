@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, } from '@nestjs/common'
 import { IPlaceSuggestion } from '@shared/types/Place/Place.types'
-import { GetCurrentUserId } from '~/auth/decorators'
+import { GetCurrentUserId } from '~/auth/decorators/get-current-user-id.decorator'
 import { Permission, RequiredPermission } from '~/auth/guards/permission.guard'
 import { PlaceChangeStatusDto } from '~/place/dto/placeChangeStatusDto'
 import { PlaceGetSuggestionsDto } from '~/place/dto/placeGetSuggestionsDto'
