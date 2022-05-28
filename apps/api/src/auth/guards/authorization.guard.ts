@@ -3,7 +3,7 @@ import { Reflector } from '@nestjs/core'
 import * as jwt from 'express-jwt'
 import { expressJwtSecret } from 'jwks-rsa'
 import { promisify } from 'util'
-import { PublicMetadataKey } from '~/auth/common/decorators/index'
+import { PublicMetadataKey } from '~/auth/decorators/index'
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {

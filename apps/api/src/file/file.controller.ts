@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Res, Uploaded
 import { FileInterceptor } from '@nestjs/platform-express'
 import { IFile } from '@shared/types/File/File.types'
 import { Response } from 'express'
-import { Public } from '~/auth/common/decorators/index'
+import { Public } from '~/auth/decorators/index'
 import { FileService } from '~/file/file.service'
 import { imageFileFilter } from '~/file/filters/imageFileFilter'
 

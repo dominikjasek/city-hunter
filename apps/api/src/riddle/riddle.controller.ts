@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common'
 import { IRiddleWithAvailability } from '@shared/types/Riddle/Riddle.types'
-import { GetCurrentUserId } from '~/auth/common/decorators/index'
+import { GetCurrentUserId } from '~/auth/decorators/index'
 import { RiddleService } from '~/riddle/riddle.service'
 
 @Controller('riddle')

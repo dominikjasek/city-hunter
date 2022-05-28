@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { APP_GUARD } from '@nestjs/core'
 import { AuthController } from '~/auth/auth.controller'
 import { AuthService } from '~/auth/auth.service'
-import { AuthorizationGuard } from '~/auth/guards/index'
+import { AuthorizationGuard } from '~/auth/guards/authorization.guard'
 import { UsersModule } from '~/users/users.module'
 
 @Module({
