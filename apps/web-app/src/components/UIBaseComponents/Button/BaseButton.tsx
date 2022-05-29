@@ -5,7 +5,7 @@ interface IProps extends PropsWithChildren<any> {
     className?: string
     disabled?: boolean
     bold?: boolean
-    color: 'orange' | 'blue' | 'grey' | 'red'
+    color?: 'orange' | 'blue' | 'grey' | 'red'
     type?: 'button' | 'submit' | 'reset'
 }
 
@@ -30,7 +30,7 @@ export const BaseButton: FC<IProps> = (props) => {
       type={props.type}
       disabled={props.disabled}
       onClick={props.onClick}
-      className={`px-5 py-1 shadow-md rounded-lg duration-100 ${fontStyle} ${disabledStyle} ${bgColorStyle} ${props.className}`}
+      className={`shadow-md rounded-lg duration-100 ${fontStyle} ${disabledStyle} ${bgColorStyle} ${props.className}`}
     >
       {props.children}
     </button>

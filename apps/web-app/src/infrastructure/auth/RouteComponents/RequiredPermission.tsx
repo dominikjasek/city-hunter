@@ -4,13 +4,17 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '~/infrastructure/auth/UseAuth'
 
 interface IProps extends PropsWithChildren<any> {
-    permissions: Permission[]
+  permissions: Permission[]
 }
 
 export const RequiredPermission: FC<IProps> = (props) => {
-  const { user } = useAuth()
+  const { user, isAuthenticated } = useAuth()
 
-  if (user.permissions.includes(props.permission)) {
+  if (!isAuthenticated) {
+    return <Navigate to="/login"/>
+  }
+
+  if (props.permissions.every(permission => user.permissions.includes(permission))) {
     return <>{props.children}</>
   }
 
