@@ -1,8 +1,8 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import axios from 'axios'
+import { useAuth } from '~/infrastructure/auth/UseAuth'
 
 export const useAxios = () => {
-  const { getAccessTokenSilently } = useAuth0()
+  const { getAccessTokenSilently } = useAuth()
 
   const axiosApiInstance = axios.create()
   axiosApiInstance.defaults.baseURL = import.meta.env.VITE_REACT_APP_API_URL

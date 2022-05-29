@@ -1,12 +1,12 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { Outlet } from 'react-router-dom'
 import Navigation from '~/components/Navigation/Navigation'
+import { useAuth } from '~/infrastructure/auth/UseAuth'
 import '~/styles/app.scss'
 import '~/styles/tailwind.css'
 
 export const App = () => {
 
-  const { isLoading } = useAuth0()
+  const { isLoading } = useAuth()
 
   if (isLoading) return <div>Loading...</div>
 

@@ -1,14 +1,14 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import 'src/components/Navigation/NavigationMenu/NavigationMenuItem/navigation-menu-item.scss'
 import { NavigationMenuAuthItems } from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler/NavigationMenuAuthItems'
 import { BasePopover } from '~/components/UIBaseComponents/Popover/Popover'
+import { useAuth } from '~/infrastructure/auth/UseAuth'
 import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 
 const NavigationMenuAuthHandler = () => {
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0()
+  const { loginWithRedirect, isAuthenticated, user } = useAuth()
 
   const { isMd } = useWindowDimensions()
 

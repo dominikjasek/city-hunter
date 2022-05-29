@@ -1,9 +1,9 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '~/infrastructure/auth/UseAuth'
 
 export const NavigationMenuAuthItems = () => {
-  const { logout } = useAuth0()
+  const { logout } = useAuth()
 
   return (
     <div>
