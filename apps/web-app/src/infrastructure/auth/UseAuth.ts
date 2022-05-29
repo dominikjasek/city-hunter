@@ -10,12 +10,17 @@ export const useAuth = () => {
   }
   delete userWithPermissions[ AUTH0_CUSTOM_NAMESPACE ]
 
+  const hasUserPermissions = (permissions: string[]) => {
+    return permissions.every(permission => userWithPermissions.permissions.includes(permission))
+  }
+
   return {
     user: userWithPermissions,
     isAuthenticated,
     isLoading,
     logout,
     loginWithRedirect,
-    getAccessTokenSilently
+    getAccessTokenSilently,
+    hasUserPermissions
   }
 }

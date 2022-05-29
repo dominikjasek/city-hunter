@@ -7,7 +7,7 @@ export interface LoginRequest {
 
 export type LoginResponse = void
 
-export enum Permission {
+export enum UserPermission {
     WritePlaceSuggestion = 'write:place-suggestion',
     ReadPlaceSuggestion = 'read:place-suggestion',
 }

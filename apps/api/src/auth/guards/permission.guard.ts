@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable, UseGuards } from '@nestjs/common'
-import { Permission } from '@shared/types/Auth/Auth.types'
+import { UserPermission } from '@shared/types/Auth/Auth.types'
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
-    constructor(private readonly permission: Permission) {
+    constructor(private readonly permission: UserPermission) {
     }
 
     canActivate(
@@ -14,4 +14,4 @@ export class PermissionGuard implements CanActivate {
     }
 }
 
-export const RequiredPermission = (permission: Permission) => UseGuards(new PermissionGuard(permission))
+export const RequiredPermission = (permission: UserPermission) => UseGuards(new PermissionGuard(permission))

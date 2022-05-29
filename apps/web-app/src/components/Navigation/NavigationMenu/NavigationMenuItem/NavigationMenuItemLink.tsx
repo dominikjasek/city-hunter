@@ -1,3 +1,4 @@
+import { UserPermission } from '@shared/types/Auth/Auth.types'
 import React from 'react'
 import { Link, useMatch } from 'react-router-dom'
 import { useAuth } from '~/infrastructure/auth/UseAuth'
@@ -7,11 +8,11 @@ export interface NavigationMenuItemProps {
     to: string
     label: string
     authRequired: boolean
-    adminRequired?: boolean
+    permissionsRequired?: UserPermission[]
 }
 
 export const NavigationMenuItem = (props: NavigationMenuItemProps) => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, hasUserPermissions } = useAuth()
 
   const isLinkCurrentlyVisited = useMatch(props.to)
 
@@ -19,7 +20,7 @@ export const NavigationMenuItem = (props: NavigationMenuItemProps) => {
     return <></>
   }
 
-  if (props.adminRequired && !isAuthenticated) {
+  if (props.permissionsRequired && !hasUserPermissions(props.permissionsRequired)) {
     return <></>
   }
 

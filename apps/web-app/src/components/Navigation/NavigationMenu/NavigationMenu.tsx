@@ -1,10 +1,7 @@
+import { UserPermission } from '@shared/types/Auth/Auth.types'
 import React, { FC } from 'react'
-import NavigationMenuAuthHandler
-  from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler/NavigationMenuAuthHandler'
-import {
-  NavigationMenuItem,
-  NavigationMenuItemProps
-} from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuItemLink'
+import NavigationMenuAuthHandler from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuAuthHandler/NavigationMenuAuthHandler'
+import { NavigationMenuItem, NavigationMenuItemProps } from '~/components/Navigation/NavigationMenu/NavigationMenuItem/NavigationMenuItemLink'
 import { useWindowDimensions } from '~/infrastructure/window/windowDimensions'
 
 interface Props {
@@ -39,7 +36,7 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
       to: '/spravovat-navrhy',
       label: 'Návrhy',
       authRequired: true,
-      adminRequired: true
+      permissionsRequired: [UserPermission.ReadPlaceSuggestion, UserPermission.WritePlaceSuggestion]
     },
   ]
 
@@ -59,7 +56,7 @@ export const NavigationMenu: FC<Props> = (props: Props) => {
               to={item.to}
               label={item.label}
               authRequired={item.authRequired}
-              adminRequired={item.adminRequired}
+              permissionsRequired={item.permissionsRequired}
             />
           )
         }

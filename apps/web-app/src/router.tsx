@@ -1,4 +1,4 @@
-import { Permission } from '@shared/types/Auth/Auth.types'
+import { UserPermission } from '@shared/types/Auth/Auth.types'
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { App } from '~/App'
@@ -31,7 +31,7 @@ export const Router = () => {
             <Route path="/hrat" element={<RequiredAuth> <Play/> </RequiredAuth>}/>
             <Route path="/pridat-misto" element={<RequiredAuth> <SuggestPlace/> </RequiredAuth>}/>
             <Route path="/spravovat-navrhy" element={
-              <RequiredPermission permissions={[Permission.ReadPlaceSuggestion, Permission.WritePlaceSuggestion]}>
+              <RequiredPermission permissions={[UserPermission.ReadPlaceSuggestion, UserPermission.WritePlaceSuggestion]}>
                 <ManagePlaceSuggestions/>
               </RequiredPermission>}/>
             <Route path="/pravidla" element={<Rules/>}/>

@@ -19,10 +19,10 @@ export function SuggestPlace() {
   const placeRepository = usePlaceRepository()
   const fileRepository = useFileRepository()
 
-  const [ isSubmitted, setIsSubmitted ] = useState(false)
-  const [ didTryToSubmit, setDidTryToSubmit ] = useState(false)
-  const [ zoomOnPointChange, setZoomOnPointChange ] = useState(false)
-  const [ isFileUploadPending, setIsFileUploadPending ] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [didTryToSubmit, setDidTryToSubmit] = useState(false)
+  const [zoomOnPointChange, setZoomOnPointChange] = useState(false)
+  const [isFileUploadPending, setIsFileUploadPending] = useState(false)
 
   const formik = useFormik({
     initialValues: {

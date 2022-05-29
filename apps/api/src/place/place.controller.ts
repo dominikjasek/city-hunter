@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, } from '@nestjs/common'
-import { Permission } from '@shared/types/Auth/Auth.types'
+import { UserPermission } from '@shared/types/Auth/Auth.types'
 import { IPlaceSuggestion } from '@shared/types/Place/Place.types'
 import { GetCurrentUserId } from '~/auth/decorators/get-current-user-id.decorator'
 import { RequiredPermission } from '~/auth/guards/permission.guard'
@@ -24,7 +24,7 @@ export class PlaceController {
         return await this.placeService.createPlace(userId, placeSuggestionDto)
     }
 
-    @RequiredPermission(Permission.ReadPlaceSuggestion)
+    @RequiredPermission(UserPermission.ReadPlaceSuggestion)
     @Get(':status?')
     async getAllSuggestions(
         @Param() placeSuggestionDto: PlaceGetSuggestionsDto,
@@ -32,7 +32,7 @@ export class PlaceController {
         return await this.placeService.getSuggestionsWithStatus(placeSuggestionDto.status)
     }
 
-    @RequiredPermission(Permission.WritePlaceSuggestion)
+    @RequiredPermission(UserPermission.WritePlaceSuggestion)
     @Post('change-status')
     async changeStatus(
         @Body() placeChangeStatusDto: PlaceChangeStatusDto,

@@ -1,24 +1,26 @@
-import { Permission } from '@shared/types/Auth/Auth.types'
+import { UserPermission } from '@shared/types/Auth/Auth.types'
 import React, { FC, PropsWithChildren } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '~/infrastructure/auth/UseAuth'
 
 interface IProps extends PropsWithChildren<any> {
-  permissions: Permission[]
+    permissions: UserPermission[]
 }
 
 export const RequiredPermission: FC<IProps> = (props) => {
-  const { user, isAuthenticated } = useAuth()
+  const { isAuthenticated, hasUserPermissions } = useAuth()
 
   if (!isAuthenticated) {
     return <Navigate to="/login"/>
   }
 
-  if (props.permissions.every(permission => user.permissions.includes(permission))) {
+  if (hasUserPermissions(props.permissions)) {
     return <>{props.children}</>
   }
 
   return (
-    <Navigate to="/login"/>
+    <div>
+      <h1>Pro přístup na tuto stránku nemáte dostatečné oprávnění. Prosím, kontaktujte administrátora.</h1>
+    </div>
   )
 }
