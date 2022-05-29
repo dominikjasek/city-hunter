@@ -4,10 +4,10 @@ import { useAuth } from '~/infrastructure/auth/UseAuth'
 
 type IProps = PropsWithChildren<any>
 
-export const RoutePrivate: FC<IProps> = (props) => {
+export const RequiredAuth: FC<IProps> = (props) => {
   const { isAuthenticated } = useAuth()
 
   return (
-    isAuthenticated ? props.children : <Navigate to="/"/>
+    isAuthenticated ? props.children : <Navigate to="/login"/>
   )
 }

@@ -1,13 +1,13 @@
-export interface ITokens {
-  access_token: string
-  refresh_token: string
-}
-
 export interface LoginRequest {
-  email: string
-  firstName: string
-  lastName: string
-  sub: string
+    email: string
+    firstName: string
+    lastName: string
+    sub: string
 }
 
 export type LoginResponse = void
+
+export enum Permission {
+    WritePlaceSuggestion = 'write:place-suggestion',
+    ReadPlaceSuggestion = 'read:place-suggestion',
+}

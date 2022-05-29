@@ -1,9 +1,10 @@
+import { Permission } from '@shared/types/Auth/Auth.types'
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { App } from '~/App'
 import { Auth0ProviderWithHistory } from '~/infrastructure/auth/Auth0ProviderWithHistory'
-import { RoutePrivate } from '~/infrastructure/auth/RouteComponents/RoutePrivate'
-import { RouteAdmin } from '~/infrastructure/auth/RouteComponents/RouteRequiresAdmin'
+import { RequiredAuth } from '~/infrastructure/auth/RouteComponents/RequiredAuth'
+import { RequiredPermission } from '~/infrastructure/auth/RouteComponents/RequiredPermission'
 import { Play } from '~/routes/Game/Play'
 import { Home } from '~/routes/Home'
 import { Login } from '~/routes/Login/Login'
@@ -27,9 +28,12 @@ export const Router = () => {
             <Route path="/" element={<Home/>}/>
             <Route path="/login-redirect" element={<LoginRedirect/>}/>
             <Route path="/login" element={<Login/>}/>
-            <Route path="/hrat" element={<RoutePrivate> <Play/> </RoutePrivate>}/>
-            <Route path="/pridat-misto" element={<RoutePrivate> <SuggestPlace/> </RoutePrivate>}/>
-            <Route path="/spravovat-navrhy" element={<RouteAdmin> <ManagePlaceSuggestions/> </RouteAdmin>}/>
+            <Route path="/hrat" element={<RequiredAuth> <Play/> </RequiredAuth>}/>
+            <Route path="/pridat-misto" element={<RequiredAuth> <SuggestPlace/> </RequiredAuth>}/>
+            <Route path="/spravovat-navrhy" element={
+              <RequiredPermission permissions={[Permission.ReadPlaceSuggestion, Permission.WritePlaceSuggestion]}>
+                <ManagePlaceSuggestions/>
+              </RequiredPermission>}/>
             <Route path="/pravidla" element={<Rules/>}/>
             <Route path="/skore" element={<Score/>}/>
             <Route path="/profil" element={<UserProfile/>}/>
