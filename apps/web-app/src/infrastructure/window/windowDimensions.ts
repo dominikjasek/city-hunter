@@ -9,7 +9,7 @@ function getWindowDimensions() {
 }
 
 export const useWindowDimensions = () => {
-  const [ windowDimensions, setWindowDimensions ] = useState(getWindowDimensions())
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions())
 
   useEffect(() => {
     const handleResize = () => {
@@ -20,11 +20,11 @@ export const useWindowDimensions = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const [ isSm, setSm ] = useState(false)
-  const [ isMd, setMd ] = useState(false)
-  const [ isLg, setLg ] = useState(false)
-  const [ isXl, setXl ] = useState(false)
-  const [ is2xl, set2Xl ] = useState(false)
+  const [isSm, setSm] = useState(false)
+  const [isMd, setMd] = useState(false)
+  const [isLg, setLg] = useState(false)
+  const [isXl, setXl] = useState(false)
+  const [is2xl, set2Xl] = useState(false)
 
   useEffect(() => {
     setSm(windowDimensions.width >= 640)
@@ -32,7 +32,7 @@ export const useWindowDimensions = () => {
     setLg(windowDimensions.width >= 1024)
     setXl(windowDimensions.width >= 1280)
     set2Xl(windowDimensions.width >= 1536)
-  }, [ windowDimensions.width ])
+  }, [windowDimensions.width])
 
   return {
     ...windowDimensions,

@@ -2,13 +2,7 @@ import { LoginRequest, LoginResponse } from '@shared/types/Auth/Auth.types'
 import { PingResponse } from '@shared/types/Ping/Ping.types'
 import { useAxios } from '~/infrastructure/ApiRepository/axios/axios'
 
-export interface IAuthRepository {
-    getPing(): Promise<PingResponse>
-
-    login(_loginRequestData: LoginRequest): Promise<LoginResponse>
-}
-
-export const useAuthRepository = (): IAuthRepository => {
+export const useAuthRepository = () => {
   const axios = useAxios()
 
   const getPing = async (): Promise<PingResponse> => (await axios.get('/ping')).data

@@ -1,5 +1,6 @@
 import { LoginRequest } from '@shared/types/Auth/Auth.types'
 import { useEffect } from 'react'
+import { BaseJson } from '~/components/UIBaseComponents/Json/BaseJson'
 import { useAuthRepository } from '~/infrastructure/ApiRepository/AuthRepository'
 import { useAuth } from '~/infrastructure/auth/UseAuth'
 
@@ -29,7 +30,7 @@ export const LoginRedirect = () => {
     <div>
             LoginRedirect
       <div>
-        <pre>{JSON.stringify(user, null, 2)}</pre>
+        <pre>{<BaseJson data={user}/>}</pre>
       </div>
     </div>
   )
