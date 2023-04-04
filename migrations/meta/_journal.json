@@ -1,0 +1,12 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1680631608194,
+      "tag": "0000_volatile_frank_castle"
+    }
+  ]
+}
