@@ -17,7 +17,7 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "@edge-runtime/types"],
     "paths": {
       "~/*": ["src/*"]
     }
