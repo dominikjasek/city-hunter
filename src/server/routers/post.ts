@@ -5,6 +5,8 @@
 import { router, publicProcedure } from '../trpc';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
+import { db } from '~/db/drizzle';
+import { users } from '~/db/schema';
 
 /**
  * Default selector for Post.
@@ -30,17 +32,18 @@ export const postRouter = router({
       const limit = input.limit ?? 50;
       const { cursor } = input;
 
-      const items = [
-        { id: 'sdadasdas', title: 'ahoj' },
-        { id: '132', title: 'zdar' },
-      ];
+      const items = (await db.select().from(users)).map((i) => ({
+        id: i.id,
+        title: 'neco proste',
+      }));
+      console.log('items', items);
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {
         // Remove the last item and use it as next cursor
 
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const nextItem = items.pop()!;
-        nextCursor = nextItem.id;
+        nextCursor = nextItem.id.toString();
       }
 
       return {

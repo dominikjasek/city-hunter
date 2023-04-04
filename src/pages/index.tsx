@@ -68,7 +68,9 @@ const IndexPage: NextPageWithLayout = () => {
         <Fragment key={page.items[0]?.id || index}>
           {page.items.map((item) => (
             <article key={item.id}>
-              <h3>{item.title}</h3>
+              <h3>
+                {item.id} - {item.title}
+              </h3>
               <Link href={`/post/${item.id}`}>View more</Link>
             </article>
           ))}
