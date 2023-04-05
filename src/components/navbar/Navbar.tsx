@@ -8,6 +8,7 @@ export const Navbar: React.FC = () => {
         <UserButton></UserButton>
       </SignedIn>
       <SignedOut>
+        nejses prihlasenej kamo
         <SignIn />
       </SignedOut>
     </nav>

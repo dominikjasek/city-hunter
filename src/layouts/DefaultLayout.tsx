@@ -13,9 +13,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       </Head>
 
       <main>
-        <nav>
-          <Navbar />
-        </nav>
+        <nav>{<Navbar />}</nav>
         {children}
       </main>
     </>

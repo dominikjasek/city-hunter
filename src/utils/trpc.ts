@@ -72,6 +72,7 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
            * @link https://trpc.io/docs/ssr
            */
           headers() {
+            console.log('headers', ctx?.req?.headers);
             if (!ctx?.req?.headers) {
               return {};
             }

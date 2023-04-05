@@ -5,6 +5,7 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import { NextRequest } from 'next/server';
 import { appRouter } from '~/server/routers/_app';
+import { createContext } from '~/server/context';
 
 // export only the type definition of the API
 // None of the actual implementation is exposed to the client
@@ -27,6 +28,6 @@ export default async function handler(req: NextRequest) {
         console.error('Something went wrong', error);
       }
     },
-    createContext: () => ({}),
+    createContext: createContext as any,
   });
 }

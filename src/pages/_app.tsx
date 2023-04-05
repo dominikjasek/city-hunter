@@ -5,13 +5,7 @@ import { DefaultLayout } from '~/layouts/DefaultLayout';
 import styles from './../styles/global.module.css';
 import './../styles/global.css';
 import { trpc } from '~/utils/trpc';
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  SignIn,
-  useUser,
-} from '@clerk/nextjs';
+import { ClerkProvider, SignedIn, SignedOut, SignIn } from '@clerk/nextjs';
 import { localization } from '~/components/clerk/localization';
 
 export type NextPageWithLayout<
@@ -26,17 +20,23 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
-  const getLayout =
-    Component.getLayout ??
-    ((page) => (
-      <div className={styles.app}>
-        <ClerkProvider {...pageProps} localization={localization}>
-          <DefaultLayout>{page}</DefaultLayout>
-        </ClerkProvider>
-      </div>
-    ));
+  // const getLayout =
+  //   Component.getLayout ??
+  //   ((page) => (
+  //     <div className={styles.app}>
+  //       <DefaultLayout>{page}</DefaultLayout>
+  //     </div>
+  //   ));
 
-  return getLayout(<Component {...pageProps} />);
+  return (
+    <ClerkProvider {...pageProps} localization={localization}>
+      <div className={styles.app}>
+        <DefaultLayout>
+          <Component {...pageProps} />
+        </DefaultLayout>
+      </div>
+    </ClerkProvider>
+  );
 }) as AppType;
 
 export default trpc.withTRPC(MyApp);

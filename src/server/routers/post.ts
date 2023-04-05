@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { db } from '~/db/drizzle';
 import { users } from '~/db/schema';
 import { migrate } from 'drizzle-orm/mysql2/migrator';
+import { log } from 'next/dist/server/typescript/utils';
 
 /**
  * Default selector for Post.
@@ -23,18 +24,19 @@ export const postRouter = router({
         cursor: z.string().nullish(),
       }),
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       /**
        * For pagination docs you can have a look here
        * @see https://trpc.io/docs/useInfiniteQuery
        * @see https://www.prisma.io/docs/concepts/components/prisma-client/pagination
        */
+      console.log('list query list query list query list query ');
 
       const limit = input.limit ?? 50;
       const { cursor } = input;
 
       const items = (await db.select().from(users)).map((i) => ({
-        id: i.id,
+        id: ctx.auth.userId ?? 'userId nenalezeno',
         title: 'neco proste',
       }));
       console.log('items', items);
