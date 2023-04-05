@@ -5,6 +5,8 @@ import { DefaultLayout } from '~/layouts/DefaultLayout';
 import styles from './../styles/global.module.css';
 import './../styles/global.css';
 import { trpc } from '~/utils/trpc';
+import { ClerkProvider, SignedIn, SignedOut, SignIn } from '@clerk/nextjs';
+import { localization } from '~/components/clerk/localization';
 
 export type NextPageWithLayout<
   TProps = Record<string, unknown>,
@@ -19,12 +21,24 @@ type AppPropsWithLayout = AppProps & {
 
 const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
-    Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
+    Component.getLayout ??
+    ((page) => (
+      <div className={styles.app}>
+        <ClerkProvider {...pageProps} localization={localization}>
+          <DefaultLayout>{page}</DefaultLayout>
+        </ClerkProvider>
+      </div>
+    ));
 
   return getLayout(
-    <div className={styles.app}>
-      <Component {...pageProps} />
-    </div>,
+    <>
+      <SignedIn>
+        <Component {...pageProps} />
+      </SignedIn>
+      <SignedOut>
+        <SignIn />
+      </SignedOut>
+    </>,
   );
 }) as AppType;
 
