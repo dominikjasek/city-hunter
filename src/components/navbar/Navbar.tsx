@@ -1,10 +1,15 @@
 import React from 'react';
-import { UserButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignIn, UserButton } from '@clerk/nextjs';
 
 export const Navbar: React.FC = () => {
   return (
     <nav>
-      <UserButton></UserButton>
+      <SignedIn>
+        <UserButton></UserButton>
+      </SignedIn>
+      <SignedOut>
+        <SignIn />
+      </SignedOut>
     </nav>
   );
 };

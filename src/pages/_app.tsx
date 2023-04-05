@@ -5,7 +5,13 @@ import { DefaultLayout } from '~/layouts/DefaultLayout';
 import styles from './../styles/global.module.css';
 import './../styles/global.css';
 import { trpc } from '~/utils/trpc';
-import { ClerkProvider, SignedIn, SignedOut, SignIn } from '@clerk/nextjs';
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignIn,
+  useUser,
+} from '@clerk/nextjs';
 import { localization } from '~/components/clerk/localization';
 
 export type NextPageWithLayout<
@@ -30,16 +36,7 @@ const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
       </div>
     ));
 
-  return getLayout(
-    <>
-      <SignedIn>
-        <Component {...pageProps} />
-      </SignedIn>
-      <SignedOut>
-        <SignIn />
-      </SignedOut>
-    </>,
-  );
+  return getLayout(<Component {...pageProps} />);
 }) as AppType;
 
 export default trpc.withTRPC(MyApp);
