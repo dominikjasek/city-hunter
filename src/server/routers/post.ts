@@ -36,10 +36,10 @@ export const postRouter = router({
       const { cursor } = input;
 
       const items = (await db.select().from(users)).map((i) => ({
-        id: ctx.auth.userId ?? 'userId nenalezeno',
+        id: ctx.auth?.userId ?? 'userId nenalezeno',
         title: 'neco proste',
       }));
-      console.log('items', items);
+      console.log('items[0]', items[0]);
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {
         // Remove the last item and use it as next cursor

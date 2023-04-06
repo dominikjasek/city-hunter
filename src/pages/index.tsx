@@ -4,8 +4,14 @@ import { inferProcedureInput } from '@trpc/server';
 import Link from 'next/link';
 import { Fragment } from 'react';
 import type { AppRouter } from '~/server/routers/_app';
+import { createProxySSGHelpers } from '@trpc/react-query/ssg';
+import { appRouter } from '~/server/routers/_app';
+import { createContext } from '~/server/context';
+import { GetStaticPropsContext } from 'next';
+import superjson from 'superjson';
 
-const IndexPage: NextPageWithLayout = () => {
+const IndexPage: NextPageWithLayout = (props) => {
+  console.log('props', props);
   const utils = trpc.useContext();
   const postsQuery = trpc.post.list.useInfiniteQuery(
     {
@@ -137,21 +143,19 @@ export default IndexPage;
  *
  * @link https://trpc.io/docs/ssg
  */
-// export const getStaticProps = async (
-//   context: GetStaticPropsContext<{ filter: string }>,
-// ) => {
-//   const ssg = createProxySSGHelpers({
-//     router: appRouter,
-//     ctx: await createContext(),
-//   });
-//
-//   await ssg.post.all.fetch();
-//
-//   return {
-//     props: {
-//       trpcState: ssg.dehydrate(),
-//       filter: context.params?.filter ?? 'all',
-//     },
-//     revalidate: 1,
-//   };
-// };
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: { auth: null },
+    transformer: superjson, // optional - adds superjson serializatio
+  });
+
+  await ssg.post.list.prefetch({});
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    revalidate: 1,
+  };
+};

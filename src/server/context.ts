@@ -8,7 +8,7 @@ import type {
 import { getAuth } from '@clerk/nextjs/server';
 
 interface AuthContext {
-  auth: SignedInAuthObject | SignedOutAuthObject;
+  auth: SignedInAuthObject | SignedOutAuthObject | null;
 }
 
 /**
@@ -32,6 +32,7 @@ export async function createContext(
 ): Promise<Context> {
   // for API-response caching see https://trpc.io/docs/caching
 
+  console.log('=======');
   const auth = getAuth(opts.req);
   console.log('auth', auth);
   console.log('=======');
