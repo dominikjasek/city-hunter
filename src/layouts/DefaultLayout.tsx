@@ -13,8 +13,8 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       </Head>
 
       <main>
-        <nav>{<Navbar />}</nav>
         {children}
+        <nav>{<Navbar />}</nav>
       </main>
     </>
   );
