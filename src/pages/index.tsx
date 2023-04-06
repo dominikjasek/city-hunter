@@ -11,7 +11,6 @@ import { GetStaticPropsContext } from 'next';
 import superjson from 'superjson';
 
 const IndexPage: NextPageWithLayout = (props) => {
-  console.log('props', props);
   const utils = trpc.useContext();
   const postsQuery = trpc.post.list.useQuery({
     limit: 5,
@@ -134,19 +133,19 @@ export default IndexPage;
  *
  * @link https://trpc.io/docs/ssg
  */
-export const getStaticProps = async (context: GetStaticPropsContext) => {
-  const ssg = createProxySSGHelpers({
-    router: appRouter,
-    ctx: { auth: null },
-    transformer: superjson, // optional - adds superjson serializatio
-  });
-
-  await ssg.post.list.prefetch({ limit: 5 });
-
-  return {
-    props: {
-      trpcState: ssg.dehydrate(),
-    },
-    revalidate: 1,
-  };
-};
+// export const getStaticProps = async (context: GetStaticPropsContext) => {
+//   const ssg = createProxySSGHelpers({
+//     router: appRouter,
+//     ctx: { auth: null },
+//     transformer: superjson, // optional - adds superjson serializatio
+//   });
+//
+//   await ssg.post.list.prefetch({ limit: 5 });
+//
+//   return {
+//     props: {
+//       trpcState: ssg.dehydrate(),
+//     },
+//     revalidate: 1,
+//   };
+// };

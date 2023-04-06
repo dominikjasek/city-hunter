@@ -30,7 +30,7 @@ export const postRouter = router({
        * @see https://trpc.io/docs/useInfiniteQuery
        * @see https://www.prisma.io/docs/concepts/components/prisma-client/pagination
        */
-      console.log('list query list query list query list query ');
+      console.log('list query ctx: ', ctx.auth);
 
       const limit = input.limit ?? 50;
       const { cursor } = input;
@@ -39,7 +39,6 @@ export const postRouter = router({
         id: ctx.auth?.userId ?? 'userId nenalezeno',
         title: 'neco proste',
       }));
-      console.log('items[0]', items[0]);
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {
         // Remove the last item and use it as next cursor

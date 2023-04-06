@@ -12,6 +12,7 @@ const isPublic = (path: string) => {
 };
 
 export default withClerkMiddleware((request: NextRequest) => {
+  console.log('***************************', request.nextUrl.pathname);
   if (isPublic(request.nextUrl.pathname)) {
     return NextResponse.next();
   }
@@ -33,5 +34,13 @@ export default withClerkMiddleware((request: NextRequest) => {
 });
 
 export const config = {
-  matcher: '/((?!_next/image|_next/static|favicon.ico|/api/trpc).*)',
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next
+     * - static (static files)
+     * - favicon.ico (favicon file)
+     */
+    '/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)',
+  ],
 };
