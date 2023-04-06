@@ -5,7 +5,7 @@ import { DefaultLayout } from '~/layouts/DefaultLayout';
 import styles from './../styles/global.module.css';
 import './../styles/global.css';
 import { trpc } from '~/utils/trpc';
-import { ClerkProvider, SignedIn, SignedOut, SignIn } from '@clerk/nextjs';
+import { ClerkProvider } from '@clerk/nextjs';
 import { localization } from '~/components/clerk/localization';
 
 export type NextPageWithLayout<
