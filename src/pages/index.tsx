@@ -13,16 +13,9 @@ import superjson from 'superjson';
 const IndexPage: NextPageWithLayout = (props) => {
   console.log('props', props);
   const utils = trpc.useContext();
-  const postsQuery = trpc.post.list.useInfiniteQuery(
-    {
-      limit: 5,
-    },
-    {
-      getPreviousPageParam(lastPage) {
-        return lastPage.nextCursor;
-      },
-    },
-  );
+  const postsQuery = trpc.post.list.useQuery({
+    limit: 5,
+  });
 
   // const addPost = trpc.post.add.useMutation({
   //   async onSuccess() {
@@ -57,29 +50,27 @@ const IndexPage: NextPageWithLayout = (props) => {
         {postsQuery.status === 'loading' && '(loading)'}
       </h2>
 
-      <button
-        onClick={() => postsQuery.fetchPreviousPage()}
-        disabled={
-          !postsQuery.hasPreviousPage || postsQuery.isFetchingPreviousPage
-        }
-      >
-        {postsQuery.isFetchingPreviousPage
-          ? 'Loading more...'
-          : postsQuery.hasPreviousPage
-          ? 'Load More'
-          : 'Nothing more to load'}
-      </button>
+      {/*<button*/}
+      {/*  onClick={() => postsQuery.fetchPreviousPage()}*/}
+      {/*  disabled={*/}
+      {/*    !postsQuery.hasPreviousPage || postsQuery.isFetchingPreviousPage*/}
+      {/*  }*/}
+      {/*>*/}
+      {/*  {postsQuery.isFetchingPreviousPage*/}
+      {/*    ? 'Loading more...'*/}
+      {/*    : postsQuery.hasPreviousPage*/}
+      {/*    ? 'Load More'*/}
+      {/*    : 'Nothing more to load'}*/}
+      {/*</button>*/}
 
-      {postsQuery.data?.pages.map((page, index) => (
-        <Fragment key={page.items[0]?.id || index}>
-          {page.items.map((item) => (
-            <article key={item.id}>
-              <h3>
-                {item.id} - {item.title}
-              </h3>
-              <Link href={`/post/${item.id}`}>View more</Link>
-            </article>
-          ))}
+      {postsQuery.data?.items.map((item, index) => (
+        <Fragment key={item.id || index}>
+          <article key={item.id}>
+            <h3>
+              {item.id} - {item.title}
+            </h3>
+            <Link href={`/post/${item.id}`}>View more</Link>
+          </article>
         </Fragment>
       ))}
 
@@ -150,7 +141,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     transformer: superjson, // optional - adds superjson serializatio
   });
 
-  await ssg.post.list.prefetch({});
+  await ssg.post.list.prefetch({ limit: 5 });
 
   return {
     props: {
