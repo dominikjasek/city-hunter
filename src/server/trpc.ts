@@ -8,7 +8,7 @@
  * @see https://trpc.io/docs/v10/procedures
  */
 
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from '@trpc/server';
 import { transformer } from '~/utils/transformer';
 import { Context } from './context';
 
@@ -32,15 +32,31 @@ const t = initTRPC.context<Context>().create({
 export const router = t.router;
 
 /**
- * Create an unprotected procedure
- * @see https://trpc.io/docs/v10/procedures
- **/
-export const publicProcedure = t.procedure;
-
-/**
  * @see https://trpc.io/docs/v10/middlewares
  */
-export const middleware = t.middleware;
+const isAuthed = t.middleware(({ next, ctx }) => {
+  // if (!ctx.auth?.user) {
+  //   throw new TRPCError({ code: 'UNAUTHORIZED' });
+  // }
+
+  if (!ctx.auth?.userId) {
+    console.log(process.env.NODE_ENV);
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'Your JWT is not valid',
+    });
+  }
+
+  return next({
+    ctx: {
+      auth: ctx.auth,
+      isAuthed: true,
+    },
+  });
+});
+
+export const publicProcedure = t.procedure;
+export const protectedProcedure = t.procedure.use(isAuthed);
 
 /**
  * @see https://trpc.io/docs/v10/merging-routers

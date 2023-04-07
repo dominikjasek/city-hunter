@@ -133,19 +133,19 @@ export default IndexPage;
  *
  * @link https://trpc.io/docs/ssg
  */
-export const getStaticProps = async (context: GetStaticPropsContext) => {
-  const ssg = createProxySSGHelpers({
-    router: appRouter,
-    ctx: { auth: null },
-    transformer: superjson, // optional - adds superjson serializatio
-  });
-
-  await ssg.post.list.prefetch({ limit: 5 });
-
-  return {
-    props: {
-      trpcState: ssg.dehydrate(),
-    },
-    revalidate: 100,
-  };
-};
+// export const getStaticProps = async (context: GetStaticPropsContext) => {
+//   const ssg = createProxySSGHelpers({
+//     router: appRouter,
+//     ctx: { auth: null },
+//     transformer: superjson, // optional - adds superjson serializatio
+//   });
+//
+//   await ssg.post.list.prefetch({ limit: 5 });
+//
+//   return {
+//     props: {
+//       trpcState: ssg.dehydrate(),
+//     },
+//     revalidate: 100,
+//   };
+// };

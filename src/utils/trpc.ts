@@ -58,6 +58,14 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
       /**
        * @link https://trpc.io/docs/links
        */
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+          },
+        },
+      },
       links: [
         // adds pretty logs to your console in development and logs errors in production
         loggerLink({
