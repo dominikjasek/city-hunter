@@ -32,9 +32,9 @@ export async function createContext(
 ): Promise<Context> {
   // for API-response caching see https://trpc.io/docs/caching
 
-  // console.log('=======');
+  console.log('=======');
   const auth = getAuth(opts.req);
-  // console.log('auth', auth);
+  console.log('auth', auth);
   // console.log('=======');
   return await createContextInner({ auth: getAuth(opts.req) });
 }

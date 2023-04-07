@@ -61,7 +61,7 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
       queryClientConfig: {
         defaultOptions: {
           queries: {
-            refetchOnMount: false,
+            refetchOnMount: true,
             refetchOnWindowFocus: false,
           },
         },

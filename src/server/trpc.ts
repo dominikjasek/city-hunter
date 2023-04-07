@@ -11,6 +11,8 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { transformer } from '~/utils/transformer';
 import { Context } from './context';
+import { requireAuth } from '@clerk/nextjs/edge-middleware';
+import { verify } from '~/server/jwt';
 
 const t = initTRPC.context<Context>().create({
   /**
@@ -34,16 +36,23 @@ export const router = t.router;
 /**
  * @see https://trpc.io/docs/v10/middlewares
  */
-const isAuthed = t.middleware(({ next, ctx }) => {
-  // if (!ctx.auth?.user) {
-  //   throw new TRPCError({ code: 'UNAUTHORIZED' });
-  // }
+const isAuthed = t.middleware(async ({ next, ctx }) => {
+  if (!ctx.auth) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+  const token = await ctx.auth.getToken({ template: 'JWT' });
+  if (!token) {
+    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'token is missing' });
+  }
+  console.log('token', token);
+  const validationResult = await verify(token);
+  console.log('validationResult', validationResult);
 
   if (!ctx.auth?.userId) {
     console.log(process.env.NODE_ENV);
     throw new TRPCError({
       code: 'UNAUTHORIZED',
-      message: 'Your JWT is not valid',
+      message: 'userId is missing',
     });
   }
 
