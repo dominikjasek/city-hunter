@@ -45,8 +45,8 @@ const isAuthed = t.middleware(async ({ next, ctx }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'token is missing' });
   }
   console.log('token', token);
-  const validationResult = await verify(token);
-  console.log('validationResult', validationResult);
+  const user = await verify(token);
+  console.log('validationResult', user);
 
   if (!ctx.auth?.userId) {
     console.log(process.env.NODE_ENV);
@@ -59,7 +59,7 @@ const isAuthed = t.middleware(async ({ next, ctx }) => {
   return next({
     ctx: {
       auth: ctx.auth,
-      isAuthed: true,
+      user,
     },
   });
 });

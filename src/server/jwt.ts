@@ -8,7 +8,11 @@ import {
 import { requireAuth } from '@clerk/nextjs/edge-middleware';
 import * as process from 'process';
 
-type Token = object;
+type JWTUser = JWTPayload & {
+  userId: string;
+  firstName: string;
+  lastName: string;
+};
 
 // export async function sign(payload: Token, secret: string): Promise<string> {
 //   const iat = Math.floor(Date.now() / 1000);
@@ -23,7 +27,7 @@ type Token = object;
 // }
 const JWKS = createRemoteJWKSet(new URL(process.env.CLERK_JWK_URI as string));
 
-export async function verify(token: string) {
+export async function verify(token: string): Promise<JWTUser> {
   console.log('process.env.CLERK_JWK_URI', process.env.CLERK_JWK_URI);
   //
   console.log('JWKS', JWKS);
@@ -35,5 +39,5 @@ export async function verify(token: string) {
 
   // if its all good, return it, or perhaps just return a boolean
   // return null;
-  return payload;
+  return payload as JWTUser;
 }
