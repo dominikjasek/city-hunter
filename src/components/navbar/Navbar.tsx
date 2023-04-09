@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
       </SignedIn>
       <SignedOut>
         nejses prihlasenej kamo
-        <SignIn />
+        <SignIn afterSignUpUrl={'auth/signup-receiver'} />
       </SignedOut>
     </nav>
   );

@@ -3,9 +3,11 @@
  */
 import { publicProcedure, router } from '../trpc';
 import { postRouter } from './post';
+import { authRouter } from '~/server/routers/auth/auth';
 
 export const appRouter = router({
   healthcheck: publicProcedure.query(() => 'yay!'),
+  auth: authRouter,
   post: postRouter,
 });
 
