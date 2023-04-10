@@ -10,8 +10,8 @@ import * as process from 'process';
 
 type JWTUser = JWTPayload & {
   userId: string;
-  firstName: string;
-  lastName: string;
+  firstName: string | null;
+  lastName: string | null;
 };
 
 // export async function sign(payload: Token, secret: string): Promise<string> {

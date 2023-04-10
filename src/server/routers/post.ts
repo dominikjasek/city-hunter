@@ -35,8 +35,10 @@ export const postRouter = router({
       const limit = input.limit ?? 50;
       const { cursor } = input;
 
-      const items = (await db.select().from(users)).map((i) => ({
-        id: `${ctx.user.firstName} ${ctx.user.lastName}` ?? 'userId nenalezeno',
+      console.log('ctx', ctx);
+
+      const items = (await db.select().from(users)).map((user) => ({
+        id: user.nickName,
         title: ctx.user.userId,
       }));
       let nextCursor: typeof cursor | undefined = undefined;
