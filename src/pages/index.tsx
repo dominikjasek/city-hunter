@@ -12,9 +12,9 @@ import superjson from 'superjson';
 
 const IndexPage: NextPageWithLayout = (props) => {
   const utils = trpc.useContext();
-  const postsQuery = trpc.post.list.useQuery({
-    limit: 5,
-  });
+  // const postsQuery = trpc.post.list.useQuery({
+  //   limit: 5,
+  // });
 
   // const addPost = trpc.post.add.useMutation({
   //   async onSuccess() {
@@ -44,10 +44,10 @@ const IndexPage: NextPageWithLayout = (props) => {
         .
       </p>
 
-      <h2>
-        Latest Posts
-        {postsQuery.status === 'loading' && '(loading)'}
-      </h2>
+      {/*<h2>*/}
+      {/*  Latest Posts*/}
+      {/*  {postsQuery.status === 'loading' && '(loading)'}*/}
+      {/*</h2>*/}
 
       {/*<button*/}
       {/*  onClick={() => postsQuery.fetchPreviousPage()}*/}
@@ -62,16 +62,16 @@ const IndexPage: NextPageWithLayout = (props) => {
       {/*    : 'Nothing more to load'}*/}
       {/*</button>*/}
 
-      {postsQuery.data?.items.map((item, index) => (
-        <Fragment key={item.id || index}>
-          <article key={item.id}>
-            <h3>
-              {item.id} - {item.title}
-            </h3>
-            <Link href={`/post/${item.id}`}>View more</Link>
-          </article>
-        </Fragment>
-      ))}
+      {/*{postsQuery.data?.items.map((item, index) => (*/}
+      {/*  <Fragment key={item.id || index}>*/}
+      {/*    <article key={item.id}>*/}
+      {/*      <h3>*/}
+      {/*        {item.id} - {item.title}*/}
+      {/*      </h3>*/}
+      {/*      <Link href={`/post/${item.id}`}>View more</Link>*/}
+      {/*    </article>*/}
+      {/*  </Fragment>*/}
+      {/*))}*/}
 
       <hr />
 
