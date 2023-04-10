@@ -17,7 +17,7 @@ import { protectedProcedure, publicProcedure, router } from '~/server/trpc';
  */
 
 export const authRouter = router({
-  createUser: protectedProcedure
+  createUser: publicProcedure
     .input(
       z.object({
         id: z.string(),
