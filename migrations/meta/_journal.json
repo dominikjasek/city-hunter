@@ -14,6 +14,27 @@
       "when": 1681050637627,
       "tag": "0001_thin_celestials",
       "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1681186222428,
+      "tag": "0002_organic_wonder_man",
+      "breakpoints": false
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1681187156738,
+      "tag": "0003_busy_dormammu",
+      "breakpoints": false
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1681187307560,
+      "tag": "0004_whole_paladin",
+      "breakpoints": false
     }
   ]
 }
