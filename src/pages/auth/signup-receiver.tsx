@@ -25,7 +25,7 @@ const SignupReceiver: React.FC = () => {
     createAccount();
   }, [user]);
 
-  return <div>Vytvářím účet</div>;
+  return <div>Dokončuji vytváření účtu</div>;
 };
 
 export default SignupReceiver;

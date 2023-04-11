@@ -12,6 +12,9 @@ type JWTUser = JWTPayload & {
   userId: string;
   firstName: string | null;
   lastName: string | null;
+  metadata?: {
+    role: 'admin';
+  };
 };
 
 // export async function sign(payload: Token, secret: string): Promise<string> {
