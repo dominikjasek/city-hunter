@@ -35,6 +35,13 @@
       "when": 1681187307560,
       "tag": "0004_whole_paladin",
       "breakpoints": false
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1681366670069,
+      "tag": "0005_strong_lady_vermin",
+      "breakpoints": false
     }
   ]
 }

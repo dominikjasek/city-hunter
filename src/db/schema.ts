@@ -30,15 +30,6 @@ export const cities = mysqlTable('cities', {
 
 export type City = InferModel<typeof cities>;
 
-// Game
-export const games = mysqlTable('games', {
-  id: serial('id').primaryKey(),
-  name: varchar('name', { length: 100 }).notNull(),
-  cityId: int('city_id').notNull(),
-});
-
-export type Game = InferModel<typeof games>;
-
 // Question
 export const questions = mysqlTable('questions', {
   id: serial('id').primaryKey(),
@@ -50,7 +41,6 @@ export const questions = mysqlTable('questions', {
   startDate: datetime('start_date'),
   endDate: datetime('end_date'),
   location: json('location').$type<Location>().notNull(),
-  gameId: int('game_id'),
   demo: boolean('demo').notNull(),
 });
 
