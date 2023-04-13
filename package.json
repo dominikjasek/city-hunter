@@ -24,6 +24,11 @@
   "dependencies": {
     "@clerk/nextjs": "^4.14.2",
     "@edge-runtime/types": "^2.0.8",
+    "@emotion/cache": "^11.10.7",
+    "@emotion/react": "^11.10.6",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.12.0",
     "@planetscale/database": "^1.6.0",
     "@tanstack/react-query": "^4.18.0",
     "@trpc/client": "^10.18.0",

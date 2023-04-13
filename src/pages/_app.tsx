@@ -7,6 +7,10 @@ import './../styles/global.css';
 import { trpc } from '~/utils/trpc';
 import { ClerkProvider } from '@clerk/nextjs';
 import { localization } from '~/components/clerk/localization';
+import createEmotionCache from '~/createEmotionCache';
+import { CacheProvider, EmotionCache } from '@emotion/react';
+import { ThemeProvider } from '@mui/material';
+import theme from '~/theme';
 
 export type NextPageWithLayout<
   TProps = Record<string, unknown>,
@@ -15,11 +19,18 @@ export type NextPageWithLayout<
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
-type AppPropsWithLayout = AppProps & {
+export type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
+  emotionCache?: EmotionCache;
 };
 
-const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
+const clientSideEmotionCache = createEmotionCache();
+
+const MyApp = (({
+  Component,
+  pageProps,
+  emotionCache = clientSideEmotionCache,
+}: AppPropsWithLayout) => {
   // const getLayout =
   //   Component.getLayout ??
   //   ((page) => (
@@ -29,13 +40,17 @@ const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
   //   ));
 
   return (
-    <ClerkProvider {...pageProps} localization={localization}>
-      <div className={styles.app}>
-        <DefaultLayout>
-          <Component {...pageProps} />
-        </DefaultLayout>
-      </div>
-    </ClerkProvider>
+    <CacheProvider value={emotionCache}>
+      <ThemeProvider theme={theme}>
+        <ClerkProvider {...pageProps} localization={localization}>
+          <div className={styles.app}>
+            <DefaultLayout>
+              <Component {...pageProps} />
+            </DefaultLayout>
+          </div>
+        </ClerkProvider>
+      </ThemeProvider>
+    </CacheProvider>
   );
 }) as AppType;
 

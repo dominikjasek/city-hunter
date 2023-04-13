@@ -9,6 +9,7 @@ import { appRouter } from '~/server/routers/_app';
 import { createContext } from '~/server/context';
 import { GetStaticPropsContext } from 'next';
 import superjson from 'superjson';
+import { Button } from '@mui/material';
 
 const IndexPage: NextPageWithLayout = (props) => {
   const utils = trpc.useContext();
@@ -48,6 +49,10 @@ const IndexPage: NextPageWithLayout = (props) => {
         Latest Posts
         {postsQuery.status === 'loading' && '(loading)'}
       </h2>
+
+      <Button variant={'contained'} color={'secondary'}>
+        nice hochu
+      </Button>
 
       {/*<button*/}
       {/*  onClick={() => postsQuery.fetchPreviousPage()}*/}
