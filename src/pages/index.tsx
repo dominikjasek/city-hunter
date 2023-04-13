@@ -9,7 +9,7 @@ import { appRouter } from '~/server/routers/_app';
 import { createContext } from '~/server/context';
 import { GetStaticPropsContext } from 'next';
 import superjson from 'superjson';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 const IndexPage: NextPageWithLayout = (props) => {
   const utils = trpc.useContext();
@@ -50,8 +50,8 @@ const IndexPage: NextPageWithLayout = (props) => {
         {postsQuery.status === 'loading' && '(loading)'}
       </h2>
 
-      <Button variant={'contained'} color={'secondary'}>
-        nice hochu
+      <Button variant={'contained'} color={'primary'}>
+        <Typography fontWeight="bold">nice hochu</Typography>
       </Button>
 
       {/*<button*/}
