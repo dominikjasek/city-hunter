@@ -3,7 +3,7 @@ import { trpc } from '~/utils/trpc';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
 
-const SignupReceiver: React.FC = () => {
+const LoginReceiver: React.FC = () => {
   const mutation = trpc.auth.createUser.useMutation();
   const { user } = useUser();
   const router = useRouter();
@@ -25,7 +25,7 @@ const SignupReceiver: React.FC = () => {
     createAccount();
   }, [user]);
 
-  return <div>Dokončuji vytváření účtu</div>;
+  return <div>Probíhá přihlašování</div>;
 };
 
-export default SignupReceiver;
+export default LoginReceiver;
