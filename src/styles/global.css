@@ -3,3 +3,8 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
+
+.link-no-style {
+    text-decoration: none;
+    color: inherit;
+}

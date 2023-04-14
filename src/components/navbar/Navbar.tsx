@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SignedIn, SignedOut, SignIn, UserButton } from '@clerk/nextjs';
 import {
   AppBar,
   Box,
   Button,
+  Dialog,
   Divider,
   IconButton,
   List,
@@ -20,6 +21,7 @@ import Image from 'next/image';
 import { useIsMobile } from '~/hooks/use-is-mobile';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
+import Link from 'next/link';
 
 interface NavbarLink {
   title: string;
@@ -131,31 +133,53 @@ const MobileNavbar: React.FC = () => {
 };
 
 const DesktopNavbar: React.FC = () => {
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+
   return (
     <nav>
       <Stack
         justifyContent={'space-between'}
         alignItems={'center'}
         direction={'row'}
-        mx={2}
-        mb={2}
+        mx={10}
+        py={3}
       >
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Image
-            priority
-            src={LogoWhite}
-            alt="Follow us on Twitter"
-            height={46}
-            style={{ fill: 'white' }}
-          />
-          <Typography fontSize={24}>CITY HUNTER</Typography>
-        </Stack>
+        <Link href={'/'} className="link-no-style">
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <Image
+              priority
+              src={LogoWhite}
+              alt="Follow us on Twitter"
+              height={40}
+              style={{ fill: 'white' }}
+            />
+            <Typography fontSize={24}>CITY HUNTER</Typography>
+          </Stack>
+        </Link>
         <Box>
           <SignedIn>
-            <UserButton></UserButton>
+            <UserButton
+              userProfileUrl={'/user'}
+              userProfileMode={'navigation'}
+            />
           </SignedIn>
           <SignedOut>
-            <SignIn />
+            <Button
+              color={'secondary'}
+              variant={'contained'}
+              onClick={() => setLoginDialogOpen(true)}
+            >
+              Přihlásit se
+            </Button>
+            <Dialog
+              onClose={() => setLoginDialogOpen(false)}
+              PaperProps={{
+                style: { borderRadius: '1rem' },
+              }}
+              open={loginDialogOpen}
+            >
+              <SignIn />
+            </Dialog>
           </SignedOut>
         </Box>
       </Stack>

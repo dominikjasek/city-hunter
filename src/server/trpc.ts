@@ -11,7 +11,6 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { transformer } from '~/utils/transformer';
 import { Context } from './context';
-import { requireAuth } from '@clerk/nextjs/edge-middleware';
 import { verify } from '~/server/jwt';
 
 const t = initTRPC.context<Context>().create({

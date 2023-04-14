@@ -42,18 +42,11 @@ const MyApp = (({
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={theme}>
-        <style jsx global>{`
-          html {
-            font-family: ${fira.style.fontFamily};
-          }
-        `}</style>
         <ClerkProvider {...pageProps} localization={localization}>
-          <div className={styles.app}>
-            <CssBaseline />
-            <DefaultLayout>
-              <Component {...pageProps} />
-            </DefaultLayout>
-          </div>
+          <CssBaseline />
+          <DefaultLayout>
+            <Component {...pageProps} />
+          </DefaultLayout>
         </ClerkProvider>
       </ThemeProvider>
     </CacheProvider>
