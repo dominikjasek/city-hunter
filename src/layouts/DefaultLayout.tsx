@@ -12,10 +12,8 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        {children}
-        <nav>{<Navbar />}</nav>
-      </main>
+      <Navbar />
+      <main>{children}</main>
     </>
   );
 };

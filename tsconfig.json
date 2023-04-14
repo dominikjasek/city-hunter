@@ -19,7 +19,8 @@
     "baseUrl": ".",
     "types": ["vitest/globals", "@edge-runtime/types"],
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*"],
+      "@public/*": ["public/*"]
     }
   },
   "include": [

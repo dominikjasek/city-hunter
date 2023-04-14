@@ -12,7 +12,6 @@ import superjson from 'superjson';
 import { Button, Typography } from '@mui/material';
 
 const IndexPage: NextPageWithLayout = (props) => {
-  const utils = trpc.useContext();
   const postsQuery = trpc.post.list.useQuery({
     limit: 5,
   });
@@ -151,6 +150,6 @@ export default IndexPage;
 //     props: {
 //       trpcState: ssg.dehydrate(),
 //     },
-//     revalidate: 100,
+//     // revalidate: 100,
 //   };
 // };

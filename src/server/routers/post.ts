@@ -25,17 +25,12 @@ export const postRouter = router({
       }),
     )
     .query(async ({ input, ctx }) => {
-      /**
-       * For pagination docs you can have a look here
-       * @see https://trpc.io/docs/useInfiniteQuery
-       * @see https://www.prisma.io/docs/concepts/components/prisma-client/pagination
-       */
-      console.log('list query ctx: ', ctx.auth);
+      console.log('list query ctx: ');
 
       const limit = input.limit ?? 50;
       const { cursor } = input;
 
-      console.log('ctx', ctx);
+      // console.log('ctx', ctx);
 
       const items = (await db.select().from(users)).map((user) => ({
         id: user.nickName,

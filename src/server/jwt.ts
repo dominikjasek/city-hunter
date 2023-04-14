@@ -31,10 +31,6 @@ type JWTUser = JWTPayload & {
 const JWKS = createRemoteJWKSet(new URL(process.env.CLERK_JWK_URI as string));
 
 export async function verify(token: string): Promise<JWTUser> {
-  console.log('process.env.CLERK_JWK_URI', process.env.CLERK_JWK_URI);
-  //
-  console.log('JWKS', JWKS);
-  //
   const { payload } = await jwtVerify(token, JWKS, {
     issuer: process.env.CLERK_ISSUER,
   });

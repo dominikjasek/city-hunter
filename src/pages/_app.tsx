@@ -10,7 +10,7 @@ import { localization } from '~/components/clerk/localization';
 import createEmotionCache from '~/createEmotionCache';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { ThemeProvider } from '@mui/material';
-import theme from '~/theme';
+import theme, { fira } from '~/theme';
 
 export type NextPageWithLayout<
   TProps = Record<string, unknown>,
@@ -42,6 +42,11 @@ const MyApp = (({
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={theme}>
+        <style jsx global>{`
+          html {
+            font-family: ${fira.style.fontFamily};
+          }
+        `}</style>
         <ClerkProvider {...pageProps} localization={localization}>
           <div className={styles.app}>
             <DefaultLayout>

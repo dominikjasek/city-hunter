@@ -44,12 +44,12 @@ const isAuthed = t.middleware(async ({ next, ctx }) => {
   if (!token) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'token is missing' });
   }
-  console.log('token', token);
+  // console.log('token', token);
   const user = await verify(token);
-  console.log('validationResult', user);
+  // console.log('validationResult', user);
 
   if (!ctx.auth?.userId) {
-    console.log(process.env.NODE_ENV);
+    // console.log(process.env.NODE_ENV);
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'userId is missing',
