@@ -22,6 +22,7 @@ import { useIsMobile } from '~/hooks/use-is-mobile';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Link from 'next/link';
+import { useDialog } from '~/components/contexts/DialogProvider';
 
 interface NavbarLink {
   title: string;
@@ -133,7 +134,7 @@ const MobileNavbar: React.FC = () => {
 };
 
 const DesktopNavbar: React.FC = () => {
-  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const { openLoginDialog } = useDialog();
 
   return (
     <nav>
@@ -167,19 +168,10 @@ const DesktopNavbar: React.FC = () => {
             <Button
               color={'secondary'}
               variant={'contained'}
-              onClick={() => setLoginDialogOpen(true)}
+              onClick={() => openLoginDialog()}
             >
               Přihlásit se
             </Button>
-            <Dialog
-              onClose={() => setLoginDialogOpen(false)}
-              PaperProps={{
-                style: { borderRadius: '1rem' },
-              }}
-              open={loginDialogOpen}
-            >
-              <SignIn />
-            </Dialog>
           </SignedOut>
         </Box>
       </Stack>

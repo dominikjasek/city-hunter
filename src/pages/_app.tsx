@@ -11,6 +11,7 @@ import createEmotionCache from '~/createEmotionCache';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme, { fira } from '~/theme';
+import { DialogProvider } from '~/components/contexts/DialogProvider';
 
 export type NextPageWithLayout<
   TProps = Record<string, unknown>,
@@ -44,9 +45,11 @@ const MyApp = (({
       <ThemeProvider theme={theme}>
         <ClerkProvider {...pageProps} localization={localization}>
           <CssBaseline />
-          <DefaultLayout>
-            <Component {...pageProps} />
-          </DefaultLayout>
+          <DialogProvider>
+            <DefaultLayout>
+              <Component {...pageProps} />
+            </DefaultLayout>
+          </DialogProvider>
         </ClerkProvider>
       </ThemeProvider>
     </CacheProvider>
