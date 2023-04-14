@@ -13,10 +13,10 @@ export const fira = Fira_Code({
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#f1bf14',
+      main: '#245680',
     },
     secondary: {
-      main: '#245680',
+      main: '#f1bf14',
     },
     error: {
       main: red.A400,

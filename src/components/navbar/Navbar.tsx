@@ -47,7 +47,7 @@ const MobileNavbar: React.FC = () => {
         alignItems={'center'}
         justifyContent={'center'}
         gap={2}
-        sx={{ backgroundColor: theme.palette.secondary.main }}
+        sx={{ backgroundColor: theme.palette.primary.main }}
       >
         <Image
           priority
@@ -85,7 +85,7 @@ const MobileNavbar: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar component="nav" color={'secondary'}>
+      <AppBar component="nav" color={'primary'}>
         <Toolbar variant={'dense'}>
           <IconButton
             size="large"

@@ -49,7 +49,7 @@ const IndexPage: NextPageWithLayout = (props) => {
         {postsQuery.status === 'loading' && '(loading)'}
       </h2>
 
-      <Button variant={'contained'} color={'primary'}>
+      <Button variant={'contained'} color={'secondary'}>
         <Typography fontWeight="bold">nice hochu</Typography>
       </Button>
 
