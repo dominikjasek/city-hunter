@@ -21,7 +21,7 @@ import { useIsMobile } from '~/hooks/use-is-mobile';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Link from 'next/link';
-import { useDialog } from '~/components/contexts/DialogProvider';
+import { UserBox } from '~/components/navbar/UserBox';
 
 interface NavbarLink {
   title: string;
@@ -78,6 +78,14 @@ const MobileNavbar: React.FC = () => {
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem disablePadding>
+          <ListItemButton
+            sx={{ justifyContent: 'center' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <UserBox />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -133,8 +141,6 @@ const MobileNavbar: React.FC = () => {
 };
 
 const DesktopNavbar: React.FC = () => {
-  const { openLoginDialog } = useDialog();
-
   return (
     <nav>
       <Stack
@@ -156,23 +162,7 @@ const DesktopNavbar: React.FC = () => {
             <Typography fontSize={24}>CITY HUNTER</Typography>
           </Stack>
         </Link>
-        <Box>
-          <SignedIn>
-            <UserButton
-              userProfileUrl={'/user'}
-              userProfileMode={'navigation'}
-            />
-          </SignedIn>
-          <SignedOut>
-            <Button
-              color={'secondary'}
-              variant={'contained'}
-              onClick={() => openLoginDialog()}
-            >
-              Přihlásit se
-            </Button>
-          </SignedOut>
-        </Box>
+        <UserBox />
       </Stack>
     </nav>
   );
