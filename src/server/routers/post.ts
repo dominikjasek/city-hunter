@@ -7,8 +7,6 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { db } from '~/db/drizzle';
 import { users } from '~/db/schema';
-import { migrate } from 'drizzle-orm/mysql2/migrator';
-import { log } from 'next/dist/server/typescript/utils';
 
 /**
  * Default selector for Post.

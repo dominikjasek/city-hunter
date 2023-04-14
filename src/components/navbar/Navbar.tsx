@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { SignedIn, SignedOut, SignIn, UserButton } from '@clerk/nextjs';
+import React from 'react';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import {
   AppBar,
   Box,
   Button,
-  Dialog,
   Divider,
   IconButton,
   List,

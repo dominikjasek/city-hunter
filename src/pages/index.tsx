@@ -1,14 +1,7 @@
 import { trpc } from '../utils/trpc';
 import { NextPageWithLayout } from './_app';
-import { inferProcedureInput } from '@trpc/server';
 import Link from 'next/link';
 import { Fragment } from 'react';
-import type { AppRouter } from '~/server/routers/_app';
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
-import { appRouter } from '~/server/routers/_app';
-import { createContext } from '~/server/context';
-import { GetStaticPropsContext } from 'next';
-import superjson from 'superjson';
 import { Button, Typography } from '@mui/material';
 
 const IndexPage: NextPageWithLayout = (props) => {

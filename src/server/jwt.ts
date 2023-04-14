@@ -1,11 +1,4 @@
-import {
-  SignJWT,
-  jwtVerify,
-  type JWTPayload,
-  importSPKI,
-  createRemoteJWKSet,
-} from 'jose';
-import { requireAuth } from '@clerk/nextjs/edge-middleware';
+import { jwtVerify, type JWTPayload, createRemoteJWKSet } from 'jose';
 import * as process from 'process';
 
 type JWTUser = JWTPayload & {

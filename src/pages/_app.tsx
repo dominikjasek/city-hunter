@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import type { AppType, AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 import { DefaultLayout } from '~/layouts/DefaultLayout';
-import styles from './../styles/global.module.css';
 import './../styles/global.css';
 import { trpc } from '~/utils/trpc';
 import { ClerkProvider } from '@clerk/nextjs';
@@ -10,7 +9,7 @@ import { localization } from '~/components/clerk/localization';
 import createEmotionCache from '~/createEmotionCache';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme, { fira } from '~/theme';
+import theme from '~/theme';
 import { DialogProvider } from '~/components/contexts/DialogProvider';
 
 export type NextPageWithLayout<
@@ -32,14 +31,6 @@ const MyApp = (({
   pageProps,
   emotionCache = clientSideEmotionCache,
 }: AppPropsWithLayout) => {
-  // const getLayout =
-  //   Component.getLayout ??
-  //   ((page) => (
-  //     <div className={styles.app}>
-  //       <DefaultLayout>{page}</DefaultLayout>
-  //     </div>
-  //   ));
-
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={theme}>

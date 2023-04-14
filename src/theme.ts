@@ -1,4 +1,4 @@
-import { Fira_Code, Fira_Sans } from 'next/font/google';
+import { Fira_Code } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 

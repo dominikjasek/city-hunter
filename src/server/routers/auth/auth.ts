@@ -2,13 +2,10 @@
  *
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
-import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { db } from '~/db/drizzle';
 import { CreateUser, users } from '~/db/schema';
-import { migrate } from 'drizzle-orm/mysql2/migrator';
-import { log } from 'next/dist/server/typescript/utils';
-import { protectedProcedure, publicProcedure, router } from '~/server/trpc';
+import { publicProcedure, router } from '~/server/trpc';
 
 /**
  * Default selector for Post.
