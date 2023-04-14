@@ -9,7 +9,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { localization } from '~/components/clerk/localization';
 import createEmotionCache from '~/createEmotionCache';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme, { fira } from '~/theme';
 
 export type NextPageWithLayout<
@@ -49,6 +49,7 @@ const MyApp = (({
         `}</style>
         <ClerkProvider {...pageProps} localization={localization}>
           <div className={styles.app}>
+            <CssBaseline />
             <DefaultLayout>
               <Component {...pageProps} />
             </DefaultLayout>

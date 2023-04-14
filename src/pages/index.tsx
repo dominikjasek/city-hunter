@@ -33,7 +33,7 @@ const IndexPage: NextPageWithLayout = (props) => {
 
   return (
     <>
-      <h1>Welcome to your tRPC starter!</h1>
+      <Typography variant={'h4'}>Welcome to your tRPC starter!</Typography>
       <p>
         If you get stuck, check <a href="https://trpc.io">the docs</a>, write a
         message in our <a href="https://trpc.io/discord">Discord-channel</a>, or
