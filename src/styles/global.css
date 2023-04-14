@@ -8,3 +8,8 @@ body {
     text-decoration: none;
     color: inherit;
 }
+
+/*hide Clerk footer in <UserButton /> component */
+.cl-userButtonPopoverFooter {
+    display: none;
+}
