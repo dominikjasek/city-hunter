@@ -1,122 +1,24 @@
 import { trpc } from '../utils/trpc';
 import { NextPageWithLayout } from './_app';
-import Link from 'next/link';
-import { Fragment } from 'react';
 import { Button, Typography } from '@mui/material';
 
-const IndexPage: NextPageWithLayout = (props) => {
+const IndexPage: NextPageWithLayout = () => {
   const postsQuery = trpc.post.list.useQuery({
     limit: 5,
   });
 
-  // const addPost = trpc.post.add.useMutation({
-  //   async onSuccess() {
-  //     // refetches posts after a post is added
-  //     await utils.post.list.invalidate();
-  //   },
-  // });
-
-  // prefetch all posts for instant navigation
-  // useEffect(() => {
-  //   const allPosts = postsQuery.data?.pages.flatMap((page) => page.items) ?? [];
-  //   for (const { id } of allPosts) {
-  //     void utils.post.byId.prefetch({ id });
-  //   }
-  // }, [postsQuery.data, utils]);
-
   return (
     <>
-      <Typography variant={'h4'}>Welcome to your tRPC starter!</Typography>
-      <p>
-        If you get stuck, check <a href="https://trpc.io">the docs</a>, write a
-        message in our <a href="https://trpc.io/discord">Discord-channel</a>, or
-        write a message in{' '}
-        <a href="https://github.com/trpc/trpc/discussions">
-          GitHub Discussions
-        </a>
-        .
-      </p>
-
+      <Typography variant={'h4'}>City Hunter!</Typography>
       <h2>
         Latest Posts
         {postsQuery.status === 'loading' && '(loading)'}
       </h2>
-
       <Button variant={'contained'} color={'secondary'}>
         <Typography fontWeight="bold">nice hochu</Typography>
       </Button>
-
-      {/*<button*/}
-      {/*  onClick={() => postsQuery.fetchPreviousPage()}*/}
-      {/*  disabled={*/}
-      {/*    !postsQuery.hasPreviousPage || postsQuery.isFetchingPreviousPage*/}
-      {/*  }*/}
-      {/*>*/}
-      {/*  {postsQuery.isFetchingPreviousPage*/}
-      {/*    ? 'Loading more...'*/}
-      {/*    : postsQuery.hasPreviousPage*/}
-      {/*    ? 'Load More'*/}
-      {/*    : 'Nothing more to load'}*/}
-      {/*</button>*/}
-
-      {postsQuery.data?.items.map((item, index) => (
-        <Fragment key={item.id || index}>
-          <article key={item.id}>
-            <h3>
-              {item.id} - {item.title}
-            </h3>
-            <Link href={`/post/${item.id}`}>View more</Link>
-          </article>
-        </Fragment>
-      ))}
-
-      <hr />
-
-      <h3>Add a Post</h3>
-
-      {/*<form*/}
-      {/*  onSubmit={async (e) => {*/}
-      {/*    /***/}
-      {/*     * In a real app you probably don't want to use this manually*/}
-      {/*     * Checkout React Hook Form - it works great with tRPC*/}
-      {/*     * @see https://react-hook-form.com/*/}
-      {/*     * @see https://kitchen-sink.trpc.io/react-hook-form*/}
-      {/*    e.preventDefault();*/}
-      {/*    const $form = e.currentTarget;*/}
-      {/*    const values = Object.fromEntries(new FormData($form));*/}
-      {/*    type Input = inferProcedureInput<AppRouter['post']['add']>;*/}
-      {/*    const input: Input = {*/}
-      {/*      title: values.title as string,*/}
-      {/*      text: values.text as string,*/}
-      {/*    };*/}
-      {/*    try {*/}
-      {/*      // await addPost.mutateAsync(input);*/}
-
-      {/*      $form.reset();*/}
-      {/*    } catch (cause) {*/}
-      {/*      console.error({ cause }, 'Failed to add post');*/}
-      {/*    }*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <label htmlFor="title">Title:</label>*/}
-      {/*  <br />*/}
-      {/*  <input*/}
-      {/*    id="title"*/}
-      {/*    name="title"*/}
-      {/*    type="text"*/}
-      {/*    // disabled={addPost.isLoading}*/}
-      {/*  />*/}
-
-      {/*  <br />*/}
-      {/*  <label htmlFor="text">Text:</label>*/}
-      {/*  <br />*/}
-      {/*  <textarea id="text" name="text" disabled={addPost.isLoading} />*/}
-      {/*  <br />*/}
-      {/*  <input type="submit" disabled={addPost.isLoading} />*/}
-      {/*  {addPost.error && (*/}
-      {/*    <p style={{ color: 'red' }}>{addPost.error.message}</p>*/}
-      {/*  )}*/}
-      {/*</form>*/}
+      <br />
+      {postsQuery.data?.items.length} items fetched
     </>
   );
 };
