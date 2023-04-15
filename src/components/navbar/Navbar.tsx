@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import {
   AppBar,
@@ -22,6 +22,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Link from 'next/link';
 import { UserBox } from '~/components/navbar/UserBox';
+import { useUser } from '@clerk/clerk-react';
+import { useRouter } from 'next/router';
 
 interface NavbarLink {
   title: string;
@@ -37,6 +39,12 @@ const navbarLinks: NavbarLink[] = [
 const MobileNavbar: React.FC = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const theme = useTheme();
+  const router = useRouter();
+  console.log('router.pathname', router.pathname);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [router.pathname]);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -151,7 +159,7 @@ const DesktopNavbar: React.FC = () => {
         py={3}
       >
         <Link href={'/'} className="link-no-style">
-          <Stack direction={'row'} alignItems={'center'} gap={1}>
+          <Stack direction={'row'} alignItems={'center'} gap={2}>
             <Image
               priority
               src={LogoWhite}

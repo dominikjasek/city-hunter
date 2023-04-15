@@ -1,11 +1,11 @@
 import { LocalizationResource } from '@clerk/types';
 
 export const localization: LocalizationResource = {
-  socialButtonsBlockButton: 'Sign In with {{provider|titleize}}',
+  socialButtonsBlockButton: 'Přihlásit se s {{provider|titleize}}',
   signIn: {
     start: {
       title: 'Přihlásit se',
-      subtitle: 'pro pokračování na {{applicationName}}',
+      subtitle: 'pro pokračování do aplikace {{applicationName}}',
     },
   },
   dividerText: 'nebo',

@@ -11,6 +11,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '~/theme';
 import { DialogProvider } from '~/components/contexts/DialogProvider';
+import styles from '~/styles/global.module.css';
 
 export type NextPageWithLayout<
   TProps = Record<string, unknown>,

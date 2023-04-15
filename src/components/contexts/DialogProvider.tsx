@@ -32,7 +32,7 @@ export const DialogProvider = ({ children }: PropsWithChildren<unknown>) => {
       <Dialog
         onClose={() => setOpenLoginDialog(false)}
         PaperProps={{
-          style: { borderRadius: '1rem' },
+          style: { borderRadius: '1rem', textAlign: 'center' },
         }}
         open={openLoginDialog}
       >
