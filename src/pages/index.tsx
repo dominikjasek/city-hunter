@@ -2,20 +2,21 @@ import { trpc } from '~/utils/trpc';
 import { NextPageWithLayout } from './_app';
 import { Button, Typography } from '@mui/material';
 import React from 'react';
-import { MessageBox } from '~/components/common/MessageBox/MessageBox';
+import { Loader } from '~/components/common/Loader/Loader';
 
 const IndexPage: NextPageWithLayout = () => {
   const postsQuery = trpc.post.list.useQuery({
     limit: 5,
   });
 
+  if (postsQuery.isLoading) {
+    return <Loader />;
+  }
+
   return (
     <>
       <Typography variant={'h4'}>City Hunter!</Typography>
-      <h2>
-        Latest Posts
-        {postsQuery.status === 'loading' && '(loading)'}
-      </h2>
+      <h2>Latest Posts</h2>
       <Button variant={'contained'} color={'secondary'}>
         <Typography fontWeight="bold">nice hochu</Typography>
       </Button>

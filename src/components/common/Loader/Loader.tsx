@@ -9,6 +9,7 @@ const LoadingOverlay = styled(Stack)(() => ({
   justifyContent: 'center',
   gap: '5px',
   lineHeight: '2.5rem',
+  margin: '1rem',
   textAlign: 'center',
   fontWeight: 'bold',
 }));
@@ -17,7 +18,7 @@ export const Loader: FC<{ title?: string }> = ({ title }) => {
   return (
     <LoadingOverlay>
       <AutorenewIcon className={styles.animationSpin} />
-      {title ? title : 'Načítání...'}
+      {title}
     </LoadingOverlay>
   );
 };
