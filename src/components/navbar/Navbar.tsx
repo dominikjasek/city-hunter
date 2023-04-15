@@ -22,7 +22,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Link from 'next/link';
 import { UserBox } from '~/components/navbar/UserBox';
-import { useUser } from '@clerk/clerk-react';
 import { useRouter } from 'next/router';
 
 interface NavbarLink {

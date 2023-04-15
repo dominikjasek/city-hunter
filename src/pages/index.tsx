@@ -1,4 +1,4 @@
-import { trpc } from '../utils/trpc';
+import { trpc } from '~/utils/trpc';
 import { NextPageWithLayout } from './_app';
 import { Button, Typography } from '@mui/material';
 
