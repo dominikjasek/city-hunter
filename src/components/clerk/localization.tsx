@@ -1,12 +1,4 @@
 import { LocalizationResource } from '@clerk/types';
+import cs from './cs.json';
 
-export const localization: LocalizationResource = {
-  socialButtonsBlockButton: 'Přihlásit se s {{provider|titleize}}',
-  signIn: {
-    start: {
-      title: 'Přihlásit se',
-      subtitle: 'pro pokračování do aplikace {{applicationName}}',
-    },
-  },
-  dividerText: 'nebo',
-};
+export const localization: LocalizationResource = cs;

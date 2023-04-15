@@ -1,0 +1,556 @@
+{
+  "socialButtonsBlockButton": "Pokračovat s {{provider|titleize}}",
+  "dividerText": "nebo",
+  "formFieldLabel__emailAddress": "E-mailová adresa",
+  "formFieldLabel__emailAddresses": "E-mailové adresy",
+  "formFieldLabel__phoneNumber": "Telefonní číslo",
+  "formFieldLabel__username": "Uživatelské jméno",
+  "formFieldLabel__emailAddress_phoneNumber": "E-mailová adresa nebo telefonní číslo",
+  "formFieldLabel__emailAddress_username": "E-mailová adresa nebo uživatelské jméno",
+  "formFieldLabel__phoneNumber_username": "telefonní číslo nebo uživatelské jméno",
+  "formFieldLabel__emailAddress_phoneNumber_username": "E-mailová adresa, telefonní číslo nebo uživatelské jméno",
+  "formFieldLabel__password": "Heslo",
+  "formFieldLabel__currentPassword": "Aktuální heslo",
+  "formFieldLabel__newPassword": "Nové heslo",
+  "formFieldLabel__confirmPassword": "Potvrdit heslo",
+  "formFieldLabel__signOutOfOtherSessions": "tedy ze všech ostatních zařízení",
+  "formFieldLabel__firstName": "Křestní jméno",
+  "formFieldLabel__lastName": "Příjmení",
+  "formFieldLabel__backupCode": "Záložní kód",
+  "formFieldLabel__organizationName": "Název organizace",
+  "formFieldLabel__organizationSlug": "Slimácká URL",
+  "formFieldLabel__role": "Role",
+  "formFieldInputPlaceholder__emailAddress": "",
+  "formFieldInputPlaceholder__emailAddresses": "Zadejte nebo vložte jednu nebo více e-mailových adres oddělených mezerami nebo čárkami",
+  "formFieldInputPlaceholder__phoneNumber": "",
+  "formFieldInputPlaceholder__username": "",
+  "formFieldInputPlaceholder__emailAddress_phoneNumber": "",
+  "formFieldInputPlaceholder__emailAddress_username": "",
+  "formFieldInputPlaceholder__phoneNumber_username": "",
+  "formFieldInputPlaceholder__emailAddress_phoneNumber_username": "",
+  "formFieldInputPlaceholder__password": "",
+  "formFieldInputPlaceholder__firstName": "",
+  "formFieldInputPlaceholder__lastName": "",
+  "formFieldInputPlaceholder__backupCode": "",
+  "formFieldInputPlaceholder__organizationName": "",
+  "formFieldInputPlaceholder__organizationSlug": "",
+  "formFieldAction__forgotPassword": "zapomenuté heslo",
+  "formFieldHintText__optional": "Volitelný",
+  "formButtonPrimary": "Pokračovat",
+  "signInEnterPasswordTitle": "Zadejte heslo",
+  "backButton": "Zadní",
+  "footerActionLink__useAnotherMethod": "Použijte jinou metodu",
+  "badge__primary": "Hlavní",
+  "badge__thisDevice": "Toto zařízení",
+  "badge__userDevice": "Uživatelské zařízení",
+  "badge__otherImpersonatorDevice": "Jiné imitátor zařízení",
+  "badge__default": "Výchozí",
+  "badge__unverified": "Neověřeno",
+  "badge__requiresAction": "Vyžaduje akci",
+  "badge__you": "Vy",
+  "footerPageLink__help": "Pomoc",
+  "footerPageLink__privacy": "Soukromí",
+  "footerPageLink__terms": "Podmínky",
+  "paginationButton__previous": "Předchozí",
+  "paginationButton__next": "další",
+  "paginationRowText__displaying": "Zobrazuji",
+  "paginationRowText__of": "z",
+  "membershipRole__admin": "Admin",
+  "membershipRole__basicMember": "Člen",
+  "membershipRole__guestMember": "Host",
+  "signUp": {
+    "start": {
+      "title": "Vytvořte si účet",
+      "subtitle": "pokračovat {{applicationName}}",
+      "actionText": "Mít účet?",
+      "actionLink": "Přihlásit se"
+    },
+    "emailLink": {
+      "title": "Ověřte svůj email",
+      "subtitle": "pokračovat {{applicationName}}",
+      "formTitle": "Ověřovací odkaz",
+      "formSubtitle": "Použijte ověřovací odkaz zaslaný na vaši e-mailovou adresu",
+      "resendButton": "Znovu odeslat odkaz",
+      "verified": {
+        "title": "Úspěšně zaregistrováno"
+      },
+      "loading": {
+        "title": "Přihlašování..."
+      },
+      "verifiedSwitchTab": {
+        "title": "E-mail byl úspěšně ověřen",
+        "subtitle": "Chcete-li pokračovat, vraťte se na nově otevřenou kartu",
+        "subtitleNewTab": "Chcete-li pokračovat, vraťte se na předchozí kartu"
+      }
+    },
+    "emailCode": {
+      "title": "Ověřte svůj email",
+      "subtitle": "pokračovat {{applicationName}}",
+      "formTitle": "Ověřovací kód",
+      "formSubtitle": "Zadejte ověřovací kód zaslaný na vaši e-mailovou adresu",
+      "resendButton": "Znovu odeslat kód"
+    },
+    "phoneCode": {
+      "title": "Ověřte svůj telefon",
+      "subtitle": "pokračovat {{applicationName}}",
+      "formTitle": "Ověřovací kód",
+      "formSubtitle": "Zadejte ověřovací kód odeslaný na vaše telefonní číslo",
+      "resendButton": "Znovu odeslat kód"
+    },
+    "continue": {
+      "title": "Doplňte chybějící pole",
+      "subtitle": "pokračovat {{applicationName}}",
+      "actionText": "Mít účet?",
+      "actionLink": "Přihlásit se"
+    }
+  },
+  "signIn": {
+    "start": {
+      "title": "Přihlásit se",
+      "subtitle": "pro pokračování na {{applicationName}}",
+      "actionText": "Ještě nemáte účet?",
+      "actionLink": "Zaregistrovat se",
+      "actionLink__use_email": "Použijte e-mail",
+      "actionLink__use_phone": "Použijte telefon",
+      "actionLink__use_username": "Použijte uživatelské jméno",
+      "actionLink__use_email_username": "Použijte e-mail nebo uživatelské jméno"
+    },
+    "password": {
+      "title": "Zadejte heslo",
+      "subtitle": "pokračovat {{applicationName}}",
+      "actionLink": "Použijte jinou metodu"
+    },
+    "emailCode": {
+      "title": "Zkontroluj si email",
+      "subtitle": "pokračovat {{applicationName}}",
+      "formTitle": "Ověřovací kód",
+      "formSubtitle": "Zadejte ověřovací kód zaslaný na vaši e-mailovou adresu",
+      "resendButton": "Znovu odeslat kód"
+    },
+    "emailLink": {
+      "title": "Zkontroluj si email",
+      "subtitle": "pokračovat {{applicationName}}",
+      "formTitle": "Ověřovací odkaz",
+      "formSubtitle": "Použijte ověřovací odkaz zaslaný na váš e-mail",
+      "resendButton": "Znovu odeslat odkaz",
+      "unusedTab": {
+        "title": "Tuto kartu můžete zavřít"
+      },
+      "verified": {
+        "title": "Úspěšně přihlášeni",
+        "subtitle": "Brzy budete přesměrováni"
+      },
+      "verifiedSwitchTab": {
+        "subtitle": "Chcete-li pokračovat, vraťte se na původní kartu",
+        "titleNewTab": "Přihlášeni na jiné kartě",
+        "subtitleNewTab": "Chcete-li pokračovat, vraťte se na nově otevřenou kartu"
+      },
+      "loading": {
+        "title": "Přihlašování...",
+        "subtitle": "Brzy budete přesměrováni"
+      },
+      "failed": {
+        "title": "Tento ověřovací odkaz je neplatný",
+        "subtitle": "Chcete-li pokračovat, vraťte se na původní kartu."
+      },
+      "expired": {
+        "title": "Platnost tohoto ověřovacího odkazu vypršela",
+        "subtitle": "Chcete-li pokračovat, vraťte se na původní kartu."
+      }
+    },
+    "phoneCode": {
+      "title": "Zkontrolujte svůj telefon",
+      "subtitle": "pokračovat {{applicationName}}",
+      "formTitle": "Ověřovací kód",
+      "formSubtitle": "Zadejte ověřovací kód odeslaný na vaše telefonní číslo",
+      "resendButton": "Znovu odeslat kód"
+    },
+    "phoneCodeMfa": {
+      "title": "Zkontrolujte svůj telefon",
+      "subtitle": "",
+      "formTitle": "Ověřovací kód",
+      "formSubtitle": "Zadejte ověřovací kód odeslaný na vaše telefonní číslo",
+      "resendButton": "Znovu odeslat kód"
+    },
+    "totpMfa": {
+      "title": "Dvoufázové ověření",
+      "subtitle": "",
+      "formTitle": "Ověřovací kód",
+      "formSubtitle": "Zadejte ověřovací kód vygenerovaný vaší ověřovací aplikací"
+    },
+    "backupCodeMfa": {
+      "title": "Zadejte záložní kód",
+      "subtitle": "pokračovat {{applicationName}}",
+      "formTitle": "",
+      "formSubtitle": ""
+    },
+    "alternativeMethods": {
+      "title": "Použijte jinou metodu",
+      "actionLink": "Získejte pomoc",
+      "blockButton__emailLink": "Odeslat odkaz na {{identifier}}",
+      "blockButton__emailCode": "Odeslat kód na {{identifier}}",
+      "blockButton__phoneCode": "Odeslat kód na {{identifier}}",
+      "blockButton__password": "Přihlaste se pomocí svého hesla",
+      "blockButton__totp": "Použijte aplikaci pro ověřování",
+      "blockButton__backupCode": "Použijte záložní kód",
+      "getHelp": {
+        "title": "Získejte pomoc",
+        "content": "Pokud máte potíže s přihlášením ke svému účtu, pošlete nám e-mail a my s vámi budeme spolupracovat na obnovení přístupu co nejdříve.",
+        "blockButton__emailSupport": "E-mailová podpora"
+      }
+    },
+    "noAvailableMethods": {
+      "title": "Nelze se přihlásit",
+      "subtitle": "Vyskytla se chyba",
+      "message": "Nelze pokračovat s přihlášením. Není k dispozici žádný faktor ověření."
+    }
+  },
+  "userProfile": {
+    "mobileButton__menu": "Jídelní lístek",
+    "formButtonPrimary__continue": "Pokračovat",
+    "formButtonPrimary__finish": "Dokončit",
+    "formButtonReset": "zrušení",
+    "start": {
+      "headerTitle__account": "Účet",
+      "headerTitle__security": "Bezpečnostní",
+      "headerSubtitle__account": "Spravujte informace o svém účtu",
+      "headerSubtitle__security": "Spravujte své předvolby zabezpečení",
+      "profileSection": {
+        "title": "Profil"
+      },
+      "usernameSection": {
+        "title": "Uživatelské jméno",
+        "primaryButton__changeUsername": "Změnit uživatelské jméno",
+        "primaryButton__setUsername": "Nastavit uživatelské jméno"
+      },
+      "emailAddressesSection": {
+        "title": "E-mailové adresy",
+        "primaryButton": "Přidejte e-mailovou adresu",
+        "detailsTitle__primary": "Primární e-mailová adresa",
+        "detailsSubtitle__primary": "Tato e-mailová adresa je primární e-mailová adresa",
+        "detailsAction__primary": "Dokončete ověření",
+        "detailsTitle__nonPrimary": "Nastavit jako primární e-mailovou adresu",
+        "detailsSubtitle__nonPrimary": "Nastavte tuto e-mailovou adresu jako primární pro příjem komunikace týkající se vašeho účtu.",
+        "detailsAction__nonPrimary": "Nastavit jako hlavní",
+        "detailsTitle__unverified": "Neověřená e-mailová adresa",
+        "detailsSubtitle__unverified": "Tato e-mailová adresa nebyla ověřena a její funkčnost může být omezena",
+        "detailsAction__unverified": "Dokončete ověření",
+        "destructiveActionTitle": "Odstranit",
+        "destructiveActionSubtitle": "Smažte tuto e-mailovou adresu a odstraňte ji ze svého účtu",
+        "destructiveAction": "Odebrat e-mailovou adresu"
+      },
+      "phoneNumbersSection": {
+        "title": "Telefonní čísla",
+        "primaryButton": "Přidejte telefonní číslo",
+        "detailsTitle__primary": "Hlavní telefonní číslo",
+        "detailsSubtitle__primary": "Toto telefonní číslo je primární telefonní číslo",
+        "detailsAction__primary": "Dokončete ověření",
+        "detailsTitle__nonPrimary": "Nastavit jako primární telefonní číslo",
+        "detailsSubtitle__nonPrimary": "Nastavte toto telefonní číslo jako primární pro příjem komunikace týkající se vašeho účtu.",
+        "detailsAction__nonPrimary": "Nastavit jako hlavní",
+        "detailsTitle__unverified": "Neověřené telefonní číslo",
+        "detailsSubtitle__unverified": "Toto telefonní číslo nebylo ověřeno a může mít omezenou funkčnost",
+        "detailsAction__unverified": "Dokončete ověření",
+        "destructiveActionTitle": "Odstranit",
+        "destructiveActionSubtitle": "Smažte toto telefonní číslo a odstraňte je ze svého účtu",
+        "destructiveAction": "Odebrat telefonní číslo"
+      },
+      "connectedAccountsSection": {
+        "title": "Propojené účty",
+        "primaryButton": "Připojit účet",
+        "title__conectionFailed": "Opakovat neúspěšné připojení",
+        "title__connectionFailed": "Opakovat neúspěšné připojení",
+        "title__reauthorize": "Je vyžadována opětovná autorizace",
+        "subtitle__reauthorize": "Požadované rozsahy byly aktualizovány a možná máte omezenou funkčnost. ",
+        "actionLabel__conectionFailed": "Zkus to znovu",
+        "actionLabel__connectionFailed": "Zkus to znovu",
+        "actionLabel__reauthorize": "Autorizujte nyní",
+        "destructiveActionTitle": "Odstranit",
+        "destructiveActionSubtitle": "Odeberte tento propojený účet ze svého účtu",
+        "destructiveActionAccordionSubtitle": "Odebrat připojený účet"
+      },
+      "passwordSection": {
+        "title": "Heslo",
+        "primaryButton__changePassword": "Změnit heslo",
+        "primaryButton__setPassword": "Nastavit heslo"
+      },
+      "mfaSection": {
+        "title": "Dvoufázové ověření",
+        "primaryButton": "Přidejte dvoufázové ověření",
+        "phoneCode": {
+          "destructiveActionTitle": "Odstranit",
+          "destructiveActionSubtitle": "Odeberte toto telefonní číslo z metod dvoufázového ověření",
+          "destructiveActionLabel": "Odebrat telefonní číslo",
+          "title__default": "Výchozí faktor",
+          "title__setDefault": "Nastavit jako výchozí faktor",
+          "subtitle__default": "Tento faktor bude použit jako výchozí metoda dvoufázového ověření při přihlašování.",
+          "subtitle__setDefault": "Nastavte tento faktor jako výchozí faktor, chcete-li jej použít jako výchozí metodu dvoufázového ověření při přihlašování.",
+          "actionLabel__setDefault": "Nastavit jako výchozí"
+        },
+        "backupCodes": {
+          "headerTitle": "Záložní kódy",
+          "title__regenerate": "Obnovte záložní kódy",
+          "subtitle__regenerate": "Získejte novou sadu bezpečných záložních kódů. ",
+          "actionLabel__regenerate": "Obnovte kódy"
+        },
+        "totp": {
+          "headerTitle": "Aplikace Authenticator",
+          "title": "Výchozí faktor",
+          "subtitle": "Tento faktor bude použit jako výchozí metoda dvoufázového ověření při přihlašování.",
+          "destructiveActionTitle": "Odstranit",
+          "destructiveActionSubtitle": "Odeberte ověřovací aplikaci z metod dvoufázového ověření",
+          "destructiveActionLabel": "Odebrat aplikaci ověřování"
+        }
+      },
+      "activeDevicesSection": {
+        "title": "Aktivní zařízení",
+        "primaryButton": "Aktivní zařízení",
+        "detailsTitle": "Aktuální zařízení",
+        "detailsSubtitle": "Toto je zařízení, které aktuálně používáte",
+        "destructiveActionTitle": "Odhlásit se",
+        "destructiveActionSubtitle": "Odhlaste se ze svého účtu na tomto zařízení",
+        "destructiveAction": "Odhlaste se ze zařízení"
+      },
+      "web3WalletsSection": {
+        "title": "Web3 peněženky",
+        "primaryButton": "Web3 peněženky",
+        "destructiveActionTitle": "Odstranit",
+        "destructiveActionSubtitle": "Odeberte tuto web3 peněženku ze svého účtu",
+        "destructiveAction": "Odstraňte peněženku"
+      }
+    },
+    "profilePage": {
+      "title": "Aktualizovat profil",
+      "imageFormTitle": "Profilový obrázek",
+      "imageFormSubtitle": "Nahrát obrázek",
+      "imageFormDestructiveActionSubtitle": "Odebrat obrázek",
+      "fileDropAreaTitle": "Přetáhněte soubor sem nebo...",
+      "fileDropAreaAction": "Zvolte soubor",
+      "fileDropAreaHint": "Nahrajte obrázek JPG, PNG, GIF nebo WEBP menší než 10 MB",
+      "successMessage": "Váš profil byl aktualizován."
+    },
+    "usernamePage": {
+      "title": "Aktualizujte uživatelské jméno",
+      "successMessage": "Vaše uživatelské jméno bylo aktualizováno."
+    },
+    "emailAddressPage": {
+      "title": "Přidejte e-mailovou adresu",
+      "emailCode": {
+        "formHint": "Na tuto e-mailovou adresu bude zaslán e-mail obsahující ověřovací kód.",
+        "formTitle": "Ověřovací kód",
+        "formSubtitle": "Zadejte ověřovací kód odeslaný na {{identifier}}",
+        "resendButton": "Znovu odeslat kód",
+        "successMessage": "E-mail {{identifier}} byl přidán do vašeho účtu."
+      },
+      "emailLink": {
+        "formHint": "Na tuto e-mailovou adresu bude odeslán e-mail obsahující ověřovací odkaz.",
+        "formTitle": "Ověřovací odkaz",
+        "formSubtitle": "Klikněte na ověřovací odkaz v e-mailu odeslaném na adresu {{identifier}}",
+        "resendButton": "Znovu odeslat odkaz",
+        "successMessage": "E-mail {{identifier}} byl přidán do vašeho účtu."
+      },
+      "removeResource": {
+        "title": "Odebrat e-mailovou adresu",
+        "messageLine1": "{{identifier}} bude z tohoto účtu odstraněn.",
+        "messageLine2": "Pomocí této e-mailové adresy se již nebudete moci přihlásit.",
+        "successMessage": "{{emailAddress}} byl odstraněn z vašeho účtu."
+      }
+    },
+    "phoneNumberPage": {
+      "title": "Přidat telefoní číslo",
+      "successMessage": "{{identifier}} byl přidán do vašeho účtu.",
+      "infoText": "Na toto telefonní číslo bude odeslána textová zpráva obsahující ověřovací odkaz.",
+      "infoText__secondary": "Mohou být účtovány poplatky za zprávy a data.",
+      "removeResource": {
+        "title": "Odebrat telefonní číslo",
+        "messageLine1": "{{identifier}} bude z tohoto účtu odstraněn.",
+        "messageLine2": "Pomocí tohoto telefonního čísla se již nebudete moci přihlásit.",
+        "successMessage": "{{phoneNumber}} byl odstraněn z vašeho účtu."
+      }
+    },
+    "connectedAccountPage": {
+      "title": "Přidat připojený účet",
+      "formHint": "Vyberte poskytovatele pro připojení vašeho účtu.",
+      "formHint__noAccounts": "Nejsou k dispozici žádní externí poskytovatelé účtů.",
+      "socialButtonsBlockButton": "Připojit {{provider|titleize}} účet",
+      "successMessage": "Poskytovatel byl přidán do vašeho účtu",
+      "removeResource": {
+        "title": "Odebrat připojený účet",
+        "messageLine1": "{{identifier}} bude z tohoto účtu odstraněn.",
+        "messageLine2": "Tento připojený účet již nebudete moci používat a žádné závislé funkce již nebudou fungovat.",
+        "successMessage": "{{connectedAccount}} byl odstraněn z vašeho účtu."
+      }
+    },
+    "web3WalletPage": {
+      "title": "Přidejte web3 peněženku",
+      "subtitle__availableWallets": "Vyberte web3 peněženku pro připojení ke svému účtu.",
+      "subtitle__unavailableWallets": "Nejsou k dispozici žádné webové peněženky.",
+      "successMessage": "Peněženka byla přidána k vašemu účtu.",
+      "removeResource": {
+        "title": "Odebrat web3 peněženku",
+        "messageLine1": "{{identifier}} bude z tohoto účtu odstraněn.",
+        "messageLine2": "Pomocí této webové peněženky se již nebudete moci přihlásit.",
+        "successMessage": "{{web3Wallet}} byl odstraněn z vašeho účtu."
+      }
+    },
+    "passwordPage": {
+      "title": "Nastavit heslo",
+      "changePasswordTitle": "Změnit heslo",
+      "successMessage": "Vaše heslo bylo nastaveno.",
+      "changePasswordSuccessMessage": "Vaše heslo bylo aktualizováno.",
+      "sessionsSignedOutSuccessMessage": "Všechna ostatní zařízení byla odhlášena."
+    },
+    "mfaPage": {
+      "title": "Přidejte dvoufázové ověření",
+      "formHint": "Vyberte metodu, kterou chcete přidat."
+    },
+    "mfaTOTPPage": {
+      "title": "Přidat ověřovací aplikaci",
+      "verifyTitle": "Ověřovací kód",
+      "verifySubtitle": "Zadejte ověřovací kód vygenerovaný vaším ověřovatelem",
+      "successMessage": "Nyní je povoleno dvoufázové ověření. ",
+      "authenticatorApp": {
+        "infoText__ableToScan": "Nastavte si v aplikaci pro ověřování novou metodu přihlášení a naskenujte následující QR kód, abyste ji propojili se svým účtem.",
+        "infoText__unableToScan": "Nastavte ve svém ověřovacím zařízení novou metodu přihlášení a zadejte níže uvedený klíč.",
+        "inputLabel__unableToScan1": "Ujistěte se, že jsou povolena časová nebo jednorázová hesla, a poté dokončete propojení účtu.",
+        "inputLabel__unableToScan2": "Alternativně, pokud váš autentizátor podporuje TOTP URI, můžete také zkopírovat celý URI.",
+        "buttonAbleToScan__nonPrimary": "Naskenujte raději QR kód",
+        "buttonUnableToScan__nonPrimary": "Nemůžete naskenovat QR kód?"
+      },
+      "removeResource": {
+        "title": "Odstraňte dvoufázové ověření",
+        "messageLine1": "Při přihlašování již nebudou vyžadovány ověřovací kódy z tohoto autentizátoru.",
+        "messageLine2": "Váš účet nemusí být tak bezpečný. ",
+        "successMessage": "Bylo odstraněno dvoufázové ověření prostřednictvím aplikace pro ověřování."
+      }
+    },
+    "mfaPhoneCodePage": {
+      "title": "Přidejte ověření pomocí SMS kódu",
+      "primaryButton__addPhoneNumber": "Přidejte telefonní číslo",
+      "subtitle__availablePhoneNumbers": "Vyberte telefonní číslo pro registraci pro dvoufázové ověření pomocí SMS kódu.",
+      "subtitle__unavailablePhoneNumbers": "Nejsou k dispozici žádná telefonní čísla k registraci pro dvoufázové ověření pomocí SMS kódu.",
+      "successMessage": "Pro toto telefonní číslo je nyní povoleno dvoufázové ověření pomocí SMS kódu. ",
+      "removeResource": {
+        "title": "Odstraňte dvoufázové ověření",
+        "messageLine1": "{{identifier}} při přihlašování již nebude dostávat ověřovací kódy.",
+        "messageLine2": "Váš účet nemusí být tak bezpečný. ",
+        "successMessage": "Dvoufázové ověření pomocí SMS kódu bylo odstraněno pro {{mfaPhoneCode}}"
+      }
+    },
+    "backupCodePage": {
+      "title": "Přidejte ověření záložního kódu",
+      "title__codelist": "Záložní kódy",
+      "subtitle__codelist": "Uchovávejte je bezpečně a udržujte je v tajnosti.",
+      "infoText1": "Pro tento účet budou povoleny záložní kódy.",
+      "infoText2": "Udržujte záložní kódy v tajnosti a bezpečně je uložte. ",
+      "successSubtitle": "Pokud ztratíte přístup ke svému ověřovacímu zařízení, můžete se pomocí jednoho z nich přihlásit ke svému účtu.",
+      "successMessage": "Záložní kódy jsou nyní povoleny. ",
+      "actionLabel__copy": "Zkopírujte vše",
+      "actionLabel__copied": "Zkopírováno!",
+      "actionLabel__download": "Stáhnout .txt",
+      "actionLabel__print": "Tisk"
+    }
+  },
+  "userButton": {
+    "action__manageAccount": "Spravovat účet",
+    "action__signOut": "Odhlásit se",
+    "action__signOutAll": "Odhlaste se ze všech účtů",
+    "action__addAccount": "Přidat účet"
+  },
+  "organizationSwitcher": {
+    "personalWorkspace": "Osobní pracovní prostor",
+    "notSelected": "Není vybrána žádná organizace",
+    "action__createOrganization": "Vytvořit organizaci",
+    "action__manageOrganization": "Správa organizace"
+  },
+  "impersonationFab": {
+    "title": "Přihlášen jako {{identifier}}",
+    "action__signOut": "Odhlásit se"
+  },
+  "organizationProfile": {
+    "start": {
+      "headerTitle__members": "členové",
+      "headerTitle__settings": "Nastavení",
+      "headerSubtitle__members": "Zobrazení a správa členů organizace",
+      "headerSubtitle__settings": "Spravujte nastavení organizace"
+    },
+    "profilePage": {
+      "title": "Profil organizace",
+      "subtitle": "Správa profilu organizace",
+      "successMessage": "Organizace byla aktualizována.",
+      "dangerSection": {
+        "title": "Nebezpečí",
+        "leaveOrganization": {
+          "title": "Opustit organizaci",
+          "messageLine1": "Opravdu chcete opustit tuto organizaci? ",
+          "messageLine2": "Tato akce je trvalá a nevratná.",
+          "successMessage": "Opustili jste organizaci."
+        }
+      }
+    },
+    "invitePage": {
+      "title": "Pozvěte členy",
+      "subtitle": "Pozvěte nové členy do této organizace",
+      "successMessage": "Pozvánky byly úspěšně odeslány",
+      "detailsTitle__inviteFailed": "Pozvánky se nepodařilo odeslat. ",
+      "formButtonPrimary__continue": "Poslat pozvánky"
+    },
+    "membersPage": {
+      "detailsTitle__emptyRow": "Žádní členové k zobrazení",
+      "action__invite": "Pozvat",
+      "start": {
+        "headerTitle__active": "Aktivní",
+        "headerTitle__invited": "Pozván"
+      },
+      "activeMembersTab": {
+        "tableHeader__user": "Uživatel",
+        "tableHeader__joined": "Připojeno",
+        "tableHeader__role": "Role",
+        "tableHeader__actions": "",
+        "menuAction__remove": "Odebrat člena"
+      },
+      "invitedMembersTab": {
+        "tableHeader__invited": "Pozván",
+        "menuAction__revoke": "Odvolat pozvánku"
+      }
+    }
+  },
+  "createOrganization": {
+    "title": "Vytvořit organizaci",
+    "formButtonSubmit": "Vytvořte organizaci",
+    "subtitle": "Nastavte profil organizace",
+    "invitePage": {
+      "formButtonReset": "Přeskočit"
+    }
+  },
+  "unstable__errors": {
+    "form_identifier_not_found": "",
+    "form_password_pwned": "",
+    "form_username_invalid_length": "",
+    "form_param_format_invalid": "",
+    "form_password_length_too_short": "",
+    "form_param_nil": "",
+    "form_code_incorrect": "",
+    "form_password_incorrect": "",
+    "not_allowed_access": "",
+    "form_identifier_exists": "",
+    "form_password_validation_failed": "Bylo zadáno neplatné heslo",
+    "passwordComplexity": {
+      "sentencePrefix": "Vaše heslo musí obsahovat",
+      "minimumLength": "{{length}} nebo více znaků",
+      "maximumLength": "méně než {{length}} postavy",
+      "requireNumbers": "číslo",
+      "requireLowercase": "malé písmeno",
+      "requireUppercase": "velké písmeno",
+      "requireSpecialCharacter": "zvláštní postava"
+    }
+  },
+  "dates": {
+    "previous6Days": "Poslední {{ date | weekday('en-US','long') }} na {{ date | timeString('en-US') }}",
+    "lastDay": "Včera v {{ date | timeString('en-US') }}",
+    "sameDay": "Dnes v {{ date | timeString('en-US') }}",
+    "nextDay": "Zítra v {{ date | timeString('en-US') }}",
+    "next6Days": "{{ date | weekday('en-US','long') }} na {{ date | timeString('en-US') }}",
+    "numeric": "{{ date | numeric('en-US') }}"
+  }
+}
