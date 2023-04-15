@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { ReactNode } from 'react';
 import { Navbar } from '~/components/navbar/Navbar';
 import styles from '~/styles/global.module.css';
+import { Container } from '@mui/material';
 
 type DefaultLayoutProps = { children: ReactNode };
 
@@ -15,7 +16,9 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
 
       <div className={styles.app}>
         <Navbar />
-        <main>{children}</main>
+        <main>
+          <Container>{children}</Container>
+        </main>
       </div>
     </>
   );

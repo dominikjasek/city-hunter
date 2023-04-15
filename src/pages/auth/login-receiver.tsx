@@ -2,15 +2,21 @@ import React, { useCallback, useEffect } from 'react';
 import { trpc } from '~/utils/trpc';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
+import { useDialog } from '~/components/contexts/DialogProvider';
+import { Loader } from '~/components/common/Loader/Loader';
+import { Alert } from '@mui/material';
+import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 
 const LoginReceiver: React.FC = () => {
   const mutation = trpc.auth.createUser.useMutation();
   const { user } = useUser();
   const router = useRouter();
+  const { setOpenLoginDialog } = useDialog();
 
   const createAccount = useCallback(async () => {
     if (!user) return;
-    await mutation.mutate({
+    console.log('before mutation', mutation.data);
+    const result = await mutation.mutateAsync({
       id: user.id,
       nickName:
         user.fullName ??
@@ -18,14 +24,26 @@ const LoginReceiver: React.FC = () => {
         user.primaryEmailAddress?.emailAddress ??
         `${user.id}`,
     });
-    await router.replace('/');
+    if (result.success) {
+      await router.replace('/');
+    }
   }, [user, mutation]);
 
   useEffect(() => {
+    setOpenLoginDialog(false);
     createAccount();
   }, [user]);
 
-  return <div>Probíhá přihlašování</div>;
+  if (mutation.error) {
+    return (
+      <MessageBox
+        type="error"
+        message={'Chyba při přihlašování - kontaktujte prosím správce webu.'}
+      />
+    );
+  }
+
+  return <Loader title={'Probíhá přihlašování...'} />;
 };
 
 export default LoginReceiver;

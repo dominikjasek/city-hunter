@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import {
   AppBar,
   Box,
@@ -39,7 +38,6 @@ const MobileNavbar: React.FC = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const theme = useTheme();
   const router = useRouter();
-  console.log('router.pathname', router.pathname);
 
   useEffect(() => {
     setMobileOpen(false);

@@ -1,6 +1,8 @@
 import { trpc } from '~/utils/trpc';
 import { NextPageWithLayout } from './_app';
 import { Button, Typography } from '@mui/material';
+import React from 'react';
+import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 
 const IndexPage: NextPageWithLayout = () => {
   const postsQuery = trpc.post.list.useQuery({

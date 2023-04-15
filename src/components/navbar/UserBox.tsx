@@ -5,7 +5,7 @@ import { useDialog } from '~/components/contexts/DialogProvider';
 import { useRouter } from 'next/router';
 
 export const UserBox: FC = () => {
-  const { openLoginDialog } = useDialog();
+  const { setOpenLoginDialog } = useDialog();
   const { pathname } = useRouter();
 
   return (
@@ -18,7 +18,7 @@ export const UserBox: FC = () => {
           <Button
             color={'secondary'}
             variant={'contained'}
-            onClick={() => openLoginDialog()}
+            onClick={() => setOpenLoginDialog(true)}
           >
             Přihlásit se
           </Button>

@@ -9,7 +9,7 @@ import { SignIn } from '@clerk/nextjs';
 import { Dialog } from '@mui/material';
 
 interface DialogContextType {
-  openLoginDialog: () => void;
+  setOpenLoginDialog: (newState: boolean) => void;
 }
 
 const DialogContext = createContext<DialogContextType | null>(null);
@@ -19,9 +19,7 @@ export const DialogProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const providerValue = useMemo<DialogContextType>(
     () => ({
-      openLoginDialog: () => {
-        setOpenLoginDialog(true);
-      },
+      setOpenLoginDialog,
     }),
     [setOpenLoginDialog],
   );

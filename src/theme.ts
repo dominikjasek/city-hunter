@@ -1,8 +1,7 @@
 import { Fira_Code } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
 
-export const fira = Fira_Code({
+export const firaCode = Fira_Code({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
   display: 'swap',
@@ -19,11 +18,20 @@ const theme = createTheme({
       main: '#f1bf14',
     },
     error: {
-      main: red.A400,
+      main: '#DD0B0B',
+    },
+    warning: {
+      main: '#FFE17B',
+    },
+    info: {
+      main: '#7CAED7',
+    },
+    success: {
+      main: '#57C84D',
     },
   },
   typography: {
-    fontFamily: fira.style.fontFamily,
+    fontFamily: firaCode.style.fontFamily,
   },
 });
 
