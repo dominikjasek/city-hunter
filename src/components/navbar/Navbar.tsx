@@ -77,11 +77,13 @@ const MobileNavbar: React.FC = () => {
       <Divider />
       <List>
         {navbarLinks.map((item) => (
-          <ListItem key={item.title} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item.title} />
-            </ListItemButton>
-          </ListItem>
+          <Link key={item.title} className={'link-no-style'} href={item.href}>
+            <ListItem disablePadding>
+              <ListItemButton sx={{ textAlign: 'center' }}>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
         <ListItem disablePadding>
           <ListItemButton
@@ -111,13 +113,6 @@ const MobileNavbar: React.FC = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navbarLinks.map((item) => (
-              <Button key={item.title} sx={{ color: '#fff' }}>
-                {item.title}
-              </Button>
-            ))}
-          </Box>
         </Toolbar>
       </AppBar>
       <Box component="nav">
@@ -146,6 +141,8 @@ const MobileNavbar: React.FC = () => {
 };
 
 const DesktopNavbar: React.FC = () => {
+  const theme = useTheme();
+
   return (
     <nav>
       <Stack
@@ -167,7 +164,18 @@ const DesktopNavbar: React.FC = () => {
             <Typography fontSize={24}>CITY HUNTER</Typography>
           </Stack>
         </Link>
-        <UserBox />
+        <Stack direction={'row'} alignItems={'center'} gap={3}>
+          {navbarLinks.map((item) => (
+            <Link className={'link-no-style'} key={item.title} href={item.href}>
+              <Typography
+                sx={{ '&:hover': { color: theme.palette.secondary.main } }}
+              >
+                {item.title.toUpperCase()}
+              </Typography>
+            </Link>
+          ))}
+          <UserBox />
+        </Stack>
       </Stack>
     </nav>
   );
