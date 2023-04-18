@@ -9,3 +9,9 @@ export const Ranking: NextPage = () => {
 };
 
 export default Ranking;
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
