@@ -42,6 +42,13 @@
       "when": 1681366670069,
       "tag": "0005_strong_lady_vermin",
       "breakpoints": false
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1681845791771,
+      "tag": "0006_slow_proudstar",
+      "breakpoints": false
     }
   ]
 }

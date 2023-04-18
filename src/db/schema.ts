@@ -34,8 +34,8 @@ export type City = InferModel<typeof cities>;
 export const questions = mysqlTable('questions', {
   id: serial('id').primaryKey(),
   title: varchar('title', { length: 100 }).notNull(),
-  questionDescription: text('question_description').notNull(),
-  answerDescription: text('answer_description').notNull(),
+  questionDescription: text('question_description'),
+  answerDescription: text('answer_description'),
   image: varchar('image', { length: 100 }).notNull(),
   cityId: int('city_id'),
   startDate: datetime('start_date'),

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {
   AppBar,
   Box,
-  Button,
   Divider,
   IconButton,
   List,
@@ -32,6 +31,7 @@ const drawerWidth = 250;
 const navbarLinks: NavbarLink[] = [
   { title: 'Hrát', href: '/play' },
   { title: 'Žebříček', href: '/ranking' },
+  { title: 'Zapoj se', href: '/contribute' },
 ];
 
 const MobileNavbar: React.FC = () => {
