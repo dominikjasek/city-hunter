@@ -22,7 +22,12 @@ const IndexPage: NextPageWithLayout = () => {
   }
 
   if (postsQuery.error) {
-    return <MessageBox message={postsQuery.error.message} severity={'error'} />;
+    return (
+      <MessageBox
+        message={`Could not fetch posts: ${postsQuery.error.message}`}
+        type={'error'}
+      />
+    );
   }
 
   return (
