@@ -26,7 +26,6 @@ export const DialogProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   return (
     <DialogContext.Provider value={providerValue}>
-      {children}
       <Dialog
         onClose={() => setOpenLoginDialog(false)}
         PaperProps={{
@@ -34,8 +33,20 @@ export const DialogProvider = ({ children }: PropsWithChildren<unknown>) => {
         }}
         open={openLoginDialog}
       >
-        <SignIn />
+        <SignIn
+          appearance={{
+            elements: {
+              rootBox: {
+                maxWidth: '100%',
+                '& .cl-signIn-start': {
+                  maxWidth: '100%',
+                },
+              },
+            },
+          }}
+        />
       </Dialog>
+      {children}
     </DialogContext.Provider>
   );
 };
