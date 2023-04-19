@@ -33,9 +33,3 @@ export const MapPicker: FC = () => {
     </div>
   );
 };
-
-export async function getStaticProps() {
-  return {
-    props: {},
-  };
-}

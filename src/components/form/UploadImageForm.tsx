@@ -1,7 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { trpc } from '~/utils/trpc';
 import {
   Box,
   Button,
@@ -14,9 +13,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Loader } from '~/components/common/Loader/Loader';
-import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { MapPicker } from '~/components/MapPicker/MapPicker';
+import { City } from '~/db/schema';
 
 const MAX_FILE_SIZE = 500000;
 const ACCEPTED_IMAGE_TYPES = [
@@ -48,8 +46,11 @@ const validationSchema = z.object({
 
 type ValidationSchema = z.infer<typeof validationSchema>;
 
-export const UploadImageForm = () => {
-  const { data: availableCities, isLoading } = trpc.city.list.useQuery();
+export const UploadImageForm = ({
+  availableCities,
+}: {
+  availableCities: City[];
+}) => {
   const {
     register,
     handleSubmit,
@@ -58,18 +59,6 @@ export const UploadImageForm = () => {
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
   });
-
-  if (isLoading) {
-    return <Loader title={'Načítám dostupná města'} />;
-  }
-  if (!availableCities) {
-    return (
-      <MessageBox
-        message={'Nepodařilo se načíst dostupná města'}
-        type={'warning'}
-      />
-    );
-  }
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => console.log(data);
 
