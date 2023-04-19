@@ -102,7 +102,7 @@ const MobileNavbar: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar component="nav" color={'primary'}>
+      <AppBar component="nav" color={'primary'} enableColorOnDark>
         <Toolbar variant={'dense'}>
           <IconButton
             size="large"

@@ -11,6 +11,7 @@ export const firaCode = Fira_Code({
 // Create a theme instance.
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
       main: '#245680',
     },

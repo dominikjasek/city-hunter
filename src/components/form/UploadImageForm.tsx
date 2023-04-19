@@ -1,7 +1,22 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { trpc } from '~/utils/trpc';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { Loader } from '~/components/common/Loader/Loader';
+import { MessageBox } from '~/components/common/MessageBox/MessageBox';
+import { MapPicker } from '~/components/MapPicker/MapPicker';
 
 const MAX_FILE_SIZE = 500000;
 const ACCEPTED_IMAGE_TYPES = [
@@ -34,171 +49,123 @@ const validationSchema = z.object({
 type ValidationSchema = z.infer<typeof validationSchema>;
 
 export const UploadImageForm = () => {
-  const { data } = trpc.city.list.useQuery();
-
+  const { data: availableCities, isLoading } = trpc.city.list.useQuery();
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
   });
 
+  if (isLoading) {
+    return <Loader title={'Načítám dostupná města'} />;
+  }
+  if (!availableCities) {
+    return (
+      <MessageBox
+        message={'Nepodařilo se načíst dostupná města'}
+        type={'warning'}
+      />
+    );
+  }
+
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => console.log(data);
 
   return (
-    <></>
-    // <form className="px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(onSubmit)}>
-    //   {data && data[0]?.name}
-    //   <div className="mb-4 md:flex md:justify-between">
-    //     <div className="mb-4 md:mr-2 md:mb-0">
-    //       <label
-    //         className="block mb-2 text-sm font-bold text-gray-700"
-    //         htmlFor="firstName"
-    //       >
-    //         First Name
-    //       </label>
-    //       <input
-    //         className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border ${
-    //           errors.firstName && 'border-red-500'
-    //         } rounded appearance-none focus:outline-none focus:shadow-outline`}
-    //         id="firstName"
-    //         type="text"
-    //         placeholder="First Name"
-    //         {...register('firstName')}
-    //       />
-    //       {errors.firstName && (
-    //         <p className="text-xs italic text-red-500 mt-2">
-    //           {errors.firstName?.message}
-    //         </p>
-    //       )}
-    //     </div>
-    //     <div className="md:ml-2">
-    //       <label
-    //         className="block mb-2 text-sm font-bold text-gray-700"
-    //         htmlFor="lastName"
-    //       >
-    //         Last Name
-    //       </label>
-    //       <input
-    //         className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border ${
-    //           errors.lastName && 'border-red-500'
-    //         } rounded appearance-none focus:outline-none focus:shadow-outline`}
-    //         id="lastName"
-    //         type="text"
-    //         placeholder="Last Name"
-    //         {...register('lastName')}
-    //       />
-    //       {errors.lastName && (
-    //         <p className="text-xs italic text-red-500 mt-2">
-    //           {errors.lastName?.message}
-    //         </p>
-    //       )}
-    //     </div>
-    //   </div>
-    //   <div className="mb-4">
-    //     <label
-    //       className="block mb-2 text-sm font-bold text-gray-700"
-    //       htmlFor="email"
-    //     >
-    //       Email
-    //     </label>
-    //     <input
-    //       className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border ${
-    //         errors.email && 'border-red-500'
-    //       } rounded appearance-none focus:outline-none focus:shadow-outline`}
-    //       id="email"
-    //       type="email"
-    //       placeholder="Email"
-    //       {...register('email')}
-    //     />
-    //     {errors.email && (
-    //       <p className="text-xs italic text-red-500 mt-2">
-    //         {errors.email?.message}
-    //       </p>
-    //     )}
-    //   </div>
-    //   <div className="mb-4 md:flex md:justify-between">
-    //     <div className="mb-4 md:mr-2 md:mb-0">
-    //       <label
-    //         className="block mb-2 text-sm font-bold text-gray-700"
-    //         htmlFor="password"
-    //       >
-    //         Password
-    //       </label>
-    //       <TextField
-    //         sx={{ mb: 2 }}
-    //         variant="standard"
-    //         fullWidth
-    //         required
-    //         error={!!errors['password']}
-    //         helperText={errors['password'] ? errors['password'].message : ''}
-    //         {...register('password')}
-    //       />
-    //     </div>
-    //     <div className="md:ml-2">
-    //       <label
-    //         className="block mb-2 text-sm font-bold text-gray-700"
-    //         htmlFor="c_password"
-    //       >
-    //         Confirm Password
-    //       </label>
-    //       <input
-    //         className={`w-full px-3 py-2 text-sm leading-tight text-gray-700 border ${
-    //           errors.confirmPassword && 'border-red-500'
-    //         } rounded appearance-none focus:outline-none focus:shadow-outline`}
-    //         id="c_password"
-    //         type="password"
-    //         {...register('confirmPassword')}
-    //       />
-    //       {errors.confirmPassword && (
-    //         <p className="text-xs italic text-red-500 mt-2">
-    //           {errors.confirmPassword?.message}
-    //         </p>
-    //       )}
-    //     </div>
-    //   </div>
-    //   <div className="mb-4">
-    //     <input type="checkbox" id="terms" {...register('terms')} />
-    //     <label
-    //       htmlFor="terms"
-    //       className={`ml-2 mb-2 text-sm font-bold ${
-    //         errors.terms ? 'text-red-500' : 'text-gray-700'
-    //       }`}
-    //     >
-    //       Accept Terms & Conditions
-    //     </label>
-    //     {errors.terms && (
-    //       <p className="text-xs italic text-red-500 mt-2">
-    //         {errors.terms?.message}
-    //       </p>
-    //     )}
-    //   </div>
-    //   <div className="mb-6 text-center">
-    //     <button
-    //       className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-    //       type="submit"
-    //     >
-    //       Register Account
-    //     </button>
-    //   </div>
-    //   <hr className="mb-6 border-t" />
-    //   <div className="text-center">
-    //     <a
-    //       className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-    //       href="#test"
-    //     >
-    //       Forgot Password?
-    //     </a>
-    //   </div>
-    //   <div className="text-center">
-    //     <a
-    //       className="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-    //       href="./index.html"
-    //     >
-    //       Already have an account? Login!
-    //     </a>
-    //   </div>
-    // </form>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Typography textAlign={'center'} variant={'h4'} sx={{ mb: 2 }}>
+        Nahrát nové místo
+      </Typography>
+      <Stack
+        direction={{ xs: 'column', md: 'row' }}
+        justifyContent={'space-around'}
+        sx={{ mb: 4 }}
+      >
+        <Stack direction={'column'}>
+          <Box sx={{ mb: 4, width: '300px' }}>
+            <TextField
+              fullWidth
+              label={'Název místa'}
+              variant="filled"
+              color={'secondary'}
+              required
+              error={!!errors['title']}
+              helperText={errors['title'] ? errors['title'].message : ''}
+              {...register('title')}
+            />
+          </Box>
+          <Box sx={{ mb: 4, width: '300px' }}>
+            <TextField
+              fullWidth
+              label={'Popis místa před odpovědí'}
+              multiline
+              variant="filled"
+              color={'secondary'}
+              required
+              error={!!errors['questionDescription']}
+              helperText={
+                errors['questionDescription']
+                  ? errors['questionDescription'].message
+                  : ''
+              }
+              {...register('questionDescription')}
+            />
+          </Box>
+          <Box sx={{ mb: 4, width: '300px' }}>
+            <TextField
+              fullWidth
+              label={'Popis místa po odpovědí'}
+              multiline
+              variant="filled"
+              color={'secondary'}
+              required
+              error={!!errors['answerDescription']}
+              helperText={
+                errors['answerDescription']
+                  ? errors['answerDescription'].message
+                  : ''
+              }
+              {...register('answerDescription')}
+            />
+          </Box>
+          <Box sx={{ mb: 4, width: '300px' }}>
+            <FormControl fullWidth>
+              <InputLabel color={'secondary'}>Město</InputLabel>
+
+              <Controller
+                {...register('cityId')}
+                control={control}
+                render={({ field }) => (
+                  <Select variant={'filled'} color={'secondary'} {...field}>
+                    {availableCities.map((option) => (
+                      <MenuItem key={option.name} value={option.id}>
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
+            </FormControl>
+            {errors['cityId']?.message && (
+              <FormHelperText error>{errors['cityId'].message}</FormHelperText>
+            )}
+          </Box>
+        </Stack>
+
+        <Stack direction={'column'} sx={{ width: '100%', px: 2 }}>
+          <MapPicker />
+        </Stack>
+      </Stack>
+      <Button
+        variant={'contained'}
+        color={'secondary'}
+        type="submit"
+        sx={{ mx: 'auto' }}
+      >
+        Potvrdit
+      </Button>
+    </form>
   );
 };
