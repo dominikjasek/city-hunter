@@ -1,31 +1,6 @@
-import React, { FC, useRef, useState } from 'react';
-// import GoogleMapReact, { ClickEventValue } from 'google-map-react';
-import Image from 'next/image';
-import MapMarker from '@public/map-marker.svg';
-import GoogleMap from 'google-maps-react-markers';
+import React, { FC, useEffect, useState } from 'react';
+import GoogleMapReact, { ClickEventValue } from 'google-map-react';
 
-// const Marker: FC = () => {
-//   const markerStyle = {
-//     border: '1px solid white',
-//     borderRadius: '50%',
-//     height: 10,
-//     width: 10,
-//     backgroundColor: 'red',
-//     cursor: 'pointer',
-//     zIndex: 10,
-//   };
-//
-//   return (
-//     <>
-//       <div style={markerStyle} />
-//     </>
-//   );
-// };
-
-// interface ImagePropsa extends ImageProps {
-//   lat: number;
-//   lng: number;
-// }
 type Location = { lat: number; lng: number };
 const defaultProps = {
   center: {
@@ -36,87 +11,62 @@ const defaultProps = {
 };
 
 export const MapPicker: FC = () => {
-  const mapRef = useRef(null);
-  const [mapReady, setMapReady] = useState(false);
-  const [marker, setMarker] = useState<Location>({
+  const [point, setPoint] = useState<Location>({
     lat: 49.21585775024331,
     lng: 15.876858895730825,
   });
+  const [marker, setMarker] = useState<any>(null);
 
-  const onGoogleApiLoaded = ({ map, maps }) => {
-    mapRef.current = map;
+  const [maps, setMaps] = useState<any>(null);
+  const [map, setMap] = useState<any>(null);
 
-    new maps.Marker({
+  useEffect(() => {
+    if (!maps || !map) {
+      return;
+    }
+
+    if (marker) {
+      marker.setMap(null);
+    }
+
+    const newMarker = new maps.Marker({
       position: {
-        lat: marker.lat,
-        lng: marker.lng,
+        lat: point.lat,
+        lng: point.lng,
       },
       map,
     });
 
-    setMapReady(true);
+    setMarker(newMarker);
+    console.log('newMarker', newMarker);
+  }, [point]);
+
+  const onMapClick = (e: ClickEventValue) => {
+    console.log('map click', e);
+    setPoint({ lat: e.lat, lng: e.lng });
   };
 
-  const onMarkerClick = (e, { markerId, lat, lng }) => {
-    console.log('This is ->', markerId);
-
-    // inside the map instance you can call any google maps method
-    if (!mapRef.current) {
-      return;
-    }
-    mapRef.current.setCenter({ lat, lng });
-    // rif. https://developers.google.com/maps/documentation/javascript/reference?hl=it
+  const onMapLoaded = ({ map, maps }: any) => {
+    setMaps(maps);
+    setMap(map);
   };
 
   return (
-    // // Important! Always set the container height explicitly
-    // <div style={{ height: '400px', width: '100%' }}>
-    //   <GoogleMapReact
-    //     bootstrapURLKeys={{ key: 'AIzaSyDrZJiCrbSGVIW96qph0OJtfrFAz4scgGc' }}
-    //     defaultCenter={defaultProps.center}
-    //     defaultZoom={defaultProps.zoom}
-    //     options={{ draggableCursor: 'crosshair' }}
-    //     onClick={handleMapClick}
-    //     // onGoogleApiLoaded={({ map, maps }) =>
-    //     //   handleApiLoaded(map, maps, marker)
-    //     // }
-    //   >
-    //     <Image
-    //       lat={marker.lat}
-    //       lng={marker.lng}
-    //       priority
-    //       src={MapMarker}
-    //       alt="Follow us on Twitter"
-    //       height={40}
-    //       width={24}
-    //       // style={{
-    //       //   transform: 'translate(-12px, -20px)',
-    //       // }}
-    //     />
-    //   </GoogleMapReact>
-    // </div>
     <div style={{ height: '400px', width: '100%' }}>
-      <GoogleMap
-        apiKey="AIzaSyDrZJiCrbSGVIW96qph0OJtfrFAz4scgGc"
-        defaultCenter={{ lat: 45.4046987, lng: 12.2472504 }}
-        defaultZoom={5}
-        // options={mapOptions}
-        mapMinHeight="400px"
-        onGoogleApiLoaded={onGoogleApiLoaded}
-        onChange={(map: any) => console.log('Map moved', map)}
-        onClick={(map: any) => console.log('Map clicked', map)}
-      >
-        <Image
-          lat={marker.lat}
-          lng={marker.lng}
-          src={MapMarker}
-          height={50}
-          width={30}
-          style={{
-            transform: 'translate(-15px, -46px)',
-          }}
-        />
-      </GoogleMap>
+      <GoogleMapReact
+        bootstrapURLKeys={{
+          key: 'AIzaSyDrZJiCrbSGVIW96qph0OJtfrFAz4scgGc',
+          language: 'cs',
+          region: 'cs',
+          libraries: ['places'],
+        }}
+        defaultCenter={defaultProps.center}
+        defaultZoom={defaultProps.zoom}
+        options={{ draggableCursor: 'crosshair' }}
+        yesIWantToUseGoogleMapApiInternals
+        onClick={onMapClick}
+        onGoogleApiLoaded={onMapLoaded}
+      />
     </div>
   );
 };
