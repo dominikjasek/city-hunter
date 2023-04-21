@@ -64,7 +64,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
   const ssg = createProxySSGHelpers({
     router: appRouter,
     ctx: { auth: null },
-    transformer: superjson, // optional - adds superjson serializatio
+    transformer: superjson,
   });
 
   await ssg.city.list.prefetch();

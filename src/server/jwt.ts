@@ -1,5 +1,4 @@
-import { jwtVerify, type JWTPayload, createRemoteJWKSet } from 'jose';
-import * as process from 'process';
+import { createRemoteJWKSet, type JWTPayload, jwtVerify } from 'jose';
 
 type JWTUser = JWTPayload & {
   userId: string;

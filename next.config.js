@@ -27,7 +27,7 @@ module.exports = getConfig({
     NODE_ENV: env.NODE_ENV,
   },
   env: {
-    CLERK_JWK_URI: process.env.CLERK_JWK_URI ?? 'notging',
+    CLERK_JWK_URI: process.env.CLERK_JWK_URI ?? 'nothing',
   },
   /** We run eslint as a separate task in CI */
   eslint: { ignoreDuringBuilds: !!process.env.CI },

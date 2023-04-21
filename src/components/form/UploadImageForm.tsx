@@ -160,7 +160,7 @@ export const UploadImageForm = ({
           </Box>
         </Stack>
         <Stack>
-          <Box sx={{ pl: { xs: 0, md: 3 }, mx: 'auto', minWidth: '400px' }}>
+          <Box sx={{ pl: { xs: 0, md: 3 }, mx: 'auto', minWidth: '300px' }}>
             <Stack direction={'column'}>
               {base64Image && (
                 <img
@@ -178,18 +178,8 @@ export const UploadImageForm = ({
                 id={'fileInput'}
                 accept={ACCEPTED_IMAGE_TYPES.join(', ')}
                 {...register('image')}
-                hidden
                 onChange={handleImageUpload}
               />
-              <label htmlFor="fileInput">
-                <Button
-                  variant={'contained'}
-                  color={'secondary'}
-                  component="span"
-                >
-                  Nahrát fotku
-                </Button>
-              </label>
 
               {errors['image']?.message && (
                 <FormHelperText error>
