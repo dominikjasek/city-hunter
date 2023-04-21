@@ -1,5 +1,10 @@
 lockfileVersion: '6.0'
 
+patchedDependencies:
+  react-mapycz@1.2.0:
+    hash: qv5zquwnjdm2rce77quexfh7w4
+    path: patches/react-mapycz@1.2.0.patch
+
 dependencies:
   '@clerk/nextjs':
     specifier: ^4.14.2
@@ -81,7 +86,7 @@ dependencies:
     version: 7.43.9(react@18.2.0)
   react-mapycz:
     specifier: ^1.2.0
-    version: 1.2.0(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
+    version: 1.2.0(patch_hash=qv5zquwnjdm2rce77quexfh7w4)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
   styled-components:
     specifier: ^5.3.9
     version: 5.3.9(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
@@ -4734,7 +4739,7 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
-  /react-mapycz@1.2.0(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
+  /react-mapycz@1.2.0(patch_hash=qv5zquwnjdm2rce77quexfh7w4)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-i/K59T4p+tL1dT2+MQvA8/v9ehrJOdsqybisQV0dqR4DGhu6sELDURRwFrBSr8j9s96u/8rWRHdwAmV7ZYjapg==}
     peerDependencies:
       react: '>=16.13.1'
@@ -4746,6 +4751,7 @@ packages:
     transitivePeerDependencies:
       - react-is
     dev: false
+    patched: true
 
   /react-ssr-prepass@1.5.0(react@18.2.0):
     resolution: {integrity: sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==}

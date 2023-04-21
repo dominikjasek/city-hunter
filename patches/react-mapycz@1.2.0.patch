@@ -1,0 +1,13 @@
+diff --git a/lib/Map.js b/lib/Map.js
+index 28aa86bc93ed16b25ac8a995b4a7d4ad3353a59d..cb6b7459504f7ff3ed89efef137fabd5beb3fd47 100644
+--- a/lib/Map.js
++++ b/lib/Map.js
+@@ -57,7 +57,7 @@ var Map = function (props) {
+                 var signals_1 = sMap_1.getSignals();
+                 var eventListener_1 = signals_1.addListener(window, eventNameListener, function (e) { return handleEventListener(e, sMap_1, onEvent); });
+                 return function () {
+-                    signals_1.removeListener(window, eventNameListener, eventListener_1);
++                    // signals_1.removeListener(window, eventNameListener, eventListener_1);
+                 };
+             }
+         }

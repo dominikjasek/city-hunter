@@ -79,5 +79,10 @@
   },
   "publishConfig": {
     "access": "restricted"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "react-mapycz@1.2.0": "patches/react-mapycz@1.2.0.patch"
+    }
   }
 }
