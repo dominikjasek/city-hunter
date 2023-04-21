@@ -1,7 +1,27 @@
-import React, { FC, useEffect, useState } from 'react';
-import GoogleMapReact, { ClickEventValue } from 'google-map-react';
+import React, { FC } from 'react';
+import {
+  KeyboardControl,
+  Map,
+  Marker,
+  MarkerLayer,
+  MouseControl,
+  SyncControl,
+  ZoomControl,
+} from 'react-mapycz';
+import { MapEventListener } from 'react-mapycz/src/Map';
+import Image from 'next/image';
+import MapMarker from '@public/map-marker.svg';
 
-type Location = { lat: number; lng: number };
+export interface MapLocation {
+  lat: number;
+  lng: number;
+}
+
+interface MapPickerProps {
+  point: MapLocation | null;
+  onClick?: (point: MapLocation) => void;
+}
+
 const defaultProps = {
   center: {
     lat: 49.21866559856739,
@@ -10,63 +30,47 @@ const defaultProps = {
   zoom: 14,
 };
 
-export const MapPicker: FC = () => {
-  const [point, setPoint] = useState<Location>({
-    lat: 49.21585775024331,
-    lng: 15.876858895730825,
-  });
-  const [marker, setMarker] = useState<any>(null);
-
-  const [maps, setMaps] = useState<any>(null);
-  const [map, setMap] = useState<any>(null);
-
-  useEffect(() => {
-    if (!maps || !map) {
+export const MapPicker: FC<MapPickerProps> = ({
+  point,
+  onClick,
+}: MapPickerProps) => {
+  const handleMapClick: MapEventListener = (e, coordinates) => {
+    if (e.type !== 'map-click') {
       return;
     }
 
-    if (marker) {
-      marker.setMap(null);
-    }
-
-    const newMarker = new maps.Marker({
-      position: {
-        lat: point.lat,
-        lng: point.lng,
-      },
-      map,
-    });
-
-    setMarker(newMarker);
-    console.log('newMarker', newMarker);
-  }, [point]);
-
-  const onMapClick = (e: ClickEventValue) => {
-    console.log('map click', e);
-    setPoint({ lat: e.lat, lng: e.lng });
-  };
-
-  const onMapLoaded = ({ map, maps }: any) => {
-    setMaps(maps);
-    setMap(map);
+    onClick?.({ lat: coordinates.y, lng: coordinates.x });
   };
 
   return (
-    <div style={{ height: '400px', width: '100%' }}>
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: 'AIzaSyDrZJiCrbSGVIW96qph0OJtfrFAz4scgGc',
-          language: 'cs',
-          region: 'cs',
-          libraries: ['places'],
-        }}
-        defaultCenter={defaultProps.center}
-        defaultZoom={defaultProps.zoom}
-        options={{ draggableCursor: 'crosshair' }}
-        yesIWantToUseGoogleMapApiInternals
-        onClick={onMapClick}
-        onGoogleApiLoaded={onMapLoaded}
-      />
+    <div style={{ touchAction: 'none' }}>
+      <Map height="400px" center={defaultProps.center} onEvent={handleMapClick}>
+        <KeyboardControl />
+        <ZoomControl />
+        <MouseControl zoom={true} pan={true} wheel={true} />
+        <SyncControl />
+        {point && (
+          <MarkerLayer>
+            <Marker
+              coords={point}
+              options={{
+                url: () => (
+                  <Image
+                    alt={'Map marker'}
+                    src={MapMarker}
+                    style={{
+                      width: '30px',
+                      height: '40px',
+                      transform: 'translate(-4px, -10px)',
+                      opacity: 0.9,
+                    }}
+                  />
+                ),
+              }}
+            />
+          </MarkerLayer>
+        )}
+      </Map>
     </div>
   );
 };

@@ -15,14 +15,10 @@ import {
 } from '@mui/material';
 import { MapPicker } from '~/components/MapPicker/MapPicker';
 import { City } from '~/db/schema';
+import { useState } from 'react';
 
-const MAX_FILE_SIZE = 500000;
-const ACCEPTED_IMAGE_TYPES = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-];
+const MAX_FILE_SIZE = 5_000_000;
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const validationSchema = z.object({
   title: z.string(),
@@ -30,18 +26,20 @@ const validationSchema = z.object({
   answerDescription: z.string(),
   image: z
     .any()
-    .refine((files) => files?.length == 1, 'Image is required.')
+    .refine((files) => files?.length == 1, 'Fotka místa je povinná.')
     .refine(
       (files) => files?.[0]?.size <= MAX_FILE_SIZE,
       `Max file size is 5MB.`,
     )
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      '.jpg, .jpeg, .png and .webp files are accepted.',
+      '.jpg, .jpeg and .png files are accepted.',
     ),
   cityId: z.number(),
-  x: z.string(),
-  y: z.string(),
+  location: z.object({
+    lat: z.number(),
+    lng: z.number(),
+  }),
 });
 
 type ValidationSchema = z.infer<typeof validationSchema>;
@@ -51,16 +49,34 @@ export const UploadImageForm = ({
 }: {
   availableCities: City[];
 }) => {
+  const [base64Image, setBase64Image] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     control,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
+    defaultValues: {
+      cityId: availableCities[0]?.id,
+    },
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = (data) => console.log(data);
+
+  function handleImageUpload(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (upload) => {
+      if (upload.target?.result) {
+        setBase64Image(upload.target.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -73,7 +89,7 @@ export const UploadImageForm = ({
         sx={{ mb: 4 }}
       >
         <Stack direction={'column'}>
-          <Box sx={{ mb: 4, width: '300px' }}>
+          <Box sx={{ mb: 4, width: { xs: '100%', md: '300px' } }}>
             <TextField
               fullWidth
               label={'Název místa'}
@@ -85,7 +101,7 @@ export const UploadImageForm = ({
               {...register('title')}
             />
           </Box>
-          <Box sx={{ mb: 4, width: '300px' }}>
+          <Box sx={{ mb: 4, width: { xs: '100%', md: '300px' } }}>
             <TextField
               fullWidth
               label={'Popis místa před odpovědí'}
@@ -102,7 +118,7 @@ export const UploadImageForm = ({
               {...register('questionDescription')}
             />
           </Box>
-          <Box sx={{ mb: 4, width: '300px' }}>
+          <Box sx={{ mb: 4, width: { xs: '100%', md: '300px' } }}>
             <TextField
               fullWidth
               label={'Popis místa po odpovědí'}
@@ -119,7 +135,7 @@ export const UploadImageForm = ({
               {...register('answerDescription')}
             />
           </Box>
-          <Box sx={{ mb: 4, width: '300px' }}>
+          <Box sx={{ mb: 4, width: { xs: '100%', md: '300px' } }}>
             <FormControl fullWidth>
               <InputLabel color={'secondary'}>Město</InputLabel>
 
@@ -142,10 +158,48 @@ export const UploadImageForm = ({
             )}
           </Box>
         </Stack>
+        <Stack>
+          <Box sx={{ pl: { xs: 0, md: 3 }, mx: 'auto' }}>
+            <Stack direction={'column'}>
+              {base64Image && (
+                <img
+                  src={base64Image}
+                  alt={'Fotka místa'}
+                  width={'100%'}
+                  style={{
+                    maxHeight: '400px',
+                    width: 'fit-content',
+                  }}
+                />
+              )}
+              <input
+                type="file"
+                id={'fileInput'}
+                accept={ACCEPTED_IMAGE_TYPES.join(', ')}
+                {...register('image')}
+                hidden
+                onChange={handleImageUpload}
+              />
+              <label htmlFor="fileInput">
+                <Button color={'secondary'} component="span">
+                  Nahrát fotku
+                </Button>
+              </label>
 
-        <Stack direction={'column'} sx={{ width: '100%', px: 2 }}>
-          <MapPicker />
+              {errors['image']?.message && (
+                <FormHelperText error>
+                  {errors['image'].message.toString()}
+                </FormHelperText>
+              )}
+            </Stack>
+          </Box>
         </Stack>
+      </Stack>
+      <Stack sx={{ width: '100%', pl: { xs: 0, md: 3 } }}>
+        <MapPicker
+          point={watch('location')}
+          onClick={(e) => setValue('location', e)}
+        />
       </Stack>
       <Button
         variant={'contained'}

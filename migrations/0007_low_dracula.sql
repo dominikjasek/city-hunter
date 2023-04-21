@@ -1,0 +1,1 @@
+ALTER TABLE questions ADD `author_id` varchar(100) NOT NULL;
