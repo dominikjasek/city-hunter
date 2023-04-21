@@ -88,8 +88,8 @@ export const UploadImageForm = ({
         justifyContent={'space-around'}
         sx={{ mb: 4 }}
       >
-        <Stack direction={'column'}>
-          <Box sx={{ mb: 4, width: { xs: '100%', md: '300px' } }}>
+        <Stack direction={'column'} style={{ width: '50%' }}>
+          <Box sx={{ mb: 4, width: '100%' }}>
             <TextField
               fullWidth
               label={'Název místa'}
@@ -101,7 +101,7 @@ export const UploadImageForm = ({
               {...register('title')}
             />
           </Box>
-          <Box sx={{ mb: 4, width: { xs: '100%', md: '300px' } }}>
+          <Box sx={{ mb: 4, width: '100%' }}>
             <TextField
               fullWidth
               label={'Popis místa před odpovědí'}
@@ -118,7 +118,7 @@ export const UploadImageForm = ({
               {...register('questionDescription')}
             />
           </Box>
-          <Box sx={{ mb: 4, width: { xs: '100%', md: '300px' } }}>
+          <Box sx={{ mb: 4, width: '100%' }}>
             <TextField
               fullWidth
               label={'Popis místa po odpovědí'}
@@ -135,7 +135,7 @@ export const UploadImageForm = ({
               {...register('answerDescription')}
             />
           </Box>
-          <Box sx={{ mb: 4, width: { xs: '100%', md: '300px' } }}>
+          <Box sx={{ mb: 4, width: '100%' }}>
             <FormControl fullWidth>
               <InputLabel color={'secondary'}>Město</InputLabel>
 
@@ -159,7 +159,7 @@ export const UploadImageForm = ({
           </Box>
         </Stack>
         <Stack>
-          <Box sx={{ pl: { xs: 0, md: 3 }, mx: 'auto' }}>
+          <Box sx={{ pl: { xs: 0, md: 3 }, mx: 'auto', minWidth: '400px' }}>
             <Stack direction={'column'}>
               {base64Image && (
                 <img
@@ -181,7 +181,11 @@ export const UploadImageForm = ({
                 onChange={handleImageUpload}
               />
               <label htmlFor="fileInput">
-                <Button color={'secondary'} component="span">
+                <Button
+                  variant={'contained'}
+                  color={'secondary'}
+                  component="span"
+                >
                   Nahrát fotku
                 </Button>
               </label>
@@ -205,7 +209,7 @@ export const UploadImageForm = ({
         variant={'contained'}
         color={'secondary'}
         type="submit"
-        sx={{ mx: 'auto' }}
+        sx={{ mx: 'auto', my: 4, px: 6 }}
       >
         Potvrdit
       </Button>
