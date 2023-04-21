@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import type { AppType, AppProps } from 'next/app';
+import type { AppProps, AppType } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 import { DefaultLayout } from '~/layouts/DefaultLayout';
 import './../styles/global.css';
@@ -11,7 +11,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '~/theme';
 import { DialogProvider } from '~/components/contexts/DialogProvider';
-import styles from '~/styles/global.module.css';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 
 export type NextPageWithLayout<
   TProps = Record<string, unknown>,
@@ -33,18 +33,21 @@ const MyApp = (({
   emotionCache = clientSideEmotionCache,
 }: AppPropsWithLayout) => {
   return (
-    <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={theme}>
-        <ClerkProvider {...pageProps} localization={localization}>
-          <CssBaseline />
-          <DialogProvider>
-            <DefaultLayout>
-              <Component {...pageProps} />
-            </DefaultLayout>
-          </DialogProvider>
-        </ClerkProvider>
-      </ThemeProvider>
-    </CacheProvider>
+    <>
+      <VercelAnalytics />
+      <CacheProvider value={emotionCache}>
+        <ThemeProvider theme={theme}>
+          <ClerkProvider {...pageProps} localization={localization}>
+            <CssBaseline />
+            <DialogProvider>
+              <DefaultLayout>
+                <Component {...pageProps} />
+              </DefaultLayout>
+            </DialogProvider>
+          </ClerkProvider>
+        </ThemeProvider>
+      </CacheProvider>
+    </>
   );
 }) as AppType;
 

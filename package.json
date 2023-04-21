@@ -37,6 +37,7 @@
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
+    "@vercel/analytics": "^1.0.0",
     "clsx": "^1.1.1",
     "drizzle-orm": "^0.23.5",
     "google-map-react": "^2.2.0",
