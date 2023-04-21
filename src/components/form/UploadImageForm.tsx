@@ -166,10 +166,8 @@ export const UploadImageForm = ({
                 <img
                   src={base64Image}
                   alt={'Fotka místa'}
-                  width={'100%'}
                   style={{
-                    maxHeight: '400px',
-                    width: 'fit-content',
+                    maxWidth: '100%',
                   }}
                 />
               )}
