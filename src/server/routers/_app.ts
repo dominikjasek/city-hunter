@@ -3,7 +3,7 @@
  */
 import { publicProcedure, router } from '../trpc';
 import { postRouter } from './post';
-import { authRouter } from '~/server/routers/auth/auth';
+import { authRouter } from '~/server/routers/auth/authRouter';
 import { cityRouter } from '~/server/routers/city';
 
 export const appRouter = router({
