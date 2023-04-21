@@ -5,7 +5,6 @@ import {
   Marker,
   MarkerLayer,
   MouseControl,
-  POILayer,
   SyncControl,
   ZoomControl,
 } from 'react-mapycz';
@@ -51,7 +50,7 @@ export const MapPicker: FC<MapPickerProps> = ({
         onEvent={handleMapClick}
         loaderApiConfig={{ poi: true }}
       >
-        <POILayer />
+        {/*<POILayer />*/}
         <KeyboardControl />
         <ZoomControl />
         <MouseControl zoom={true} pan={true} wheel={true} />
