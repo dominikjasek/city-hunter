@@ -79,6 +79,9 @@ dependencies:
   react-mapycz:
     specifier: ^1.2.0
     version: 1.2.0(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
+  styled-components:
+    specifier: ^5.3.9
+    version: 5.3.9(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
   superjson:
     specifier: ^1.12.2
     version: 1.12.2
@@ -102,6 +105,9 @@ devDependencies:
   '@types/react':
     specifier: ^18.0.9
     version: 18.0.9
+  '@types/styled-components':
+    specifier: ^5.1.26
+    version: 5.1.26
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.47.0
     version: 5.47.0(@typescript-eslint/parser@5.47.0)(eslint@8.30.0)(typescript@5.0.3)
@@ -1670,6 +1676,13 @@ packages:
       '@types/react': 18.0.9
     dev: true
 
+  /@types/hoist-non-react-statics@3.3.1:
+    resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
+    dependencies:
+      '@types/react': 18.0.9
+      hoist-non-react-statics: 3.3.2
+    dev: true
+
   /@types/json-schema@7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
@@ -1747,6 +1760,14 @@ packages:
       '@types/mime': 3.0.1
       '@types/node': 18.7.20
     dev: false
+
+  /@types/styled-components@5.1.26:
+    resolution: {integrity: sha512-KuKJ9Z6xb93uJiIyxo/+ksS7yLjS1KzG6iv5i78dhVg/X3u5t1H7juRWqVmodIdz6wGVaIApo1u01kmFRdJHVw==}
+    dependencies:
+      '@types/hoist-non-react-statics': 3.3.1
+      '@types/react': 18.0.9
+      csstype: 3.1.2
+    dev: true
 
   /@typescript-eslint/eslint-plugin@5.47.0(@typescript-eslint/parser@5.47.0)(eslint@8.30.0)(typescript@5.0.3):
     resolution: {integrity: sha512-AHZtlXAMGkDmyLuLZsRpH3p4G/1iARIwc/T0vIem2YB+xW6pZaXYXzCBnZSF/5fdM97R9QqZWZ+h3iW10XgevQ==}
@@ -3719,7 +3740,6 @@ packages:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
       react-is: 16.13.1
-    dev: false
 
   /hosted-git-info@2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
