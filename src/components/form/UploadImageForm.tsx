@@ -13,9 +13,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { MapPicker } from '~/components/MapPicker/MapPicker';
 import { City } from '~/db/schema';
 import { useState } from 'react';
+import {MapPicker} from "~/components/MapPicker/MapPicker";
 
 const MAX_FILE_SIZE = 5_000_000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -27,7 +27,9 @@ const createQuestionValidationSchema = z.object({
   image: z
     .any()
     .refine((file) => file, 'Fotka místa je povinná.')
-    .refine((file) => file.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+    .refine((file) => {
+      return file.size <= MAX_FILE_SIZE;
+    }, `Max file size is 5MB.`)
     .refine(
       (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
       '.jpg, .jpeg and .png files are accepted.',
@@ -68,7 +70,6 @@ export const UploadImageForm = ({
 
   function handleImageUpload(event: any) {
     const file = event.target.files[0];
-    console.log('file', file);
     setValue('image', file);
     const reader = new FileReader();
     reader.onload = (upload) => {
@@ -89,7 +90,7 @@ export const UploadImageForm = ({
         justifyContent={'space-around'}
         sx={{ mb: 4 }}
       >
-        <Stack direction={'column'} style={{ width: '50%' }}>
+        <Stack direction={'column'} sx={{ width: { xs: '100%', md: '50%' } }}>
           <Box sx={{ mb: 4, width: '100%' }}>
             <TextField
               fullWidth
@@ -176,8 +177,18 @@ export const UploadImageForm = ({
                 id={'fileInput'}
                 accept={ACCEPTED_IMAGE_TYPES.join(', ')}
                 {...register('image')}
+                hidden
                 onChange={handleImageUpload}
               />
+              <label htmlFor="fileInput">
+                <Button
+                  variant={'contained'}
+                  color={'secondary'}
+                  component="span"
+                >
+                  Vybrat fotku
+                </Button>
+              </label>
 
               {errors['image']?.message && (
                 <FormHelperText error>
@@ -188,7 +199,7 @@ export const UploadImageForm = ({
           </Box>
         </Stack>
       </Stack>
-      <Stack sx={{ width: '100%', pl: { xs: 0, md: 3 } }}>
+      <Stack sx={{ width: '100%' }}>
         <MapPicker
           point={watch('location')}
           onClick={(e) => setValue('location', e)}

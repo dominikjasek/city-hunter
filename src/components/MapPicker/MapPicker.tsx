@@ -44,13 +44,7 @@ export const MapPicker: FC<MapPickerProps> = ({
 
   return (
     <div style={{ touchAction: 'none', cursor: 'crosshair' }}>
-      <Map
-        height="500px"
-        center={defaultProps.center}
-        onEvent={handleMapClick}
-        loaderApiConfig={{ poi: true }}
-      >
-        {/*<POILayer />*/}
+      <Map height="500px" center={defaultProps.center} onEvent={handleMapClick}>
         <KeyboardControl />
         <ZoomControl />
         <MouseControl zoom={true} pan={true} wheel={true} />

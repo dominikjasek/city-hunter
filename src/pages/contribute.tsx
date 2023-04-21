@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { GetStaticPropsContext, NextPage } from 'next';
 import {
   CreateQuestionValidationSchema,
@@ -13,10 +13,12 @@ import superjson from 'superjson';
 
 export const Contribute: NextPage = () => {
   const { data: availableCities, isLoading } = trpc.city.list.useQuery();
-  const { mutate } = trpc.question.create.useMutation();
+  const { mutateAsync } = trpc.question.create.useMutation();
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const createQuestion = useCallback(
     async (data: CreateQuestionValidationSchema) => {
+      console.log('data', data);
       const formData = new FormData();
       formData.append('file', data.image);
       formData.append('upload_preset', 'egu3lgzw'); // value got from here https://console.cloudinary.com/console/c-3b11fb731fc6e5a47cd099ae611db4/getting-started
@@ -30,15 +32,16 @@ export const Contribute: NextPage = () => {
       );
       const cloudinaryData = await cloudinaryResponse.json();
 
-      const res = await mutate({ ...data, imageUrl: cloudinaryData.url });
-      console.log('res', res);
+      await mutateAsync({ ...data, imageUrl: cloudinaryData.url });
+      setIsSubmitted(true);
     },
-    [mutate],
+    [mutateAsync],
   );
 
   if (isLoading) {
     return <Loader title={'Načítám dostupná města'} />;
   }
+
   if (!availableCities) {
     return (
       <MessageBox
@@ -46,6 +49,10 @@ export const Contribute: NextPage = () => {
         type={'warning'}
       />
     );
+  }
+
+  if (isSubmitted) {
+    return <MessageBox message={'Místo bylo nahráno!'} type={'success'} />;
   }
 
   return (
