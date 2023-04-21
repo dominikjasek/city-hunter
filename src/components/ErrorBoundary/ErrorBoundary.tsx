@@ -9,6 +9,10 @@ interface State {
   hasError: boolean;
 }
 
+const isKnownError = (e: Error): boolean => {
+  return e.stack?.includes('JAK.Signals.removeListener') ?? false;
+};
+
 class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
@@ -16,13 +20,16 @@ class ErrorBoundary extends Component<Props, State> {
   };
 
   public static getDerivedStateFromError(e: Error): State {
-    if (e.stack?.includes('JAK.Signals.removeListener')) {
+    if (isKnownError(e)) {
       return { hasError: false, hasKnownError: true };
     }
     return { hasError: true };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    if (isKnownError(error)) {
+      return;
+    }
     console.error('Uncaught error:', error, errorInfo);
   }
 
