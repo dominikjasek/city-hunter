@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { GetStaticPropsContext, NextPage } from 'next';
-import { UploadImageForm } from '~/components/form/UploadImageForm';
+import {
+  CreateQuestionValidationSchema,
+  UploadImageForm,
+} from '~/components/form/UploadImageForm';
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
@@ -10,6 +13,28 @@ import superjson from 'superjson';
 
 export const Contribute: NextPage = () => {
   const { data: availableCities, isLoading } = trpc.city.list.useQuery();
+  const { mutate } = trpc.question.create.useMutation();
+
+  const createQuestion = useCallback(
+    async (data: CreateQuestionValidationSchema) => {
+      const formData = new FormData();
+      formData.append('file', data.image);
+      formData.append('upload_preset', 'egu3lgzw'); // value got from here https://console.cloudinary.com/console/c-3b11fb731fc6e5a47cd099ae611db4/getting-started
+
+      const cloudinaryResponse = await fetch(
+        `https://api.cloudinary.com/v1_1/dwdwjz5kb/upload`, // value got from here https://console.cloudinary.com/settings/c-3b11fb731fc6e5a47cd099ae611db4/upload
+        {
+          method: 'POST',
+          body: formData,
+        },
+      );
+      const cloudinaryData = await cloudinaryResponse.json();
+
+      const res = await mutate({ ...data, imageUrl: cloudinaryData.url });
+      console.log('res', res);
+    },
+    [mutate],
+  );
 
   if (isLoading) {
     return <Loader title={'Načítám dostupná města'} />;
@@ -24,9 +49,12 @@ export const Contribute: NextPage = () => {
   }
 
   return (
-    <div>
-      <UploadImageForm availableCities={availableCities} />
-    </div>
+    <>
+      <UploadImageForm
+        availableCities={availableCities.cities}
+        onSubmit={createQuestion}
+      />
+    </>
   );
 };
 

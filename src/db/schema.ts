@@ -37,7 +37,7 @@ export const questions = mysqlTable('questions', {
   questionDescription: text('question_description'),
   answerDescription: text('answer_description'),
   authorId: varchar('author_id', { length: 100 }).notNull(),
-  image: varchar('image', { length: 100 }).notNull(),
+  imageUrl: varchar('image', { length: 100 }).notNull(),
   cityId: int('city_id'),
   startDate: datetime('start_date'),
   endDate: datetime('end_date'),
@@ -46,8 +46,8 @@ export const questions = mysqlTable('questions', {
 });
 
 export interface Location {
-  lat: string;
-  lng: string;
+  lat: number;
+  lng: number;
 }
 
 export type Question = InferModel<typeof questions>;

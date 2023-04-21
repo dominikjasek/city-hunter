@@ -4,7 +4,6 @@ import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
 import { useDialog } from '~/components/contexts/DialogProvider';
 import { Loader } from '~/components/common/Loader/Loader';
-import { Alert } from '@mui/material';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 
 const LoginReceiver: React.FC = () => {
@@ -15,7 +14,6 @@ const LoginReceiver: React.FC = () => {
 
   const createAccount = useCallback(async () => {
     if (!user) return;
-    console.log('before mutation', mutation.data);
     const result = await mutation.mutateAsync({
       id: user.id,
       nickName:

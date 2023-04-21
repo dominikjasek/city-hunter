@@ -9,8 +9,8 @@ import {
   ZoomControl,
 } from 'react-mapycz';
 import { MapEventListener } from 'react-mapycz/src/Map';
-import Image from 'next/image';
 import MapMarker from '@public/map-marker.svg';
+import Image from 'next/image';
 
 export interface MapLocation {
   lat: number;

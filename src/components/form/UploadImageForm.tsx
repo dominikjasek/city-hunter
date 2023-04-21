@@ -1,4 +1,4 @@
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
@@ -20,19 +20,16 @@ import { useState } from 'react';
 const MAX_FILE_SIZE = 5_000_000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
-const validationSchema = z.object({
+const createQuestionValidationSchema = z.object({
   title: z.string(),
   questionDescription: z.string(),
   answerDescription: z.string(),
   image: z
     .any()
-    .refine((files) => files?.length == 1, 'Fotka místa je povinná.')
+    .refine((file) => file, 'Fotka místa je povinná.')
+    .refine((file) => file.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
     .refine(
-      (files) => files?.[0]?.size <= MAX_FILE_SIZE,
-      `Max file size is 5MB.`,
-    )
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
       '.jpg, .jpeg and .png files are accepted.',
     ),
   cityId: z.number(),
@@ -42,12 +39,16 @@ const validationSchema = z.object({
   }),
 });
 
-type ValidationSchema = z.infer<typeof validationSchema>;
+export type CreateQuestionValidationSchema = z.infer<
+  typeof createQuestionValidationSchema
+>;
 
 export const UploadImageForm = ({
   availableCities,
+  onSubmit,
 }: {
   availableCities: City[];
+  onSubmit: (data: CreateQuestionValidationSchema) => void;
 }) => {
   const [base64Image, setBase64Image] = useState<string | null>(null);
 
@@ -58,17 +59,17 @@ export const UploadImageForm = ({
     setValue,
     watch,
     formState: { errors },
-  } = useForm<ValidationSchema>({
-    resolver: zodResolver(validationSchema),
+  } = useForm<CreateQuestionValidationSchema>({
+    resolver: zodResolver(createQuestionValidationSchema),
     defaultValues: {
       cityId: availableCities[0]?.id,
     },
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = (data) => console.log(data);
-
   function handleImageUpload(event: any) {
     const file = event.target.files[0];
+    console.log('file', file);
+    setValue('image', file);
     const reader = new FileReader();
     reader.onload = (upload) => {
       if (upload.target?.result) {
