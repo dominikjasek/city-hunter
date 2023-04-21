@@ -16,7 +16,6 @@ export const users = mysqlTable('users', {
   id: varchar('id', { length: 100 }).primaryKey(),
   nickName: varchar('nick_name', { length: 40 }).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
 export type User = InferModel<typeof users>;
@@ -26,6 +25,7 @@ export type CreateUser = InferModel<typeof users, 'insert'>;
 export const cities = mysqlTable('cities', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 export type City = InferModel<typeof cities>;
@@ -43,6 +43,7 @@ export const questions = mysqlTable('questions', {
   endDate: datetime('end_date'),
   location: json('location').$type<Location>().notNull(),
   demo: boolean('demo').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 export interface Location {
