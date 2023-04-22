@@ -77,6 +77,20 @@
       "when": 1682171671885,
       "tag": "0010_romantic_imperial_guard",
       "breakpoints": false
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1682192775973,
+      "tag": "0011_equal_nico_minoru",
+      "breakpoints": false
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1682193286903,
+      "tag": "0012_dashing_juggernaut",
+      "breakpoints": false
     }
   ]
 }

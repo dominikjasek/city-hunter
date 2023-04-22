@@ -1,0 +1,1 @@
+ALTER TABLE questions ADD `tournament_id` int;
