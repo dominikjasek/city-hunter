@@ -47,9 +47,11 @@ export type CreateQuestionValidationSchema = z.infer<
 
 export const UploadImageForm = ({
   availableCities,
+  isSubmitting,
   onSubmit,
 }: {
   availableCities: City[];
+  isSubmitting: boolean;
   onSubmit: (data: CreateQuestionValidationSchema) => void;
 }) => {
   const [base64Image, setBase64Image] = useState<string | null>(null);
@@ -204,10 +206,15 @@ export const UploadImageForm = ({
       <Stack sx={{ width: '100%' }}>
         <MapPicker
           point={watch('location')}
-          onClick={(e) => setValue('location', e)}
+          onClick={(value) => setValue('location', value)}
         />
+
+        {errors['location']?.message && (
+          <FormHelperText error>{errors['location'].message}</FormHelperText>
+        )}
       </Stack>
       <Button
+        disabled={isSubmitting}
         variant={'contained'}
         color={'secondary'}
         type="submit"

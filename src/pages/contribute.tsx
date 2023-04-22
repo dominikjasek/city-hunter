@@ -13,12 +13,12 @@ import superjson from 'superjson';
 
 export const Contribute: NextPage = () => {
   const { data: availableCities, isLoading } = trpc.city.list.useQuery();
-  const { mutateAsync } = trpc.question.create.useMutation();
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { mutateAsync, isSuccess } = trpc.question.create.useMutation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createQuestion = useCallback(
     async (data: CreateQuestionValidationSchema) => {
-      console.log('data', data);
+      setIsSubmitting(true);
       const formData = new FormData();
       formData.append('file', data.image);
       formData.append('upload_preset', 'egu3lgzw'); // value got from here https://console.cloudinary.com/console/c-3b11fb731fc6e5a47cd099ae611db4/getting-started
@@ -33,7 +33,7 @@ export const Contribute: NextPage = () => {
       const cloudinaryData = await cloudinaryResponse.json();
 
       await mutateAsync({ ...data, imageUrl: cloudinaryData.url });
-      setIsSubmitted(true);
+      setIsSubmitting(false);
     },
     [mutateAsync],
   );
@@ -51,7 +51,7 @@ export const Contribute: NextPage = () => {
     );
   }
 
-  if (isSubmitted) {
+  if (isSuccess) {
     return <MessageBox message={'Místo bylo nahráno!'} type={'success'} />;
   }
 
@@ -59,6 +59,7 @@ export const Contribute: NextPage = () => {
     <>
       <UploadImageForm
         availableCities={availableCities.cities}
+        isSubmitting={isSubmitting}
         onSubmit={createQuestion}
       />
     </>
