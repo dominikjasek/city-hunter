@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { City } from '~/db/schema';
 import { useState } from 'react';
-import {MapPicker} from "~/components/MapPicker/MapPicker";
+import { MapPicker } from '~/components/MapPicker/MapPicker';
 
 const MAX_FILE_SIZE = 5_000_000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -67,6 +67,8 @@ export const UploadImageForm = ({
       cityId: availableCities[0]?.id,
     },
   });
+
+  const registerCityField = register('cityId');
 
   function handleImageUpload(event: any) {
     const file = event.target.files[0];
@@ -142,7 +144,7 @@ export const UploadImageForm = ({
               <InputLabel color={'secondary'}>Město</InputLabel>
 
               <Controller
-                {...register('cityId')}
+                name={registerCityField.name}
                 control={control}
                 render={({ field }) => (
                   <Select variant={'filled'} color={'secondary'} {...field}>
