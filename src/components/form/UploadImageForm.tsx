@@ -17,7 +17,6 @@ import { City } from '~/db/schema';
 import { useState } from 'react';
 import { MapPicker } from '~/components/MapPicker/MapPicker';
 
-const MAX_FILE_SIZE = 5_000_000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const createQuestionValidationSchema = z.object({
@@ -69,7 +68,7 @@ export const UploadImageForm = ({
 
   function handleImageUpload(event: any) {
     const file = event.target.files[0];
-    setValue('image', file);
+    setValue('image', file, { shouldValidate: true });
     const reader = new FileReader();
     reader.onload = (upload) => {
       if (upload.target?.result) {
@@ -202,7 +201,9 @@ export const UploadImageForm = ({
       <Stack sx={{ width: '100%' }}>
         <MapPicker
           point={watch('location')}
-          onClick={(value) => setValue('location', value)}
+          onClick={(value) =>
+            setValue('location', value, { shouldValidate: true })
+          }
         />
 
         {errors['location']?.message && (
