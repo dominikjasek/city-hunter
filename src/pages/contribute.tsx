@@ -31,8 +31,15 @@ export const Contribute: NextPage = () => {
         },
       );
       const cloudinaryData = await cloudinaryResponse.json();
+      const imageUrl = cloudinaryData.url.replace(
+        '/upload/',
+        '/upload/c_fill/c_scale,w_auto/dpr_auto/',
+      );
 
-      await mutateAsync({ ...data, imageUrl: cloudinaryData.url });
+      await mutateAsync({
+        ...data,
+        imageUrl,
+      });
       setIsSubmitting(false);
     },
     [mutateAsync],
@@ -55,11 +62,14 @@ export const Contribute: NextPage = () => {
     return <MessageBox message={'Místo bylo nahráno!'} type={'success'} />;
   }
 
+  if (isSubmitting) {
+    return <Loader title={'Nahrávám místo'} />;
+  }
+
   return (
     <>
       <UploadImageForm
         availableCities={availableCities.cities}
-        isSubmitting={isSubmitting}
         onSubmit={createQuestion}
       />
     </>

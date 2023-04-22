@@ -47,11 +47,9 @@ export type CreateQuestionValidationSchema = z.infer<
 
 export const UploadImageForm = ({
   availableCities,
-  isSubmitting,
   onSubmit,
 }: {
   availableCities: City[];
-  isSubmitting: boolean;
   onSubmit: (data: CreateQuestionValidationSchema) => void;
 }) => {
   const [base64Image, setBase64Image] = useState<string | null>(null);
@@ -214,7 +212,6 @@ export const UploadImageForm = ({
         )}
       </Stack>
       <Button
-        disabled={isSubmitting}
         variant={'contained'}
         color={'secondary'}
         type="submit"
