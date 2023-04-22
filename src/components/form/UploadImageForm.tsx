@@ -159,7 +159,7 @@ export const UploadImageForm = ({
             )}
           </Box>
         </Stack>
-        <Stack>
+        <Stack sx={{ width: { xs: '100%', md: '50%' } }}>
           <Box sx={{ pl: { xs: 0, md: 3 }, mx: 'auto', minWidth: '300px' }}>
             <Stack direction={'column'}>
               {base64Image && (
@@ -168,6 +168,7 @@ export const UploadImageForm = ({
                   alt={'Fotka místa'}
                   style={{
                     maxWidth: '100%',
+                    marginBottom: '1rem',
                   }}
                 />
               )}
