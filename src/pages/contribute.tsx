@@ -13,7 +13,8 @@ import superjson from 'superjson';
 
 export const Contribute: NextPage = () => {
   const { data: availableCities, isLoading } = trpc.city.list.useQuery();
-  const { mutateAsync, isSuccess } = trpc.question.create.useMutation();
+  const { mutateAsync, isSuccess, isError, error } =
+    trpc.question.create.useMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createQuestion = useCallback(
@@ -60,6 +61,15 @@ export const Contribute: NextPage = () => {
 
   if (isSuccess) {
     return <MessageBox message={'Místo bylo nahráno!'} type={'success'} />;
+  }
+
+  if (isError) {
+    return (
+      <MessageBox
+        message={`Nepodařilo se nahrát místo: ${error.message}`}
+        type={'error'}
+      />
+    );
   }
 
   if (isSubmitting) {
