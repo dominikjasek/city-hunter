@@ -1,0 +1,1 @@
+ALTER TABLE questions MODIFY COLUMN `image` varchar(250) NOT NULL;

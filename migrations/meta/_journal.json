@@ -63,6 +63,20 @@
       "when": 1682087299976,
       "tag": "0008_sour_tusk",
       "breakpoints": false
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1682171564377,
+      "tag": "0009_right_cerise",
+      "breakpoints": false
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1682171671885,
+      "tag": "0010_romantic_imperial_guard",
+      "breakpoints": false
     }
   ]
 }

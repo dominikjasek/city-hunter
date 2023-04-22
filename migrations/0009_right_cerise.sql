@@ -1,0 +1,1 @@
+ALTER TABLE questions MODIFY COLUMN `title` varchar(250) NOT NULL;

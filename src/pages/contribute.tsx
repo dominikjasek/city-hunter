@@ -33,8 +33,8 @@ export const Contribute: NextPage = () => {
       const cloudinaryData = await cloudinaryResponse.json();
       const imageUrl = cloudinaryData.url.replace(
         '/upload/',
-        '/upload/c_fill/c_scale,w_auto/dpr_auto/',
-      );
+        '/upload/c_fill/c_scale,w_auto/q_40/dpr_auto/',
+      ); // optimize strategy recommended by ChatGPT https://cloudinary.com/documentation/image_optimization#set_the_quality_when_delivering_an_image
 
       await mutateAsync({
         ...data,
