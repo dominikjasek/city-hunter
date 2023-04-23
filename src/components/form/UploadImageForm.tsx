@@ -48,7 +48,7 @@ export const UploadImageForm = ({
   availableCities: City[];
   onSubmit: (data: CreateQuestionValidationSchema) => void;
 }) => {
-  const [base64Image, setBase64Image] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const {
     register,
@@ -69,13 +69,7 @@ export const UploadImageForm = ({
   function handleImageUpload(event: any) {
     const file = event.target.files[0];
     setValue('image', file, { shouldValidate: true });
-    const reader = new FileReader();
-    reader.onload = (upload) => {
-      if (upload.target?.result) {
-        setBase64Image(upload.target.result as string);
-      }
-    };
-    reader.readAsDataURL(file);
+    setImageUrl(URL.createObjectURL(file));
   }
 
   return (
@@ -161,9 +155,9 @@ export const UploadImageForm = ({
         <Stack sx={{ width: { xs: '100%', md: '50%' } }}>
           <Box sx={{ pl: { xs: 0, md: 3 }, mx: 'auto', minWidth: '300px' }}>
             <Stack direction={'column'}>
-              {base64Image && (
+              {imageUrl && (
                 <img
-                  src={base64Image}
+                  src={imageUrl}
                   alt={'Fotka místa'}
                   style={{
                     maxWidth: '100%',
