@@ -20,16 +20,18 @@ const CityContainer: FC<{ city: City }> = (props) => {
         justifyContent={'space-between'}
       >
         <Box>{props.city.name}</Box>
-        <Image
-          src={props.city.previewImageUrl}
-          alt={props.city.name}
-          width={1200}
-          height={600}
-          style={{
-            height: '100%',
-            width: 'auto',
-          }}
-        />
+        {props.city.previewImageUrl && (
+          <Image
+            src={props.city.previewImageUrl}
+            alt={props.city.name}
+            width={1200}
+            height={600}
+            style={{
+              height: '100%',
+              width: 'auto',
+            }}
+          />
+        )}
       </Stack>
     </Card>
   );

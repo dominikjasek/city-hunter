@@ -1,0 +1,1 @@
+ALTER TABLE cities MODIFY COLUMN `preview_image_url` varchar(250);

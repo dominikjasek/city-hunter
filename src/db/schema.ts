@@ -33,7 +33,7 @@ export const tournaments = mysqlTable('tournaments', {
 export const cities = mysqlTable('cities', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
-  previewImageUrl: varchar('preview_image_url', { length: 250 }).notNull(),
+  previewImageUrl: varchar('preview_image_url', { length: 250 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
