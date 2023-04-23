@@ -11,9 +11,9 @@ import { createContext } from '~/server/context';
 // None of the actual implementation is exposed to the client
 export type AppRouter = typeof appRouter;
 
-// We're using the edge-runtime
 export const config = {
   runtime: 'edge',
+  regions: ['fra1'],
 };
 
 // export API handler
