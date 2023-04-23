@@ -15,3 +15,9 @@ const LoginPage: NextPage = () => {
 };
 
 export default LoginPage;
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}

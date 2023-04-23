@@ -45,3 +45,9 @@ const LoginReceiver: React.FC = () => {
 };
 
 export default LoginReceiver;
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}
