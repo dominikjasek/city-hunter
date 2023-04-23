@@ -31,4 +31,14 @@ module.exports = getConfig({
   },
   /** We run eslint as a separate task in CI */
   eslint: { ignoreDuringBuilds: !!process.env.CI },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/dwdwjz5kb/**',
+      },
+    ],
+  },
 });

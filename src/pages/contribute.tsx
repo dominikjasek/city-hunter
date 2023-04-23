@@ -12,7 +12,7 @@ import { appRouter } from '~/server/routers/_app';
 import superjson from 'superjson';
 
 export const Contribute: NextPage = () => {
-  const { data: availableCities, isLoading } = trpc.city.list.useQuery();
+  const { data: availableCities, isLoading } = trpc.city.getAll.useQuery();
   const { mutateAsync, isSuccess, isError, error } =
     trpc.question.create.useMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -95,7 +95,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     transformer: superjson,
   });
 
-  await ssg.city.list.prefetch();
+  await ssg.city.getAll.prefetch();
 
   return {
     props: {

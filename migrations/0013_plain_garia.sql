@@ -1,0 +1,1 @@
+ALTER TABLE cities ADD `preview_image_url` varchar(250) NOT NULL;
