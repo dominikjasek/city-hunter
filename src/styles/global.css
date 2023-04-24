@@ -4,7 +4,7 @@ body {
     box-sizing: border-box;
 }
 
-.link-no-style {
+.no-style {
     text-decoration: none;
     color: inherit;
 }

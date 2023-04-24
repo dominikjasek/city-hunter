@@ -77,7 +77,7 @@ const MobileNavbar: React.FC = () => {
       <Divider />
       <List>
         {navbarLinks.map((item) => (
-          <Link key={item.title} className={'link-no-style'} href={item.href}>
+          <Link key={item.title} className={'no-style'} href={item.href}>
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
                 <ListItemText primary={item.title} />
@@ -153,7 +153,7 @@ const DesktopNavbar: React.FC = () => {
         py={3}
         sx={{ display: { xs: 'none', sm: 'flex' } }}
       >
-        <Link href={'/'} className="link-no-style">
+        <Link href={'/'} className="no-style">
           <Stack direction={'row'} alignItems={'center'} gap={2}>
             <Image
               priority
@@ -167,7 +167,7 @@ const DesktopNavbar: React.FC = () => {
         </Link>
         <Stack direction={'row'} alignItems={'center'} gap={3}>
           {navbarLinks.map((item) => (
-            <Link className={'link-no-style'} key={item.title} href={item.href}>
+            <Link className={'no-style'} key={item.title} href={item.href}>
               <Typography
                 sx={{ '&:hover': { color: theme.palette.secondary.main } }}
               >
