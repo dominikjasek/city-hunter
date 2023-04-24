@@ -53,7 +53,8 @@ const MobileNavbar: React.FC = () => {
         alignItems={'center'}
         justifyContent={'center'}
         gap={2}
-        sx={{ backgroundColor: theme.palette.primary.main }}
+        sx={{ backgroundColor: theme.palette.primary.main, cursor: 'pointer' }}
+        onClick={() => router.push('/')}
       >
         <Image
           priority
