@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   AppBar,
   Box,
@@ -20,6 +20,7 @@ import Drawer from '@mui/material/Drawer';
 import Link from 'next/link';
 import { UserBox } from '~/components/navbar/UserBox';
 import { useRouter } from 'next/router';
+import { useIsAdmin } from '~/hooks/use-is-admin';
 
 interface NavbarLink {
   title: string;
@@ -27,13 +28,16 @@ interface NavbarLink {
 }
 
 const drawerWidth = 250;
-const navbarLinks: NavbarLink[] = [
+const defaultNavbarLinks: NavbarLink[] = [
   { title: 'Hrát', href: '/play' },
   { title: 'Žebříček', href: '/ranking' },
-  { title: 'Zapoj se', href: '/contribute' },
 ];
 
-const MobileNavbar: React.FC = () => {
+interface NavbarProps {
+  links: NavbarLink[];
+}
+
+const MobileNavbar: React.FC<NavbarProps> = ({ links }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const theme = useTheme();
   const router = useRouter();
@@ -76,7 +80,7 @@ const MobileNavbar: React.FC = () => {
       </Stack>
       <Divider />
       <List>
-        {navbarLinks.map((item) => (
+        {links.map((item) => (
           <Link key={item.title} className={'no-style'} href={item.href}>
             <ListItem disablePadding>
               <ListItemButton sx={{ textAlign: 'center' }}>
@@ -140,7 +144,7 @@ const MobileNavbar: React.FC = () => {
   );
 };
 
-const DesktopNavbar: React.FC = () => {
+const DesktopNavbar: React.FC<NavbarProps> = ({ links }) => {
   const theme = useTheme();
 
   return (
@@ -166,7 +170,7 @@ const DesktopNavbar: React.FC = () => {
           </Stack>
         </Link>
         <Stack direction={'row'} alignItems={'center'} gap={3}>
-          {navbarLinks.map((item) => (
+          {links.map((item) => (
             <Link className={'no-style'} key={item.title} href={item.href}>
               <Typography
                 sx={{ '&:hover': { color: theme.palette.secondary.main } }}
@@ -183,10 +187,23 @@ const DesktopNavbar: React.FC = () => {
 };
 
 export const Navbar: React.FC = () => {
+  const isAdmin = useIsAdmin();
+
+  const links = useMemo(() => {
+    if (isAdmin) {
+      return [
+        ...defaultNavbarLinks,
+        { title: 'Přidat místo', href: '/contribute' },
+      ];
+    }
+
+    return defaultNavbarLinks;
+  }, [isAdmin]);
+
   return (
     <>
-      <MobileNavbar />
-      <DesktopNavbar />
+      <MobileNavbar links={links} />
+      <DesktopNavbar links={links} />
     </>
   );
 };
