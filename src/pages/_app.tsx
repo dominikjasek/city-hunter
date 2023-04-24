@@ -12,7 +12,6 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '~/theme';
 import { DialogProvider } from '~/components/contexts/DialogProvider';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
-import ErrorBoundary from '~/components/ErrorBoundary/ErrorBoundary';
 
 export type NextPageWithLayout<
   TProps = Record<string, unknown>,
@@ -42,9 +41,7 @@ const MyApp = (({
             <CssBaseline />
             <DialogProvider>
               <DefaultLayout>
-                <ErrorBoundary>
-                  <Component {...pageProps} />
-                </ErrorBoundary>
+                <Component {...pageProps} />
               </DefaultLayout>
             </DialogProvider>
           </ClerkProvider>
