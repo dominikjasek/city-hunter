@@ -30,7 +30,7 @@ const LoginReceiver: React.FC = () => {
   useEffect(() => {
     setOpenLoginDialog(false);
     createAccount();
-  }, [createAccount, setOpenLoginDialog, user]);
+  }, [user]);
 
   if (mutation.error) {
     return (
