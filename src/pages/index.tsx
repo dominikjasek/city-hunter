@@ -1,7 +1,6 @@
 import { NextPageWithLayout } from './_app';
 import { Button, Typography } from '@mui/material';
 import React from 'react';
-import { GetStaticPropsContext } from 'next';
 
 const IndexPage: NextPageWithLayout = () => {
   return (
@@ -17,7 +16,7 @@ const IndexPage: NextPageWithLayout = () => {
 
 export default IndexPage;
 
-export const getStaticProps = async (context: GetStaticPropsContext) => {
+export const getStaticProps = async () => {
   return {
     props: {},
   };

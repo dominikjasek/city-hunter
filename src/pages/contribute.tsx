@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { GetStaticPropsContext, NextPage } from 'next';
+import { NextPage } from 'next';
 import {
   CreateQuestionValidationSchema,
   UploadImageForm,
@@ -88,7 +88,7 @@ export const Contribute: NextPage = () => {
 
 export default Contribute;
 
-export const getStaticProps = async (context: GetStaticPropsContext) => {
+export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
     router: appRouter,
     ctx: { auth: null },

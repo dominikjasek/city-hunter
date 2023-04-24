@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import type {
@@ -33,7 +32,7 @@ export async function createContext(
   // for API-response caching see https://trpc.io/docs/caching
 
   // console.log('=======');
-  const auth = getAuth(opts.req);
+  getAuth(opts.req);
   // console.log('auth', auth);
   // console.log('=======');
   return await createContextInner({ auth: getAuth(opts.req) });

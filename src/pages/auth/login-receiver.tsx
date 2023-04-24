@@ -25,12 +25,12 @@ const LoginReceiver: React.FC = () => {
     if (result.success) {
       await router.replace('/');
     }
-  }, [user, mutation]);
+  }, [router, user, mutation]);
 
   useEffect(() => {
     setOpenLoginDialog(false);
     createAccount();
-  }, [user]);
+  }, [createAccount, setOpenLoginDialog, user]);
 
   if (mutation.error) {
     return (

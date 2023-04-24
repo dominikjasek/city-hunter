@@ -1,4 +1,4 @@
-import { GetStaticPropsContext, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '~/server/routers/_app';
@@ -113,7 +113,7 @@ export const PlayPage: NextPage = () => {
 
 export default PlayPage;
 
-export const getStaticProps = async (context: GetStaticPropsContext) => {
+export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
     router: appRouter,
     ctx: { auth: null },
