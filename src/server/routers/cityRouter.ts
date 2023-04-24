@@ -1,4 +1,4 @@
-import { publicProcedure, router } from '../../trpc';
+import { publicProcedure, router } from '../trpc';
 import { db } from '~/db/drizzle';
 import { cities } from '~/db/schema';
 

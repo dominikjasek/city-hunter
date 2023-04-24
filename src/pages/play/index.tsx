@@ -5,34 +5,79 @@ import { appRouter } from '~/server/routers/_app';
 import superjson from 'superjson';
 import { trpc } from '~/utils/trpc';
 import { FC } from 'react';
-import { City } from '~/db/schema';
 import Image from 'next/image';
 import { Loader } from '~/components/common/Loader/Loader';
-import { Box, Card, Stack } from '@mui/material';
+import { Card, CardActionArea, Stack, Typography } from '@mui/material';
+import { formatDate } from '~/utils/formatter/dateFormatter';
 
-const CityContainer: FC<{ city: City }> = (props) => {
+interface CityContainerProps {
+  cityName?: string;
+  tournamentId: number;
+  tournamentName: string;
+  previewImageUrl: string | null;
+  startDate: Date | null;
+  endDate: Date | null;
+}
+
+const TournamentContainer: FC<CityContainerProps> = (props) => {
+  const router = useRouter();
   return (
-    <Card variant="outlined" sx={{ height: { xs: 120, sm: 200, md: 280 } }}>
-      <Stack
-        direction={'row'}
-        width={'100%'}
-        height={'100%'}
-        justifyContent={'space-between'}
+    <Card
+      onClick={() => router.push(`/play/${props.tournamentId}`)}
+      variant="outlined"
+      sx={{
+        height: { xs: 120, sm: 200, md: 280 },
+        mx: { xs: 0, sm: 1, md: 2 },
+        my: 2,
+        boxShadow: 2,
+        backgroundColor: 'transparent',
+      }}
+    >
+      <CardActionArea
+        sx={{
+          width: '100%',
+          height: '100%',
+        }}
       >
-        <Box>{props.city.name}</Box>
-        {props.city.previewImageUrl && (
-          <Image
-            src={props.city.previewImageUrl}
-            alt={props.city.name}
-            width={1200}
-            height={600}
-            style={{
-              height: '100%',
-              width: 'auto',
-            }}
-          />
-        )}
-      </Stack>
+        <Stack
+          direction={'row'}
+          width={'100%'}
+          height={'100%'}
+          justifyContent={'space-between'}
+        >
+          <Stack
+            direction={'column'}
+            width={'100%'}
+            alignItems={'center'}
+            justifyContent={'center'}
+            sx={{ ml: 1, zIndex: 1, mr: -10 }}
+          >
+            <Typography variant={'h4'}>{props.cityName}</Typography>
+            <Typography variant={'h5'}>{props.tournamentName}</Typography>
+            {props.startDate && props.endDate && (
+              <Typography variant={'h6'}>
+                {`${formatDate(props.startDate)} - ${formatDate(
+                  props.endDate,
+                )}`}
+              </Typography>
+            )}
+          </Stack>
+          {props?.previewImageUrl && (
+            <Image
+              src={props.previewImageUrl}
+              alt={props.cityName ?? props.tournamentName}
+              width={1200}
+              height={600}
+              style={{
+                height: '100%',
+                width: 'auto',
+                WebkitMaskImage:
+                  'linear-gradient(to right, transparent 0%, black 100%)',
+              }}
+            />
+          )}
+        </Stack>
+      </CardActionArea>
     </Card>
   );
 };
@@ -41,7 +86,8 @@ export const PlayPage: NextPage = () => {
   const { query } = useRouter();
   const { tournamentId } = query;
   console.log('tournamentId', tournamentId);
-  const { data: cities, isLoading } = trpc.city.getAll.useQuery();
+  const { data: tournamentsData, isLoading } =
+    trpc.tournament.getAll.useQuery();
 
   if (isLoading) {
     return <Loader title={'Načítání...'} />;
@@ -49,8 +95,17 @@ export const PlayPage: NextPage = () => {
 
   return (
     <div>
-      {cities?.cities.map((city) => (
-        <CityContainer key={city.id} city={city} />
+      <Typography variant={'h5'}>Hrajeme v těchto městech:</Typography>
+      {tournamentsData?.tournamentslist.map((item) => (
+        <TournamentContainer
+          key={item.id}
+          tournamentId={item.id}
+          cityName={item.city}
+          startDate={item.startDate}
+          endDate={item.endDate}
+          previewImageUrl={item.previewImageUrl}
+          tournamentName={item.name}
+        />
       ))}
     </div>
   );
@@ -65,7 +120,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     transformer: superjson,
   });
 
-  await ssg.city.getAll.prefetch();
+  await ssg.tournament.getAll.prefetch();
 
   return {
     props: {

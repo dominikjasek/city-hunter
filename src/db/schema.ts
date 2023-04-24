@@ -1,5 +1,6 @@
 import {
   boolean,
+  date,
   datetime,
   int,
   json,
@@ -25,8 +26,10 @@ export type CreateUser = InferModel<typeof users, 'insert'>;
 export const tournaments = mysqlTable('tournaments', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
+  description: text('description'),
+  startDate: date('start_date'),
+  endDate: date('end_date'),
   cityId: int('city_id').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 // City

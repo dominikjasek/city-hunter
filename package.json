@@ -39,6 +39,7 @@
     "@trpc/server": "^10.18.0",
     "@vercel/analytics": "^1.0.0",
     "clsx": "^1.1.1",
+    "date-fns": "^2.29.3",
     "drizzle-orm": "^0.23.5",
     "google-map-react": "^2.2.0",
     "google-maps-react-markers": "^1.2.1",
