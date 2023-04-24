@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import LogoWhite from '@public/Logo-white.svg';
 import Image from 'next/image';
-import { useIsMobile } from '~/hooks/use-is-mobile';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Link from 'next/link';
@@ -98,10 +97,10 @@ const MobileNavbar: React.FC = () => {
   );
 
   const container =
-    window !== undefined ? () => window.document.body : undefined;
+    typeof window === undefined ? undefined : () => window.document.body;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
       <AppBar component="nav" color={'primary'} enableColorOnDark>
         <Toolbar variant={'dense'}>
           <IconButton
@@ -151,6 +150,7 @@ const DesktopNavbar: React.FC = () => {
         direction={'row'}
         mx={10}
         py={3}
+        sx={{ display: { xs: 'none', sm: 'flex' } }}
       >
         <Link href={'/'} className="link-no-style">
           <Stack direction={'row'} alignItems={'center'} gap={2}>
@@ -182,7 +182,10 @@ const DesktopNavbar: React.FC = () => {
 };
 
 export const Navbar: React.FC = () => {
-  const isMobile = useIsMobile();
-
-  return isMobile ? <MobileNavbar /> : <DesktopNavbar />;
+  return (
+    <>
+      <MobileNavbar />
+      <DesktopNavbar />
+    </>
+  );
 };
