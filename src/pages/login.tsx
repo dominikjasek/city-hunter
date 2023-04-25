@@ -5,11 +5,21 @@ import { Stack, Typography } from '@mui/material';
 
 const LoginPage: NextPage = () => {
   return (
-    <Stack alignItems={'center'}>
+    <Stack alignItems={'center'} justifyContent={'center'}>
       <SignedIn>
         <Typography>Už jste přihlášeni, budete přesměrováni...</Typography>
       </SignedIn>
-      <SignIn />
+      <SignIn
+        appearance={{
+          elements: {
+            rootBox: {
+              '& .cl-signIn-start': {
+                overflow: 'hidden',
+              },
+            },
+          },
+        }}
+      />
     </Stack>
   );
 };

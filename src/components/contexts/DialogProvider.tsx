@@ -40,6 +40,7 @@ export const DialogProvider = ({ children }: PropsWithChildren<unknown>) => {
                 maxWidth: '100%',
                 '& .cl-signIn-start': {
                   maxWidth: '100%',
+                  margin: 0,
                 },
               },
             },
