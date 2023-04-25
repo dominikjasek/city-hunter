@@ -29,11 +29,5 @@ export type Context = trpc.inferAsyncReturnType<typeof createContextInner>;
 export async function createContext(
   opts: trpcNext.CreateNextContextOptions,
 ): Promise<Context> {
-  // for API-response caching see https://trpc.io/docs/caching
-
-  // console.log('=======');
-  getAuth(opts.req);
-  // console.log('auth', auth);
-  // console.log('=======');
   return await createContextInner({ auth: getAuth(opts.req) });
 }

@@ -1,10 +1,10 @@
-import { protectedProcedure, router } from '~/server/trpc';
+import { adminProcedure, router } from '~/server/trpc';
 import { z } from 'zod';
 import { db } from '~/db/drizzle';
 import { questions } from '~/db/schema';
 
 export const questionRouter = router({
-  create: protectedProcedure
+  create: adminProcedure
     .input(
       z.object({
         title: z.string(),
@@ -19,7 +19,7 @@ export const questionRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const executedQuery = await db.insert(questions).values({
+      await db.insert(questions).values({
         title: input.title,
         questionDescription: input.questionDescription,
         answerDescription: input.answerDescription,
@@ -29,8 +29,6 @@ export const questionRouter = router({
         demo: false,
         authorId: ctx.user.userId,
       });
-
-      console.log('executedQuery', executedQuery);
 
       return { success: true };
     }),

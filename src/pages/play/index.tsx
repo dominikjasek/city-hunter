@@ -85,7 +85,6 @@ const TournamentContainer: FC<CityContainerProps> = (props) => {
 export const PlayPage: NextPage = () => {
   const { query } = useRouter();
   const { tournamentId } = query;
-  console.log('tournamentId', tournamentId);
   const { data: tournamentsData, isLoading } =
     trpc.tournament.getAll.useQuery();
 

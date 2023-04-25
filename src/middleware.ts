@@ -1,37 +1,50 @@
-import { getAuth, withClerkMiddleware } from '@clerk/nextjs/server';
+import {
+  clerkClient,
+  getAuth,
+  withClerkMiddleware,
+} from '@clerk/nextjs/server';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { PublicMetadata } from '~/utils/clerk/types';
 
-// Set the paths that don't require the user to be signed in
-const publicPaths = ['/', '/api/trpc*', '/login', '/ranking'];
+const adminRoutes = ['/contribute'];
 
-const isPublic = (path: string) => {
-  return publicPaths.find((x) =>
+const protectedRoutes = ['/play', '/user'];
+
+const createRouteGuard = (routes: string[]) => (path: string) => {
+  return routes.find((x) =>
     path.match(new RegExp(`^${x}$`.replace('*$', '($|/)'))),
   );
 };
 
-export default withClerkMiddleware((request: NextRequest) => {
-  if (isPublic(request.nextUrl.pathname)) {
-    return NextResponse.next();
+const isAdminRoute = createRouteGuard(adminRoutes);
+const isProtectedRoute = createRouteGuard(protectedRoutes);
+
+export default withClerkMiddleware(async (request: NextRequest) => {
+  const { pathname } = request.nextUrl;
+
+  if (isAdminRoute(pathname)) {
+    const { userId } = getAuth(request);
+    if (!userId) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    } else {
+      const user = await clerkClient.users.getUser(userId);
+      if ((user?.publicMetadata as PublicMetadata).role !== 'admin') {
+        return NextResponse.redirect(new URL('/unauthorized', request.url));
+      }
+    }
+  } else if (isProtectedRoute(pathname)) {
+    const { userId } = getAuth(request);
+    if (!userId) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
   }
 
-  const { userId } = getAuth(request);
-  if (!userId) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-  return NextResponse.next();
+  return NextResponse.next({
+    request,
+  });
 });
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next
-     * - static (static files)
-     * - favicon.ico (favicon file)
-     */
-    '/(.*?trpc.*?|(?!static|.*\\..*|_next|favicon.ico).*)',
-  ],
+  matcher: '/((?!_next/image|_next/static|favicon.ico).*)',
 };

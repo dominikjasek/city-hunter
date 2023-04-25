@@ -17,12 +17,8 @@ export const postRouter = router({
       }),
     )
     .query(async ({ input, ctx }) => {
-      console.log('list query ctx: ');
-
       const limit = input.limit ?? 50;
       const { cursor } = input;
-
-      // console.log('ctx', ctx);
 
       const items = (await db.select().from(users)).map((user) => ({
         id: user.nickName,

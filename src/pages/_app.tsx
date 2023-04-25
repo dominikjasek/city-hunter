@@ -5,7 +5,7 @@ import { DefaultLayout } from '~/layouts/DefaultLayout';
 import './../styles/global.css';
 import { trpc } from '~/utils/trpc';
 import { ClerkProvider } from '@clerk/nextjs';
-import { localization } from '~/components/clerk/localization';
+import { localization } from '~/utils/clerk/localization';
 import createEmotionCache from '~/createEmotionCache';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';

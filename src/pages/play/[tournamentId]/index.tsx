@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 export const TournamentPage: NextPage = () => {
   const { query } = useRouter();
   const { tournamentId } = query;
-  console.log('tournamentId', tournamentId);
 
   return (
     <div>

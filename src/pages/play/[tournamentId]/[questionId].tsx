@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 export const QuestionPlayPage: NextPage = () => {
   const { query } = useRouter();
   const { questionId } = query;
-  console.log('questionId', questionId);
 
   return (
     <div>
