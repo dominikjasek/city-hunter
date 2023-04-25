@@ -1,0 +1,1 @@
+ALTER TABLE cities ADD `map_zoom` int DEFAULT 14 NOT NULL;

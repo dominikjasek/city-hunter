@@ -64,6 +64,13 @@ export const UploadImageForm = ({
     },
   });
 
+  const selectedCity = availableCities.find(
+    (city) => city.id === watch('cityId'),
+  );
+  if (!selectedCity) {
+    throw new Error('Selected city not found');
+  }
+
   const registerCityField = register('cityId');
 
   function handleImageUpload(event: any) {
@@ -194,6 +201,8 @@ export const UploadImageForm = ({
       </Stack>
       <Stack sx={{ width: '100%' }}>
         <MapPicker
+          centerPoint={selectedCity.centerPoint}
+          zoom={selectedCity.mapZoom}
           point={watch('location')}
           onClick={(value) =>
             setValue('location', value, { shouldValidate: true })

@@ -1,0 +1,1 @@
+ALTER TABLE cities ADD `center_point` json DEFAULT ('{"lat":49.21866559856739,"lng":15.880347529353775}') NOT NULL;

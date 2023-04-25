@@ -18,20 +18,16 @@ export interface MapLocation {
 }
 
 interface MapPickerProps {
+  centerPoint: MapLocation;
+  zoom: number;
   point: MapLocation | null;
   onClick?: (point: MapLocation) => void;
 }
 
-const defaultProps = {
-  center: {
-    lat: 49.21866559856739,
-    lng: 15.880347529353775,
-  },
-  zoom: 14,
-};
-
 export const MapPicker: FC<MapPickerProps> = ({
   point,
+  centerPoint,
+  zoom,
   onClick,
 }: MapPickerProps) => {
   const handleMapClick: MapEventListener = (e, coordinates) => {
@@ -44,7 +40,12 @@ export const MapPicker: FC<MapPickerProps> = ({
 
   return (
     <div style={{ touchAction: 'none', cursor: 'crosshair' }}>
-      <Map height="500px" center={defaultProps.center} onEvent={handleMapClick}>
+      <Map
+        height="500px"
+        center={centerPoint}
+        zoom={zoom}
+        onEvent={handleMapClick}
+      >
         <KeyboardControl />
         <ZoomControl />
         <MouseControl zoom={true} pan={true} wheel={true} />
