@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { UserBox } from '~/components/navbar/UserBox';
 import { useRouter } from 'next/router';
 import { useIsAdmin } from '~/hooks/use-is-admin';
+import { useIsServer } from '~/hooks/use-is-server';
 
 interface NavbarLink {
   title: string;
@@ -49,6 +50,7 @@ const MobileNavbar: React.FC<NavbarProps> = ({ links }) => {
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+  const isServer = useIsServer();
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -101,8 +103,7 @@ const MobileNavbar: React.FC<NavbarProps> = ({ links }) => {
     </Box>
   );
 
-  const container =
-    typeof window === undefined ? undefined : () => window.document.body;
+  const container = isServer ? undefined : () => window.document.body;
 
   return (
     <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>

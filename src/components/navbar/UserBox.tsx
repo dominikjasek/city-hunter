@@ -1,15 +1,20 @@
 import React, { FC } from 'react';
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import { Box, Button } from '@mui/material';
+import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
+import { Button, Skeleton } from '@mui/material';
 import { useDialog } from '~/components/contexts/DialogProvider';
 import { useRouter } from 'next/router';
 
 export const UserBox: FC = () => {
   const { setOpenLoginDialog } = useDialog();
   const { pathname } = useRouter();
+  const { isSignedIn } = useUser();
+
+  if (isSignedIn === undefined) {
+    return <Skeleton variant="circular" width={32} height={32} />;
+  }
 
   return (
-    <Box>
+    <>
       <SignedIn>
         <UserButton userProfileUrl={'/user'} userProfileMode={'navigation'} />
       </SignedIn>
@@ -24,6 +29,6 @@ export const UserBox: FC = () => {
           </Button>
         )}
       </SignedOut>
-    </Box>
+    </>
   );
 };
