@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { City } from '~/db/schema';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { MapPicker } from '~/components/MapPicker/MapPicker';
 
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -23,7 +23,14 @@ const createQuestionValidationSchema = z.object({
   title: z.string(),
   questionDescription: z.string(),
   answerDescription: z.string(),
-  image: z
+  questionImage: z
+    .any()
+    .refine((file) => file, 'Fotka místa je povinná.')
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
+      '.jpg, .jpeg and .png files are accepted.',
+    ),
+  answerImage: z
     .any()
     .refine((file) => file, 'Fotka místa je povinná.')
     .refine(
@@ -48,7 +55,8 @@ export const UploadImageForm = ({
   availableCities: City[];
   onSubmit: (data: CreateQuestionValidationSchema) => void;
 }) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [questionImageUrl, setQuestionImageUrl] = useState<string | null>(null);
+  const [answerImageUrl, setAnswerImageUrl] = useState<string | null>(null);
 
   const {
     register,
@@ -73,11 +81,24 @@ export const UploadImageForm = ({
 
   const registerCityField = register('cityId');
 
-  function handleImageUpload(event: any) {
-    const file = event.target.files[0];
-    setValue('image', file, { shouldValidate: true });
-    setImageUrl(URL.createObjectURL(file));
-  }
+  const handleQuestionImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    setValue('questionImage', file, { shouldValidate: true });
+    setQuestionImageUrl(URL.createObjectURL(file));
+  };
+
+  const handleAnswerImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    console.log('handleAnswerImageUpload', file);
+    if (!file) {
+      return;
+    }
+    setValue('answerImage', file, { shouldValidate: true });
+    setAnswerImageUrl(URL.createObjectURL(file));
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,7 +110,7 @@ export const UploadImageForm = ({
         justifyContent={'space-around'}
         sx={{ mb: 4 }}
       >
-        <Stack direction={'column'} sx={{ width: { xs: '100%', md: '50%' } }}>
+        <Stack direction={'column'} sx={{ width: '100%' }}>
           <Box sx={{ mb: 4, width: '100%' }}>
             <TextField
               fullWidth
@@ -159,46 +180,103 @@ export const UploadImageForm = ({
             )}
           </Box>
         </Stack>
-        <Stack sx={{ width: { xs: '100%', md: '50%' } }}>
-          <Box sx={{ pl: { xs: 0, md: 3 }, mx: 'auto', minWidth: '300px' }}>
-            <Stack direction={'column'}>
-              {imageUrl && (
-                <img
-                  src={imageUrl}
-                  alt={'Fotka místa'}
-                  style={{
-                    maxWidth: '100%',
-                    marginBottom: '1rem',
-                  }}
-                />
-              )}
-              <input
-                type="file"
-                id={'fileInput'}
-                accept={ACCEPTED_IMAGE_TYPES.join(', ')}
-                {...register('image')}
-                hidden
-                onChange={handleImageUpload}
-              />
-              <label htmlFor="fileInput">
-                <Button
-                  variant={'contained'}
-                  color={'secondary'}
-                  component="span"
-                >
-                  Vybrat fotku
-                </Button>
-              </label>
-
-              {errors['image']?.message && (
-                <FormHelperText error>
-                  {errors['image'].message.toString()}
-                </FormHelperText>
-              )}
-            </Stack>
-          </Box>
-        </Stack>
       </Stack>
+      <Stack
+        sx={{ width: '100%', mb: 4 }}
+        direction={{ xs: 'column', md: 'row' }}
+      >
+        <Box
+          flexGrow={1}
+          sx={{
+            pl: { xs: 0, md: 3 },
+            mb: 2,
+            width: { xs: '100%', md: '50%' },
+          }}
+        >
+          <Stack direction={'column'}>
+            <Typography variant={'h6'} textAlign={'center'}>
+              Fotka pro zadání
+            </Typography>
+            {questionImageUrl && (
+              <img
+                src={questionImageUrl}
+                alt={'Fotka místa'}
+                style={{
+                  maxWidth: '100%',
+                  marginBottom: '1rem',
+                }}
+              />
+            )}
+            <input
+              type="file"
+              id={'questionImageInput'}
+              accept={ACCEPTED_IMAGE_TYPES.join(', ')}
+              {...register('questionImage')}
+              hidden
+              onChange={handleQuestionImageUpload}
+            />
+            <label htmlFor="questionImageInput">
+              <Button
+                variant={'contained'}
+                color={'secondary'}
+                component="span"
+              >
+                Vybrat fotku
+              </Button>
+            </label>
+
+            {errors['questionImage']?.message && (
+              <FormHelperText error>
+                {errors['questionImage'].message.toString()}
+              </FormHelperText>
+            )}
+          </Stack>
+        </Box>
+
+        <Box
+          flexGrow={1}
+          sx={{ pl: { xs: 0, md: 3 }, mb: 2, width: { xs: '100%', md: '50%' } }}
+        >
+          <Stack direction={'column'}>
+            <Typography variant={'h6'} textAlign={'center'}>
+              Fotka pro zobrazení po zveřejnění výsledků
+            </Typography>
+            {answerImageUrl && (
+              <img
+                src={answerImageUrl}
+                alt={'Fotka místa'}
+                style={{
+                  maxWidth: '100%',
+                  marginBottom: '1rem',
+                }}
+              />
+            )}
+            <input
+              type="file"
+              id={'answerImageInput'}
+              accept={ACCEPTED_IMAGE_TYPES.join(', ')}
+              {...register('answerImage')}
+              hidden
+              onChange={handleAnswerImageUpload}
+            />
+            <label htmlFor="answerImageInput">
+              <Button
+                variant={'contained'}
+                color={'secondary'}
+                component="span"
+              >
+                Vybrat fotku
+              </Button>
+            </label>
+            {errors['answerImage']?.message && (
+              <FormHelperText error>
+                {errors['answerImage'].message.toString()}
+              </FormHelperText>
+            )}
+          </Stack>
+        </Box>
+      </Stack>
+
       <Stack sx={{ width: '100%' }}>
         <MapPicker
           centerPoint={selectedCity.centerPoint}

@@ -10,8 +10,10 @@ import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '~/server/routers/_app';
 import superjson from 'superjson';
+import { useImageUpload } from '~/hooks/use-image-upload';
 
 export const Contribute: NextPage = () => {
+  const { uploadImage } = useImageUpload();
   const { data: availableCities, isLoading } = trpc.city.getAll.useQuery();
   const { mutateAsync, isSuccess, isError, error } =
     trpc.question.create.useMutation();
@@ -20,26 +22,18 @@ export const Contribute: NextPage = () => {
   const createQuestion = useCallback(
     async (data: CreateQuestionValidationSchema) => {
       setIsSubmitting(true);
-      const formData = new FormData();
-      formData.append('file', data.image);
-      formData.append('upload_preset', 'egu3lgzw'); // value got from here https://console.cloudinary.com/console/c-3b11fb731fc6e5a47cd099ae611db4/getting-started
 
-      const cloudinaryResponse = await fetch(
-        `https://api.cloudinary.com/v1_1/dwdwjz5kb/upload`, // value got from here https://console.cloudinary.com/settings/c-3b11fb731fc6e5a47cd099ae611db4/upload
-        {
-          method: 'POST',
-          body: formData,
-        },
-      );
-      const cloudinaryData = await cloudinaryResponse.json();
-      const imageUrl = cloudinaryData.url.replace(
-        '/upload/',
-        '/upload/c_fill/c_scale,w_auto/q_40/dpr_auto/',
-      ); // optimize strategy recommended by ChatGPT https://cloudinary.com/documentation/image_optimization#set_the_quality_when_delivering_an_image
+      const uploadQuestionImagePromise = uploadImage(data.questionImage);
+      const uploadAnswerImagePromise = uploadImage(data.answerImage);
+      const [questionImageUrl, answerImageUrl] = await Promise.all([
+        uploadQuestionImagePromise,
+        uploadAnswerImagePromise,
+      ]);
 
       await mutateAsync({
         ...data,
-        imageUrl,
+        questionImageUrl: questionImageUrl,
+        answerImageUrl: answerImageUrl,
       });
       setIsSubmitting(false);
     },
