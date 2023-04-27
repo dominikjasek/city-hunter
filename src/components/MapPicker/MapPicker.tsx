@@ -39,7 +39,13 @@ export const MapPicker: FC<MapPickerProps> = ({
   };
 
   return (
-    <div style={{ touchAction: 'none', cursor: 'crosshair' }}>
+    <div
+      style={{
+        touchAction: 'none',
+        cursor: 'crosshair',
+        width: '100%',
+      }}
+    >
       <Map
         height="500px"
         center={centerPoint}

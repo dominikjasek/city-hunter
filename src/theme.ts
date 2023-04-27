@@ -54,7 +54,7 @@ const theme = createTheme({
     h3: {
       fontSize: '2rem',
       '@media (min-width:600px)': {
-        fontSize: '2.4rem',
+        fontSize: '2.7rem',
       },
       '@media (min-width:900px)': {
         fontSize: '3.5rem',

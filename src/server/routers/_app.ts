@@ -5,7 +5,7 @@ import { publicProcedure, router } from '../trpc';
 import { postRouter } from './post';
 import { authRouter } from '~/server/routers/authRouter';
 import { cityRouter } from '~/server/routers/cityRouter';
-import { questionRouter } from '~/server/routers/questionRouter';
+import { questionRouter } from '~/server/routers/question/questionRouter';
 import { tournamentRouter } from '~/server/routers/tournamentRouter';
 
 export const appRouter = router({

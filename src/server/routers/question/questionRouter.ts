@@ -1,9 +1,31 @@
-import { adminProcedure, router } from '~/server/trpc';
+import { adminProcedure, publicProcedure, router } from '~/server/trpc';
 import { z } from 'zod';
 import { db } from '~/db/drizzle';
-import { questions } from '~/db/schema';
+import { cities, questions } from '~/db/schema';
+import { eq } from 'drizzle-orm/expressions';
 
 export const questionRouter = router({
+  getRandomDemoQuestion: publicProcedure.query(async () => {
+    const demoQuestions = await db
+      .select({
+        id: questions.id,
+        title: questions.title,
+        questionDescription: questions.questionDescription,
+        questionImageUrl: questions.questionImageUrl,
+        city: {
+          id: cities.id,
+          name: cities.name,
+          centerPoint: cities.centerPoint,
+          mapZoom: cities.mapZoom,
+        },
+      })
+      .from(questions)
+      .where(eq(questions.demo, true))
+      .innerJoin(cities, eq(questions.cityId, cities.id));
+
+    console.log('demoQuestions', demoQuestions);
+    return demoQuestions[Math.floor(Math.random() * demoQuestions.length)];
+  }),
   create: adminProcedure
     .input(
       z.object({
