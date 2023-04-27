@@ -5,10 +5,21 @@ import superjson from 'superjson';
 import { QuestionTask } from '~/components/Question/QuestionTask';
 import React from 'react';
 import { trpc } from '~/utils/trpc';
+import { MapLocation } from '~/components/MapPicker/MapPicker';
 
 const DemoPlayPage: NextPage = () => {
-  const { data: demoQuestion } = trpc.question.getRandomDemoQuestion.useQuery();
   const startDate = new Date();
+  const { data: demoQuestion } = trpc.question.getRandomDemoQuestion.useQuery();
+  const { mutateAsync } = trpc.question.answerDemoQuestion.useMutation();
+
+  const submitAnswer = async (point: MapLocation) => {
+    const { score } = await mutateAsync({
+      answer: point,
+      durationInSeconds: (new Date().getTime() - startDate.getTime()) / 1000,
+      questionId: demoQuestion!.id,
+    });
+    console.log('score', score);
+  };
 
   return (
     <>
@@ -18,6 +29,7 @@ const DemoPlayPage: NextPage = () => {
           city={demoQuestion.city}
           title={demoQuestion.title}
           questionImageUrl={demoQuestion.questionImageUrl}
+          onSubmit={submitAnswer}
         />
       )}
     </>

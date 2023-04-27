@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { db } from '~/db/drizzle';
 import { cities, questions } from '~/db/schema';
 import { eq } from 'drizzle-orm/expressions';
+import { TRPCError } from '@trpc/server';
+import { evaluateScoreFromLocations } from '~/utils/score/evaluate-score';
 
 export const questionRouter = router({
   getRandomDemoQuestion: publicProcedure.query(async () => {
@@ -26,6 +28,39 @@ export const questionRouter = router({
     console.log('demoQuestions', demoQuestions);
     return demoQuestions[Math.floor(Math.random() * demoQuestions.length)];
   }),
+  answerDemoQuestion: publicProcedure
+    .input(
+      z.object({
+        questionId: z.number(),
+        answer: z.object({
+          lat: z.number(),
+          lng: z.number(),
+        }),
+        durationInSeconds: z.number(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const result = await db
+        .select({ location: questions.location })
+        .from(questions)
+        .where(eq(questions.id, input.questionId));
+      if (!result[0]) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Question not found',
+        });
+      }
+      const correctLocation = result[0].location;
+      const score = evaluateScoreFromLocations(
+        input.answer,
+        correctLocation,
+        input.durationInSeconds,
+      );
+
+      return {
+        score,
+      };
+    }),
   create: adminProcedure
     .input(
       z.object({

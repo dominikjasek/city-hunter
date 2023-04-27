@@ -11,6 +11,7 @@ import {
   varchar,
 } from 'drizzle-orm/mysql-core';
 import { InferModel } from 'drizzle-orm';
+import { MapLocation } from '~/db/types';
 
 // User
 export const users = mysqlTable('users', {
@@ -38,7 +39,7 @@ export const cities = mysqlTable('cities', {
   name: varchar('name', { length: 50 }).notNull(),
   previewImageUrl: varchar('preview_image_url', { length: 250 }),
   centerPoint: json('center_point')
-    .$type<Location>()
+    .$type<MapLocation>()
     .notNull()
     .default({ lat: 49.21866559856739, lng: 15.880347529353775 }),
   mapZoom: int('map_zoom').notNull().default(14),
@@ -60,22 +61,17 @@ export const questions = mysqlTable('questions', {
   tournamentId: int('tournament_id'),
   startDate: datetime('start_date'),
   endDate: datetime('end_date'),
-  location: json('location').$type<Location>().notNull(),
+  location: json('location').$type<MapLocation>().notNull(),
   demo: boolean('demo').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
-
-export interface Location {
-  lat: number;
-  lng: number;
-}
 
 export type Question = InferModel<typeof questions>;
 
 // Answer
 export const answers = mysqlTable('answers', {
   id: serial('id').primaryKey(),
-  location: json('location').$type<Location>().notNull(),
+  location: json('location').$type<MapLocation>().notNull(),
   score: int('score').notNull(),
   questionId: int('question_id').notNull(),
   userId: varchar('user_id', { length: 100 }).notNull(),

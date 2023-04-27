@@ -11,6 +11,7 @@ interface QuestionTaskProps {
   title: string;
   questionDescription: string | null;
   questionImageUrl: string;
+  onSubmit: (point: MapLocation) => void;
 }
 
 export const QuestionTask: FC<QuestionTaskProps> = (props) => {
@@ -75,6 +76,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
         size={'large'}
         disabled={!point}
         sx={{ minWidth: '300px' }}
+        onClick={() => props.onSubmit(point!)}
       >
         Potvrdit
       </Button>
