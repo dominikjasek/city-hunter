@@ -3,36 +3,72 @@ import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '~/server/routers/_app';
 import superjson from 'superjson';
 import { QuestionTask } from '~/components/Question/QuestionTask';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { trpc } from '~/utils/trpc';
 import { MapLocation } from '~/components/MapPicker/MapPicker';
+import {
+  QuestionSolution,
+  QuestionSolutionProps,
+} from '~/components/Question/QuestionSolution';
+import { Loader } from '~/components/common/Loader/Loader';
+import { Typography } from '@mui/material';
 
 const DemoPlayPage: NextPage = () => {
-  const startDate = new Date();
-  const { data: demoQuestion } = trpc.question.getRandomDemoQuestion.useQuery();
-  const { mutateAsync } = trpc.question.answerDemoQuestion.useMutation();
+  const startDate = useMemo(() => new Date(), []);
+  const [solutionData, setSolutionData] =
+    useState<QuestionSolutionProps | null>(null);
+  const { data: demoQuestion, isLoading } =
+    trpc.question.getRandomDemoQuestion.useQuery();
+  const { mutateAsync, isLoading: isSubmitting } =
+    trpc.question.answerDemoQuestion.useMutation();
 
   const submitAnswer = async (point: MapLocation) => {
-    const { score } = await mutateAsync({
+    const response = await mutateAsync({
       answer: point,
       durationInSeconds: (new Date().getTime() - startDate.getTime()) / 1000,
       questionId: demoQuestion!.id,
     });
-    console.log('score', score);
+    setSolutionData({
+      ...response,
+      name: demoQuestion!.title,
+      images: [demoQuestion!.questionImageUrl, response.answerImageUrl],
+    });
   };
 
+  if (isLoading) {
+    return <Loader title="Načítám..." />;
+  }
+
+  if (!demoQuestion) {
+    return <Typography>Bohužel nemáme k dispozici žádní demo</Typography>;
+  }
+
+  if (!solutionData) {
+    return (
+      <>
+        {demoQuestion && (
+          <QuestionTask
+            questionDescription={demoQuestion.questionDescription}
+            city={demoQuestion.city}
+            title={demoQuestion.title}
+            questionImageUrl={demoQuestion.questionImageUrl}
+            isSubmitting={isSubmitting}
+            onSubmit={submitAnswer}
+          />
+        )}
+      </>
+    );
+  }
+
   return (
-    <>
-      {demoQuestion && (
-        <QuestionTask
-          questionDescription={demoQuestion.questionDescription}
-          city={demoQuestion.city}
-          title={demoQuestion.title}
-          questionImageUrl={demoQuestion.questionImageUrl}
-          onSubmit={submitAnswer}
-        />
-      )}
-    </>
+    <QuestionSolution
+      name={solutionData.name}
+      answerDescription={solutionData.answerDescription}
+      images={solutionData.images}
+      answerLocation={solutionData.answerLocation}
+      correctLocation={solutionData.correctLocation}
+      score={solutionData.score}
+    />
   );
 };
 

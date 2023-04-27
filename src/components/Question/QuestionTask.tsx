@@ -11,6 +11,7 @@ interface QuestionTaskProps {
   title: string;
   questionDescription: string | null;
   questionImageUrl: string;
+  isSubmitting: boolean;
   onSubmit: (point: MapLocation) => void;
 }
 
@@ -74,7 +75,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
         variant={'contained'}
         color={'secondary'}
         size={'large'}
-        disabled={!point}
+        disabled={!point || props.isSubmitting}
         sx={{ minWidth: '300px' }}
         onClick={() => props.onSubmit(point!)}
       >

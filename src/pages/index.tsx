@@ -45,22 +45,25 @@ const IndexPage: NextPageWithLayout = () => {
           <SecondaryColor>1. 9. 2023</SecondaryColor> a hra bude trvat{' '}
           <SecondaryColor>20 dnů</SecondaryColor>.
         </Typography>
-        <Stack
-          direction={'column'}
-          mx={'auto'}
-          gap={1}
-          sx={{ maxWidth: '250px' }}
-        >
-          <Button color={'secondary'} variant={'contained'}>
-            <Link className={'no-style'} href={'/play/demo'}>
+        <Stack direction={'column'} mx={'auto'} gap={1}>
+          <Link className={'no-style'} href={'/play/demo'} passHref>
+            <Button
+              color={'secondary'}
+              variant={'contained'}
+              sx={{ width: '250px' }}
+            >
               Vyzkoušet demo
-            </Link>
-          </Button>
-          <Button color={'secondary'} variant={'outlined'}>
-            <Link className={'no-style'} href={'/play/demo'}>
+            </Button>
+          </Link>
+          <Link className={'no-style'} href={'/play/demo'} passHref>
+            <Button
+              color={'secondary'}
+              variant={'outlined'}
+              sx={{ width: '250px' }}
+            >
               FAQ
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </Stack>
       </Box>
     </Stack>

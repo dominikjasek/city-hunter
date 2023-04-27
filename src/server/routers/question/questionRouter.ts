@@ -41,7 +41,11 @@ export const questionRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       const result = await db
-        .select({ location: questions.location })
+        .select({
+          location: questions.location,
+          answerImageUrl: questions.answerImageUrl,
+          answerDescription: questions.answerDescription,
+        })
         .from(questions)
         .where(eq(questions.id, input.questionId));
       if (!result[0]) {
@@ -50,15 +54,19 @@ export const questionRouter = router({
           message: 'Question not found',
         });
       }
-      const correctLocation = result[0].location;
+      const question = result[0];
       const score = evaluateScoreFromLocations(
         input.answer,
-        correctLocation,
+        question.location,
         input.durationInSeconds,
       );
 
       return {
         score,
+        answerImageUrl: question.answerImageUrl,
+        answerDescription: question.answerDescription,
+        answerLocation: input.answer,
+        correctLocation: question.location,
       };
     }),
   create: adminProcedure
