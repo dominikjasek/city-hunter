@@ -62,13 +62,7 @@ const MobileNavbar: React.FC<NavbarProps> = ({ links }) => {
         sx={{ backgroundColor: theme.palette.primary.main, cursor: 'pointer' }}
         onClick={() => router.push('/')}
       >
-        <Image
-          priority
-          src={LogoWhite}
-          alt="Follow us on Twitter"
-          height={42}
-          style={{ fill: 'white' }}
-        />
+        <Image priority src={LogoWhite} alt="Follow us on Twitter" height={42} style={{ fill: 'white' }} />
         <Typography
           variant="h6"
           fontSize={24}
@@ -92,10 +86,7 @@ const MobileNavbar: React.FC<NavbarProps> = ({ links }) => {
           </Link>
         ))}
         <ListItem disablePadding>
-          <ListItemButton
-            sx={{ justifyContent: 'center' }}
-            onClick={(e) => e.stopPropagation()}
-          >
+          <ListItemButton sx={{ justifyContent: 'center' }} onClick={(e) => e.stopPropagation()}>
             <UserBox />
           </ListItemButton>
         </ListItem>
@@ -109,13 +100,7 @@ const MobileNavbar: React.FC<NavbarProps> = ({ links }) => {
     <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
       <AppBar component="nav" color={'primary'} enableColorOnDark>
         <Toolbar variant={'dense'}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            onClick={handleDrawerToggle}
-            aria-label="menu"
-          >
+          <IconButton size="large" edge="start" color="inherit" onClick={handleDrawerToggle} aria-label="menu">
             <MenuIcon />
           </IconButton>
         </Toolbar>
@@ -160,22 +145,14 @@ const DesktopNavbar: React.FC<NavbarProps> = ({ links }) => {
       >
         <Link href={'/'} className="no-style">
           <Stack direction={'row'} alignItems={'center'} gap={2}>
-            <Image
-              priority
-              src={LogoWhite}
-              alt="Follow us on Twitter"
-              height={40}
-              style={{ fill: 'white' }}
-            />
+            <Image priority src={LogoWhite} alt="Follow us on Twitter" height={40} style={{ fill: 'white' }} />
             <Typography fontSize={24}>CITY HUNTER</Typography>
           </Stack>
         </Link>
         <Stack direction={'row'} alignItems={'center'} gap={3}>
           {links.map((item) => (
             <Link className={'no-style'} key={item.title} href={item.href}>
-              <Typography
-                sx={{ '&:hover': { color: theme.palette.secondary.main } }}
-              >
+              <Typography sx={{ '&:hover': { color: theme.palette.secondary.main } }}>
                 {item.title.toUpperCase()}
               </Typography>
             </Link>
@@ -192,10 +169,7 @@ export const Navbar: React.FC = () => {
 
   const links = useMemo(() => {
     if (isAdmin) {
-      return [
-        ...defaultNavbarLinks,
-        { title: 'Přidat místo', href: '/contribute' },
-      ];
+      return [...defaultNavbarLinks, { title: 'Přidat místo', href: '/contribute' }];
     }
 
     return defaultNavbarLinks;

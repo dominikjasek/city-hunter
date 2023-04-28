@@ -26,12 +26,12 @@ const IndexPage: NextPageWithLayout = () => {
       </Box>
       <Box>
         <Typography variant={'h6'} sx={{ mb: 4 }}>
-          Díváte se kolem sebe? <SecondaryText>City Hunter</SecondaryText> je online hra, která to prověří. Úkolem je vyznačit místo na mapě, které je zachyceno
-          na obrázku.
+          Díváte se kolem sebe? <SecondaryText>City Hunter</SecondaryText> je online hra, která to prověří. Úkolem je
+          vyznačit místo na mapě, které je zachyceno na obrázku.
         </Typography>
         <Typography variant={'h6'} sx={{ mb: 6 }}>
-          Hrajeme v <SecondaryText>Třebíči</SecondaryText> a v <SecondaryText>Brně</SecondaryText>. Startujeme <SecondaryText>1. 9. 2023</SecondaryText> a hra
-          bude trvat <SecondaryText>20 dnů</SecondaryText>.
+          Hrajeme v <SecondaryText>Třebíči</SecondaryText> a v <SecondaryText>Brně</SecondaryText>. Startujeme{' '}
+          <SecondaryText>1. 9. 2023</SecondaryText> a hra bude trvat <SecondaryText>20 dnů</SecondaryText>.
         </Typography>
         <Stack direction={'column'} mx={'auto'} gap={1}>
           <Link className={'no-style'} href={'/play/demo'} passHref>

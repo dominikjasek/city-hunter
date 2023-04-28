@@ -13,10 +13,10 @@ import theme from '~/theme';
 import { DialogProvider } from '~/components/contexts/DialogProvider';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 
-export type NextPageWithLayout<
-  TProps = Record<string, unknown>,
-  TInitialProps = TProps,
-> = NextPage<TProps, TInitialProps> & {
+export type NextPageWithLayout<TProps = Record<string, unknown>, TInitialProps = TProps> = NextPage<
+  TProps,
+  TInitialProps
+> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
@@ -27,11 +27,7 @@ export type AppPropsWithLayout = AppProps & {
 
 const clientSideEmotionCache = createEmotionCache();
 
-const MyApp = (({
-  Component,
-  pageProps,
-  emotionCache = clientSideEmotionCache,
-}: AppPropsWithLayout) => {
+const MyApp = (({ Component, pageProps, emotionCache = clientSideEmotionCache }: AppPropsWithLayout) => {
   return (
     <>
       <VercelAnalytics />

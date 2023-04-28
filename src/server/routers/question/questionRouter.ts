@@ -55,7 +55,11 @@ export const questionRouter = router({
         });
       }
       const question = result[0];
-      const { score, distance } = evaluateResultsFromLocations(input.answer, question.location, input.durationInSeconds);
+      const { score, distance } = evaluateResultsFromLocations(
+        input.answer,
+        question.location,
+        input.durationInSeconds,
+      );
 
       return {
         score,

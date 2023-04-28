@@ -10,7 +10,9 @@ const haversineDistance = (point1: MapLocation, point2: MapLocation) => {
   const R = 6_378_000; // Radius of the earth in m
   const dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
   const dLon = deg2rad(point2.lng - point1.lng);
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(point1.lat)) * Math.cos(deg2rad(point2.lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(point1.lat)) * Math.cos(deg2rad(point2.lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c; // Distance in m
 };
@@ -29,7 +31,11 @@ const evaluateTimePenaltyCoefficient = (durationInSeconds: number) => {
   return Math.max(0, Math.min(MAXIMAL_TIME_PENALTY_COEFFICIENT, timePenaltyCoefficient));
 };
 
-export const evaluateResultsFromLocations = (answer: MapLocation, correctLocation: MapLocation, durationInSeconds: number) => {
+export const evaluateResultsFromLocations = (
+  answer: MapLocation,
+  correctLocation: MapLocation,
+  durationInSeconds: number,
+) => {
   const distance = haversineDistance(answer, correctLocation);
   const score = evaluateScoreFromDistance(distance, durationInSeconds);
   return {

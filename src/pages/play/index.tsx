@@ -39,12 +39,7 @@ const TournamentContainer: FC<CityContainerProps> = (props) => {
           height: '100%',
         }}
       >
-        <Stack
-          direction={'row'}
-          width={'100%'}
-          height={'100%'}
-          justifyContent={'space-between'}
-        >
+        <Stack direction={'row'} width={'100%'} height={'100%'} justifyContent={'space-between'}>
           <Stack
             direction={'column'}
             width={'100%'}
@@ -55,11 +50,7 @@ const TournamentContainer: FC<CityContainerProps> = (props) => {
             <Typography variant={'h4'}>{props.cityName}</Typography>
             <Typography variant={'h5'}>{props.tournamentName}</Typography>
             {props.startDate && props.endDate && (
-              <Typography variant={'h6'}>
-                {`${formatDate(props.startDate)} - ${formatDate(
-                  props.endDate,
-                )}`}
-              </Typography>
+              <Typography variant={'h6'}>{`${formatDate(props.startDate)} - ${formatDate(props.endDate)}`}</Typography>
             )}
           </Stack>
           {props?.previewImageUrl && (
@@ -71,8 +62,7 @@ const TournamentContainer: FC<CityContainerProps> = (props) => {
               style={{
                 height: '100%',
                 width: 'auto',
-                WebkitMaskImage:
-                  'linear-gradient(to right, transparent 0%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 100%)',
               }}
             />
           )}
@@ -85,8 +75,7 @@ const TournamentContainer: FC<CityContainerProps> = (props) => {
 export const PlayPage: NextPage = () => {
   const { query } = useRouter();
   const { tournamentId } = query;
-  const { data: tournamentsData, isLoading } =
-    trpc.tournament.getAll.useQuery();
+  const { data: tournamentsData, isLoading } = trpc.tournament.getAll.useQuery();
 
   if (isLoading) {
     return <Loader title={'Načítání...'} />;

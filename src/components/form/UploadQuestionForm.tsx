@@ -1,7 +1,18 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { City } from '~/db/schema';
 import { ChangeEvent, useState } from 'react';
 import { MapPicker } from '~/components/MapPicker/MapPicker';
@@ -19,7 +30,10 @@ const createQuestionValidationSchema = z.object({
   answerImages: z
     .any()
     .refine((files: File[]) => files.length > 0, 'Fotka místa je povinná.')
-    .refine((files: File[]) => files.every((file) => ACCEPTED_IMAGE_TYPES.includes(file.type)), '.jpg, .jpeg and .png files are accepted.'),
+    .refine(
+      (files: File[]) => files.every((file) => ACCEPTED_IMAGE_TYPES.includes(file.type)),
+      '.jpg, .jpeg and .png files are accepted.',
+    ),
   cityId: z.number(),
   location: z.object({
     lat: z.number(),
@@ -29,7 +43,13 @@ const createQuestionValidationSchema = z.object({
 
 export type CreateQuestionValidationSchema = z.infer<typeof createQuestionValidationSchema>;
 
-export const UploadQuestionForm = ({ availableCities, onSubmit }: { availableCities: City[]; onSubmit: (data: CreateQuestionValidationSchema) => void }) => {
+export const UploadQuestionForm = ({
+  availableCities,
+  onSubmit,
+}: {
+  availableCities: City[];
+  onSubmit: (data: CreateQuestionValidationSchema) => void;
+}) => {
   const [questionImageUrl, setQuestionImageUrl] = useState<string | null>(null);
   const [answerImagesUrl, setAnswerImagesUrl] = useState<string[] | null>(null);
 
@@ -177,7 +197,9 @@ export const UploadQuestionForm = ({ availableCities, onSubmit }: { availableCit
               </Button>
             </label>
 
-            {errors['questionImage']?.message && <FormHelperText error>{errors['questionImage'].message.toString()}</FormHelperText>}
+            {errors['questionImage']?.message && (
+              <FormHelperText error>{errors['questionImage'].message.toString()}</FormHelperText>
+            )}
           </Stack>
         </Box>
 
@@ -212,7 +234,9 @@ export const UploadQuestionForm = ({ availableCities, onSubmit }: { availableCit
                 Vybrat fotku
               </Button>
             </label>
-            {errors['answerImages']?.message && <FormHelperText error>{errors['answerImages'].message.toString()}</FormHelperText>}
+            {errors['answerImages']?.message && (
+              <FormHelperText error>{errors['answerImages'].message.toString()}</FormHelperText>
+            )}
           </Stack>
         </Box>
       </Stack>

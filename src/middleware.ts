@@ -1,8 +1,4 @@
-import {
-  clerkClient,
-  getAuth,
-  withClerkMiddleware,
-} from '@clerk/nextjs/server';
+import { clerkClient, getAuth, withClerkMiddleware } from '@clerk/nextjs/server';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { PublicMetadata } from '~/utils/clerk/types';
@@ -12,9 +8,7 @@ const adminRoutes = ['/contribute'];
 const protectedRoutes = ['/play', '/user'];
 
 const createRouteGuard = (routes: string[]) => (path: string) => {
-  return routes.find((x) =>
-    path.match(new RegExp(`^${x}$`.replace('*$', '($|/)'))),
-  );
+  return routes.find((x) => path.match(new RegExp(`^${x}$`.replace('*$', '($|/)'))));
 };
 
 const isAdminRoute = createRouteGuard(adminRoutes);

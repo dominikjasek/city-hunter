@@ -20,11 +20,7 @@ export const UserBox: FC = () => {
       </SignedIn>
       <SignedOut>
         {pathname !== '/login' && (
-          <Button
-            color={'secondary'}
-            variant={'contained'}
-            onClick={() => setOpenLoginDialog(true)}
-          >
+          <Button color={'secondary'} variant={'contained'} onClick={() => setOpenLoginDialog(true)}>
             Přihlásit se
           </Button>
         )}

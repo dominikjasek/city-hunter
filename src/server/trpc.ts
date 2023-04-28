@@ -70,6 +70,4 @@ const adminMiddleware = t.middleware(async ({ next, ctx }) => {
 
 export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(protectedMiddleware);
-export const adminProcedure = t.procedure
-  .use(protectedMiddleware)
-  .use(adminMiddleware);
+export const adminProcedure = t.procedure.use(protectedMiddleware).use(adminMiddleware);

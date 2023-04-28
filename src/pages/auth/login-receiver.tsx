@@ -16,11 +16,7 @@ const LoginReceiver: React.FC = () => {
     if (!user) return;
     const result = await mutation.mutateAsync({
       id: user.id,
-      nickName:
-        user.fullName ??
-        user.username ??
-        user.primaryEmailAddress?.emailAddress ??
-        `${user.id}`,
+      nickName: user.fullName ?? user.username ?? user.primaryEmailAddress?.emailAddress ?? `${user.id}`,
     });
     if (result.success) {
       await router.replace('/');
@@ -33,12 +29,7 @@ const LoginReceiver: React.FC = () => {
   }, [user]);
 
   if (mutation.error) {
-    return (
-      <MessageBox
-        type="error"
-        message={'Chyba při přihlašování - kontaktujte prosím správce webu.'}
-      />
-    );
+    return <MessageBox type="error" message={'Chyba při přihlašování - kontaktujte prosím správce webu.'} />;
   }
 
   return <Loader title={'Probíhá přihlašování...'} />;

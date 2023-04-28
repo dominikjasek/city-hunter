@@ -4,9 +4,7 @@ import { Typography } from '@mui/material';
 const Unauthorized: FC = () => {
   return (
     <div>
-      <Typography>
-        Pro zobrazení této stránky nemáte práva. Kontaktujte administrátora.
-      </Typography>
+      <Typography>Pro zobrazení této stránky nemáte práva. Kontaktujte administrátora.</Typography>
     </div>
   );
 };

@@ -20,8 +20,13 @@ export const Contribute: NextPage = () => {
       setIsSubmitting(true);
 
       const uploadQuestionImagePromise = uploadImage(data.questionImage);
-      const uploadAnswerImagesPromises = (data.answerImages as File[]).map((answerImage: File) => uploadImage(answerImage));
-      const [questionImageUrl, answerImagesUrl] = await Promise.all([uploadQuestionImagePromise, Promise.all(uploadAnswerImagesPromises)]);
+      const uploadAnswerImagesPromises = (data.answerImages as File[]).map((answerImage: File) =>
+        uploadImage(answerImage),
+      );
+      const [questionImageUrl, answerImagesUrl] = await Promise.all([
+        uploadQuestionImagePromise,
+        Promise.all(uploadAnswerImagesPromises),
+      ]);
 
       await mutateAsync({
         ...data,

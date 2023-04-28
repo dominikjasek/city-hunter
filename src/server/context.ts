@@ -1,9 +1,6 @@
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
-import type {
-  SignedInAuthObject,
-  SignedOutAuthObject,
-} from '@clerk/nextjs/dist/api';
+import type { SignedInAuthObject, SignedOutAuthObject } from '@clerk/nextjs/dist/api';
 import { getAuth } from '@clerk/nextjs/server';
 
 interface AuthContext {
@@ -26,8 +23,6 @@ export type Context = trpc.inferAsyncReturnType<typeof createContextInner>;
  * Creates context for an incoming request
  * @link https://trpc.io/docs/context
  */
-export async function createContext(
-  opts: trpcNext.CreateNextContextOptions,
-): Promise<Context> {
+export async function createContext(opts: trpcNext.CreateNextContextOptions): Promise<Context> {
   return await createContextInner({ auth: getAuth(opts.req) });
 }

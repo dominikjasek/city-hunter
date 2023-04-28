@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import React, { createContext, PropsWithChildren, useContext, useMemo, useState } from 'react';
 import { SignIn } from '@clerk/nextjs';
 import { Dialog } from '@mui/material';
 

@@ -17,7 +17,7 @@
     "migration:run": "npx drizzle-kit push:mysql"
   },
   "prettier": {
-    "printWidth": 160,
+    "printWidth": 120,
     "trailingComma": "all",
     "singleQuote": true
   },
@@ -50,8 +50,10 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-mapycz": "^1.2.0",
+    "react-photo-album": "^2.1.0",
     "styled-components": "^5.3.9",
     "superjson": "^1.12.2",
+    "yet-another-react-lightbox": "^3.5.3",
     "zod": "^3.0.0"
   },
   "devDependencies": {
