@@ -22,7 +22,7 @@ export const Solution: FC<QuestionSolutionProps> = (props) => {
       <Typography>Skóre: {props.score}</Typography>
       <Typography>{props.answerDescription}</Typography>
       <Stack direction={'column'}>
-        <Stack direction={'row'} sx={{ width: '100%' }} gap={1}>
+        <Stack direction={'row'} sx={{ width: '100%', mb: 3 }} gap={1}>
           {props.images.map((image) => (
             <Box
               key={image}

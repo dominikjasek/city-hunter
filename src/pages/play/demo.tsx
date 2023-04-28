@@ -42,7 +42,7 @@ const DemoPlayPage: NextPage = () => {
           },
         ],
         zoom: demoQuestion!.city.mapZoom,
-        centerPoint: demoQuestion!.city.centerPoint,
+        centerPoint: response.answerLocation,
       },
     });
   };

@@ -184,7 +184,7 @@ export const UploadQuestionForm = ({ availableCities, onSubmit }: { availableCit
         <Box flexGrow={1} sx={{ pl: { xs: 0, md: 3 }, mb: 2, width: { xs: '100%', md: '50%' } }}>
           <Stack direction={'column'}>
             <Typography variant={'h6'} textAlign={'center'}>
-              Fotka pro zobrazení po zveřejnění výsledků
+              Fotky pro zobrazení po zveřejnění výsledků
             </Typography>
             {answerImagesUrl &&
               answerImagesUrl.map((answerImageUrl) => (
