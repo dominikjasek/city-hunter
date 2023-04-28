@@ -39,7 +39,7 @@ export const questionRouter = router({
         durationInSeconds: z.number(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async ({ input }) => {
       const result = await db
         .select({
           location: questions.location,
@@ -55,11 +55,7 @@ export const questionRouter = router({
         });
       }
       const question = result[0];
-      const score = evaluateScoreFromLocations(
-        input.answer,
-        question.location,
-        input.durationInSeconds,
-      );
+      const score = evaluateScoreFromLocations(input.answer, question.location, input.durationInSeconds);
 
       return {
         score,

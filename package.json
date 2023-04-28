@@ -17,7 +17,7 @@
     "migration:run": "npx drizzle-kit push:mysql"
   },
   "prettier": {
-    "printWidth": 80,
+    "printWidth": 160,
     "trailingComma": "all",
     "singleQuote": true
   },

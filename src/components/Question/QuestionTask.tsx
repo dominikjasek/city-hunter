@@ -1,7 +1,8 @@
 import { FC, useState } from 'react';
-import { MapLocation, MapPicker } from '~/components/MapPicker/MapPicker';
+import { MapPicker } from '~/components/MapPicker/MapPicker';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import Image from 'next/image';
+import { MapLocation } from '~/components/MapPicker/types';
 
 interface QuestionTaskProps {
   city: {
@@ -25,31 +26,18 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
         px: { xs: 0, sm: 1, md: 2 },
       }}
     >
-      <Stack
-        direction={'row'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        gap={4}
-      >
+      <Stack direction={'row'} justifyContent={'center'} alignItems={'center'} gap={4}>
         <Box>
           <Typography variant={'h6'}>{props.title}</Typography>
           <Typography sx={{ mb: 2 }}>{props.questionDescription}</Typography>
         </Box>
       </Stack>
-      <Stack
-        mb={2}
-        direction={{ xs: 'column', md: 'row' }}
-        alignItems={'center'}
-        gap={2}
-      >
+      <Stack mb={2} direction={{ xs: 'column', md: 'row' }} alignItems={'center'} gap={1}>
         <Box
           sx={{
-            width: '100%',
-            minWidth: { xs: 300, md: 400 },
-            maxWidth: 700,
-            height: '500px',
+            minWidth: { xs: 300, md: 400, lg: 500 },
+            minHeight: { xs: 300, md: 500 },
             position: 'relative',
-            mx: 'auto',
             flex: { xs: 'none', md: 1 },
           }}
         >
@@ -63,12 +51,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
           />
         </Box>
         <Box sx={{ width: '100%', flex: { xs: 'none', md: 2 } }}>
-          <MapPicker
-            centerPoint={props.city.centerPoint}
-            zoom={props.city.mapZoom}
-            point={point}
-            onClick={setPoint}
-          />
+          <MapPicker centerPoint={props.city.centerPoint} zoom={props.city.mapZoom} point={point} onClick={setPoint} />
         </Box>
       </Stack>
       <Button

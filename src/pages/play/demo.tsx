@@ -5,22 +5,18 @@ import superjson from 'superjson';
 import { QuestionTask } from '~/components/Question/QuestionTask';
 import React, { useMemo, useState } from 'react';
 import { trpc } from '~/utils/trpc';
-import { MapLocation } from '~/components/MapPicker/MapPicker';
-import {
-  QuestionSolution,
-  QuestionSolutionProps,
-} from '~/components/Question/QuestionSolution';
+import { QuestionSolutionProps, Solution } from '~/components/Solution/Solution';
 import { Loader } from '~/components/common/Loader/Loader';
 import { Typography } from '@mui/material';
+import { MapLocation } from '~/components/MapPicker/types';
+import { useUser } from '@clerk/nextjs';
 
 const DemoPlayPage: NextPage = () => {
   const startDate = useMemo(() => new Date(), []);
-  const [solutionData, setSolutionData] =
-    useState<QuestionSolutionProps | null>(null);
-  const { data: demoQuestion, isLoading } =
-    trpc.question.getRandomDemoQuestion.useQuery();
-  const { mutateAsync, isLoading: isSubmitting } =
-    trpc.question.answerDemoQuestion.useMutation();
+  const [solutionData, setSolutionData] = useState<QuestionSolutionProps | null>(null);
+  const { data: demoQuestion, isLoading } = trpc.question.getRandomDemoQuestion.useQuery();
+  const { mutateAsync, isLoading: isSubmitting } = trpc.question.answerDemoQuestion.useMutation();
+  const { user } = useUser();
 
   const submitAnswer = async (point: MapLocation) => {
     const response = await mutateAsync({
@@ -29,9 +25,25 @@ const DemoPlayPage: NextPage = () => {
       questionId: demoQuestion!.id,
     });
     setSolutionData({
-      ...response,
       name: demoQuestion!.title,
+      score: response.score,
+      answerDescription: response.answerDescription,
       images: [demoQuestion!.questionImageUrl, response.answerImageUrl],
+      map: {
+        locations: [
+          {
+            type: 'solution',
+            location: response.correctLocation,
+          },
+          {
+            type: 'user-answer',
+            location: response.answerLocation,
+            isHighlighted: true,
+          },
+        ],
+        zoom: demoQuestion!.city.mapZoom,
+        centerPoint: demoQuestion!.city.centerPoint,
+      },
     });
   };
 
@@ -61,12 +73,11 @@ const DemoPlayPage: NextPage = () => {
   }
 
   return (
-    <QuestionSolution
+    <Solution
       name={solutionData.name}
       answerDescription={solutionData.answerDescription}
       images={solutionData.images}
-      answerLocation={solutionData.answerLocation}
-      correctLocation={solutionData.correctLocation}
+      map={solutionData.map}
       score={solutionData.score}
     />
   );

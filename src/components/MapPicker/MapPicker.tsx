@@ -1,21 +1,9 @@
 import React, { FC } from 'react';
-import {
-  KeyboardControl,
-  Map,
-  Marker,
-  MarkerLayer,
-  MouseControl,
-  SyncControl,
-  ZoomControl,
-} from 'react-mapycz';
+import { KeyboardControl, Map, Marker, MarkerLayer, MouseControl, SyncControl, ZoomControl } from 'react-mapycz';
 import { MapEventListener } from 'react-mapycz/src/Map';
-import MapMarker from '@public/map-marker.svg';
+import MapMarker from '@public/map-marker-orange.svg';
 import Image from 'next/image';
-
-export interface MapLocation {
-  lat: number;
-  lng: number;
-}
+import { MapLocation } from '~/components/MapPicker/types';
 
 interface MapPickerProps {
   centerPoint: MapLocation;
@@ -24,12 +12,7 @@ interface MapPickerProps {
   onClick?: (point: MapLocation) => void;
 }
 
-export const MapPicker: FC<MapPickerProps> = ({
-  point,
-  centerPoint,
-  zoom,
-  onClick,
-}: MapPickerProps) => {
+export const MapPicker: FC<MapPickerProps> = ({ point, centerPoint, zoom, onClick }: MapPickerProps) => {
   const handleMapClick: MapEventListener = (e, coordinates) => {
     if (e.type !== 'map-click') {
       return;
@@ -46,12 +29,7 @@ export const MapPicker: FC<MapPickerProps> = ({
         width: '100%',
       }}
     >
-      <Map
-        height="500px"
-        center={centerPoint}
-        zoom={zoom}
-        onEvent={handleMapClick}
-      >
+      <Map height="500px" center={centerPoint} zoom={zoom} onEvent={handleMapClick}>
         <KeyboardControl />
         <ZoomControl />
         <MouseControl zoom={true} pan={true} wheel={true} />
