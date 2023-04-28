@@ -1,4 +1,5 @@
 import { MapLocation } from '~/db/types';
+import { D_1, D_2, T_1, T_2 } from '~/utils/score/constants';
 
 // https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates
 // https://en.wikipedia.org/wiki/Haversine_formula
@@ -19,7 +20,7 @@ const haversineDistance = (point1: MapLocation, point2: MapLocation) => {
 
 const MAXIMAL_DISTANCE_SCORE = 100;
 const evaluateDistanceScore = (distance: number) => {
-  const score = 115 - 2 * distance;
+  const score = D_1 - D_2 * distance;
   return Math.max(0, Math.min(MAXIMAL_DISTANCE_SCORE, score));
 };
 
@@ -27,7 +28,7 @@ const MAXIMAL_TIME_PENALTY_COEFFICIENT = 1;
 // up to 12 seconds is still no penalty
 const evaluateTimePenaltyCoefficient = (durationInSeconds: number) => {
   const durationInMinutes = durationInSeconds / 60;
-  const timePenaltyCoefficient = 1.05 - 0.6 * Math.log10(durationInMinutes + 1);
+  const timePenaltyCoefficient = T_1 - T_2 * Math.log10(durationInMinutes + 1);
   return Math.max(0, Math.min(MAXIMAL_TIME_PENALTY_COEFFICIENT, timePenaltyCoefficient));
 };
 
@@ -47,7 +48,5 @@ export const evaluateResultsFromLocations = (
 export const evaluateScoreFromDistance = (distanceInMeters: number, durationInSeconds: number): number => {
   const distanceScore = evaluateDistanceScore(distanceInMeters);
   const timePenaltyCoefficient = evaluateTimePenaltyCoefficient(durationInSeconds);
-  console.log('distanceScore', distanceScore);
-  console.log('timePenaltyCoefficient', timePenaltyCoefficient);
   return Math.ceil(timePenaltyCoefficient * distanceScore);
 };
