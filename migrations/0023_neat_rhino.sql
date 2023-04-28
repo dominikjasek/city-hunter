@@ -1,0 +1,1 @@
+ALTER TABLE questions MODIFY COLUMN `answer_images_url` text NOT NULL;
