@@ -13,20 +13,25 @@ import { useUser } from '@clerk/nextjs';
 
 const DemoPlayPage: NextPage = () => {
   const startDate = useMemo(() => new Date(), []);
+  const [durationInSeconds, setDurationInSeconds] = useState<number | null>(null);
   const [solutionData, setSolutionData] = useState<QuestionSolutionProps | null>(null);
   const { data: demoQuestion, isLoading } = trpc.question.getRandomDemoQuestion.useQuery();
   const { mutateAsync, isLoading: isSubmitting } = trpc.question.answerDemoQuestion.useMutation();
   const { user } = useUser();
 
   const submitAnswer = async (point: MapLocation) => {
+    const durationInSeconds = (new Date().getTime() - startDate.getTime()) / 1000;
+    setDurationInSeconds(durationInSeconds);
     const response = await mutateAsync({
       answer: point,
-      durationInSeconds: (new Date().getTime() - startDate.getTime()) / 1000,
+      durationInSeconds: durationInSeconds,
       questionId: demoQuestion!.id,
     });
     setSolutionData({
       name: demoQuestion!.title,
       score: response.score,
+      distance: Math.floor(response.distance),
+      durationInSeconds: durationInSeconds,
       answerDescription: response.answerDescription,
       images: [demoQuestion!.questionImageUrl, ...response.answerImagesUrl],
       map: {
@@ -72,15 +77,7 @@ const DemoPlayPage: NextPage = () => {
     );
   }
 
-  return (
-    <Solution
-      name={solutionData.name}
-      answerDescription={solutionData.answerDescription}
-      images={solutionData.images}
-      map={solutionData.map}
-      score={solutionData.score}
-    />
-  );
+  return <Solution {...solutionData} />;
 };
 
 export default DemoPlayPage;

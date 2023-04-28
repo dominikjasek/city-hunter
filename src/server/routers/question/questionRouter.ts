@@ -4,7 +4,7 @@ import { db } from '~/db/drizzle';
 import { cities, questions } from '~/db/schema';
 import { eq } from 'drizzle-orm/expressions';
 import { TRPCError } from '@trpc/server';
-import { evaluateScoreFromLocations } from '~/utils/score/evaluate-score';
+import { evaluateResultsFromLocations } from '~/utils/score/evaluate-score';
 
 export const questionRouter = router({
   getRandomDemoQuestion: publicProcedure.query(async () => {
@@ -55,10 +55,11 @@ export const questionRouter = router({
         });
       }
       const question = result[0];
-      const score = evaluateScoreFromLocations(input.answer, question.location, input.durationInSeconds);
+      const { score, distance } = evaluateResultsFromLocations(input.answer, question.location, input.durationInSeconds);
 
       return {
         score,
+        distance,
         answerImagesUrl: question.answerImagesUrl.split(','),
         answerDescription: question.answerDescription,
         answerLocation: input.answer,

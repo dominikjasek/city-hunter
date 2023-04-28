@@ -10,12 +10,7 @@ const haversineDistance = (point1: MapLocation, point2: MapLocation) => {
   const R = 6_378_000; // Radius of the earth in m
   const dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
   const dLon = deg2rad(point2.lng - point1.lng);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(point1.lat)) *
-      Math.cos(deg2rad(point2.lat)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(point1.lat)) * Math.cos(deg2rad(point2.lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c; // Distance in m
 };
@@ -31,28 +26,21 @@ const MAXIMAL_TIME_PENALTY_COEFFICIENT = 1;
 const evaluateTimePenaltyCoefficient = (durationInSeconds: number) => {
   const durationInMinutes = durationInSeconds / 60;
   const timePenaltyCoefficient = 1.05 - 0.6 * Math.log10(durationInMinutes + 1);
-  return Math.max(
-    0,
-    Math.min(MAXIMAL_TIME_PENALTY_COEFFICIENT, timePenaltyCoefficient),
-  );
+  return Math.max(0, Math.min(MAXIMAL_TIME_PENALTY_COEFFICIENT, timePenaltyCoefficient));
 };
 
-export const evaluateScoreFromLocations = (
-  answer: MapLocation,
-  correctLocation: MapLocation,
-  durationInSeconds: number,
-): number => {
+export const evaluateResultsFromLocations = (answer: MapLocation, correctLocation: MapLocation, durationInSeconds: number) => {
   const distance = haversineDistance(answer, correctLocation);
-  return evaluateScoreFromDistance(distance, durationInSeconds);
+  const score = evaluateScoreFromDistance(distance, durationInSeconds);
+  return {
+    score,
+    distance,
+  };
 };
 
-export const evaluateScoreFromDistance = (
-  distanceInMeters: number,
-  durationInSeconds: number,
-): number => {
+export const evaluateScoreFromDistance = (distanceInMeters: number, durationInSeconds: number): number => {
   const distanceScore = evaluateDistanceScore(distanceInMeters);
-  const timePenaltyCoefficient =
-    evaluateTimePenaltyCoefficient(durationInSeconds);
+  const timePenaltyCoefficient = evaluateTimePenaltyCoefficient(durationInSeconds);
   console.log('distanceScore', distanceScore);
   console.log('timePenaltyCoefficient', timePenaltyCoefficient);
   return Math.ceil(timePenaltyCoefficient * distanceScore);
