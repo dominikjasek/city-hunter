@@ -1,15 +1,4 @@
-import {
-  boolean,
-  date,
-  datetime,
-  int,
-  json,
-  mysqlTable,
-  serial,
-  text,
-  timestamp,
-  varchar,
-} from 'drizzle-orm/mysql-core';
+import { boolean, date, datetime, int, json, mysqlTable, serial, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
 import { InferModel } from 'drizzle-orm';
 import { MapLocation } from '~/db/types';
 
@@ -38,10 +27,7 @@ export const cities = mysqlTable('cities', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
   previewImageUrl: varchar('preview_image_url', { length: 250 }),
-  centerPoint: json('center_point')
-    .$type<MapLocation>()
-    .notNull()
-    .default({ lat: 49.21866559856739, lng: 15.880347529353775 }),
+  centerPoint: json('center_point').$type<MapLocation>().notNull().default({ lat: 49.21866559856739, lng: 15.880347529353775 }),
   mapZoom: int('map_zoom').notNull().default(14),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
@@ -57,6 +43,7 @@ export const questions = mysqlTable('questions', {
   authorId: varchar('author_id', { length: 100 }).notNull(),
   questionImageUrl: varchar('question_image_url', { length: 250 }).notNull(),
   answerImageUrl: varchar('answer_image_url', { length: 250 }).notNull(),
+  answerImagesUrl: text('answer_images_url').notNull().default(''),
   cityId: int('city_id'),
   tournamentId: int('tournament_id'),
   startDate: datetime('start_date'),

@@ -43,7 +43,7 @@ export const questionRouter = router({
       const result = await db
         .select({
           location: questions.location,
-          answerImageUrl: questions.answerImageUrl,
+          answerImagesUrl: questions.answerImagesUrl,
           answerDescription: questions.answerDescription,
         })
         .from(questions)
@@ -59,7 +59,7 @@ export const questionRouter = router({
 
       return {
         score,
-        answerImageUrl: question.answerImageUrl,
+        answerImagesUrl: question.answerImagesUrl.split(','),
         answerDescription: question.answerDescription,
         answerLocation: input.answer,
         correctLocation: question.location,
@@ -72,7 +72,7 @@ export const questionRouter = router({
         questionDescription: z.string(),
         answerDescription: z.string(),
         questionImageUrl: z.string(),
-        answerImageUrl: z.string(),
+        answerImagesUrl: z.array(z.string()),
         cityId: z.number(),
         location: z.object({
           lat: z.number(),
@@ -86,7 +86,8 @@ export const questionRouter = router({
         questionDescription: input.questionDescription,
         answerDescription: input.answerDescription,
         questionImageUrl: input.questionImageUrl,
-        answerImageUrl: input.answerImageUrl,
+        answerImageUrl: input.answerImagesUrl.join(','),
+        answerImagesUrl: input.answerImagesUrl.join(','),
         cityId: input.cityId,
         location: input.location,
         demo: false,

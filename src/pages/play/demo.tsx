@@ -28,7 +28,7 @@ const DemoPlayPage: NextPage = () => {
       name: demoQuestion!.title,
       score: response.score,
       answerDescription: response.answerDescription,
-      images: [demoQuestion!.questionImageUrl, response.answerImageUrl],
+      images: [demoQuestion!.questionImageUrl, ...response.answerImagesUrl],
       map: {
         locations: [
           {

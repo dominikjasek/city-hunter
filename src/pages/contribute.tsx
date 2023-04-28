@@ -1,9 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { NextPage } from 'next';
-import {
-  CreateQuestionValidationSchema,
-  UploadImageForm,
-} from '~/components/form/UploadImageForm';
+import { CreateQuestionValidationSchema, UploadQuestionForm } from '~/components/form/UploadQuestionForm';
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
@@ -15,8 +12,7 @@ import { useImageUpload } from '~/hooks/use-image-upload';
 export const Contribute: NextPage = () => {
   const { uploadImage } = useImageUpload();
   const { data: availableCities, isLoading } = trpc.city.getAll.useQuery();
-  const { mutateAsync, isSuccess, isError, error } =
-    trpc.question.create.useMutation();
+  const { mutateAsync, isSuccess, isError, error } = trpc.question.create.useMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createQuestion = useCallback(
@@ -24,16 +20,13 @@ export const Contribute: NextPage = () => {
       setIsSubmitting(true);
 
       const uploadQuestionImagePromise = uploadImage(data.questionImage);
-      const uploadAnswerImagePromise = uploadImage(data.answerImage);
-      const [questionImageUrl, answerImageUrl] = await Promise.all([
-        uploadQuestionImagePromise,
-        uploadAnswerImagePromise,
-      ]);
+      const uploadAnswerImagesPromises = (data.answerImages as File[]).map((answerImage: File) => uploadImage(answerImage));
+      const [questionImageUrl, answerImagesUrl] = await Promise.all([uploadQuestionImagePromise, Promise.all(uploadAnswerImagesPromises)]);
 
       await mutateAsync({
         ...data,
         questionImageUrl: questionImageUrl,
-        answerImageUrl: answerImageUrl,
+        answerImagesUrl: answerImagesUrl,
       });
       setIsSubmitting(false);
     },
@@ -45,12 +38,7 @@ export const Contribute: NextPage = () => {
   }
 
   if (!availableCities) {
-    return (
-      <MessageBox
-        message={'Nepodařilo se načíst dostupná města'}
-        type={'warning'}
-      />
-    );
+    return <MessageBox message={'Nepodařilo se načíst dostupná města'} type={'warning'} />;
   }
 
   if (isSuccess) {
@@ -58,12 +46,7 @@ export const Contribute: NextPage = () => {
   }
 
   if (isError) {
-    return (
-      <MessageBox
-        message={`Nepodařilo se nahrát místo: ${error.message}`}
-        type={'error'}
-      />
-    );
+    return <MessageBox message={`Nepodařilo se nahrát místo: ${error.message}`} type={'error'} />;
   }
 
   if (isSubmitting) {
@@ -72,10 +55,7 @@ export const Contribute: NextPage = () => {
 
   return (
     <>
-      <UploadImageForm
-        availableCities={availableCities.cities}
-        onSubmit={createQuestion}
-      />
+      <UploadQuestionForm availableCities={availableCities.cities} onSubmit={createQuestion} />
     </>
   );
 };
