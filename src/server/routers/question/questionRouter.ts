@@ -25,7 +25,6 @@ export const questionRouter = router({
       .where(eq(questions.demo, true))
       .innerJoin(cities, eq(questions.cityId, cities.id));
 
-    console.log('demoQuestions', demoQuestions);
     return demoQuestions[Math.floor(Math.random() * demoQuestions.length)];
   }),
   answerDemoQuestion: publicProcedure
@@ -95,7 +94,7 @@ export const questionRouter = router({
         cityId: input.cityId,
         location: input.location,
         demo: false,
-        authorId: ctx.user.userId,
+        authorId: ctx.user.id,
       });
 
       return { success: true };

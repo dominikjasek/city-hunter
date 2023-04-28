@@ -22,7 +22,7 @@ export const postRouter = router({
 
       const items = (await db.select().from(users)).map((user) => ({
         id: user.nickName,
-        title: ctx.user.userId,
+        title: ctx.user.id,
       }));
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {

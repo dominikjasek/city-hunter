@@ -1,9 +1,7 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { transformer } from '~/utils/transformer';
 import { Context } from './context';
-import { verify } from '~/server/jwt';
 import { clerkClient } from '@clerk/nextjs/server';
-import { PublicMetadata } from '~/utils/clerk/types';
 
 const t = initTRPC.context<Context>().create({
   transformer,
@@ -30,16 +28,12 @@ const protectedMiddleware = t.middleware(async ({ next, ctx }) => {
       cause: 'userId is missing',
     });
   }
-  const token = await ctx.auth.getToken({ template: 'JWT' });
-  if (!token) {
-    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'token is missing' });
-  }
-  const jwtUser = await verify(token);
+  const user = await clerkClient.users.getUser(ctx.auth.userId);
 
   return next({
     ctx: {
       auth: ctx.auth,
-      user: jwtUser,
+      user,
     },
   });
 });
@@ -55,7 +49,7 @@ const adminMiddleware = t.middleware(async ({ next, ctx }) => {
 
   const user = await clerkClient.users.getUser(ctx.auth.userId);
 
-  if ((user.publicMetadata as PublicMetadata).role !== 'admin') {
+  if (user.publicMetadata.role !== 'admin') {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'user is not admin',

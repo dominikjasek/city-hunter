@@ -1,7 +1,6 @@
 import { clerkClient, getAuth, withClerkMiddleware } from '@clerk/nextjs/server';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { PublicMetadata } from '~/utils/clerk/types';
 
 const adminRoutes = ['/contribute'];
 
@@ -21,11 +20,10 @@ export default withClerkMiddleware(async (request: NextRequest) => {
     const { userId } = getAuth(request);
     if (!userId) {
       return NextResponse.redirect(new URL('/login', request.url));
-    } else {
-      const user = await clerkClient.users.getUser(userId);
-      if ((user?.publicMetadata as PublicMetadata).role !== 'admin') {
-        return NextResponse.redirect(new URL('/unauthorized', request.url));
-      }
+    }
+    const user = await clerkClient.users.getUser(userId);
+    if (user.publicMetadata.role !== 'admin') {
+      return NextResponse.redirect(new URL('/unauthorized', request.url));
     }
   } else if (isProtectedRoute(pathname)) {
     const { userId } = getAuth(request);
