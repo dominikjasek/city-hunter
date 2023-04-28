@@ -86,7 +86,6 @@ export const questionRouter = router({
         questionDescription: input.questionDescription,
         answerDescription: input.answerDescription,
         questionImageUrl: input.questionImageUrl,
-        answerImageUrl: input.answerImagesUrl.join(','),
         answerImagesUrl: input.answerImagesUrl.join(','),
         cityId: input.cityId,
         location: input.location,

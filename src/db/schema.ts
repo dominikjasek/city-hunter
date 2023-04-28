@@ -42,7 +42,6 @@ export const questions = mysqlTable('questions', {
   answerDescription: text('answer_description'),
   authorId: varchar('author_id', { length: 100 }).notNull(),
   questionImageUrl: varchar('question_image_url', { length: 250 }).notNull(),
-  answerImageUrl: varchar('answer_image_url', { length: 250 }).notNull(),
   answerImagesUrl: text('answer_images_url').notNull().default(''),
   cityId: int('city_id'),
   tournamentId: int('tournament_id'),

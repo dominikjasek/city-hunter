@@ -1,0 +1,1 @@
+ALTER TABLE questions DROP COLUMN `answer_image_url`;
