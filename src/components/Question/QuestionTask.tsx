@@ -36,13 +36,14 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
             <Typography sx={{ mb: 2 }}>{props.questionDescription}</Typography>
           </Box>
         </Stack>
-        <Stack mb={2} direction={{ xs: 'column', md: 'row' }} alignItems={'center'} gap={1}>
+        <Stack mb={2} direction={{ xs: 'column', md: 'row' }} alignItems={'center'} gap={3}>
           <Box
             sx={{
               minWidth: { xs: 300, md: 400, lg: 500 },
               minHeight: { xs: 300, md: 500 },
               position: 'relative',
               flex: { xs: 'none', md: 1 },
+              cursor: 'pointer',
             }}
           >
             <Image

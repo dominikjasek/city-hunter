@@ -49,6 +49,7 @@ export const Solution: FC<QuestionSolutionProps> = (props) => {
                   height: { xs: 150, sm: 200, md: 250 },
                   mt: 2,
                   position: 'relative',
+                  cursor: 'pointer',
                 }}
               >
                 <Image
