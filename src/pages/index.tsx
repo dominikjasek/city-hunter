@@ -1,8 +1,6 @@
 import { NextPageWithLayout } from './_app';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import React from 'react';
-import Image from 'next/image';
-import LogoWhite from '@public/Logo-white.svg';
 import Link from 'next/link';
 import { SecondaryText } from '~/components/common/Typography/typography';
 
@@ -15,16 +13,7 @@ const IndexPage: NextPageWithLayout = () => {
       alignItems={'center'}
       sx={{ maxWidth: '800px', mx: 'auto', mt: { xs: 0, md: 2 }, mb: 6 }}
     >
-      <Box
-        sx={{
-          minWidth: { xs: 100, sm: 110, md: 130, lg: 200 },
-          height: { xs: 100, sm: 110, md: 130, lg: 200 },
-          position: 'relative',
-        }}
-      >
-        <Image priority src={LogoWhite} alt="Logo City Hunter" fill style={{ fill: 'white' }} />
-      </Box>
-      <Box>
+      <Box mt={8}>
         <Typography variant={'h6'} sx={{ mb: 4 }}>
           Díváte se kolem sebe? <SecondaryText>City Hunter</SecondaryText> je online hra, která to prověří. Úkolem je
           vyznačit místo na mapě, které je zachyceno na obrázku.
