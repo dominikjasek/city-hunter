@@ -171,7 +171,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: tournamentItems.map((tournament) => ({ params: { tournamentId: tournament.id.toString() } })),
-    fallback: 'blocking',
+    fallback: false,
   };
 };
 
