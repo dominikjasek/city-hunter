@@ -184,8 +184,10 @@ export const getStaticProps = async (context: GetStaticPropsContext<{ tournament
     throw new Error('No params');
   }
 
-  await ssg.tournament.getQuestionsForId.prefetch({ tournamentId: Number(context.params.tournamentId) });
-  await ssg.tournament.getTournamentDetails.prefetch({ tournamentId: Number(context.params.tournamentId) });
+  await Promise.all([
+    ssg.tournament.getQuestionsForId.prefetch({ tournamentId: Number(context.params.tournamentId) }),
+    ssg.tournament.getTournamentDetails.prefetch({ tournamentId: Number(context.params.tournamentId) }),
+  ]);
 
   return {
     props: {
