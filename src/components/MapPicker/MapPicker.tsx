@@ -1,5 +1,14 @@
 import React, { FC } from 'react';
-import { KeyboardControl, Map, Marker, MarkerLayer, MouseControl, SyncControl, ZoomControl } from 'react-mapycz';
+import {
+  KeyboardControl,
+  Map,
+  Marker,
+  MarkerLayer,
+  MouseControl,
+  POILayer,
+  SyncControl,
+  ZoomControl,
+} from 'react-mapycz';
 import { MapEventListener } from 'react-mapycz/src/Map';
 import MapMarker from '@public/map-marker-orange.svg';
 import Image from 'next/image';
@@ -29,11 +38,12 @@ export const MapPicker: FC<MapPickerProps> = ({ point, centerPoint, zoom, onClic
         width: '100%',
       }}
     >
-      <Map height="500px" center={centerPoint} zoom={zoom} onEvent={handleMapClick}>
+      <Map height="500px" center={centerPoint} zoom={zoom} onEvent={handleMapClick} loaderApiConfig={{ poi: true }}>
         <KeyboardControl />
         <ZoomControl />
         <MouseControl zoom={true} pan={true} wheel={true} />
         <SyncControl />
+        <POILayer />
         {point && (
           <MarkerLayer>
             <Marker

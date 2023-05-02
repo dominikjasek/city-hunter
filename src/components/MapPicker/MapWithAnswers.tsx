@@ -4,7 +4,16 @@ import MapMarkerGrey from '@public/map-marker-grey.svg';
 import MapMarkerGreen from '@public/map-marker-green.svg';
 import { AnswerLocation, MapLocation } from '~/components/MapPicker/types';
 import { Box } from '@mui/material';
-import { KeyboardControl, Map, Marker, MarkerLayer, MouseControl, SyncControl, ZoomControl } from 'react-mapycz';
+import {
+  KeyboardControl,
+  Map,
+  Marker,
+  MarkerLayer,
+  MouseControl,
+  POILayer,
+  SyncControl,
+  ZoomControl,
+} from 'react-mapycz';
 import Image from 'next/image';
 
 interface MapPickerProps {
@@ -28,11 +37,12 @@ export const MapWithAnswers: FC<MapPickerProps> = ({ locations, centerPoint, zoo
         width: '100%',
       }}
     >
-      <Map height="500px" center={centerPoint} zoom={zoom}>
+      <Map height="500px" center={centerPoint} zoom={zoom} loaderApiConfig={{ poi: true }}>
         <KeyboardControl />
         <ZoomControl />
         <MouseControl zoom={true} pan={true} wheel={true} />
         <SyncControl />
+        <POILayer />
         <MarkerLayer>
           {locations.map((location) => (
             <Marker
