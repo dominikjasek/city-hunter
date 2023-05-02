@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 const adminRoutes = ['/contribute'];
 
-const protectedRoutes = ['/play', '/user'];
+const protectedRoutes = ['/play**', '/user'];
 
 const createRouteGuard = (routes: string[]) => (path: string) => {
   return routes.find((x) => path.match(new RegExp(`^${x}$`.replace('*$', '($|/)'))));

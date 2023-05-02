@@ -75,8 +75,7 @@ export const answers = mysqlTable('answers', {
   score: int('score').notNull(),
   questionId: int('question_id').notNull(),
   userId: varchar('user_id', { length: 100 }).notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  answeredAt: datetime('answered_at').notNull(),
 });
 
 export type Answer = InferModel<typeof answers>;

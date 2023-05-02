@@ -1,12 +1,158 @@
-import { adminProcedure, publicProcedure, router } from '~/server/trpc';
+import { adminProcedure, protectedProcedure, publicProcedure, router } from '~/server/trpc';
 import { z } from 'zod';
 import { db } from '~/db/drizzle';
-import { cities, questions } from '~/db/schema';
-import { eq } from 'drizzle-orm/expressions';
+import { answers, cities, questions } from '~/db/schema';
+import { and, eq } from 'drizzle-orm/expressions';
 import { TRPCError } from '@trpc/server';
 import { evaluateResultsFromLocations } from '~/utils/score/evaluate-score';
+import { QuestionStatus } from '~/server/routers/question/types';
 
 export const questionRouter = router({
+  getQuestion: protectedProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
+    const answer = (
+      await db
+        .select({
+          id: answers.id,
+        })
+        .from(answers)
+        .where(and(eq(answers.questionId, input.id), eq(answers.userId, ctx.auth.userId)))
+        .limit(1)
+    )[0];
+
+    if (answer) {
+      return {
+        status: 'answered' as QuestionStatus,
+        question: null,
+      };
+    }
+
+    const question = (
+      await db
+        .select({
+          id: questions.id,
+          title: questions.title,
+          questionDescription: questions.questionDescription,
+          questionImageUrl: questions.questionImageUrl,
+          city: {
+            id: cities.id,
+            name: cities.name,
+            centerPoint: cities.centerPoint,
+            mapZoom: cities.mapZoom,
+          },
+          startDate: questions.startDate,
+          endDate: questions.endDate,
+        })
+        .from(questions)
+        .where(eq(questions.id, input.id))
+        .innerJoin(cities, eq(questions.cityId, cities.id))
+        .limit(1)
+    )[0];
+    if (!question) {
+      throw new TRPCError({ code: 'NOT_FOUND' });
+    }
+    if (!question.startDate || !question.endDate) {
+      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+    }
+
+    const now = new Date();
+    console.log('start raw', question.startDate);
+    console.log('start', question.startDate!.toISOString());
+    if (now < question.startDate) {
+      return {
+        status: 'not-started' as QuestionStatus,
+        question: null,
+      };
+    }
+
+    if (now > question.endDate) {
+      return {
+        status: 'finished' as QuestionStatus,
+        question: null,
+      };
+    }
+
+    return {
+      status: 'active' as QuestionStatus,
+      question: {
+        questionDescription: question.questionDescription,
+        title: question.title,
+        questionImageUrl: question.questionImageUrl,
+        city: {
+          id: question.city.id,
+          name: question.city.name,
+          centerPoint: question.city.centerPoint,
+          mapZoom: question.city.mapZoom,
+        },
+        startDate: question.startDate,
+        endDate: question.endDate,
+        id: question.id,
+      },
+    };
+  }),
+
+  answerQuestion: protectedProcedure
+    .input(
+      z.object({
+        questionId: z.number(),
+        answer: z.object({
+          lat: z.number(),
+          lng: z.number(),
+        }),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const answer = (
+        await db
+          .select({
+            id: answers.id,
+          })
+          .from(answers)
+          .where(and(eq(answers.questionId, input.questionId), eq(answers.userId, ctx.auth.userId)))
+          .limit(1)
+      )[0];
+      if (answer) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Already answered' });
+      }
+
+      const question = (
+        await db
+          .select({ correctLocation: questions.location, startDate: questions.startDate, endDate: questions.endDate })
+          .from(questions)
+          .where(eq(questions.id, input.questionId))
+          .limit(1)
+      )[0];
+      if (!question) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Question not found' });
+      }
+      if (!question.startDate || !question.endDate) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
+
+      const now = new Date();
+      if (now < question.startDate) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Question not started yet' });
+      }
+
+      if (now > question.endDate) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Question already finished' });
+      }
+
+      const duration = now.getTime() - question.startDate.getTime();
+      const { score } = evaluateResultsFromLocations(input.answer, question.correctLocation, duration);
+
+      await db.insert(answers).values({
+        questionId: input.questionId,
+        userId: ctx.auth.userId,
+        location: input.answer,
+        score,
+        answeredAt: now,
+      });
+
+      return {
+        success: true,
+      };
+    }),
+
   getRandomDemoQuestion: publicProcedure.query(async () => {
     const demoQuestions = await db
       .select({
@@ -27,6 +173,7 @@ export const questionRouter = router({
 
     return demoQuestions[Math.floor(Math.random() * demoQuestions.length)];
   }),
+
   answerDemoQuestion: publicProcedure
     .input(
       z.object({
@@ -69,6 +216,7 @@ export const questionRouter = router({
         correctLocation: question.location,
       };
     }),
+
   create: adminProcedure
     .input(
       z.object({

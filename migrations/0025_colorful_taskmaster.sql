@@ -1,0 +1,1 @@
+ALTER TABLE answers MODIFY COLUMN `answered_at` datetime NOT NULL;

@@ -63,12 +63,22 @@ const ActionButton: FC<{
 export const TournamentPage: NextPage = () => {
   const { query } = useRouter();
   const { tournamentId } = query;
-  const { data: tournament, isLoading: isTournamentDetailsLoading } = trpc.tournament.getTournamentDetails.useQuery({
-    tournamentId: Number(tournamentId),
-  });
-  const { data: questions, isLoading: isQuestionsLoading } = trpc.tournament.getQuestionsForId.useQuery({
-    tournamentId: Number(tournamentId),
-  });
+  const { data: tournament, isLoading: isTournamentDetailsLoading } = trpc.tournament.getTournamentDetails.useQuery(
+    {
+      tournamentId: Number(tournamentId),
+    },
+    {
+      enabled: Boolean(tournamentId),
+    },
+  );
+  const { data: questions, isLoading: isQuestionsLoading } = trpc.tournament.getQuestionsForId.useQuery(
+    {
+      tournamentId: Number(tournamentId),
+    },
+    {
+      enabled: Boolean(tournamentId),
+    },
+  );
 
   if (isQuestionsLoading || isTournamentDetailsLoading) {
     return <Loader title="Načítám..." />;

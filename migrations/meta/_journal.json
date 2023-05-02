@@ -168,6 +168,20 @@
       "when": 1682671669613,
       "tag": "0023_neat_rhino",
       "breakpoints": false
+    },
+    {
+      "idx": 24,
+      "version": "5",
+      "when": 1683055353282,
+      "tag": "0024_fearless_grandmaster",
+      "breakpoints": false
+    },
+    {
+      "idx": 25,
+      "version": "5",
+      "when": 1683055478898,
+      "tag": "0025_colorful_taskmaster",
+      "breakpoints": false
     }
   ]
 }
