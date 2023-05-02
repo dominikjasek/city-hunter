@@ -12,6 +12,8 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '~/theme';
 import { DialogProvider } from '~/components/contexts/DialogProvider';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
+import 'nprogress/nprogress.css';
+import { usePageLoader } from '~/hooks/use-page-loader';
 
 export type NextPageWithLayout<TProps = Record<string, unknown>, TInitialProps = TProps> = NextPage<
   TProps,
@@ -28,6 +30,8 @@ export type AppPropsWithLayout = AppProps & {
 const clientSideEmotionCache = createEmotionCache();
 
 const MyApp = (({ Component, pageProps, emotionCache = clientSideEmotionCache }: AppPropsWithLayout) => {
+  usePageLoader();
+
   return (
     <>
       <VercelAnalytics />
