@@ -90,7 +90,7 @@ export const TournamentPage: NextPage = () => {
           <Badge
             key={question.id}
             badgeContent={index + 1}
-            color="secondary"
+            color="primary"
             anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
             sx={{ transform: 'translate(10px, 10px)' }}
           >
@@ -146,8 +146,6 @@ export const TournamentPage: NextPage = () => {
                     </Typography>
                   </Stack>
                 )}
-
-                <Typography sx={{ position: 'absolute', top: 0 }}>{index}</Typography>
                 <Typography sx={{ flex: 2 }}>{question.startDate && formatDate(question.startDate)}</Typography>
                 <ActionButton
                   endDate={question.endDate}
