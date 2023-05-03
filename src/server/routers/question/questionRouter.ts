@@ -11,23 +11,6 @@ export const questionRouter = router({
   getQuestion: protectedProcedure
     .input(z.object({ id: z.number() }))
     .query<GetQuestionResponse>(async ({ input, ctx }) => {
-      const answer = (
-        await db
-          .select({
-            id: answers.id,
-          })
-          .from(answers)
-          .where(and(eq(answers.questionId, input.id), eq(answers.userId, ctx.auth.userId)))
-          .limit(1)
-      )[0];
-
-      if (answer) {
-        return {
-          status: 'answered',
-          question: null,
-        };
-      }
-
       const question = (
         await db
           .select({
@@ -67,6 +50,23 @@ export const questionRouter = router({
       if (now > question.endDate) {
         return {
           status: 'finished',
+          question: null,
+        };
+      }
+
+      const answer = (
+        await db
+          .select({
+            id: answers.id,
+          })
+          .from(answers)
+          .where(and(eq(answers.questionId, input.id), eq(answers.userId, ctx.auth.userId)))
+          .limit(1)
+      )[0];
+
+      if (answer) {
+        return {
+          status: 'answered',
           question: null,
         };
       }
