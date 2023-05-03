@@ -61,6 +61,7 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
           queries: {
             refetchOnMount: false,
             refetchOnWindowFocus: false,
+            cacheTime: 1000 * 60, // 1 minute
           },
         },
       },
