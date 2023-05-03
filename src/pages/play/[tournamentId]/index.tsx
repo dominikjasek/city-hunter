@@ -14,7 +14,7 @@ import { FC } from 'react';
 import Image from 'next/image';
 
 const ActionButton: FC<{
-  tournamentId: number;
+  tournamentId: string;
   questionId: number;
   startDate: Date | null;
   endDate: Date | null;
@@ -63,9 +63,14 @@ const ActionButton: FC<{
 export const TournamentPage: NextPage = () => {
   const { query } = useRouter();
   const { tournamentId } = query;
+
+  if (typeof tournamentId !== 'string') {
+    throw new Error(`tournamentId is not a string`);
+  }
+
   const { data: tournament, isLoading: isTournamentDetailsLoading } = trpc.tournament.getTournamentDetails.useQuery(
     {
-      tournamentId: Number(tournamentId),
+      tournamentId: tournamentId,
     },
     {
       enabled: Boolean(tournamentId),
@@ -73,7 +78,7 @@ export const TournamentPage: NextPage = () => {
   );
   const { data: questions, isLoading: isQuestionsLoading } = trpc.tournament.getQuestionsForId.useQuery(
     {
-      tournamentId: Number(tournamentId),
+      tournamentId: tournamentId,
     },
     {
       enabled: Boolean(tournamentId),
@@ -160,7 +165,7 @@ export const TournamentPage: NextPage = () => {
                 <Typography sx={{ flex: 2 }}>{question.startDate && formatDate(question.startDate)}</Typography>
                 <ActionButton
                   endDate={question.endDate}
-                  tournamentId={Number(tournamentId)}
+                  tournamentId={tournamentId}
                   startDate={question.startDate}
                   questionId={question.id}
                 ></ActionButton>
@@ -179,7 +184,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const tournamentItems = await db.select({ id: tournaments.id }).from(tournaments);
 
   return {
-    paths: tournamentItems.map((tournament) => ({ params: { tournamentId: tournament.id.toString() } })),
+    paths: tournamentItems.map((tournament) => ({ params: { tournamentId: tournament.id } })),
     fallback: false,
   };
 };
@@ -202,8 +207,8 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string }> = async (c
   }
 
   await Promise.all([
-    ssg.tournament.getQuestionsForId.prefetch({ tournamentId: Number(tournamentId) }),
-    ssg.tournament.getTournamentDetails.prefetch({ tournamentId: Number(tournamentId) }),
+    ssg.tournament.getQuestionsForId.prefetch({ tournamentId: tournamentId }),
+    ssg.tournament.getTournamentDetails.prefetch({ tournamentId: tournamentId }),
   ]);
 
   return {

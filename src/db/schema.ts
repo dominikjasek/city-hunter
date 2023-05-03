@@ -14,7 +14,7 @@ export type CreateUser = InferModel<typeof users, 'insert'>;
 
 // Tournament
 export const tournaments = mysqlTable('tournaments', {
-  id: serial('id').primaryKey(),
+  id: varchar('id', { length: 100 }).primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
   description: text('description'),
   startDate: date('start_date'),
@@ -47,7 +47,7 @@ export const questions = mysqlTable('questions', {
   questionImageUrl: varchar('question_image_url', { length: 250 }).notNull(),
   answerImagesUrl: text('answer_images_url').notNull(),
   cityId: int('city_id'),
-  tournamentId: int('tournament_id'),
+  tournamentId: varchar('tournament_id', { length: 100 }),
   startDate: timestamp('start_date'),
   endDate: timestamp('end_date'),
   location: json('location').$type<MapLocation>().notNull(),

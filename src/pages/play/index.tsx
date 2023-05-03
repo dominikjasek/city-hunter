@@ -12,7 +12,7 @@ import { formatDate } from '~/utils/formatter/dateFormatter';
 
 interface CityContainerProps {
   cityName?: string;
-  tournamentId: number;
+  tournamentId: string;
   tournamentName: string;
   previewImageUrl: string | null;
   startDate: Date | null;
@@ -82,15 +82,15 @@ export const PlayPage: NextPage = () => {
   return (
     <div>
       <Typography variant={'h5'}>Hrajeme v těchto městech:</Typography>
-      {tournamentsData?.tournamentslist.map((item) => (
+      {tournamentsData?.tournaments.map((tournament) => (
         <TournamentContainer
-          key={item.id}
-          tournamentId={item.id}
-          cityName={item.city}
-          startDate={item.startDate}
-          endDate={item.endDate}
-          previewImageUrl={item.previewImageUrl}
-          tournamentName={item.name}
+          key={tournament.id}
+          tournamentId={tournament.id}
+          cityName={tournament.city}
+          startDate={tournament.startDate}
+          endDate={tournament.endDate}
+          previewImageUrl={tournament.previewImageUrl}
+          tournamentName={tournament.name}
         />
       ))}
     </div>

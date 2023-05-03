@@ -189,6 +189,13 @@
       "when": 1683119158507,
       "tag": "0026_simple_bruce_banner",
       "breakpoints": false
+    },
+    {
+      "idx": 27,
+      "version": "5",
+      "when": 1683141194358,
+      "tag": "0027_demonic_bloodstrike",
+      "breakpoints": false
     }
   ]
 }

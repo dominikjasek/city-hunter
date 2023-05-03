@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm/expressions';
 import { z } from 'zod';
 
 export const tournamentRouter = router({
-  getTournamentDetails: publicProcedure.input(z.object({ tournamentId: z.number() })).query(async ({ input }) => {
+  getTournamentDetails: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
     const items = await db.select().from(tournaments).where(eq(tournaments.id, input.tournamentId)).limit(1);
     const tournament = items[0];
     if (!tournament) {
@@ -13,7 +13,7 @@ export const tournamentRouter = router({
     }
     return tournament;
   }),
-  getQuestionsForId: publicProcedure.input(z.object({ tournamentId: z.number() })).query(async ({ input }) => {
+  getQuestionsForId: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
     const now = new Date();
     const tournamentQuestions = await db
       .select({
@@ -51,7 +51,7 @@ export const tournamentRouter = router({
       .from(tournaments)
       .innerJoin(cities, eq(tournaments.cityId, cities.id));
     return {
-      tournamentslist: tournamentsItems,
+      tournaments: tournamentsItems,
     };
   }),
 });
