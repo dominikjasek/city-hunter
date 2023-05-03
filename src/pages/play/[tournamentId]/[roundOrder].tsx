@@ -6,7 +6,7 @@ import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { QuestionTask } from '~/components/Question/QuestionTask';
 import { MapLocation } from '~/components/MapPicker/types';
 import { TRPCError } from '@trpc/server';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { formatTime } from '~/utils/formatter/dateFormatter';
 import { Button } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -15,6 +15,12 @@ export const QuestionPlayPage: NextPage = () => {
   const { query } = useRouter();
   const { roundOrder, tournamentId } = query;
   const isRouterReady = useMemo(() => Boolean(roundOrder && tournamentId), [roundOrder, tournamentId]);
+  const utils = trpc.useContext();
+  useEffect(() => {
+    return () => {
+      utils.invalidate();
+    };
+  }, []);
 
   const [pageState, setPageState] = useState<'waiting_for_submit' | 'answered' | 'expired'>('waiting_for_submit');
   const {

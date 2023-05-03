@@ -29,12 +29,5 @@ export default async function handler(req: NextRequest) {
       }
     },
     createContext: createContext as any,
-    responseMeta() {
-      return {
-        headers: {
-          'cache-control': 'no-cache',
-        },
-      };
-    },
   });
 }
