@@ -1,15 +1,4 @@
-import {
-  boolean,
-  date,
-  datetime,
-  int,
-  json,
-  mysqlTable,
-  serial,
-  text,
-  timestamp,
-  varchar,
-} from 'drizzle-orm/mysql-core';
+import { boolean, date, int, json, mysqlTable, serial, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
 import { InferModel } from 'drizzle-orm';
 import { MapLocation } from '~/db/types';
 
@@ -59,8 +48,8 @@ export const questions = mysqlTable('questions', {
   answerImagesUrl: text('answer_images_url').notNull(),
   cityId: int('city_id'),
   tournamentId: int('tournament_id'),
-  startDate: datetime('start_date'),
-  endDate: datetime('end_date'),
+  startDate: timestamp('start_date'),
+  endDate: timestamp('end_date'),
   location: json('location').$type<MapLocation>().notNull(),
   demo: boolean('demo').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -75,7 +64,7 @@ export const answers = mysqlTable('answers', {
   score: int('score').notNull(),
   questionId: int('question_id').notNull(),
   userId: varchar('user_id', { length: 100 }).notNull(),
-  answeredAt: datetime('answered_at').notNull(),
+  answeredAt: timestamp('answered_at').notNull(),
 });
 
 export type Answer = InferModel<typeof answers>;
