@@ -61,13 +61,13 @@
   "signUp": {
     "start": {
       "title": "Vytvořte si účet",
-      "subtitle": "pokračovat {{applicationName}}",
-      "actionText": "Mít účet?",
+      "subtitle": "pro pokračování na {{applicationName}}",
+      "actionText": "Máte už účet?",
       "actionLink": "Přihlásit se"
     },
     "emailLink": {
       "title": "Ověřte svůj email",
-      "subtitle": "pokračovat {{applicationName}}",
+      "subtitle": "pro pokračování na {{applicationName}}",
       "formTitle": "Ověřovací odkaz",
       "formSubtitle": "Použijte ověřovací odkaz zaslaný na vaši e-mailovou adresu",
       "resendButton": "Znovu odeslat odkaz",
@@ -85,22 +85,22 @@
     },
     "emailCode": {
       "title": "Ověřte svůj email",
-      "subtitle": "pokračovat {{applicationName}}",
+      "subtitle": "pro pokračování na {{applicationName}}",
       "formTitle": "Ověřovací kód",
       "formSubtitle": "Zadejte ověřovací kód zaslaný na vaši e-mailovou adresu",
       "resendButton": "Znovu odeslat kód"
     },
     "phoneCode": {
       "title": "Ověřte svůj telefon",
-      "subtitle": "pokračovat {{applicationName}}",
+      "subtitle": "pro pokračování na {{applicationName}}",
       "formTitle": "Ověřovací kód",
       "formSubtitle": "Zadejte ověřovací kód odeslaný na vaše telefonní číslo",
       "resendButton": "Znovu odeslat kód"
     },
     "continue": {
       "title": "Doplňte chybějící pole",
-      "subtitle": "pokračovat {{applicationName}}",
-      "actionText": "Mít účet?",
+      "subtitle": "pro pokračování na {{applicationName}}",
+      "actionText": "Máte už účet?",
       "actionLink": "Přihlásit se"
     }
   },
@@ -117,19 +117,19 @@
     },
     "password": {
       "title": "Zadejte heslo",
-      "subtitle": "pokračovat {{applicationName}}",
+      "subtitle": "pro pokračování na {{applicationName}}",
       "actionLink": "Použijte jinou metodu"
     },
     "emailCode": {
       "title": "Zkontroluj si email",
-      "subtitle": "pokračovat {{applicationName}}",
+      "subtitle": "pro pokračování na {{applicationName}}",
       "formTitle": "Ověřovací kód",
       "formSubtitle": "Zadejte ověřovací kód zaslaný na vaši e-mailovou adresu",
       "resendButton": "Znovu odeslat kód"
     },
     "emailLink": {
       "title": "Zkontroluj si email",
-      "subtitle": "pokračovat {{applicationName}}",
+      "subtitle": "pro pokračování na {{applicationName}}",
       "formTitle": "Ověřovací odkaz",
       "formSubtitle": "Použijte ověřovací odkaz zaslaný na váš e-mail",
       "resendButton": "Znovu odeslat odkaz",
@@ -160,7 +160,7 @@
     },
     "phoneCode": {
       "title": "Zkontrolujte svůj telefon",
-      "subtitle": "pokračovat {{applicationName}}",
+      "subtitle": "pro pokračování na {{applicationName}}",
       "formTitle": "Ověřovací kód",
       "formSubtitle": "Zadejte ověřovací kód odeslaný na vaše telefonní číslo",
       "resendButton": "Znovu odeslat kód"
@@ -180,7 +180,7 @@
     },
     "backupCodeMfa": {
       "title": "Zadejte záložní kód",
-      "subtitle": "pokračovat {{applicationName}}",
+      "subtitle": "pro pokračování na {{applicationName}}",
       "formTitle": "",
       "formSubtitle": ""
     },

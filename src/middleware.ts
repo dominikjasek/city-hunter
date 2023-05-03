@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 const adminRoutes = ['/contribute'];
 
-const protectedRoutes = ['/play**', '/user'];
+const protectedRoutes = ['/play**', '/auth/user', '/auth/login-receiver'];
 
 const createRouteGuard = (routes: string[]) => (path: string) => {
   return routes.find((x) => path.match(new RegExp(`^${x}$`.replace('*$', '($|/)'))));
@@ -19,7 +19,7 @@ export default withClerkMiddleware(async (request: NextRequest) => {
   if (isAdminRoute(pathname)) {
     const { userId } = getAuth(request);
     if (!userId) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/auth/login', request.url));
     }
     const user = await clerkClient.users.getUser(userId);
     if (user.publicMetadata.role !== 'admin') {
@@ -28,7 +28,7 @@ export default withClerkMiddleware(async (request: NextRequest) => {
   } else if (isProtectedRoute(pathname)) {
     const { userId } = getAuth(request);
     if (!userId) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/auth/login', request.url));
     }
   }
 
