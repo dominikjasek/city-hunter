@@ -1,5 +1,4 @@
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '~/server/routers/_app';
 import superjson from 'superjson';
@@ -9,6 +8,7 @@ import Image from 'next/image';
 import { Loader } from '~/components/common/Loader/Loader';
 import { Card, CardActionArea, Stack, Typography } from '@mui/material';
 import { formatDate } from '~/utils/formatter/dateFormatter';
+import Link from 'next/link';
 
 interface CityContainerProps {
   cityName?: string;
@@ -20,55 +20,57 @@ interface CityContainerProps {
 }
 
 const TournamentContainer: FC<CityContainerProps> = (props) => {
-  const router = useRouter();
   return (
-    <Card
-      onClick={() => router.push(`/play/${props.tournamentId}`)}
-      variant="outlined"
-      sx={{
-        height: { xs: 120, sm: 200, md: 280 },
-        mx: { xs: 0, sm: 1, md: 2 },
-        my: 2,
-        boxShadow: 2,
-        backgroundColor: 'transparent',
-      }}
-    >
-      <CardActionArea
+    <Link href={`/play/${props.tournamentId}`} className={'no-style'} passHref>
+      <Card
+        variant="outlined"
         sx={{
-          width: '100%',
-          height: '100%',
+          height: { xs: 120, sm: 200, md: 280 },
+          mx: { xs: 0, sm: 1, md: 2 },
+          my: 2,
+          boxShadow: 2,
+          backgroundColor: 'transparent',
         }}
       >
-        <Stack direction={'row'} width={'100%'} height={'100%'} justifyContent={'space-between'}>
-          <Stack
-            direction={'column'}
-            width={'100%'}
-            alignItems={'center'}
-            justifyContent={'center'}
-            sx={{ ml: 1, zIndex: 1, mr: -10 }}
-          >
-            <Typography variant={'h4'}>{props.cityName}</Typography>
-            <Typography variant={'h5'}>{props.tournamentName}</Typography>
-            {props.startDate && props.endDate && (
-              <Typography variant={'h6'}>{`${formatDate(props.startDate)} - ${formatDate(props.endDate)}`}</Typography>
+        <CardActionArea
+          sx={{
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          <Stack direction={'row'} width={'100%'} height={'100%'} justifyContent={'space-between'}>
+            <Stack
+              direction={'column'}
+              width={'100%'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              sx={{ ml: 1, zIndex: 1, mr: -10 }}
+            >
+              <Typography variant={'h4'}>{props.cityName}</Typography>
+              <Typography variant={'h5'}>{props.tournamentName}</Typography>
+              {props.startDate && props.endDate && (
+                <Typography variant={'h6'}>{`${formatDate(props.startDate)} - ${formatDate(
+                  props.endDate,
+                )}`}</Typography>
+              )}
+            </Stack>
+            {props?.previewImageUrl && (
+              <Image
+                src={props.previewImageUrl}
+                alt={props.cityName ?? props.tournamentName}
+                width={1200}
+                height={600}
+                style={{
+                  height: '100%',
+                  width: 'auto',
+                  WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 100%)',
+                }}
+              />
             )}
           </Stack>
-          {props?.previewImageUrl && (
-            <Image
-              src={props.previewImageUrl}
-              alt={props.cityName ?? props.tournamentName}
-              width={1200}
-              height={600}
-              style={{
-                height: '100%',
-                width: 'auto',
-                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 100%)',
-              }}
-            />
-          )}
-        </Stack>
-      </CardActionArea>
-    </Card>
+        </CardActionArea>
+      </Card>
+    </Link>
   );
 };
 
