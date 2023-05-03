@@ -64,8 +64,8 @@ dependencies:
     specifier: ^2.29.3
     version: 2.29.3
   drizzle-orm:
-    specifier: ^0.23.5
-    version: 0.23.5(@planetscale/database@1.6.0)(mysql2@3.2.0)
+    specifier: 0.23.8
+    version: 0.23.8(@planetscale/database@1.6.0)(mysql2@3.2.0)
   google-map-react:
     specifier: ^2.2.0
     version: 2.2.0(react-dom@18.2.0)(react@18.2.0)
@@ -2594,8 +2594,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.23.5(@planetscale/database@1.6.0)(mysql2@3.2.0):
-    resolution: {integrity: sha512-in1BiPpiAInwalan+paPEKDzldkMLbJWFR7jiCunLtqO8Truw0yPxweu3vifaEBkAMIsEHgS/BuSEb8EMA379g==}
+  /drizzle-orm@0.23.8(@planetscale/database@1.6.0)(mysql2@3.2.0):
+    resolution: {integrity: sha512-jdqS8+aiYWGI5ub4rhc2dEVqCeuYGF78m3XCVYVLaI2UzsKfhp/l3pretOsRMrzOSOM6naTB1BJugMY70VLv/w==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
