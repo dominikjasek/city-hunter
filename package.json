@@ -68,7 +68,7 @@
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.47.0",
     "dotenv": "^16.0.3",
-    "drizzle-kit": "0.17.1-609a4f0",
+    "drizzle-kit": "db-push",
     "eslint": "^8.30.0",
     "eslint-config-next": "^13.2.1",
     "eslint-config-prettier": "^8.5.0",
