@@ -76,7 +76,7 @@ export const TournamentPage: NextPage = () => {
       enabled: Boolean(tournamentId),
     },
   );
-  const { data: questions, isLoading: isQuestionsLoading } = trpc.tournament.getQuestionsForId.useQuery(
+  const { data: questions, isLoading: isQuestionsLoading } = trpc.tournament.getTournamentQuestionsForId.useQuery(
     {
       tournamentId: tournamentId,
     },
@@ -207,7 +207,7 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string }> = async (c
   }
 
   await Promise.all([
-    ssg.tournament.getQuestionsForId.prefetch({ tournamentId: tournamentId }),
+    ssg.tournament.getTournamentQuestionsForId.prefetch({ tournamentId: tournamentId }),
     ssg.tournament.getTournamentDetails.prefetch({ tournamentId: tournamentId }),
   ]);
 

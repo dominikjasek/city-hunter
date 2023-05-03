@@ -13,31 +13,35 @@ export const tournamentRouter = router({
     }
     return tournament;
   }),
-  getQuestionsForId: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
-    const now = new Date();
-    const tournamentQuestions = await db
-      .select({
-        id: questions.id,
-        title: questions.title,
-        startDate: questions.startDate,
-        endDate: questions.endDate,
-        questionImageUrl: questions.questionImageUrl,
-      })
-      .from(questions)
-      .where(eq(questions.tournamentId, input.tournamentId))
-      .orderBy(questions.startDate);
 
-    return tournamentQuestions.map((question) => {
-      const isLaunched = question.startDate && now > question.startDate;
-      return {
-        id: question.id,
-        startDate: question.startDate,
-        endDate: question.endDate,
-        title: isLaunched ? question.title : null,
-        questionImageUrl: isLaunched ? question.questionImageUrl : null,
-      };
-    });
-  }),
+  getTournamentQuestionsForId: publicProcedure
+    .input(z.object({ tournamentId: z.string() }))
+    .query(async ({ input }) => {
+      const now = new Date();
+      const tournamentQuestions = await db
+        .select({
+          id: questions.id,
+          title: questions.title,
+          startDate: questions.startDate,
+          endDate: questions.endDate,
+          questionImageUrl: questions.questionImageUrl,
+        })
+        .from(questions)
+        .where(eq(questions.tournamentId, input.tournamentId))
+        .orderBy(questions.startDate);
+
+      return tournamentQuestions.map((question) => {
+        const isLaunched = question.startDate && now > question.startDate;
+        return {
+          id: question.id,
+          startDate: question.startDate,
+          endDate: question.endDate,
+          title: isLaunched ? question.title : null,
+          questionImageUrl: isLaunched ? question.questionImageUrl : null,
+        };
+      });
+    }),
+
   getAll: publicProcedure.query(async () => {
     const tournamentsItems = await db
       .select({
