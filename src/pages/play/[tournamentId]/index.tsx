@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticPropsContext, NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '~/server/routers/_app';
@@ -183,7 +183,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async (context: GetStaticPropsContext<{ tournamentId: string }>) => {
+export const getStaticProps: GetStaticProps<{ tournamentId: string }> = async (context) => {
+  const tournamentId = context.params?.tournamentId;
+
+  if (typeof tournamentId !== 'string') {
+    throw new Error('No tournamentId or it is not a string');
+  }
+
   const ssg = createProxySSGHelpers({
     router: appRouter,
     ctx: { auth: null },
@@ -195,13 +201,15 @@ export const getStaticProps = async (context: GetStaticPropsContext<{ tournament
   }
 
   await Promise.all([
-    ssg.tournament.getQuestionsForId.prefetch({ tournamentId: Number(context.params.tournamentId) }),
-    ssg.tournament.getTournamentDetails.prefetch({ tournamentId: Number(context.params.tournamentId) }),
+    ssg.tournament.getQuestionsForId.prefetch({ tournamentId: Number(tournamentId) }),
+    ssg.tournament.getTournamentDetails.prefetch({ tournamentId: Number(tournamentId) }),
   ]);
 
   return {
     props: {
       trpcState: ssg.dehydrate(),
+      tournamentId,
     },
+    revalidate: 60,
   };
 };

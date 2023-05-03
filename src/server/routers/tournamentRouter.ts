@@ -30,7 +30,7 @@ export const tournamentRouter = router({
         id: question.id,
         startDate: question.startDate,
         endDate: question.endDate,
-        questionImageUrl: question.startDate && now > question.startDate && question.questionImageUrl,
+        questionImageUrl: question.startDate && now > question.startDate ? question.questionImageUrl : null,
       };
     });
   }),
