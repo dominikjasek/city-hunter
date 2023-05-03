@@ -18,6 +18,7 @@ export const tournamentRouter = router({
     const tournamentQuestions = await db
       .select({
         id: questions.id,
+        title: questions.title,
         startDate: questions.startDate,
         endDate: questions.endDate,
         questionImageUrl: questions.questionImageUrl,
@@ -25,12 +26,15 @@ export const tournamentRouter = router({
       .from(questions)
       .where(eq(questions.tournamentId, input.tournamentId))
       .orderBy(questions.startDate);
+
     return tournamentQuestions.map((question) => {
+      const isLaunched = question.startDate && now > question.startDate;
       return {
         id: question.id,
         startDate: question.startDate,
         endDate: question.endDate,
-        questionImageUrl: question.startDate && now > question.startDate ? question.questionImageUrl : null,
+        title: isLaunched ? question.title : null,
+        questionImageUrl: isLaunched ? question.questionImageUrl : null,
       };
     });
   }),

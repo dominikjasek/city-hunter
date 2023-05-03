@@ -156,6 +156,7 @@ export const TournamentPage: NextPage = () => {
                     </Typography>
                   </Stack>
                 )}
+                {question.title ? <Typography sx={{ flex: 2 }}>{question.title}</Typography> : <br />}
                 <Typography sx={{ flex: 2 }}>{question.startDate && formatDate(question.startDate)}</Typography>
                 <ActionButton
                   endDate={question.endDate}
