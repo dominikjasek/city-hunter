@@ -5,90 +5,82 @@ import { answers, cities, questions } from '~/db/schema';
 import { and, eq } from 'drizzle-orm/expressions';
 import { TRPCError } from '@trpc/server';
 import { evaluateResultsFromLocations } from '~/utils/score/evaluate-score';
-import { QuestionStatus } from '~/server/routers/question/types';
+import { GetQuestionResponse } from '~/server/routers/question/types';
 
 export const questionRouter = router({
-  getQuestion: protectedProcedure.input(z.object({ id: z.number() })).query(async ({ input, ctx }) => {
-    const answer = (
-      await db
-        .select({
-          id: answers.id,
-        })
-        .from(answers)
-        .where(and(eq(answers.questionId, input.id), eq(answers.userId, ctx.auth.userId)))
-        .limit(1)
-    )[0];
+  getQuestion: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query<GetQuestionResponse>(async ({ input, ctx }) => {
+      const answer = (
+        await db
+          .select({
+            id: answers.id,
+          })
+          .from(answers)
+          .where(and(eq(answers.questionId, input.id), eq(answers.userId, ctx.auth.userId)))
+          .limit(1)
+      )[0];
 
-    if (answer) {
+      if (answer) {
+        return {
+          status: 'answered',
+          question: null,
+        };
+      }
+
+      const question = (
+        await db
+          .select({
+            id: questions.id,
+            title: questions.title,
+            questionDescription: questions.questionDescription,
+            questionImageUrl: questions.questionImageUrl,
+            city: {
+              id: cities.id,
+              name: cities.name,
+              centerPoint: cities.centerPoint,
+              mapZoom: cities.mapZoom,
+            },
+            startDate: questions.startDate,
+            endDate: questions.endDate,
+          })
+          .from(questions)
+          .where(eq(questions.id, input.id))
+          .innerJoin(cities, eq(questions.cityId, cities.id))
+          .limit(1)
+      )[0];
+      if (!question) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
+      }
+      if (!question.startDate || !question.endDate) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
+
+      const now = new Date();
+      if (now < question.startDate) {
+        return {
+          status: 'not_started',
+          question: null,
+        };
+      }
+
+      if (now > question.endDate) {
+        return {
+          status: 'finished',
+          question: null,
+        };
+      }
+
       return {
-        status: 'answered' as QuestionStatus,
-        question: null,
-      };
-    }
-
-    const question = (
-      await db
-        .select({
-          id: questions.id,
-          title: questions.title,
-          questionDescription: questions.questionDescription,
-          questionImageUrl: questions.questionImageUrl,
-          city: {
-            id: cities.id,
-            name: cities.name,
-            centerPoint: cities.centerPoint,
-            mapZoom: cities.mapZoom,
-          },
-          startDate: questions.startDate,
-          endDate: questions.endDate,
-        })
-        .from(questions)
-        .where(eq(questions.id, input.id))
-        .innerJoin(cities, eq(questions.cityId, cities.id))
-        .limit(1)
-    )[0];
-    if (!question) {
-      throw new TRPCError({ code: 'NOT_FOUND' });
-    }
-    if (!question.startDate || !question.endDate) {
-      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
-    }
-
-    const now = new Date();
-    console.log('start raw', question.startDate);
-    console.log('start', question.startDate!.toISOString());
-    if (now < question.startDate) {
-      return {
-        status: 'not-started' as QuestionStatus,
-        question: null,
-      };
-    }
-
-    if (now > question.endDate) {
-      return {
-        status: 'finished' as QuestionStatus,
-        question: null,
-      };
-    }
-
-    return {
-      status: 'active' as QuestionStatus,
-      question: {
-        questionDescription: question.questionDescription,
-        title: question.title,
-        questionImageUrl: question.questionImageUrl,
-        city: {
-          id: question.city.id,
-          name: question.city.name,
-          centerPoint: question.city.centerPoint,
-          mapZoom: question.city.mapZoom,
+        status: 'active',
+        question: {
+          ...question,
+          // override startDate and endDate because typescript doesnt know that we checked they are not null
+          startDate: question.startDate,
+          endDate: question.endDate,
         },
-        startDate: question.startDate,
-        endDate: question.endDate,
-        id: question.id,
-      },
-    };
-  }),
+      };
+    }),
 
   answerQuestion: protectedProcedure
     .input(
