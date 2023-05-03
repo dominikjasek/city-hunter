@@ -75,7 +75,7 @@ const TournamentContainer: FC<CityContainerProps> = (props) => {
 };
 
 export const PlayPage: NextPage = () => {
-  const { data: tournamentsData, isLoading } = trpc.tournament.getAll.useQuery();
+  const { data: tournamentsData, isLoading } = trpc.tournament.getAllTournaments.useQuery();
 
   if (isLoading) {
     return <Loader title={'Načítání...'} />;
@@ -108,7 +108,7 @@ export const getStaticProps = async () => {
     transformer: superjson,
   });
 
-  await ssg.tournament.getAll.prefetch();
+  await ssg.tournament.getAllTournaments.prefetch();
 
   return {
     props: {

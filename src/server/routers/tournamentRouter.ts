@@ -22,6 +22,7 @@ export const tournamentRouter = router({
         .select({
           id: questions.id,
           title: questions.title,
+          roundOrder: questions.roundOrder,
           startDate: questions.startDate,
           endDate: questions.endDate,
           questionImageUrl: questions.questionImageUrl,
@@ -34,6 +35,7 @@ export const tournamentRouter = router({
         const isLaunched = question.startDate && now > question.startDate;
         return {
           id: question.id,
+          roundOrder: question.roundOrder,
           startDate: question.startDate,
           endDate: question.endDate,
           title: isLaunched ? question.title : null,
@@ -42,7 +44,7 @@ export const tournamentRouter = router({
       });
     }),
 
-  getAll: publicProcedure.query(async () => {
+  getAllTournaments: publicProcedure.query(async () => {
     const tournamentsItems = await db
       .select({
         city: cities.name,

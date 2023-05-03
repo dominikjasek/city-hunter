@@ -16,10 +16,11 @@ import Image from 'next/image';
 const ActionButton: FC<{
   tournamentId: string;
   questionId: number;
+  roundOrder: number | null;
   startDate: Date | null;
   endDate: Date | null;
 }> = (props) => {
-  if (!props.startDate || !props.endDate) {
+  if (!props.startDate || !props.endDate || props.roundOrder === null) {
     throw new Error(`Question with id=${props.questionId} has no start or end date`);
   }
 
@@ -28,7 +29,7 @@ const ActionButton: FC<{
   const now = new Date();
   if (now > props.endDate) {
     return (
-      <Link href={`/ranking/${props.tournamentId}/${props.questionId}`}>
+      <Link href={`/ranking/${props.tournamentId}/${props.roundOrder}`}>
         <Button variant="contained" color="primary" sx={{ width: BUTTON_WIDTH }}>
           Výsledky
         </Button>
@@ -41,7 +42,7 @@ const ActionButton: FC<{
 
   if (isActive) {
     return (
-      <Link href={`/play/${props.tournamentId}/${props.questionId}`}>
+      <Link href={`/play/${props.tournamentId}/${props.roundOrder}`}>
         <Button variant="contained" color="secondary" sx={{ width: BUTTON_WIDTH }}>
           Hrát
         </Button>
@@ -64,13 +65,9 @@ export const TournamentPage: NextPage = () => {
   const { query } = useRouter();
   const { tournamentId } = query;
 
-  if (typeof tournamentId !== 'string') {
-    throw new Error(`tournamentId is not a string`);
-  }
-
   const { data: tournament, isLoading: isTournamentDetailsLoading } = trpc.tournament.getTournamentDetails.useQuery(
     {
-      tournamentId: tournamentId,
+      tournamentId: tournamentId!.toString(),
     },
     {
       enabled: Boolean(tournamentId),
@@ -78,7 +75,7 @@ export const TournamentPage: NextPage = () => {
   );
   const { data: questions, isLoading: isQuestionsLoading } = trpc.tournament.getTournamentQuestionsForId.useQuery(
     {
-      tournamentId: tournamentId,
+      tournamentId: tournamentId!.toString(),
     },
     {
       enabled: Boolean(tournamentId),
@@ -165,9 +162,10 @@ export const TournamentPage: NextPage = () => {
                 <Typography sx={{ flex: 2 }}>{question.startDate && formatDate(question.startDate)}</Typography>
                 <ActionButton
                   endDate={question.endDate}
-                  tournamentId={tournamentId}
+                  tournamentId={tournamentId!.toString()}
                   startDate={question.startDate}
                   questionId={question.id}
+                  roundOrder={question.roundOrder}
                 ></ActionButton>
               </Stack>
             </Card>

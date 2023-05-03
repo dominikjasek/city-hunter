@@ -9,7 +9,7 @@ import { GetQuestionResponse } from '~/server/routers/question/types';
 
 export const questionRouter = router({
   getQuestion: protectedProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ tournamentId: z.string(), roundOrder: z.number() }))
     .query<GetQuestionResponse>(async ({ input, ctx }) => {
       const question = (
         await db
@@ -24,19 +24,23 @@ export const questionRouter = router({
               centerPoint: cities.centerPoint,
               mapZoom: cities.mapZoom,
             },
+            roundOrder: questions.roundOrder,
             startDate: questions.startDate,
             endDate: questions.endDate,
           })
           .from(questions)
-          .where(eq(questions.id, input.id))
+          .where(and(eq(questions.roundOrder, input.roundOrder), eq(questions.tournamentId, input.tournamentId)))
           .innerJoin(cities, eq(questions.cityId, cities.id))
           .limit(1)
       )[0];
       if (!question) {
         throw new TRPCError({ code: 'NOT_FOUND' });
       }
-      if (!question.startDate || !question.endDate) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      if (!question.startDate || !question.endDate || !question.roundOrder) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Some of required attributes are nullable. These attributes are: startDate, endDate and roundOrder',
+        });
       }
 
       const now = new Date();
@@ -60,7 +64,7 @@ export const questionRouter = router({
             id: answers.id,
           })
           .from(answers)
-          .where(and(eq(answers.questionId, input.id), eq(answers.userId, ctx.auth.userId)))
+          .where(and(eq(answers.questionId, question.id), eq(answers.userId, ctx.auth.userId)))
           .limit(1)
       )[0];
 
@@ -76,6 +80,7 @@ export const questionRouter = router({
         question: {
           ...question,
           // override startDate and endDate because typescript doesnt know that we checked they are not null
+          roundOrder: question.roundOrder,
           startDate: question.startDate,
           endDate: question.endDate,
         },
@@ -93,6 +98,25 @@ export const questionRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
+      const question = (
+        await db
+          .select({
+            correctLocation: questions.location,
+            roundOrder: questions.roundOrder,
+            startDate: questions.startDate,
+            endDate: questions.endDate,
+          })
+          .from(questions)
+          .where(eq(questions.id, input.questionId))
+          .limit(1)
+      )[0];
+      if (!question) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Question not found' });
+      }
+      if (!question.startDate || !question.endDate) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }
+
       const answer = (
         await db
           .select({
@@ -104,20 +128,6 @@ export const questionRouter = router({
       )[0];
       if (answer) {
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Already answered' });
-      }
-
-      const question = (
-        await db
-          .select({ correctLocation: questions.location, startDate: questions.startDate, endDate: questions.endDate })
-          .from(questions)
-          .where(eq(questions.id, input.questionId))
-          .limit(1)
-      )[0];
-      if (!question) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Question not found' });
-      }
-      if (!question.startDate || !question.endDate) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
       }
 
       const now = new Date();

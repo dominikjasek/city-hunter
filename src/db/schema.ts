@@ -1,4 +1,4 @@
-import { boolean, date, int, json, mysqlTable, serial, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import { boolean, date, index, int, json, mysqlTable, serial, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
 import { InferModel } from 'drizzle-orm';
 import { MapLocation } from '~/db/types';
 
@@ -38,22 +38,29 @@ export const cities = mysqlTable('cities', {
 export type City = InferModel<typeof cities>;
 
 // Question
-export const questions = mysqlTable('questions', {
-  id: serial('id').primaryKey(),
-  title: varchar('title', { length: 250 }).notNull(),
-  questionDescription: text('question_description'),
-  answerDescription: text('answer_description'),
-  authorId: varchar('author_id', { length: 100 }).notNull(),
-  questionImageUrl: varchar('question_image_url', { length: 250 }).notNull(),
-  answerImagesUrl: text('answer_images_url').notNull(),
-  cityId: int('city_id'),
-  tournamentId: varchar('tournament_id', { length: 100 }),
-  startDate: timestamp('start_date'),
-  endDate: timestamp('end_date'),
-  location: json('location').$type<MapLocation>().notNull(),
-  demo: boolean('demo').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-});
+export const questions = mysqlTable(
+  'questions',
+  {
+    id: serial('id').primaryKey(),
+    title: varchar('title', { length: 250 }).notNull(),
+    questionDescription: text('question_description'),
+    answerDescription: text('answer_description'),
+    authorId: varchar('author_id', { length: 100 }).notNull(),
+    questionImageUrl: varchar('question_image_url', { length: 250 }).notNull(),
+    answerImagesUrl: text('answer_images_url').notNull(),
+    cityId: int('city_id'),
+    tournamentId: varchar('tournament_id', { length: 100 }),
+    roundOrder: int('round_order'),
+    startDate: timestamp('start_date'),
+    endDate: timestamp('end_date'),
+    location: json('location').$type<MapLocation>().notNull(),
+    demo: boolean('demo').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => ({
+    roundOrderIdx: index('round_order_idx').on(table.roundOrder, table.tournamentId),
+  }),
+);
 
 export type Question = InferModel<typeof questions>;
 

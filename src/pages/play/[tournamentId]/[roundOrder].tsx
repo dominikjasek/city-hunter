@@ -6,29 +6,36 @@ import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { QuestionTask } from '~/components/Question/QuestionTask';
 import { MapLocation } from '~/components/MapPicker/types';
 import { TRPCError } from '@trpc/server';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { formatTime } from '~/utils/formatter/dateFormatter';
 import { Button } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 export const QuestionPlayPage: NextPage = () => {
   const { query } = useRouter();
-  const { questionId } = query;
+  const { roundOrder, tournamentId } = query;
+  const isRouterReady = useMemo(() => Boolean(roundOrder && tournamentId), [roundOrder, tournamentId]);
+
   const [pageState, setPageState] = useState<'waiting_for_submit' | 'answered' | 'expired'>('waiting_for_submit');
   const {
     data: questionData,
     isLoading: isQuestionLoading,
     isFetching: isQuestionFetching,
     refetch,
-  } = trpc.question.getQuestion.useQuery({ id: Number(questionId) }, { enabled: Boolean(questionId) });
+  } = trpc.question.getQuestion.useQuery(
+    { tournamentId: tournamentId?.toString() ?? 'absurd', roundOrder: Number(roundOrder) },
+    { enabled: isRouterReady },
+  );
   const { mutateAsync, isLoading: isSubmitting } = trpc.question.answerQuestion.useMutation();
 
   const handleSubmit = async (location: MapLocation) => {
-    const result = await mutateAsync({ questionId: Number(questionId), answer: location }).catch((error: TRPCError) => {
-      if (error.message === 'Question already finished') {
-        setPageState('expired');
-      }
-    });
+    const result = await mutateAsync({ questionId: questionData!.question!.id, answer: location }).catch(
+      (error: TRPCError) => {
+        if (error.message === 'Question already finished') {
+          setPageState('expired');
+        }
+      },
+    );
     if (result?.success) {
       setPageState('answered');
     }

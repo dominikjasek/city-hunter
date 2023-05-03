@@ -4,8 +4,8 @@ import React, { useMemo, useState } from 'react';
 import { trpc } from '~/utils/trpc';
 import { QuestionSolutionProps, Solution } from '~/components/Solution/Solution';
 import { Loader } from '~/components/common/Loader/Loader';
-import { Typography } from '@mui/material';
 import { MapLocation } from '~/components/MapPicker/types';
+import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 
 const DemoPlayPage: NextPage = () => {
   const startDate = useMemo(() => new Date(), []);
@@ -52,7 +52,7 @@ const DemoPlayPage: NextPage = () => {
   }
 
   if (!demoQuestion) {
-    return <Typography>Bohužel nemáme k dispozici žádní demo</Typography>;
+    return <MessageBox message={'Bohužel nemáme k dispozici žádné demo'} type={'info'} />;
   }
 
   if (!solutionData) {
