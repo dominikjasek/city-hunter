@@ -6,3 +6,9 @@ const UserPage: NextPage = () => {
 };
 
 export default UserPage;
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
+}

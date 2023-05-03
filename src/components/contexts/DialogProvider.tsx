@@ -1,6 +1,7 @@
-import React, { createContext, PropsWithChildren, useContext, useMemo, useState } from 'react';
+import React, { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { SignIn } from '@clerk/nextjs';
 import { Dialog } from '@mui/material';
+import { useRouter } from 'next/router';
 
 interface DialogContextType {
   setOpenLoginDialog: (newState: boolean) => void;
@@ -10,6 +11,10 @@ const DialogContext = createContext<DialogContextType | null>(null);
 
 export const DialogProvider = ({ children }: PropsWithChildren<unknown>) => {
   const [openLoginDialog, setOpenLoginDialog] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    setOpenLoginDialog(false);
+  }, [router.pathname]);
 
   const providerValue = useMemo<DialogContextType>(
     () => ({

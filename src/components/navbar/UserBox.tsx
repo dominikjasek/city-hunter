@@ -16,7 +16,7 @@ export const UserBox: FC = () => {
   return (
     <>
       <SignedIn>
-        <UserButton userProfileUrl={'/user'} userProfileMode={'navigation'} />
+        <UserButton userProfileUrl={'/auth/user'} userProfileMode={'navigation'} />
       </SignedIn>
       <SignedOut>
         {pathname !== '/auth/login' && (
