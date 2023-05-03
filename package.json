@@ -41,6 +41,7 @@
     "@vercel/analytics": "^1.0.0",
     "clsx": "^1.1.1",
     "date-fns": "^2.29.3",
+    "date-fns-tz": "^2.0.0",
     "drizzle-orm": "0.23.8",
     "google-map-react": "^2.2.0",
     "google-maps-react-markers": "^1.2.1",
