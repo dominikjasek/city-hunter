@@ -1,10 +1,29 @@
 import { z } from 'zod';
 import { db } from '~/db/drizzle';
 import { CreateUser, users } from '~/db/schema';
-import { publicProcedure, router } from '~/server/trpc';
+import { protectedProcedure, publicProcedure, router } from '~/server/trpc';
 import { eq } from 'drizzle-orm/expressions';
 
 export const authRouter = router({
+  getNickName: protectedProcedure.query(async ({ ctx }) => {
+    const result = await db
+      .select({ nickname: users.nickName })
+      .from(users)
+      .where(eq(users.id, ctx.auth.userId))
+      .limit(1);
+    if (!result[0]) throw new Error('User not found');
+
+    return result[0].nickname;
+  }),
+
+  updateNickName: protectedProcedure.input(z.object({ nickName: z.string() })).mutation(async ({ input, ctx }) => {
+    await db.update(users).set({ nickName: input.nickName }).where(eq(users.id, ctx.auth.userId));
+
+    return {
+      success: true,
+    };
+  }),
+
   createUser: publicProcedure
     .input(
       z.object({
