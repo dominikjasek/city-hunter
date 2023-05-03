@@ -36,11 +36,11 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
             <Typography sx={{ mb: 2 }}>{props.questionDescription}</Typography>
           </Box>
         </Stack>
-        <Stack mb={2} direction={{ xs: 'column', md: 'row' }} alignItems={'center'} gap={3}>
+        <Stack mb={2} direction={{ xs: 'column', md: 'row' }} alignItems={'center'} gap={{ xs: 4, md: 1 }}>
           <Box
             sx={{
-              minWidth: { xs: 300, md: 400, lg: 500 },
-              minHeight: { xs: 300, md: 500 },
+              minWidth: 300,
+              minHeight: 300,
               position: 'relative',
               flex: { xs: 'none', md: 1 },
               cursor: 'pointer',
@@ -56,7 +56,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
               onClick={() => setIsLightboxOpen(true)}
             />
           </Box>
-          <Box sx={{ width: '100%', flex: { xs: 'none', md: 2 } }}>
+          <Box sx={{ width: '100%', flex: { xs: 'none', md: 3 } }}>
             <MapPicker
               centerPoint={props.city.centerPoint}
               zoom={props.city.mapZoom}
