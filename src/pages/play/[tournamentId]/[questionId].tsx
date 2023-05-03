@@ -8,15 +8,19 @@ import { MapLocation } from '~/components/MapPicker/types';
 import { TRPCError } from '@trpc/server';
 import { useState } from 'react';
 import { formatTime } from '~/utils/formatter/dateFormatter';
+import { Button } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 export const QuestionPlayPage: NextPage = () => {
   const { query } = useRouter();
   const { questionId } = query;
   const [pageState, setPageState] = useState<'waiting_for_submit' | 'answered' | 'expired'>('waiting_for_submit');
-  const { data: questionData, isLoading } = trpc.question.getQuestion.useQuery(
-    { id: Number(questionId) },
-    { enabled: Boolean(questionId) },
-  );
+  const {
+    data: questionData,
+    isLoading: isQuestionLoading,
+    isFetching: isQuestionFetching,
+    refetch,
+  } = trpc.question.getQuestion.useQuery({ id: Number(questionId) }, { enabled: Boolean(questionId) });
   const { mutateAsync, isLoading: isSubmitting } = trpc.question.answerQuestion.useMutation();
 
   const handleSubmit = async (location: MapLocation) => {
@@ -30,7 +34,7 @@ export const QuestionPlayPage: NextPage = () => {
     }
   };
 
-  if (isLoading) {
+  if (isQuestionLoading || isQuestionFetching) {
     return <Loader title={'Načítání...'} />;
   }
 
@@ -47,7 +51,20 @@ export const QuestionPlayPage: NextPage = () => {
   }
 
   if (questionData.status === 'not_started') {
-    return <MessageBox type={'info'} message={'Kolo ještě nezačalo'} />;
+    return (
+      <>
+        <MessageBox type={'info'} message={'Kolo ještě nezačalo. Pro aktualizaci klepněte na tlačítko Aktualizovat.'} />
+        <Button
+          variant={'contained'}
+          color={'primary'}
+          startIcon={<RefreshIcon />}
+          onClick={() => refetch()}
+          sx={{ mt: 4 }}
+        >
+          Aktualizovat
+        </Button>
+      </>
+    );
   }
 
   const question = questionData.question;
