@@ -35,7 +35,7 @@
   "formFieldInputPlaceholder__organizationName": "",
   "formFieldInputPlaceholder__organizationSlug": "",
   "formFieldAction__forgotPassword": "zapomenuté heslo",
-  "formFieldHintText__optional": "Volitelný",
+  "formFieldHintText__optional": "Nepovinné",
   "formButtonPrimary": "Pokračovat",
   "signInEnterPasswordTitle": "Zadejte heslo",
   "backButton": "Zpět",
