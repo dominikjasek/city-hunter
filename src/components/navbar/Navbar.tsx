@@ -32,6 +32,7 @@ const drawerWidth = 250;
 const defaultNavbarLinks: NavbarLink[] = [
   { title: 'Hrát', href: '/play' },
   { title: 'Žebříček', href: '/ranking' },
+  { title: 'FAQ', href: '/faq' },
 ];
 
 interface NavbarProps {
