@@ -3,7 +3,7 @@ import MapMarkerOrange from '@public/map-marker-orange.svg';
 import MapMarkerGrey from '@public/map-marker-grey.svg';
 import MapMarkerGreen from '@public/map-marker-green.svg';
 import { AnswerLocation, MapLocation } from '~/components/MapPicker/types';
-import { Box } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import {
   KeyboardControl,
   Map,
@@ -15,6 +15,37 @@ import {
   ZoomControl,
 } from 'react-mapycz';
 import Image from 'next/image';
+
+const LegendRow = ({ color, text }: { color: string; text: string }) => {
+  return (
+    <Stack direction="row" alignItems="center" spacing={1}>
+      <Box sx={{ borderRadius: '50%', width: 20, height: 20, backgroundColor: color, color: 'black', border: 2 }} />
+      <Typography color={'black'} fontSize={'0.7rem'}>
+        {text}
+      </Typography>
+    </Stack>
+  );
+};
+
+const Legend = () => {
+  return (
+    <Stack
+      direction={'column'}
+      sx={{
+        position: 'absolute',
+        zIndex: 100,
+        borderRadius: 2,
+        backgroundColor: 'rgba(255,255,255,0.75)',
+        p: 1.3,
+        m: 1,
+      }}
+      gap={0.5}
+    >
+      <LegendRow color="#FF9F10" text={'Vaše odpověď'} />
+      <LegendRow color="#10DB61" text={'Správná odpověď'} />
+    </Stack>
+  );
+};
 
 interface MapPickerProps {
   centerPoint: MapLocation;
@@ -37,6 +68,8 @@ export const MapWithAnswers: FC<MapPickerProps> = ({ locations, centerPoint, zoo
         width: '100%',
       }}
     >
+      <Legend />
+
       <Map height="500px" center={centerPoint} zoom={zoom} loaderApiConfig={{ poi: true }}>
         <KeyboardControl />
         <ZoomControl />
