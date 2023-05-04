@@ -13,6 +13,7 @@ import { MapEventListener } from 'react-mapycz/src/Map';
 import MapMarker from '@public/map-marker-orange.svg';
 import Image from 'next/image';
 import { MapLocation } from '~/components/MapPicker/types';
+import { Box } from '@mui/material';
 
 interface MapPickerProps {
   centerPoint: MapLocation;
@@ -31,11 +32,13 @@ export const MapPicker: FC<MapPickerProps> = ({ point, centerPoint, zoom, onClic
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         touchAction: 'none',
         cursor: 'crosshair',
         width: '100%',
+        borderRadius: 2,
+        overflow: 'hidden',
       }}
     >
       <Map height="500px" center={centerPoint} zoom={zoom} onEvent={handleMapClick} loaderApiConfig={{ poi: true }}>
@@ -66,6 +69,6 @@ export const MapPicker: FC<MapPickerProps> = ({ point, centerPoint, zoom, onClic
           </MarkerLayer>
         )}
       </Map>
-    </div>
+    </Box>
   );
 };
