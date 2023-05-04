@@ -51,13 +51,6 @@ export const questionRouter = router({
         };
       }
 
-      if (now > question.endDate) {
-        return {
-          status: 'finished',
-          question: null,
-        };
-      }
-
       const answer = (
         await db
           .select({
@@ -71,6 +64,13 @@ export const questionRouter = router({
       if (answer) {
         return {
           status: 'answered',
+          question: null,
+        };
+      }
+
+      if (now > question.endDate) {
+        return {
+          status: 'expired_not_answered',
           question: null,
         };
       }

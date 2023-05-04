@@ -59,7 +59,7 @@ export const QuestionPlayPage: NextPage = () => {
     return <MessageBox type={'success'} message={`Už jste odpověděli`} />;
   }
 
-  if (questionData.status === 'finished' || pageState === 'expired') {
+  if (questionData.status === 'expired_not_answered' || pageState === 'expired') {
     return <MessageBox type={'info'} message={'Kolo už je ukonečené. Bohužel jste nestihli odpovědět.'} />;
   }
 

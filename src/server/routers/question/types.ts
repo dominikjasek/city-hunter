@@ -1,6 +1,6 @@
 import { MapLocation } from '~/db/types';
 
-type QuestionStatus = 'not_started' | 'active' | 'finished' | 'answered';
+type QuestionStatus = 'not_started' | 'active' | 'expired_not_answered' | 'answered';
 
 export interface GetQuestionResponse {
   status: QuestionStatus;
