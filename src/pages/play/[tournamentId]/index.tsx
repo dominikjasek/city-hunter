@@ -118,6 +118,7 @@ export const TournamentPage: NextPage = () => {
                 position: 'relative',
                 top: -8,
                 left: -8,
+                width: 300,
               }}
             >
               <Stack
