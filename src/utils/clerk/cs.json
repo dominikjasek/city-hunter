@@ -452,7 +452,7 @@
     }
   },
   "userButton": {
-    "action__manageAccount": "Spravovat účet",
+    "action__manageAccount": "Upravit přezdívku",
     "action__signOut": "Odhlásit se",
     "action__signOutAll": "Odhlaste se ze všech účtů",
     "action__addAccount": "Přidat účet"
