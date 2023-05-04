@@ -23,12 +23,12 @@ const IndexPage: NextPageWithLayout = () => {
           <SecondaryText>1. 9. 2023</SecondaryText> a hra bude trvat <SecondaryText>20 dnů</SecondaryText>.
         </Typography>
         <Stack direction={'column'} mx={'auto'} gap={1}>
-          <Link className={'no-style'} href={'/play/demo'} passHref>
+          <Link className={'no-style'} href={'/demo'} passHref>
             <Button color={'secondary'} variant={'contained'} sx={{ width: '250px' }}>
               Vyzkoušet demo
             </Button>
           </Link>
-          <Link className={'no-style'} href={'/play/demo'} passHref>
+          <Link className={'no-style'} href={'/faq'} passHref>
             <Button color={'secondary'} variant={'outlined'} sx={{ width: '250px' }}>
               FAQ
             </Button>
