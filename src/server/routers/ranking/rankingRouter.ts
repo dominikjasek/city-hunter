@@ -14,8 +14,7 @@ export const rankingRouter = router({
       .innerJoin(users, eq(answers.userId, users.id))
       .where(eq(questions.tournamentId, input.tournamentId));
 
-    return dbResult.reduce((nextDbItem, curr) => {
-      console.log('acc', nextDbItem);
+    const groupedByUsers = dbResult.reduce((nextDbItem, curr) => {
       const currUserIndex = nextDbItem.findIndex((item) => item.userId === curr.userId);
 
       if (currUserIndex === -1 || !nextDbItem[currUserIndex]) {
@@ -52,5 +51,11 @@ export const rankingRouter = router({
       };
       return nextDbItem;
     }, [] as TournamentUserScore[]);
+
+    return groupedByUsers;
+  }),
+
+  evaluateMedals: publicProcedure.mutation(async () => {
+    return 'nazdar 33';
   }),
 });
