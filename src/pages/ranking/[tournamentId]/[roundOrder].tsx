@@ -51,9 +51,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
     .where(and(isNotNull(questions.tournamentId), isNotNull(questions.roundOrder)));
 
   return {
-    paths: dbQuestions.map((question) => ({
-      params: { tournamentId: question.tournamentId!.toString(), roundOrder: question.roundOrder!.toString() },
-    })),
+    paths: dbQuestions
+      .map((question) => {
+        if (!question.tournamentId || !question.roundOrder) {
+          return null;
+        }
+        return { params: { tournamentId: question.tournamentId, roundOrder: question.roundOrder.toString() } };
+      })
+      .filter(Boolean),
     fallback: false,
   };
 };

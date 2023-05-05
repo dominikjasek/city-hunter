@@ -4,10 +4,8 @@ import { CreateQuestionValidationSchema, UploadQuestionForm } from '~/components
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
-import { appRouter } from '~/server/routers/_app';
-import superjson from 'superjson';
 import { useImageUpload } from '~/hooks/use-image-upload';
+import { ssgHelpers } from '~/server/ssgHelpers';
 
 export const Contribute: NextPage = () => {
   const { uploadImage } = useImageUpload();
@@ -68,17 +66,11 @@ export const Contribute: NextPage = () => {
 export default Contribute;
 
 export const getStaticProps = async () => {
-  const ssg = createProxySSGHelpers({
-    router: appRouter,
-    ctx: { auth: null },
-    transformer: superjson,
-  });
-
-  await ssg.city.getAll.prefetch();
+  await ssgHelpers.city.getAll.prefetch();
 
   return {
     props: {
-      trpcState: ssg.dehydrate(),
+      trpcState: ssgHelpers.dehydrate(),
     },
   };
 };

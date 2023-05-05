@@ -1,12 +1,10 @@
 import { NextPage } from 'next';
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
-import { appRouter } from '~/server/routers/_app';
-import superjson from 'superjson';
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
 import { Box, Typography } from '@mui/material';
 import { TournamentContainer } from '~/components/tournament/TournamentContainer';
 import Link from 'next/link';
+import { ssgHelpers } from '~/server/ssgHelpers';
 
 export const PlayPage: NextPage = () => {
   const { data: tournamentsData, isLoading } = trpc.tournament.getAllTournaments.useQuery();
@@ -37,17 +35,11 @@ export const PlayPage: NextPage = () => {
 export default PlayPage;
 
 export const getStaticProps = async () => {
-  const ssg = createProxySSGHelpers({
-    router: appRouter,
-    ctx: { auth: null },
-    transformer: superjson,
-  });
-
-  await ssg.tournament.getAllTournaments.prefetch();
+  await ssgHelpers.tournament.getAllTournaments.prefetch();
 
   return {
     props: {
-      trpcState: ssg.dehydrate(),
+      trpcState: ssgHelpers.dehydrate(),
     },
   };
 };

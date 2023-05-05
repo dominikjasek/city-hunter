@@ -11,7 +11,7 @@ export const useImageUpload = () => {
         body: formData,
       },
     );
-    const cloudinaryData = await cloudinaryResponse.json();
+    const cloudinaryData: any = await cloudinaryResponse.json();
     return cloudinaryData.url as string;
   };
 

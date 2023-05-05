@@ -1,8 +1,5 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { createProxySSGHelpers } from '@trpc/react-query/ssg';
-import { appRouter } from '~/server/routers/_app';
-import superjson from 'superjson';
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
 import { Badge, Box, Button, Card, Stack, Tooltip, Typography } from '@mui/material';
@@ -12,6 +9,7 @@ import { formatDate } from '~/utils/formatter/dateFormatter';
 import Link from 'next/link';
 import { FC } from 'react';
 import Image from 'next/image';
+import { ssgHelpers } from '~/server/ssgHelpers';
 
 const ActionButton: FC<{
   tournamentId: string;
@@ -195,24 +193,18 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string }> = async (c
     throw new Error('No tournamentId or it is not a string');
   }
 
-  const ssg = createProxySSGHelpers({
-    router: appRouter,
-    ctx: { auth: null },
-    transformer: superjson,
-  });
-
   if (!context.params) {
     throw new Error('No params');
   }
 
   await Promise.all([
-    ssg.tournament.getTournamentQuestionsForId.prefetch({ tournamentId: tournamentId }),
-    ssg.tournament.getTournamentDetails.prefetch({ tournamentId: tournamentId }),
+    ssgHelpers.tournament.getTournamentQuestionsForId.prefetch({ tournamentId: tournamentId }),
+    ssgHelpers.tournament.getTournamentDetails.prefetch({ tournamentId: tournamentId }),
   ]);
 
   return {
     props: {
-      trpcState: ssg.dehydrate(),
+      trpcState: ssgHelpers.dehydrate(),
       tournamentId,
     },
     revalidate: 60,
