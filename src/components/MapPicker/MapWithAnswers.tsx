@@ -66,13 +66,14 @@ export const MapWithAnswers: FC<MapPickerProps> = ({ locations, centerPoint, zoo
         touchAction: 'none',
         cursor: 'grab',
         width: '100%',
+        height: { xs: 500, md: 700 },
         borderRadius: 2,
         overflow: 'hidden',
       }}
     >
       <Legend />
 
-      <Map height="500px" center={centerPoint} zoom={zoom} loaderApiConfig={{ poi: true }}>
+      <Map height="100%" center={centerPoint} zoom={zoom} loaderApiConfig={{ poi: true }}>
         <KeyboardControl />
         <ZoomControl />
         <MouseControl zoom={true} pan={true} wheel={true} />

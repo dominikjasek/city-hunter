@@ -70,7 +70,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
           color={'secondary'}
           size={'large'}
           disabled={!point || props.isSubmitting}
-          sx={{ minWidth: '300px' }}
+          sx={{ width: { xs: '100%', md: 600 }, mt: 3, py: 2 }}
           onClick={() => props.onSubmit(point!)}
         >
           Potvrdit

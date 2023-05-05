@@ -24,7 +24,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         }}
       >
         <Navbar />
-        <Container component={'main'} sx={{ pb: 5, mt: { xs: 2, sm: 1, md: 0 } }}>
+        <Container component={'main'} sx={{ pb: 5, mt: { xs: 2, sm: 1, md: 0 } }} maxWidth={'xl'}>
           {children}
         </Container>
         <Box
