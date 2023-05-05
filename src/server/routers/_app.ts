@@ -6,6 +6,7 @@ import { authRouter } from '~/server/routers/authRouter';
 import { cityRouter } from '~/server/routers/cityRouter';
 import { questionRouter } from '~/server/routers/question/questionRouter';
 import { tournamentRouter } from '~/server/routers/tournamentRouter';
+import { rankingRouter } from '~/server/routers/ranking/rankingRouter';
 
 export const appRouter = router({
   healthcheck: publicProcedure.query(() => 'yay!'),
@@ -13,6 +14,7 @@ export const appRouter = router({
   city: cityRouter,
   tournament: tournamentRouter,
   question: questionRouter,
+  ranking: rankingRouter,
 });
 
 export type AppRouter = typeof appRouter;

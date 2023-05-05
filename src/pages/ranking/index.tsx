@@ -1,14 +1,14 @@
 import { NextPage } from 'next';
+import { Box, Typography } from '@mui/material';
 import { createProxySSGHelpers } from '@trpc/react-query/ssg';
 import { appRouter } from '~/server/routers/_app';
 import superjson from 'superjson';
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
-import { Box, Typography } from '@mui/material';
-import { TournamentContainer } from '~/components/tournament/TournamentContainer';
 import Link from 'next/link';
+import { TournamentContainer } from '~/components/tournament/TournamentContainer';
 
-export const PlayPage: NextPage = () => {
+export const Index: NextPage = () => {
   const { data: tournamentsData, isLoading } = trpc.tournament.getAllTournaments.useQuery();
 
   if (isLoading) {
@@ -17,9 +17,9 @@ export const PlayPage: NextPage = () => {
 
   return (
     <Box>
-      <Typography variant={'h5'}>Hrajeme v těchto městech:</Typography>
+      <Typography variant={'h5'}>Žebříčky turnajů:</Typography>
       {tournamentsData?.tournaments.map((tournament) => (
-        <Link key={tournament.id} href={`/play/${tournament.id}`} className={'no-style'} passHref>
+        <Link key={tournament.id} href={`/ranking/${tournament.id}`} className={'no-style'} passHref>
           <TournamentContainer
             tournamentId={tournament.id}
             cityName={tournament.city}
@@ -34,7 +34,7 @@ export const PlayPage: NextPage = () => {
   );
 };
 
-export default PlayPage;
+export default Index;
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
