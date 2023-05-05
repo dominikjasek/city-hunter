@@ -16,7 +16,7 @@ const LoginReceiver: React.FC = () => {
     if (!user) return;
     const result = await mutation.mutateAsync({
       id: user.id,
-      nickName: user.fullName ?? user.username ?? user.primaryEmailAddress?.emailAddress ?? `${user.id}`,
+      nickName: user.fullName ?? user.username ?? user.primaryEmailAddress?.emailAddress.split('@')[0] ?? `${user.id}`,
     });
     if (result.success) {
       await router.replace('/');

@@ -4,12 +4,16 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const RoundOrderLink = styled(Typography)(({ theme }) => ({
-  fontSize: '1.5rem',
-  cursor: 'default',
   color: theme.palette.secondary.main,
   '&:hover': {
     color: theme.palette.secondary.light,
     cursor: 'pointer',
+  },
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '1.2rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '1.4rem',
   },
 }));
 
@@ -23,11 +27,12 @@ interface TournamentRoundLinksProps {
 
 export const TournamentRoundLinks: FC<TournamentRoundLinksProps> = ({ tournamentId, tournamentQuestions }) => {
   const router = useRouter();
-  console.log('router.pathname', router);
 
   return (
-    <Stack direction={'row'} mt={3} gap={2} justifyContent={'center'}>
-      <Typography fontSize={'1.5rem'}>Kolo:</Typography>
+    <Stack direction={'row'} my={3} gap={2} justifyContent={{ xs: 'start', lg: 'center' }} sx={{ overflowX: 'auto' }}>
+      <RoundOrderLink color={'white'} sx={{ color: 'white', '&:hover': { color: 'white', cursor: 'text' } }}>
+        Kolo:
+      </RoundOrderLink>
       <Link href={`/ranking/${tournamentId}`} className={'no-style'}>
         <RoundOrderLink
           mr={2}

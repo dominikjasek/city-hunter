@@ -5,4 +5,5 @@ export interface TournamentUserScore {
   nickName: string;
   score: number;
   medals: Record<Medal, number>;
+  medalsScore: number;
 }

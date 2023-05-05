@@ -28,6 +28,7 @@ export const rankingRouter = router({
             SILVER: 0,
             BRONZE: 0,
           },
+          medalsScore: 0,
         });
         return nextDbItem;
       }
@@ -47,6 +48,7 @@ export const rankingRouter = router({
           SILVER: currentDbItem.medals.SILVER + 0, //TODO
           BRONZE: currentDbItem.medals.BRONZE + 0, //TODO
         },
+        medalsScore: 0, //TODO
       };
       return nextDbItem;
     }, [] as TournamentUserScore[]);
