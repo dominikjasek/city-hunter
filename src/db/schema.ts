@@ -1,4 +1,16 @@
-import { boolean, date, index, int, json, mysqlTable, serial, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import {
+  boolean,
+  date,
+  index,
+  int,
+  json,
+  mysqlEnum,
+  mysqlTable,
+  serial,
+  text,
+  timestamp,
+  varchar,
+} from 'drizzle-orm/mysql-core';
 import { InferModel } from 'drizzle-orm';
 import { MapLocation } from '~/db/types';
 
@@ -69,6 +81,7 @@ export const answers = mysqlTable('answers', {
   id: serial('id').primaryKey(),
   location: json('location').$type<MapLocation>().notNull(),
   score: int('score').notNull(),
+  medal: mysqlEnum('medal', ['GOLD', 'SILVER', 'BRONZE']),
   questionId: int('question_id').notNull(),
   userId: varchar('user_id', { length: 100 }).notNull(),
   answeredAt: timestamp('answered_at').notNull(),
