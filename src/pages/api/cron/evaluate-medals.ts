@@ -21,6 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       questionId: questions.id,
       userId: answers.userId,
       score: answers.score,
+      answeredAt: answers.answeredAt,
     })
     .from(answers)
     .innerJoin(questions, eq(answers.questionId, questions.id))
@@ -33,7 +34,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   for (const questionId of questionIdsToEvaluate) {
     const filteredAnswers = recentlyEndedQuestions.filter((item) => item.questionId === questionId);
-    const sortedAnswers = filteredAnswers.sort((a, b) => b.score - a.score);
+    const sortedAnswers = filteredAnswers.sort((a, b) => {
+      if (a.score === b.score) {
+        return a.answeredAt.getTime() - b.answeredAt.getTime();
+      }
+      return b.score - a.score;
+    });
 
     const dbPromises: Promise<unknown>[] = [];
     if (sortedAnswers[0]) {
