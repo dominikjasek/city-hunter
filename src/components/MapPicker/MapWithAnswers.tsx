@@ -66,7 +66,7 @@ export const MapWithAnswers: FC<MapPickerProps> = ({ locations, centerPoint, zoo
         touchAction: 'none',
         cursor: 'grab',
         width: '100%',
-        height: { xs: 500, md: 700 },
+        height: { xs: 300, md: 500 },
         borderRadius: 2,
         overflow: 'hidden',
       }}

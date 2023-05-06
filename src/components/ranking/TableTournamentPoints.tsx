@@ -2,7 +2,7 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { TournamentUserScore } from '~/server/routers/ranking/types';
 import { FC } from 'react';
 
-export const TablePoints: FC<{ ranking: TournamentUserScore[] }> = ({ ranking }) => {
+export const TableTournamentPoints: FC<{ ranking: TournamentUserScore[] }> = ({ ranking }) => {
   const theme = useTheme();
 
   return (

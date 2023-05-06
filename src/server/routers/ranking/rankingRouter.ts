@@ -1,24 +1,26 @@
 import { publicProcedure, router } from '~/server/trpc';
 import { db } from '~/db/drizzle';
-import { answers, questions, users } from '~/db/schema';
-import { eq } from 'drizzle-orm/expressions';
+import { answers, cities, questions, users } from '~/db/schema';
+import { and, eq } from 'drizzle-orm/expressions';
 import { z } from 'zod';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
+import { sortAnswers } from '~/utils/ranking/sortAnswers';
+import { createDurationString } from '~/utils/ranking/createDurationString';
 
 export const rankingRouter = router({
   getTournamentRanking: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
     const dbResult = await db
-      .select({ userId: answers.userId, nickName: users.nickName, score: answers.score })
+      .select({ userId: answers.userId, nickName: users.nickName, score: answers.score, medal: answers.medal })
       .from(questions)
       .innerJoin(answers, eq(answers.questionId, questions.id))
       .innerJoin(users, eq(answers.userId, users.id))
       .where(eq(questions.tournamentId, input.tournamentId));
 
-    const groupedByUsers = dbResult.reduce((nextDbItem, curr) => {
-      const currUserIndex = nextDbItem.findIndex((item) => item.userId === curr.userId);
+    const groupedByUsers = dbResult.reduce((acc, curr) => {
+      const currUserIndex = acc.findIndex((item) => item.userId === curr.userId);
 
-      if (currUserIndex === -1 || !nextDbItem[currUserIndex]) {
-        nextDbItem.push({
+      if (currUserIndex === -1 || !acc[currUserIndex]) {
+        acc.push({
           userId: curr.userId,
           nickName: curr.nickName,
           score: 0,
@@ -29,33 +31,91 @@ export const rankingRouter = router({
           },
           medalsScore: 0,
         });
-        return nextDbItem;
+        return acc;
       }
 
-      const currentDbItem = nextDbItem[currUserIndex];
-
-      if (!currentDbItem) {
-        throw new Error('currentDbItem is undefined');
+      if (!acc[currUserIndex]) {
+        throw new Error('userScore is undefined');
       }
 
-      nextDbItem[currUserIndex] = {
+      const gold = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'GOLD' ? 1 : 0);
+      const silver = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'SILVER' ? 1 : 0);
+      const bronze = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'BRONZE' ? 1 : 0);
+
+      acc[currUserIndex] = {
         userId: curr.userId,
         nickName: curr.nickName,
-        score: currentDbItem.score + curr.score,
+        score: acc[currUserIndex]!.score + curr.score,
         medals: {
-          GOLD: currentDbItem.medals.GOLD + 0, //TODO
-          SILVER: currentDbItem.medals.SILVER + 0, //TODO
-          BRONZE: currentDbItem.medals.BRONZE + 0, //TODO
+          GOLD: gold,
+          SILVER: silver,
+          BRONZE: bronze,
         },
-        medalsScore: 0, //TODO
+        medalsScore: gold * 3 + silver * 2 + bronze,
       };
-      return nextDbItem;
+      return acc;
     }, [] as TournamentUserScore[]);
 
     return groupedByUsers;
   }),
 
-  evaluateMedals: publicProcedure.mutation(async () => {
-    return 'nazdar 33';
-  }),
+  getQuestionRanking: publicProcedure
+    .input(z.object({ tournamentId: z.string(), roundOrder: z.number() }))
+    .query(async ({ input }) => {
+      const questionDetails = (
+        await db
+          .select({
+            id: questions.id,
+            cityId: questions.cityId,
+            questionImageUrl: questions.questionImageUrl,
+            answerImagesUrl: questions.answerImagesUrl,
+            questionDescription: questions.questionDescription,
+            answerDescription: questions.answerDescription,
+            endDate: questions.endDate,
+          })
+          .from(questions)
+          .where(and(eq(questions.roundOrder, input.roundOrder), eq(questions.tournamentId, input.tournamentId)))
+          .limit(1)
+      )[0];
+
+      console.log('questionDetails', questionDetails);
+
+      if (!questionDetails) {
+        throw new Error('Question not found');
+      }
+
+      const userAnswers = await db
+        .select({
+          userId: answers.userId,
+          nickName: users.nickName,
+          score: answers.score,
+          medal: answers.medal,
+          answeredAt: answers.answeredAt,
+          location: answers.location,
+        })
+        .from(answers)
+        .innerJoin(questions, eq(answers.questionId, questions.id))
+        .innerJoin(users, eq(answers.userId, users.id))
+        .where(eq(answers.questionId, questionDetails.id));
+
+      const city = (await db.select().from(cities).where(eq(cities.id, questionDetails.cityId!)).limit(1))[0]!;
+
+      console.log('userAnswers', userAnswers);
+
+      return {
+        answers: sortAnswers(
+          userAnswers.map((answer) => ({
+            ...answer,
+            durationInSeconds: createDurationString(
+              (answer.answeredAt.getTime() - questionDetails.endDate!.getTime()) / 1000,
+            ),
+          })),
+        ),
+        question: questionDetails,
+        map: {
+          centerPoint: city.centerPoint,
+          mapZoom: city.mapZoom,
+        },
+      };
+    }),
 });

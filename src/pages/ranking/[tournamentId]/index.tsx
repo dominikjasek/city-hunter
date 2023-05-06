@@ -1,4 +1,4 @@
-import { GetStaticPaths, NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { Box, MenuItem, Select, Stack, Typography } from '@mui/material';
 import { trpc } from '~/utils/trpc';
 import { useRouter } from 'next/router';
@@ -8,8 +8,9 @@ import { Loader } from '~/components/common/Loader/Loader';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { TournamentRoundLinks } from '~/components/ranking/TournamentRoundLinks';
 import { useState } from 'react';
-import { TableMedals } from '~/components/ranking/TableMedails';
-import { TablePoints } from '~/components/ranking/TablePoints';
+import { TableMedals } from '~/components/ranking/TableTournamentMedails';
+import { TableTournamentPoints } from '~/components/ranking/TableTournamentPoints';
+import { ssgHelpers } from '~/server/ssgHelpers';
 
 export const TournamentRankingPage: NextPage = () => {
   const { query } = useRouter();
@@ -58,7 +59,7 @@ export const TournamentRankingPage: NextPage = () => {
             <MenuItem value={'medals'}>Medaile</MenuItem>
           </Select>
         </Stack>
-        {viewMode === 'points' ? <TablePoints ranking={ranking} /> : <TableMedals ranking={ranking} />}
+        {viewMode === 'points' ? <TableTournamentPoints ranking={ranking} /> : <TableMedals ranking={ranking} />}
       </Stack>
     </Box>
   );
@@ -75,8 +76,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps<{ tournamentId: string }> = async (context) => {
+  const tournamentId = context.params?.tournamentId;
+
+  if (typeof tournamentId !== 'string') {
+    throw new Error('No tournamentId or it is not a string');
+  }
+
+  await ssgHelpers.ranking.getTournamentRanking.prefetch({ tournamentId });
+
   return {
-    props: {},
+    props: {
+      trpcState: ssgHelpers.dehydrate(),
+      tournamentId,
+    },
   };
-}
+};

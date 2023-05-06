@@ -193,10 +193,6 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string }> = async (c
     throw new Error('No tournamentId or it is not a string');
   }
 
-  if (!context.params) {
-    throw new Error('No params');
-  }
-
   await Promise.all([
     ssgHelpers.tournament.getTournamentQuestionsForId.prefetch({ tournamentId: tournamentId }),
     ssgHelpers.tournament.getTournamentDetails.prefetch({ tournamentId: tournamentId }),

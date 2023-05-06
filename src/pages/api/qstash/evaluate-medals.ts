@@ -4,6 +4,7 @@ import { and, between, eq } from 'drizzle-orm/expressions';
 import { add, sub } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifySignature } from '@upstash/qstash/nextjs';
+import { sortAnswers } from '~/utils/ranking/sortAnswers';
 
 const setMedalForQuestionId = async (questionId: number, userId: string, medal: Answer['medal']) => {
   return db
@@ -23,6 +24,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       userId: answers.userId,
       score: answers.score,
       answeredAt: answers.answeredAt,
+      tournamentId: questions.tournamentId,
     })
     .from(answers)
     .innerJoin(questions, eq(answers.questionId, questions.id))
@@ -35,12 +37,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   for (const questionId of questionIdsToEvaluate) {
     const filteredAnswers = recentlyEndedQuestions.filter((item) => item.questionId === questionId);
-    const sortedAnswers = filteredAnswers.sort((a, b) => {
-      if (a.score === b.score) {
-        return a.answeredAt.getTime() - b.answeredAt.getTime();
-      }
-      return b.score - a.score;
-    });
+    if (filteredAnswers.length === 0 || !filteredAnswers[0]) {
+      throw new Error(`There are no answers for questionId=${questionId}`);
+    }
+
+    const tournamentId = filteredAnswers[0].tournamentId;
+    if (!tournamentId) {
+      throw new Error('TournamentId is null');
+    }
+
+    const sortedAnswers = sortAnswers(filteredAnswers);
 
     const dbPromises: Promise<unknown>[] = [];
     if (sortedAnswers[0]) {
@@ -54,6 +60,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     await Promise.all(dbPromises);
+
+    // Revalidate static pages
+    const revalidateTournamentRankingPage = res.revalidate(`/ranking/${tournamentId}`);
+    const revalidateQuestionRankingPage = res.revalidate(`/ranking/${tournamentId}/${questionId}`);
+    await Promise.all([revalidateTournamentRankingPage, revalidateQuestionRankingPage]);
   }
 
   return res.json({ success: true });

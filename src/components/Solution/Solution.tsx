@@ -6,6 +6,7 @@ import { SecondaryText } from '~/components/common/Typography/typography';
 import 'yet-another-react-lightbox/styles.css';
 import Image from 'next/image';
 import { LightBox } from '~/components/LightBox/LightBox';
+import { createDurationString } from '~/utils/ranking/createDurationString';
 
 export interface QuestionSolutionProps {
   name: string;
@@ -24,9 +25,7 @@ export interface QuestionSolutionProps {
 export const Solution: FC<QuestionSolutionProps> = (props) => {
   const [index, setIndex] = useState(-1);
 
-  const minutes = Math.floor(props.durationInSeconds / 60);
-  const seconds = Math.ceil(props.durationInSeconds - minutes * 60);
-  const duration = `${minutes}:${String(seconds).padStart(2, '0')}`;
+  const duration = createDurationString(props.durationInSeconds);
 
   return (
     <>

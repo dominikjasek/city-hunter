@@ -1,19 +1,40 @@
-import { GetStaticPaths, NextPage } from 'next';
-import { Box, Typography } from '@mui/material';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import {
+  Box,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { TournamentRoundLinks } from '~/components/ranking/TournamentRoundLinks';
-import { useRouter } from 'next/router';
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { db } from '~/db/drizzle';
 import { questions } from '~/db/schema';
 import { and, isNotNull } from 'drizzle-orm/expressions';
+import { ssgHelpers } from '~/server/ssgHelpers';
+import { MapWithAnswers } from '~/components/MapPicker/MapWithAnswers';
 
-export const TournamentRoundRankingPage: NextPage = () => {
-  const { query } = useRouter();
-  const tournamentId = query.tournamentId!.toString();
-  const roundOrder = query.roundOrder!.toString();
+interface TournamentRoundRankingPageProps {
+  tournamentId: string;
+  roundOrder: number;
+}
 
+export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProps> = (props) => {
+  const tournamentId = props.tournamentId;
+  const roundOrder = props.roundOrder;
+
+  const { data: questionRanking, isLoading: isQuestionRankingLoading } = trpc.ranking.getQuestionRanking.useQuery({
+    tournamentId,
+    roundOrder,
+  });
   const { data: tournamentDetails, isLoading: isTournamentDetailsLoading } =
     trpc.tournament.getTournamentDetails.useQuery({ tournamentId });
   const { data: tournamentQuestions, isLoading: isTournamentQuestionsLoading } =
@@ -21,11 +42,13 @@ export const TournamentRoundRankingPage: NextPage = () => {
       tournamentId,
     });
 
-  if (isTournamentDetailsLoading || isTournamentQuestionsLoading) {
+  const theme = useTheme();
+
+  if (isQuestionRankingLoading || isTournamentDetailsLoading || isTournamentQuestionsLoading) {
     return <Loader title={'Načítám...'} />;
   }
 
-  if (!tournamentDetails || !tournamentQuestions) {
+  if (!questionRanking || !tournamentDetails || !tournamentQuestions) {
     return (
       <MessageBox
         message={'Něco se pokazilo, nepodařilo se nám načíst data. Zkuste to prosím později'}
@@ -35,9 +58,66 @@ export const TournamentRoundRankingPage: NextPage = () => {
   }
 
   return (
-    <Box>
+    <Box maxWidth={'lg'} mx={'auto'}>
       <Typography variant={'h5'}>Žebříček - {tournamentDetails.name}</Typography>
       <TournamentRoundLinks tournamentId={tournamentDetails.id} tournamentQuestions={tournamentQuestions} />
+      <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent={'start'} alignItems={'start'}>
+        <TableContainer
+          sx={{
+            backgroundColor: 'transparent',
+            backgroundImage: 'inherit',
+            maxWidth: 600,
+            mx: 'auto',
+            border: 0.3,
+            borderColor: 'rgba(255,255,255,0.3)',
+          }}
+          component={Paper}
+        >
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Pořadí</TableCell>
+                <TableCell>Přezdívka</TableCell>
+                <TableCell align={'center'}>Čas</TableCell>
+                <TableCell align={'center'}>Skóre</TableCell>
+                <TableCell align="center">Medaile</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {questionRanking.answers.map((row, index) => (
+                <TableRow
+                  key={row.userId}
+                  sx={{
+                    '&:last-child td, &:last-child th': { border: 0 },
+                    backgroundColor: 'transparent',
+                    '&:hover': { backgroundColor: theme.palette.primary.main },
+                  }}
+                  onMouseEnter={(e) => console.log(e)}
+                >
+                  <TableCell align="center">{index + 1}</TableCell>
+                  <TableCell component="th" scope="row">
+                    {row.nickName}
+                  </TableCell>
+                  <TableCell align="center">{row.durationInSeconds}</TableCell>
+                  <TableCell align="center">{row.score}</TableCell>
+                  <TableCell align="center">
+                    <Typography fontSize={'1.5rem'}>
+                      {row.medal === 'GOLD' && '🥇'}
+                      {row.medal === 'SILVER' && '🥈'}
+                      {row.medal === 'BRONZE' && '🥉'}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <MapWithAnswers
+          centerPoint={questionRanking.map.centerPoint}
+          zoom={questionRanking.map.mapZoom}
+          locations={[]}
+        />
+      </Stack>
     </Box>
   );
 };
@@ -63,8 +143,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps<{ tournamentId: string; roundOrder: number }> = async (context) => {
+  const tournamentId = context.params?.tournamentId;
+  const roundOrder = Number(context.params?.roundOrder);
+
+  if (typeof tournamentId !== 'string') {
+    throw new Error('No tournamentId or it is not a string');
+  }
+
+  await ssgHelpers.ranking.getQuestionRanking.prefetch({ tournamentId, roundOrder });
+  await ssgHelpers.tournament.getTournamentQuestionsForId.prefetch({ tournamentId });
+  await ssgHelpers.tournament.getTournamentDetails.prefetch({ tournamentId });
+
   return {
-    props: {},
+    props: {
+      trpcState: ssgHelpers.dehydrate(),
+      tournamentId,
+      roundOrder,
+    },
   };
-}
+};
