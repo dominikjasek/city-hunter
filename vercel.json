@@ -1,9 +1,3 @@
 {
-  "buildCommand": "pnpm run build",
-  "crons": [
-    {
-      "path": "/api/cron/evaluate-medals",
-      "schedule": "24 21 * * *"
-    }
-  ]
+  "buildCommand": "pnpm run build"
 }

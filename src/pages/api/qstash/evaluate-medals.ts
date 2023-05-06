@@ -3,6 +3,7 @@ import { Answer, answers, questions } from '~/db/schema';
 import { and, between, eq } from 'drizzle-orm/expressions';
 import { add, sub } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { verifySignature } from '@upstash/qstash/nextjs';
 
 const setMedalForQuestionId = async (questionId: number, userId: string, medal: Answer['medal']) => {
   return db
@@ -11,7 +12,7 @@ const setMedalForQuestionId = async (questionId: number, userId: string, medal: 
     .where(and(eq(answers.userId, userId), eq(answers.questionId, questionId)));
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const now = new Date();
   const before2Minutes = sub(now, { minutes: 2 });
   const after2Minutes = add(now, { minutes: 2 });
@@ -57,3 +58,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   return res.json({ success: true });
 }
+
+export default verifySignature(handler);
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
