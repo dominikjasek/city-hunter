@@ -3,7 +3,6 @@ import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, Tab
 import { TournamentUserScore } from '~/server/routers/ranking/types';
 
 export const TableMedals: FC<{ ranking: TournamentUserScore[] }> = ({ ranking }) => {
-  console.log('ranking', ranking);
   const theme = useTheme();
 
   return (
@@ -35,7 +34,6 @@ export const TableMedals: FC<{ ranking: TournamentUserScore[] }> = ({ ranking })
                 backgroundColor: 'transparent',
                 '&:hover': { backgroundColor: theme.palette.primary.main },
               }}
-              onMouseEnter={(e) => console.log(e)}
             >
               <TableCell align={'center'}>{index + 1}</TableCell>
               <TableCell component="th" scope="row">

@@ -43,6 +43,7 @@ const Legend = () => {
     >
       <LegendRow color="#FF9F10" text={'Vaše odpověď'} />
       <LegendRow color="#10DB61" text={'Správná odpověď'} />
+      <LegendRow color="#A7A7A7" text={'Odpověď uživatele'} />
     </Stack>
   );
 };

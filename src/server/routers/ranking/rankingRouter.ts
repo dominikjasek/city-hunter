@@ -93,6 +93,7 @@ export const rankingRouter = router({
 
       const userAnswers = await db
         .select({
+          id: answers.id,
           userId: answers.userId,
           nickName: users.nickName,
           score: answers.score,
@@ -106,8 +107,6 @@ export const rankingRouter = router({
         .where(eq(answers.questionId, questionDetails.id));
 
       const city = (await db.select().from(cities).where(eq(cities.id, questionDetails.cityId!)).limit(1))[0]!;
-
-      console.log('userAnswers', userAnswers);
 
       return {
         answers: sortAnswersByPoints(

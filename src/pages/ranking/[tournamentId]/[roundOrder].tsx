@@ -21,6 +21,9 @@ import { questions } from '~/db/schema';
 import { and, isNotNull } from 'drizzle-orm/expressions';
 import { ssgHelpers } from '~/server/ssgHelpers';
 import { MapWithAnswers } from '~/components/MapPicker/MapWithAnswers';
+import { useUser } from '@clerk/nextjs';
+import { useMemo, useState } from 'react';
+import { AnswerLocation } from '~/components/MapPicker/types';
 
 interface TournamentRoundRankingPageProps {
   tournamentId: string;
@@ -30,6 +33,7 @@ interface TournamentRoundRankingPageProps {
 export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProps> = (props) => {
   const tournamentId = props.tournamentId;
   const roundOrder = props.roundOrder;
+  const user = useUser();
 
   const { data: questionRanking, isLoading: isQuestionRankingLoading } = trpc.ranking.getQuestionRanking.useQuery({
     tournamentId,
@@ -43,6 +47,34 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
     });
 
   const theme = useTheme();
+
+  const [inspectUserId, setInspectUserId] = useState<string | null>(null);
+  const myAnswer = useMemo(
+    () => questionRanking?.answers.find((answer) => answer.userId === user.user?.id),
+    [questionRanking, questionRanking?.answers, user, user.user?.id],
+  );
+
+  const mapLocations = useMemo<AnswerLocation[]>(() => {
+    const locations: AnswerLocation[] = [];
+
+    if (inspectUserId) {
+      const inspectUserAnswer = questionRanking?.answers.find((answer) => answer.userId === inspectUserId);
+      if (inspectUserAnswer) {
+        locations.push({ type: 'user-answer', location: inspectUserAnswer.location, isHighlighted: false });
+      }
+      return locations;
+    }
+
+    if (questionRanking) {
+      locations.push({ type: 'solution', location: questionRanking.question.correctLocation });
+    }
+
+    if (myAnswer) {
+      locations.push({ type: 'user-answer', location: myAnswer.location, isHighlighted: true });
+    }
+
+    return locations;
+  }, [questionRanking, myAnswer?.id, inspectUserId]);
 
   if (isQuestionRankingLoading || isTournamentDetailsLoading || isTournamentQuestionsLoading) {
     return <Loader title={'Načítám...'} />;
@@ -92,7 +124,8 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                     backgroundColor: 'transparent',
                     '&:hover': { backgroundColor: theme.palette.primary.main },
                   }}
-                  onMouseEnter={(e) => console.log(e)}
+                  onMouseEnter={(_) => setInspectUserId(row.userId)}
+                  onMouseLeave={(_) => setInspectUserId(null)}
                 >
                   <TableCell align="center">{index + 1}</TableCell>
                   <TableCell component="th" scope="row">
@@ -112,11 +145,13 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
             </TableBody>
           </Table>
         </TableContainer>
-        <MapWithAnswers
-          centerPoint={questionRanking.map.centerPoint}
-          zoom={questionRanking.map.mapZoom}
-          locations={[]}
-        />
+        <Box sx={{ width: '100%', position: 'sticky', top: 20 }}>
+          <MapWithAnswers
+            centerPoint={questionRanking.map.centerPoint}
+            zoom={questionRanking.map.mapZoom}
+            locations={mapLocations}
+          />
+        </Box>
       </Stack>
     </Box>
   );

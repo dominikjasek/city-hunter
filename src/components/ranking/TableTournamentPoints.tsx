@@ -34,7 +34,6 @@ export const TableTournamentPoints: FC<{ ranking: TournamentUserScore[] }> = ({ 
                 backgroundColor: 'transparent',
                 '&:hover': { backgroundColor: theme.palette.primary.main },
               }}
-              onMouseEnter={(e) => console.log(e)}
             >
               <TableCell align={'center'}>{index + 1}</TableCell>
               <TableCell component="th" scope="row">
