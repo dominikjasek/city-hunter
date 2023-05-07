@@ -4,7 +4,7 @@ import { and, between, eq } from 'drizzle-orm/expressions';
 import { add, sub } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifySignature } from '@upstash/qstash/nextjs';
-import { sortAnswers } from '~/utils/ranking/sortAnswers';
+import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
 
 const setMedalForQuestionId = async (questionId: number, userId: string, medal: Answer['medal']) => {
   return db
@@ -46,7 +46,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       throw new Error('TournamentId is null');
     }
 
-    const sortedAnswers = sortAnswers(filteredAnswers);
+    const sortedAnswers = sortAnswersByPoints(filteredAnswers);
 
     const dbPromises: Promise<unknown>[] = [];
     if (sortedAnswers[0]) {

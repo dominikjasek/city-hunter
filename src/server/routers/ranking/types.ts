@@ -1,4 +1,4 @@
-type Medal = 'GOLD' | 'SILVER' | 'BRONZE';
+export type Medal = 'GOLD' | 'SILVER' | 'BRONZE';
 
 export interface TournamentUserScore {
   userId: string;

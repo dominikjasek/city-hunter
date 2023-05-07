@@ -8,7 +8,7 @@ import { Loader } from '~/components/common/Loader/Loader';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { TournamentRoundLinks } from '~/components/ranking/TournamentRoundLinks';
 import { useState } from 'react';
-import { TableMedals } from '~/components/ranking/TableTournamentMedails';
+import { TableMedals } from '~/components/ranking/TableTournamentMedals';
 import { TableTournamentPoints } from '~/components/ranking/TableTournamentPoints';
 import { ssgHelpers } from '~/server/ssgHelpers';
 
@@ -59,7 +59,11 @@ export const TournamentRankingPage: NextPage = () => {
             <MenuItem value={'medals'}>Medaile</MenuItem>
           </Select>
         </Stack>
-        {viewMode === 'points' ? <TableTournamentPoints ranking={ranking} /> : <TableMedals ranking={ranking} />}
+        {viewMode === 'points' ? (
+          <TableTournamentPoints ranking={ranking.sort((a, b) => b.score - a.score)} />
+        ) : (
+          <TableMedals ranking={ranking.sort((a, b) => b.medalsScore - a.medalsScore)} />
+        )}
       </Stack>
     </Box>
   );

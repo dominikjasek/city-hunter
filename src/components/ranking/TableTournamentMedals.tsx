@@ -1,8 +1,9 @@
 import { FC } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme } from '@mui/material';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
 
 export const TableMedals: FC<{ ranking: TournamentUserScore[] }> = ({ ranking }) => {
+  console.log('ranking', ranking);
   const theme = useTheme();
 
   return (
@@ -20,7 +21,7 @@ export const TableMedals: FC<{ ranking: TournamentUserScore[] }> = ({ ranking })
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Pořadí</TableCell>
+            <TableCell align={'center'}>Pořadí</TableCell>
             <TableCell>Přezdívka</TableCell>
             <TableCell align={'right'}>Medaile</TableCell>
           </TableRow>
@@ -36,11 +37,29 @@ export const TableMedals: FC<{ ranking: TournamentUserScore[] }> = ({ ranking })
               }}
               onMouseEnter={(e) => console.log(e)}
             >
-              <TableCell>{index + 1}</TableCell>
+              <TableCell align={'center'}>{index + 1}</TableCell>
               <TableCell component="th" scope="row">
                 {row.nickName}
               </TableCell>
-              <TableCell align="right">{row.score}</TableCell>
+              <TableCell align="center">
+                <Box>
+                  {Array(row.medals.GOLD)
+                    .fill(0)
+                    .map((_, index) => (
+                      <span key={index}>🥇</span>
+                    ))}
+                  {Array(row.medals.SILVER)
+                    .fill(0)
+                    .map((_, index) => (
+                      <span key={index}>🥈</span>
+                    ))}
+                  {Array(row.medals.BRONZE)
+                    .fill(0)
+                    .map((_, index) => (
+                      <span key={index}>🥉</span>
+                    ))}
+                </Box>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

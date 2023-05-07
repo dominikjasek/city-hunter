@@ -4,7 +4,7 @@ import { answers, cities, questions, users } from '~/db/schema';
 import { and, eq, lt } from 'drizzle-orm/expressions';
 import { z } from 'zod';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
-import { sortAnswers } from '~/utils/ranking/sortAnswers';
+import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
 import { createDurationString } from '~/utils/ranking/createDurationString';
 
 export const rankingRouter = router({
@@ -39,8 +39,8 @@ export const rankingRouter = router({
       }
 
       const gold = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'GOLD' ? 1 : 0);
-      const silver = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'SILVER' ? 1 : 0);
-      const bronze = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'BRONZE' ? 1 : 0);
+      const silver = acc[currUserIndex]!.medals.SILVER + (curr.medal === 'SILVER' ? 1 : 0);
+      const bronze = acc[currUserIndex]!.medals.BRONZE + (curr.medal === 'BRONZE' ? 1 : 0);
 
       acc[currUserIndex] = {
         userId: curr.userId,
@@ -110,7 +110,7 @@ export const rankingRouter = router({
       console.log('userAnswers', userAnswers);
 
       return {
-        answers: sortAnswers(
+        answers: sortAnswersByPoints(
           userAnswers.map((answer) => ({
             ...answer,
             durationInSeconds: createDurationString(
