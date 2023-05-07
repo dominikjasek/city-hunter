@@ -1,7 +1,7 @@
 import { publicProcedure, router } from '~/server/trpc';
 import { db } from '~/db/drizzle';
 import { answers, cities, questions, users } from '~/db/schema';
-import { and, eq } from 'drizzle-orm/expressions';
+import { and, eq, lt } from 'drizzle-orm/expressions';
 import { z } from 'zod';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
 import { sortAnswers } from '~/utils/ranking/sortAnswers';
@@ -62,6 +62,8 @@ export const rankingRouter = router({
   getQuestionRanking: publicProcedure
     .input(z.object({ tournamentId: z.string(), roundOrder: z.number() }))
     .query(async ({ input }) => {
+      const now = new Date();
+
       const questionDetails = (
         await db
           .select({
@@ -71,14 +73,19 @@ export const rankingRouter = router({
             answerImagesUrl: questions.answerImagesUrl,
             questionDescription: questions.questionDescription,
             answerDescription: questions.answerDescription,
+            correctLocation: questions.location,
             endDate: questions.endDate,
           })
           .from(questions)
-          .where(and(eq(questions.roundOrder, input.roundOrder), eq(questions.tournamentId, input.tournamentId)))
+          .where(
+            and(
+              eq(questions.roundOrder, input.roundOrder),
+              eq(questions.tournamentId, input.tournamentId),
+              lt(questions.endDate, now),
+            ),
+          )
           .limit(1)
       )[0];
-
-      console.log('questionDetails', questionDetails);
 
       if (!questionDetails) {
         throw new Error('Question not found');

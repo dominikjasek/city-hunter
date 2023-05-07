@@ -161,5 +161,6 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string; roundOrder: 
       tournamentId,
       roundOrder,
     },
+    revalidate: 60, // because of nickname update
   };
 };
