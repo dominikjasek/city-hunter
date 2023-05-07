@@ -32,6 +32,9 @@ export const LightBox: FC<LightBoxProps> = ({ imagesUrl, isOpen, index, onClose 
       }
       close={onClose}
       slides={imagesUrl.map((image) => ({ src: image }))}
+      controller={{
+        closeOnBackdropClick: true,
+      }}
     />
   );
 };
