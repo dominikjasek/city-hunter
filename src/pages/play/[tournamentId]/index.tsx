@@ -5,7 +5,7 @@ import { Loader } from '~/components/common/Loader/Loader';
 import { Badge, Box, Button, Card, Stack, Tooltip, Typography } from '@mui/material';
 import { db } from '~/db/drizzle';
 import { tournaments } from '~/db/schema';
-import { formatDate } from '~/utils/formatter/dateFormatter';
+import { formatDateTime } from '~/utils/formatter/dateFormatter';
 import Link from 'next/link';
 import { FC } from 'react';
 import Image from 'next/image';
@@ -158,7 +158,7 @@ export const TournamentPage: NextPage = () => {
                   </Stack>
                 )}
                 {question.title ? <Typography sx={{ flex: 2 }}>{question.title}</Typography> : <br />}
-                <Typography sx={{ flex: 2 }}>{question.startDate && formatDate(question.startDate)}</Typography>
+                <Typography sx={{ flex: 2 }}>{question.startDate && formatDateTime(question.startDate)}</Typography>
                 <ActionButton
                   endDate={question.endDate}
                   tournamentId={tournamentId!.toString()}
