@@ -1,57 +1,21 @@
 import { NextPage } from 'next';
-import { Box, Stack, styled, TextField, Typography } from '@mui/material';
-import { FC, useMemo, useState } from 'react';
-import { evaluateScoreFromDistance } from '~/utils/score/evaluate-score';
+import { Box, styled, Typography } from '@mui/material';
 import { SecondaryText } from '~/components/common/Typography/typography';
 import Link from 'next/link';
+import { ScoreCalculator } from '~/components/ranking/ScoreCalculator';
 
 const Question = styled(Box)(({ theme }) => ({
   margin: theme.spacing(4),
 }));
 
-const QuestionTitle = styled(Typography)(({ theme }) => ({
+const QuestionTitle = styled(Box)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightBold,
   marginBottom: theme.spacing(1),
 }));
 
-const QuestionAnswer = styled(Typography)(({ theme }) => ({
+const QuestionAnswer = styled(Box)(({ theme }) => ({
   marginLeft: theme.spacing(4),
 }));
-
-const ScoreCalculator: FC = () => {
-  const [distance, setDistance] = useState(0);
-  const [duration, setDuration] = useState(0);
-
-  const score = useMemo(() => evaluateScoreFromDistance(distance, duration), [distance, duration]);
-
-  return (
-    <Stack direction={{ xs: 'column', md: 'row' }} gap={2} sx={{ mt: 3, mb: 1 }} alignItems={'center'}>
-      <TextField
-        id="distance"
-        label="Vzdálenost v metrech"
-        variant="outlined"
-        type="number"
-        color={'secondary'}
-        value={distance}
-        onChange={(e) => setDistance(Number(e.target.value))}
-      />
-      <TextField
-        id="time"
-        label="Čas v sekundách"
-        variant="outlined"
-        type="number"
-        color={'secondary'}
-        value={duration}
-        onChange={(e) => setDuration(Number(e.target.value))}
-      />
-      <Box>
-        <Typography>
-          Skóre: <SecondaryText>{score}</SecondaryText>
-        </Typography>
-      </Box>
-    </Stack>
-  );
-};
 
 const FaqPage: NextPage = () => {
   return (
