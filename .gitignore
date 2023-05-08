@@ -43,3 +43,9 @@ yarn-error.log*
 
 # testing
 playwright/test-results
+
+# Sentry
+.sentryclirc
+
+# Sentry
+next.config.original.js

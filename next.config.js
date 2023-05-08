@@ -1,3 +1,10 @@
+// This file sets a custom webpack configuration to use your Next.js app
+// with Sentry.
+// https://nextjs.org/docs/api-reference/next.config.js/introduction
+// https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { withSentryConfig } = require('@sentry/nextjs');
+
 // @ts-check
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { env } = require('./src/server/env');
@@ -17,12 +24,7 @@ function getConfig(config) {
 /**
  * @link https://nextjs.org/docs/api-reference/next.config.js/introduction
  */
-module.exports = getConfig({
-  /**
-   * Dynamic configuration available for the browser and server.
-   * Note: requires `ssr: true` or a `getInitialProps` in `_app.tsx`
-   * @link https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration
-   */
+const nextConfig = getConfig({
   publicRuntimeConfig: {
     NODE_ENV: env.NODE_ENV,
   },
@@ -35,3 +37,5 @@ module.exports = getConfig({
     domains: ['res.cloudinary.com'],
   },
 });
+
+module.exports = withSentryConfig(nextConfig, { silent: true }, { hideSourcemaps: true });
