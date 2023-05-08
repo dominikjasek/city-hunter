@@ -11,6 +11,7 @@ const Question = styled(Box)(({ theme }) => ({
 const QuestionTitle = styled(Box)(({ theme }) => ({
   fontWeight: theme.typography.fontWeightBold,
   marginBottom: theme.spacing(1),
+  color: theme.palette.secondary.main,
 }));
 
 const QuestionAnswer = styled(Box)(({ theme }) => ({
@@ -39,9 +40,9 @@ const FaqPage: NextPage = () => {
           <QuestionTitle>Můžeme hrát jako tým?</QuestionTitle>
           <QuestionAnswer>
             Ano, můžete a je to dobře! Máme radost, pokud se do hry zapojí například rodina a místa bude pátrat
-            společně. Nastavte si prosím{' '}
+            společně. Prosím,{' '}
             <Link href={'/auth/user'} className={'no-style'}>
-              <SecondaryText>nastavte přezdívku</SecondaryText>
+              <SecondaryText>nastavte si přezdívku</SecondaryText>
             </Link>{' '}
             tak, aby bylo jasné, že se jedná o tým a ne o jednotlivce.
           </QuestionAnswer>
