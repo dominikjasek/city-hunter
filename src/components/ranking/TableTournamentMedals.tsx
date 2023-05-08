@@ -22,7 +22,9 @@ export const TableMedals: FC<{ ranking: TournamentUserScore[] }> = ({ ranking })
           <TableRow>
             <TableCell align={'center'}>Pořadí</TableCell>
             <TableCell>Přezdívka</TableCell>
-            <TableCell align={'right'}>Medaile</TableCell>
+            <TableCell align={'right'} width={100}>
+              Medaile
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
