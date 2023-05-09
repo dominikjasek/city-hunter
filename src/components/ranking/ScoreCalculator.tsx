@@ -4,8 +4,8 @@ import { Box, Stack, TextField, Typography } from '@mui/material';
 import { SecondaryText } from '~/components/common/Typography/typography';
 
 export const ScoreCalculator: FC = () => {
-  const [distance, setDistance] = useState('');
-  const [duration, setDuration] = useState('');
+  const [distance, setDistance] = useState('0');
+  const [duration, setDuration] = useState('0');
 
   const score = useMemo(() => evaluateScoreFromDistance(Number(distance), Number(duration)), [distance, duration]);
 
