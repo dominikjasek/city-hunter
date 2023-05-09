@@ -32,6 +32,7 @@ import Image from 'next/image';
 import { LightBox } from '~/components/LightBox/LightBox';
 import { SecondaryText } from '~/components/common/Typography/typography';
 import { formatDate } from '~/utils/formatter/dateFormatter';
+import LockOpen from '@mui/icons-material/LockOpen';
 
 interface TournamentRoundRankingPageProps {
   tournamentId: string;
@@ -176,6 +177,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                   variant={'contained'}
                   sx={{ mx: 'auto', mt: 4 }}
                   color={'secondary'}
+                  startIcon={<LockOpen />}
                   onClick={() => setShowAnswers(true)}
                 >
                   Zobrazit řešení

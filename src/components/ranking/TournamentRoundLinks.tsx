@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Stack, styled, Typography } from '@mui/material';
+import { Box, Stack, styled, Typography } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -9,12 +9,6 @@ const RoundOrderLink = styled(Typography)(({ theme }) => ({
     color: theme.palette.secondary.light,
     cursor: 'pointer',
   },
-  [theme.breakpoints.up('sm')]: {
-    fontSize: '1.2rem',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '1.4rem',
-  },
 }));
 
 interface TournamentRoundLinksProps {
@@ -22,11 +16,15 @@ interface TournamentRoundLinksProps {
   tournamentQuestions: {
     id: number;
     roundOrder: number | null;
+    startDate: Date;
+    endDate: Date;
   }[];
 }
 
 export const TournamentRoundLinks: FC<TournamentRoundLinksProps> = ({ tournamentId, tournamentQuestions }) => {
   const router = useRouter();
+
+  const now = new Date();
 
   return (
     <Stack direction={'row'} my={3} gap={2} justifyContent={{ xs: 'start', lg: 'center' }} sx={{ overflowX: 'auto' }}>
@@ -45,17 +43,23 @@ export const TournamentRoundLinks: FC<TournamentRoundLinksProps> = ({ tournament
         </RoundOrderLink>
       </Link>
       {tournamentQuestions.map((question) => (
-        <Link key={question.id} href={`/ranking/${tournamentId}/${question.roundOrder}`} className={'no-style'}>
-          <RoundOrderLink
-            sx={{
-              textDecoration:
-                router.asPath === `/ranking/${tournamentId}/${question.roundOrder}` ? 'underline' : 'none',
-              textUnderlineOffset: 6,
-            }}
-          >
-            {question.roundOrder}
-          </RoundOrderLink>
-        </Link>
+        <Box key={question.id} sx={{ display: 'inline' }}>
+          {now.getTime() < question.endDate.getTime() ? (
+            <Typography sx={{ cursor: 'not-allowed' }}>{question.roundOrder}</Typography>
+          ) : (
+            <Link href={`/ranking/${tournamentId}/${question.roundOrder}`} className={'no-style'}>
+              <RoundOrderLink
+                sx={{
+                  textDecoration:
+                    router.asPath === `/ranking/${tournamentId}/${question.roundOrder}` ? 'underline' : 'none',
+                  textUnderlineOffset: 6,
+                }}
+              >
+                {question.roundOrder}
+              </RoundOrderLink>
+            </Link>
+          )}
+        </Box>
       ))}
     </Stack>
   );

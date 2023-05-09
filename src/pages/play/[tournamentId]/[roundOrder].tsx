@@ -6,7 +6,7 @@ import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { QuestionTask } from '~/components/Question/QuestionTask';
 import { MapLocation } from '~/components/MapPicker/types';
 import { TRPCError } from '@trpc/server';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { formatTime } from '~/utils/formatter/dateFormatter';
 import { Button } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -29,6 +29,13 @@ export const QuestionPlayPage: NextPage = () => {
   );
   const { mutateAsync, isLoading: isSubmitting } = trpc.question.answerQuestion.useMutation();
 
+  useEffect(() => {
+    // invalidate on page leave
+    return () => {
+      utils.invalidate();
+    };
+  }, []);
+
   const handleSubmit = async (location: MapLocation) => {
     const result = await mutateAsync({ questionId: questionData!.question!.id, answer: location }).catch(
       (error: TRPCError) => {
@@ -40,7 +47,6 @@ export const QuestionPlayPage: NextPage = () => {
     if (result?.success) {
       setPageState('answered');
     }
-    utils.invalidate();
   };
 
   if (isQuestionLoading || isQuestionFetching) {

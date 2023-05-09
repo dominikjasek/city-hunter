@@ -36,8 +36,8 @@ export const tournamentRouter = router({
         return {
           id: question.id,
           roundOrder: question.roundOrder,
-          startDate: question.startDate,
-          endDate: question.endDate,
+          startDate: question.startDate!,
+          endDate: question.endDate!,
           title: isLaunched ? question.title : null,
           questionImageUrl: isLaunched ? question.questionImageUrl : null,
         };
