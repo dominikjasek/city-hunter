@@ -67,6 +67,7 @@ export const DemoSolution: FC<QuestionSolutionProps> = (props) => {
               locations={props.map.locations ?? []}
               zoom={props.map.zoom}
               centerPoint={props.map.centerPoint}
+              showLegendUserAnswer={false}
             />
           </Box>
         </Stack>

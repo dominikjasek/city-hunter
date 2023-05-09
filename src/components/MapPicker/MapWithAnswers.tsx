@@ -27,7 +27,7 @@ const LegendRow = ({ color, text }: { color: string; text: string }) => {
   );
 };
 
-const Legend = () => {
+const Legend = ({ showUserAnswer }: { showUserAnswer: boolean }) => {
   return (
     <Stack
       direction={'column'}
@@ -43,7 +43,7 @@ const Legend = () => {
     >
       <LegendRow color="#FF9F10" text={'Vaše odpověď'} />
       <LegendRow color="#10DB61" text={'Správná odpověď'} />
-      <LegendRow color="#A7A7A7" text={'Odpověď uživatele'} />
+      {showUserAnswer && <LegendRow color="#A7A7A7" text={'Odpověď uživatele'} />}
     </Stack>
   );
 };
@@ -51,10 +51,16 @@ const Legend = () => {
 interface MapPickerProps {
   centerPoint: MapLocation;
   zoom: number;
+  showLegendUserAnswer: boolean;
   locations: AnswerLocation[];
 }
 
-export const MapWithAnswers: FC<MapPickerProps> = ({ locations, centerPoint, zoom }: MapPickerProps) => {
+export const MapWithAnswers: FC<MapPickerProps> = ({
+  locations,
+  centerPoint,
+  zoom,
+  showLegendUserAnswer,
+}: MapPickerProps) => {
   const getSrcForLocation = (location: AnswerLocation) => {
     if (location.type === 'solution') return MapMarkerGreen;
     if (location.isHighlighted) return MapMarkerOrange;
@@ -72,7 +78,7 @@ export const MapWithAnswers: FC<MapPickerProps> = ({ locations, centerPoint, zoo
         overflow: 'hidden',
       }}
     >
-      <Legend />
+      <Legend showUserAnswer={showLegendUserAnswer} />
 
       <Map height="100%" center={centerPoint} zoom={zoom} loaderApiConfig={{ poi: true }}>
         <KeyboardControl />

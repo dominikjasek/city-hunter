@@ -255,6 +255,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
             centerPoint={questionRanking.map.centerPoint}
             zoom={questionRanking.map.mapZoom}
             locations={mapLocations}
+            showLegendUserAnswer={true}
           />
         </Box>
       </Stack>
