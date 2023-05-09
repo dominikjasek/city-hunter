@@ -15,7 +15,7 @@ export const Index: NextPage = () => {
 
   return (
     <Box>
-      <Typography variant={'h5'}>Žebříčky turnajů:</Typography>
+      <Typography variant={'h5'}>Výsledky turnajů:</Typography>
       {tournamentsData?.tournaments.map((tournament) => (
         <Link key={tournament.id} href={`/ranking/${tournament.id}`} className={'no-style'} passHref>
           <TournamentContainer

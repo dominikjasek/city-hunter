@@ -31,7 +31,7 @@ interface NavbarLink {
 const drawerWidth = 250;
 const defaultNavbarLinks: NavbarLink[] = [
   { title: 'Hrát', href: '/play' },
-  { title: 'Žebříček', href: '/ranking' },
+  { title: 'Výsledky', href: '/ranking' },
   { title: 'FAQ', href: '/faq' },
 ];
 

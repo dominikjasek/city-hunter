@@ -1,6 +1,8 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import {
   Box,
+  Button,
+  Divider,
   Paper,
   Stack,
   Table,
@@ -22,10 +24,14 @@ import { and, isNotNull } from 'drizzle-orm/expressions';
 import { ssgHelpers } from '~/server/ssgHelpers';
 import { MapWithAnswers } from '~/components/MapPicker/MapWithAnswers';
 import { useUser } from '@clerk/nextjs';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AnswerLocation } from '~/components/MapPicker/types';
 import { haversineDistance } from '~/utils/score/evaluate-score';
 import { createDurationString } from '~/utils/ranking/createDurationString';
+import Image from 'next/image';
+import { LightBox } from '~/components/LightBox/LightBox';
+import { SecondaryText } from '~/components/common/Typography/typography';
+import { formatDate } from '~/utils/formatter/dateFormatter';
 
 interface TournamentRoundRankingPageProps {
   tournamentId: string;
@@ -36,6 +42,12 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
   const tournamentId = props.tournamentId;
   const roundOrder = props.roundOrder;
   const user = useUser();
+
+  const [showAnswers, setShowAnswers] = useState(false);
+  // React remains the value of useState when using dynamic routing
+  useEffect(() => {
+    setShowAnswers(false);
+  }, [tournamentId, roundOrder]);
 
   const { data: questionRanking, isLoading: isQuestionRankingLoading } = trpc.ranking.getQuestionRanking.useQuery({
     tournamentId,
@@ -49,6 +61,17 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
     });
 
   const theme = useTheme();
+  const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const images = useMemo(() => {
+    let images: string[] = [];
+    if (questionRanking) {
+      images.push(questionRanking.question.questionImageUrl);
+      if (showAnswers) {
+        images = images.concat(questionRanking.question.answerImagesUrl);
+      }
+    }
+    return images;
+  }, [questionRanking, showAnswers]);
 
   const [inspectUserId, setInspectUserId] = useState<string | null>(null);
   const myAnswer = useMemo(
@@ -67,7 +90,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
       return locations;
     }
 
-    if (questionRanking) {
+    if (questionRanking && showAnswers) {
       locations.push({ type: 'solution', location: questionRanking.question.correctLocation });
     }
 
@@ -76,7 +99,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
     }
 
     return locations;
-  }, [questionRanking, myAnswer?.id, inspectUserId]);
+  }, [questionRanking, myAnswer?.id, inspectUserId, showAnswers]);
 
   if (isQuestionRankingLoading || isTournamentDetailsLoading || isTournamentQuestionsLoading) {
     return <Loader title={'Načítám...'} />;
@@ -93,8 +116,81 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
 
   return (
     <Box maxWidth={'lg'} mx={'auto'}>
-      <Typography variant={'h5'}>Žebříček - {tournamentDetails.name}</Typography>
+      <LightBox
+        isOpen={lightboxIndex >= 0}
+        index={lightboxIndex}
+        imagesUrl={images}
+        onClose={() => setLightboxIndex(-1)}
+      />
+      <Typography variant={'h5'}>Výsledky - {tournamentDetails.name}</Typography>
       <TournamentRoundLinks tournamentId={tournamentDetails.id} tournamentQuestions={tournamentQuestions} />
+      <Divider sx={{ my: 2 }} />
+      <Typography variant={'h6'}>{questionRanking.question.name}</Typography>
+      <Stack sx={{ my: 2 }} direction={'row'} justifyContent={'center'}>
+        <Stack
+          direction={'row'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          sx={{ mb: 3, flex: 2 }}
+          gap={1}
+          flexWrap={'wrap'}
+        >
+          {images.map((image) => (
+            <Box
+              key={image}
+              sx={{
+                width: { xs: 150, sm: 200, md: 250 },
+                height: { xs: 150, sm: 200, md: 250 },
+                mt: 2,
+                position: 'relative',
+                cursor: 'pointer',
+              }}
+            >
+              <Image
+                src={image}
+                alt={questionRanking.question.name}
+                fill
+                style={{
+                  objectFit: 'contain',
+                }}
+                onClick={() => setLightboxIndex(images.indexOf(image))}
+              />
+            </Box>
+          ))}
+        </Stack>
+        <Stack direction={'column'} alignItems={'start'} gap={1} sx={{ width: '100%', flex: 2, ml: 2 }}>
+          <Typography>
+            <SecondaryText>Datum</SecondaryText>: {formatDate(questionRanking.question.endDate!)}
+          </Typography>
+          <Typography textAlign={'initial'}>
+            <SecondaryText>Zadání</SecondaryText>: {questionRanking.question.questionDescription}
+          </Typography>
+          <Stack textAlign={'initial'} sx={{ height: '100%' }}>
+            {showAnswers ? (
+              <Typography>
+                <SecondaryText>Řešení</SecondaryText>: {questionRanking.question.answerDescription}
+              </Typography>
+            ) : (
+              <>
+                <Button
+                  variant={'contained'}
+                  sx={{ mx: 'auto', mt: 4 }}
+                  color={'secondary'}
+                  onClick={() => setShowAnswers(true)}
+                >
+                  Zobrazit řešení
+                </Button>
+              </>
+            )}
+          </Stack>
+        </Stack>
+      </Stack>
+      <Divider sx={{ my: 2 }} />
+
+      <Typography variant={'h6'} mb={2}>
+        Žebříček
+      </Typography>
+
       <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent={'start'} alignItems={'start'}>
         <TableContainer
           sx={{
@@ -139,7 +235,9 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                   <TableCell align="center">
                     {Math.floor(haversineDistance(row.location, questionRanking.question.correctLocation))} m
                   </TableCell>
-                  <TableCell align="center">{row.score}</TableCell>
+                  <TableCell align="center">
+                    <SecondaryText>{row.score}</SecondaryText>
+                  </TableCell>
                   <TableCell align="center">
                     <Typography fontSize={'1.5rem'}>
                       {row.medal === 'GOLD' && '🥇'}

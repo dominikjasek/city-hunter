@@ -67,6 +67,7 @@ export const rankingRouter = router({
         await db
           .select({
             id: questions.id,
+            name: questions.title,
             cityId: questions.cityId,
             questionImageUrl: questions.questionImageUrl,
             answerImagesUrl: questions.answerImagesUrl,
