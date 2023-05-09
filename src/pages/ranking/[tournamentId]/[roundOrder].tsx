@@ -1,5 +1,8 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Divider,
@@ -27,12 +30,13 @@ import { useUser } from '@clerk/nextjs';
 import { useEffect, useMemo, useState } from 'react';
 import { AnswerLocation } from '~/components/MapPicker/types';
 import { haversineDistance } from '~/utils/score/evaluate-score';
-import { createDurationString } from '~/utils/ranking/createDurationString';
 import Image from 'next/image';
 import { LightBox } from '~/components/LightBox/LightBox';
 import { SecondaryText } from '~/components/common/Typography/typography';
 import { formatDate } from '~/utils/formatter/dateFormatter';
 import LockOpen from '@mui/icons-material/LockOpen';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import { createDurationString } from '~/utils/ranking/createDurationString';
 
 interface TournamentRoundRankingPageProps {
   tournamentId: string;
@@ -125,68 +129,75 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
       />
       <Typography variant={'h5'}>Výsledky - {tournamentDetails.name}</Typography>
       <TournamentRoundLinks tournamentId={tournamentDetails.id} tournamentQuestions={tournamentQuestions} />
+
       <Divider sx={{ my: 2 }} />
-      <Typography variant={'h6'}>{questionRanking.question.name}</Typography>
-      <Stack sx={{ my: 2 }} direction={'row'} justifyContent={'center'}>
-        <Stack
-          direction={'row'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          sx={{ mb: 3, flex: 2 }}
-          gap={1}
-          flexWrap={'wrap'}
-        >
-          {images.map((image) => (
-            <Box
-              key={image}
-              sx={{
-                width: { xs: 150, sm: 200, md: 250 },
-                height: { xs: 150, sm: 200, md: 250 },
-                mt: 2,
-                position: 'relative',
-                cursor: 'pointer',
-              }}
+      <Accordion defaultExpanded sx={{ backgroundColor: 'transparent' }}>
+        <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
+          <Typography variant={'h6'}>
+            {formatDate(questionRanking.question.endDate)} - {questionRanking.question.name}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Stack sx={{ my: 2 }} direction={'row'} justifyContent={'center'}>
+            <Stack
+              direction={'row'}
+              justifyContent={'center'}
+              alignItems={'center'}
+              sx={{ flex: 2 }}
+              gap={1}
+              flexWrap={'wrap'}
             >
-              <Image
-                src={image}
-                alt={questionRanking.question.name}
-                fill
-                style={{
-                  objectFit: 'contain',
-                }}
-                onClick={() => setLightboxIndex(images.indexOf(image))}
-              />
-            </Box>
-          ))}
-        </Stack>
-        <Stack direction={'column'} alignItems={'start'} gap={1} sx={{ width: '100%', flex: 2, ml: 2 }}>
-          <Typography>
-            <SecondaryText>Datum</SecondaryText>: {formatDate(questionRanking.question.endDate!)}
-          </Typography>
-          <Typography textAlign={'initial'}>
-            <SecondaryText>Zadání</SecondaryText>: {questionRanking.question.questionDescription}
-          </Typography>
-          <Stack textAlign={'initial'} sx={{ height: '100%' }}>
-            {showAnswers ? (
-              <Typography>
-                <SecondaryText>Řešení</SecondaryText>: {questionRanking.question.answerDescription}
-              </Typography>
-            ) : (
-              <>
-                <Button
-                  variant={'contained'}
-                  sx={{ mx: 'auto', mt: 4 }}
-                  color={'secondary'}
-                  startIcon={<LockOpen />}
-                  onClick={() => setShowAnswers(true)}
+              {images.map((image) => (
+                <Box
+                  key={image}
+                  sx={{
+                    width: { xs: 150, sm: 200, md: 250 },
+                    height: { xs: 150, sm: 200, md: 250 },
+                    mt: 2,
+                    position: 'relative',
+                    cursor: 'pointer',
+                  }}
                 >
-                  Zobrazit řešení
-                </Button>
-              </>
-            )}
+                  <Image
+                    src={image}
+                    alt={questionRanking.question.name}
+                    fill
+                    style={{
+                      objectFit: 'contain',
+                    }}
+                    onClick={() => setLightboxIndex(images.indexOf(image))}
+                  />
+                </Box>
+              ))}
+            </Stack>
+            <Stack direction={'column'} alignItems={'start'} gap={1} sx={{ width: '100%', flex: 2, ml: 2 }}>
+              <Typography textAlign={'initial'}>
+                <SecondaryText>Zadání</SecondaryText>: {questionRanking.question.questionDescription}
+              </Typography>
+              <Stack textAlign={'initial'} sx={{ height: '100%' }}>
+                {showAnswers ? (
+                  <Typography>
+                    <SecondaryText>Řešení</SecondaryText>: {questionRanking.question.answerDescription}
+                  </Typography>
+                ) : (
+                  <>
+                    <Button
+                      variant={'contained'}
+                      sx={{ mx: 'auto', mt: 2 }}
+                      color={'secondary'}
+                      startIcon={<LockOpen />}
+                      onClick={() => setShowAnswers(true)}
+                    >
+                      Zobrazit řešení
+                    </Button>
+                  </>
+                )}
+              </Stack>
+            </Stack>
           </Stack>
-        </Stack>
-      </Stack>
+        </AccordionDetails>
+      </Accordion>
+
       <Divider sx={{ my: 2 }} />
 
       <Typography variant={'h6'} mb={2}>
@@ -226,8 +237,8 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                     backgroundColor: 'transparent',
                     '&:hover': { backgroundColor: theme.palette.primary.main },
                   }}
-                  onMouseEnter={(_) => setInspectUserId(row.userId)}
-                  onMouseLeave={(_) => setInspectUserId(null)}
+                  onMouseEnter={() => setInspectUserId(row.userId)}
+                  onMouseLeave={() => setInspectUserId(null)}
                 >
                   <TableCell align="center">{index + 1}</TableCell>
                   <TableCell component="th" scope="row">

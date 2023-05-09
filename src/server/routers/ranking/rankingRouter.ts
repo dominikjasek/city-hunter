@@ -74,6 +74,7 @@ export const rankingRouter = router({
             questionDescription: questions.questionDescription,
             answerDescription: questions.answerDescription,
             correctLocation: questions.location,
+            startDate: questions.startDate,
             endDate: questions.endDate,
           })
           .from(questions)
@@ -112,10 +113,15 @@ export const rankingRouter = router({
         answers: sortAnswersByPoints(
           userAnswers.map((answer) => ({
             ...answer,
-            durationInSeconds: (answer.answeredAt.getTime() - questionDetails.endDate!.getTime()) / 1000,
+            durationInSeconds: (answer.answeredAt.getTime() - questionDetails.startDate!.getTime()) / 1000,
           })),
         ),
-        question: questionDetails,
+        question: {
+          ...questionDetails,
+          endDate: questionDetails.endDate!,
+          startDate: questionDetails.startDate!,
+          answerImagesUrl: questionDetails.answerImagesUrl.split(','),
+        },
         map: {
           centerPoint: city.centerPoint,
           mapZoom: city.mapZoom,

@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { formatTime } from '~/utils/formatter/dateFormatter';
 import { Button } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { createDurationString } from '~/utils/ranking/createDurationString';
 
 export const QuestionPlayPage: NextPage = () => {
   const { query } = useRouter();
@@ -37,6 +38,10 @@ export const QuestionPlayPage: NextPage = () => {
   }, []);
 
   const handleSubmit = async (location: MapLocation) => {
+    if (questionData!.status !== 'active') {
+      return;
+    }
+
     const result = await mutateAsync({ questionId: questionData!.question!.id, answer: location }).catch(
       (error: TRPCError) => {
         if (error.message === 'Question already finished') {
@@ -48,6 +53,8 @@ export const QuestionPlayPage: NextPage = () => {
       setPageState('answered');
     }
   };
+
+  const now = new Date();
 
   if (isQuestionLoading || isQuestionFetching) {
     return <Loader title={'Načítání...'} />;
@@ -65,10 +72,19 @@ export const QuestionPlayPage: NextPage = () => {
     return <MessageBox type={'info'} message={'Kolo už je ukonečené. Bohužel jste nestihli odpovědět.'} />;
   }
 
+  if (!questionData.question) {
+    return <MessageBox type={'warning'} message={'Otázka nebyla nalezena. Kontaktujte administrátora.'} />;
+  }
+
   if (questionData.status === 'not_started') {
     return (
       <>
-        <MessageBox type={'info'} message={'Kolo ještě nezačalo. Pro aktualizaci klepněte na tlačítko Aktualizovat.'} />
+        <MessageBox
+          type={'info'}
+          message={`Kolo začne za ${createDurationString(
+            (questionData.question!.startDate!.getTime() - now.getTime()) / 1000,
+          )}. Pro aktualizaci klepněte na tlačítko Aktualizovat.`}
+        />
         <Button
           variant={'contained'}
           color={'primary'}
@@ -82,26 +98,21 @@ export const QuestionPlayPage: NextPage = () => {
     );
   }
 
-  const question = questionData.question;
-  if (!question) {
-    return <MessageBox type={'warning'} message={'Otázka nebyla nalezena. Kontaktujte administrátora.'} />;
-  }
-
   if (pageState === 'answered') {
     return (
       <MessageBox
         type={'success'}
-        message={`Vaše odpověď byla uložena. Výsledky budou zveřejněny v ${formatTime(question.endDate)}`}
+        message={`Vaše odpověď byla uložena. Výsledky budou zveřejněny v ${formatTime(questionData.question.endDate)}`}
       />
     );
   }
 
   return (
     <QuestionTask
-      city={question.city}
-      title={question.title}
-      questionDescription={question.questionDescription}
-      questionImageUrl={question.questionImageUrl}
+      city={questionData.question.city}
+      title={questionData.question.title}
+      questionDescription={questionData.question.questionDescription}
+      questionImageUrl={questionData.question.questionImageUrl}
       isSubmitting={isSubmitting}
       onSubmit={handleSubmit}
     />

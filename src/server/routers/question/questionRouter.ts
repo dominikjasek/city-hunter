@@ -47,7 +47,9 @@ export const questionRouter = router({
       if (now < question.startDate) {
         return {
           status: 'not_started',
-          question: null,
+          question: {
+            startDate: question.startDate!,
+          },
         };
       }
 

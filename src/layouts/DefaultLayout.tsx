@@ -24,7 +24,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         }}
       >
         <Navbar />
-        <Container component={'main'} sx={{ pb: 5, mt: { xs: 2, sm: 1, md: 0 } }} maxWidth={'xl'}>
+        <Container component={'main'} sx={{ pb: 5, mt: { xs: 2, sm: 1, md: 0 } }}>
           {children}
         </Container>
         <Box
@@ -40,10 +40,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           }}
         >
           <Typography fontSize={'0.75rem'} variant={'body2'}>
-            Vytvořil{' '}
-            <a className="no-style" href="mailto: dominik@dominikjasek.cz">
-              Dominik Jašek
-            </a>
+            City Hunter {new Date().getFullYear()}
           </Typography>
         </Box>
       </Box>

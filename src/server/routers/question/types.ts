@@ -1,9 +1,14 @@
 import { MapLocation } from '~/db/types';
 
-type QuestionStatus = 'not_started' | 'active' | 'expired_not_answered' | 'answered';
+interface NotStartedQuestion {
+  status: 'not_started';
+  question: {
+    startDate: Date;
+  };
+}
 
-export interface GetQuestionResponse {
-  status: QuestionStatus;
+interface ActiveQuestion {
+  status: 'active';
   question: {
     id: number;
     questionDescription: string | null;
@@ -17,5 +22,17 @@ export interface GetQuestionResponse {
     };
     startDate: Date;
     endDate: Date;
-  } | null;
+  };
 }
+
+interface ExpiredNotAnsweredQuestion {
+  status: 'expired_not_answered';
+  question: null;
+}
+
+interface AnsweredQuestion {
+  status: 'answered';
+  question: null;
+}
+
+export type GetQuestionResponse = NotStartedQuestion | ActiveQuestion | ExpiredNotAnsweredQuestion | AnsweredQuestion;

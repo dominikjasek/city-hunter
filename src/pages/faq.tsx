@@ -47,6 +47,19 @@ const FaqPage: NextPage = () => {
             tak, aby bylo jasné, že se jedná o tým a ne o jednotlivce.
           </QuestionAnswer>
         </Question>
+
+        <Question>
+          <QuestionTitle>Kdo je autorem hry?</QuestionTitle>
+          <QuestionAnswer>
+            Autorem hry je{' '}
+            <SecondaryText>
+              <a className="no-style" href="mailto: dominik@dominikjasek.cz">
+                Dominik Jašek
+              </a>
+            </SecondaryText>
+            . Pokud máte jakékoliv dotazy, nápady nebo připomínky, neváhejte mě kontaktovat.
+          </QuestionAnswer>
+        </Question>
       </Box>
     </Box>
   );
