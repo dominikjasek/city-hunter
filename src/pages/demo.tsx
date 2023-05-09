@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { QuestionTask } from '~/components/Question/QuestionTask';
 import React, { useMemo, useState } from 'react';
 import { trpc } from '~/utils/trpc';
-import { QuestionSolutionProps, Solution } from '~/components/Solution/Solution';
+import { DemoSolution, QuestionSolutionProps } from '~/components/Demo/DemoSolution';
 import { Loader } from '~/components/common/Loader/Loader';
 import { MapLocation } from '~/components/MapPicker/types';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
@@ -72,7 +72,7 @@ const DemoPlayPage: NextPage = () => {
     );
   }
 
-  return <Solution {...solutionData} />;
+  return <DemoSolution {...solutionData} />;
 };
 
 export default DemoPlayPage;

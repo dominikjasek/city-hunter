@@ -22,10 +22,8 @@ export interface QuestionSolutionProps {
   distance: number;
 }
 
-export const Solution: FC<QuestionSolutionProps> = (props) => {
+export const DemoSolution: FC<QuestionSolutionProps> = (props) => {
   const [index, setIndex] = useState(-1);
-
-  const duration = createDurationString(props.durationInSeconds);
 
   return (
     <>
@@ -34,7 +32,7 @@ export const Solution: FC<QuestionSolutionProps> = (props) => {
         <Typography variant={'h5'}>
           Skóre: <SecondaryText>{props.score}</SecondaryText>/100
         </Typography>
-        <Typography variant={'h6'}>Čas: {duration}</Typography>
+        <Typography variant={'h6'}>Čas: {createDurationString(props.durationInSeconds)}</Typography>
         <Typography variant={'h6'}>Vzdálenost: {props.distance} m</Typography>
         <Divider sx={{ my: 2 }} />
         <Typography>{props.answerDescription}</Typography>
