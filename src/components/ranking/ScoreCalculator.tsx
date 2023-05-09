@@ -4,10 +4,10 @@ import { Box, Stack, TextField, Typography } from '@mui/material';
 import { SecondaryText } from '~/components/common/Typography/typography';
 
 export const ScoreCalculator: FC = () => {
-  const [distance, setDistance] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [distance, setDistance] = useState('');
+  const [duration, setDuration] = useState('');
 
-  const score = useMemo(() => evaluateScoreFromDistance(distance, duration), [distance, duration]);
+  const score = useMemo(() => evaluateScoreFromDistance(Number(distance), Number(duration)), [distance, duration]);
 
   return (
     <Stack direction={{ xs: 'column', md: 'row' }} gap={2} sx={{ mt: 3, mb: 1 }} alignItems={'center'}>
@@ -18,7 +18,7 @@ export const ScoreCalculator: FC = () => {
         type="number"
         color={'secondary'}
         value={distance}
-        onChange={(e) => setDistance(Number(e.target.value))}
+        onChange={(e) => setDistance(e.target.value)}
       />
       <TextField
         id="time"
@@ -27,7 +27,7 @@ export const ScoreCalculator: FC = () => {
         type="number"
         color={'secondary'}
         value={duration}
-        onChange={(e) => setDuration(Number(e.target.value))}
+        onChange={(e) => setDuration(e.target.value)}
       />
       <Box>
         <Typography>
