@@ -5,7 +5,6 @@ import { and, eq, lt } from 'drizzle-orm/expressions';
 import { z } from 'zod';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
 import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
-import { createDurationString } from '~/utils/ranking/createDurationString';
 
 export const rankingRouter = router({
   getTournamentRanking: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
@@ -112,9 +111,7 @@ export const rankingRouter = router({
         answers: sortAnswersByPoints(
           userAnswers.map((answer) => ({
             ...answer,
-            durationInSeconds: createDurationString(
-              (answer.answeredAt.getTime() - questionDetails.endDate!.getTime()) / 1000,
-            ),
+            durationInSeconds: (answer.answeredAt.getTime() - questionDetails.endDate!.getTime()) / 1000,
           })),
         ),
         question: questionDetails,

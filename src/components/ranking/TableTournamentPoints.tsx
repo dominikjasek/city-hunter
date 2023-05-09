@@ -17,7 +17,7 @@ export const TableTournamentPoints: FC<{ ranking: TournamentUserScore[] }> = ({ 
       }}
       component={Paper}
     >
-      <Table>
+      <Table size={'small'}>
         <TableHead>
           <TableRow>
             <TableCell align={'center'}>Pořadí</TableCell>

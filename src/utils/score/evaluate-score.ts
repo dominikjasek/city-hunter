@@ -3,7 +3,7 @@ import { D_1, D_2, T_1, T_2 } from '~/utils/score/constants';
 
 // https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates
 // https://en.wikipedia.org/wiki/Haversine_formula
-const haversineDistance = (point1: MapLocation, point2: MapLocation) => {
+export const haversineDistance = (point1: MapLocation, point2: MapLocation) => {
   const deg2rad = (deg: number) => {
     return deg * (Math.PI / 180);
   };

@@ -24,6 +24,8 @@ import { MapWithAnswers } from '~/components/MapPicker/MapWithAnswers';
 import { useUser } from '@clerk/nextjs';
 import { useMemo, useState } from 'react';
 import { AnswerLocation } from '~/components/MapPicker/types';
+import { haversineDistance } from '~/utils/score/evaluate-score';
+import { createDurationString } from '~/utils/ranking/createDurationString';
 
 interface TournamentRoundRankingPageProps {
   tournamentId: string;
@@ -98,19 +100,21 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
           sx={{
             backgroundColor: 'transparent',
             backgroundImage: 'inherit',
-            maxWidth: 600,
+            maxWidth: 700,
             mx: 'auto',
             border: 0.3,
             borderColor: 'rgba(255,255,255,0.3)',
+            flex: 3,
           }}
           component={Paper}
         >
-          <Table>
+          <Table size={'small'}>
             <TableHead>
               <TableRow>
                 <TableCell>Pořadí</TableCell>
                 <TableCell>Přezdívka</TableCell>
                 <TableCell align={'center'}>Čas</TableCell>
+                <TableCell align={'center'}>Vzdálenost</TableCell>
                 <TableCell align={'center'}>Skóre</TableCell>
                 <TableCell align="center">Medaile</TableCell>
               </TableRow>
@@ -131,7 +135,10 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                   <TableCell component="th" scope="row">
                     {row.nickName}
                   </TableCell>
-                  <TableCell align="center">{row.durationInSeconds}</TableCell>
+                  <TableCell align="center">{createDurationString(row.durationInSeconds)}</TableCell>
+                  <TableCell align="center">
+                    {Math.floor(haversineDistance(row.location, questionRanking.question.correctLocation))} m
+                  </TableCell>
                   <TableCell align="center">{row.score}</TableCell>
                   <TableCell align="center">
                     <Typography fontSize={'1.5rem'}>
@@ -145,7 +152,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{ width: '100%', position: 'sticky', top: 20 }}>
+        <Box sx={{ width: '100%', position: 'sticky', top: 20, flex: 2 }}>
           <MapWithAnswers
             centerPoint={questionRanking.map.centerPoint}
             zoom={questionRanking.map.mapZoom}
