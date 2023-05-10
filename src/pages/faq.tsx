@@ -37,6 +37,11 @@ const FaqPage: NextPage = () => {
         </Question>
 
         <Question>
+          <QuestionTitle>Můžu svou odpověď změnit?</QuestionTitle>
+          <QuestionAnswer>Ne, jakmile odpovíte, odpověď už nelze změnit.</QuestionAnswer>
+        </Question>
+
+        <Question>
           <QuestionTitle>Můžeme hrát jako tým?</QuestionTitle>
           <QuestionAnswer>
             Ano, můžete a je to dobře! Máme radost, pokud se do hry zapojí například rodina a místa bude pátrat
