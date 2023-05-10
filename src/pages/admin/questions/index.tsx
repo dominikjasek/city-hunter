@@ -10,10 +10,17 @@ import Image from 'next/image';
 import { SecondaryText } from '~/components/common/Typography/typography';
 import { NextSeo } from 'next-seo';
 
+const EXPECTED_QUESTION_LENGTH = 20;
+const EXPECTED_START_TIME = '20:00'; //getMinutes returns only single digit
+const EXPECTED_END_TIME = '21:00'; //getMinutes returns only single digit
+
+const renderBoolean = (value: boolean) => {
+  return value ? '✅' : '❌';
+};
+
 const AdminQuestionsPages: NextPage = () => {
   const router = useRouter();
   const { cityId, tournamentId } = router.query;
-  console.log('tournamentId', tournamentId);
   const theme = useTheme();
 
   const { data: questions, isLoading } = trpc.question.getAdminQuestions.useQuery(
@@ -36,6 +43,72 @@ const AdminQuestionsPages: NextPage = () => {
     <>
       <NextSeo nofollow={true} noindex={true} />
       <Box>
+        {tournamentId && (
+          <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} gap={2} sx={{ p: 2 }}>
+            <SecondaryText>Kontrola turnaje:</SecondaryText>
+            <Typography>
+              Jsou definovány všechna ({EXPECTED_QUESTION_LENGTH}) kola <code>roundOrder</code>{' '}
+              {renderBoolean(
+                questions.length === EXPECTED_QUESTION_LENGTH &&
+                  questions.every((q, index) => q.roundOrder && q.roundOrder === index + 1), // we expect that questions are already sorted by roundOrder from api
+              )}
+            </Typography>
+            <Typography>
+              Všechny otázky začínají v čase {EXPECTED_START_TIME}{' '}
+              {renderBoolean(
+                questions.every(
+                  (q) =>
+                    `${q.startDate?.getHours()}:${q.startDate?.getMinutes().toString().padStart(2, '0')}` ===
+                    EXPECTED_START_TIME,
+                ),
+              )}
+            </Typography>
+            <Typography>
+              Všechny otázky končí v čase {EXPECTED_END_TIME}{' '}
+              {renderBoolean(
+                questions.every(
+                  (q) =>
+                    `${q.endDate?.getHours()}:${q.endDate?.getMinutes().toString().padStart(2, '0')}` ===
+                    EXPECTED_END_TIME,
+                ),
+              )}
+            </Typography>
+            <Typography>
+              Všechny otázky trvají 1 hodinu{' '}
+              {renderBoolean(
+                questions.every(
+                  (q) => q.startDate && q.endDate && q.endDate.getTime() - q.startDate.getTime() === 1000 * 60 * 60,
+                ),
+              )}
+            </Typography>
+            <Typography>
+              Otázky mají mezi sebou rozestup přesně 24h{' '}
+              {renderBoolean(
+                questions.every((_, index) => {
+                  if (index === 0) {
+                    return true;
+                  }
+                  const prevQuestion = questions[index - 1];
+                  const currentQuestion = questions[index];
+                  if (
+                    !currentQuestion?.startDate ||
+                    !currentQuestion?.endDate ||
+                    !prevQuestion?.startDate ||
+                    !prevQuestion?.endDate
+                  ) {
+                    return false;
+                  }
+                  return (
+                    currentQuestion.startDate &&
+                    prevQuestion.endDate &&
+                    currentQuestion.startDate.getTime() - prevQuestion.startDate.getTime() === 1000 * 60 * 60 * 24 &&
+                    currentQuestion.endDate.getTime() - prevQuestion.endDate.getTime() === 1000 * 60 * 60 * 24
+                  );
+                }),
+              )}
+            </Typography>
+          </Stack>
+        )}
         {questions.map((question) => (
           <Stack
             key={question.id}
@@ -52,12 +125,11 @@ const AdminQuestionsPages: NextPage = () => {
                 <SecondaryText>Začátek</SecondaryText>: {question.startDate ? formatDateTime(question.startDate) : '-'}
               </Typography>
               <Typography>
-                <SecondaryText>Konec</SecondaryText>: {question.startDate ? formatDateTime(question.startDate) : '-'}
+                <SecondaryText>Konec</SecondaryText>: {question.endDate ? formatDateTime(question.endDate) : '-'}
               </Typography>
               <Typography>ID: {question.id}</Typography>
               <Typography>Název: {question.title}</Typography>
               <Typography>Popis otázky: {question.questionDescription}</Typography>
-              <Typography>Popis odpovědi: {question.answerDescription}</Typography>
               <Typography>Popis odpovědi: {question.answerDescription}</Typography>
             </Stack>
             <Stack>
