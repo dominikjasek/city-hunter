@@ -58,10 +58,11 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
     tournamentId,
     roundOrder,
   });
-  const { data: tournamentDetails, isLoading: isTournamentDetailsLoading } =
-    trpc.tournament.getTournamentDetails.useQuery({ tournamentId });
+  const { data: tournamentDetails, isLoading: isTournamentDetailsLoading } = trpc.tournament.getDetailsForId.useQuery({
+    tournamentId,
+  });
   const { data: tournamentQuestions, isLoading: isTournamentQuestionsLoading } =
-    trpc.tournament.getTournamentQuestionsForId.useQuery({
+    trpc.tournament.getSafelyQuestionsForId.useQuery({
       tournamentId,
     });
 
@@ -263,7 +264,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{ width: '100%', position: 'sticky', top: 20, flex: 2 }}>
+        <Box sx={{ width: '100%', height: { xs: 300, md: 500 }, position: 'sticky', top: 20, flex: 2 }}>
           <MapWithAnswers
             centerPoint={questionRanking.map.centerPoint}
             zoom={questionRanking.map.mapZoom}
@@ -306,8 +307,8 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string; roundOrder: 
   }
 
   await ssgHelpers.ranking.getQuestionRanking.prefetch({ tournamentId, roundOrder });
-  await ssgHelpers.tournament.getTournamentQuestionsForId.prefetch({ tournamentId });
-  await ssgHelpers.tournament.getTournamentDetails.prefetch({ tournamentId });
+  await ssgHelpers.tournament.getSafelyQuestionsForId.prefetch({ tournamentId });
+  await ssgHelpers.tournament.getDetailsForId.prefetch({ tournamentId });
 
   return {
     props: {

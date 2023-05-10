@@ -18,10 +18,11 @@ export const TournamentRankingPage: NextPage = () => {
 
   const [viewMode, setViewMode] = useState<'points' | 'medals'>('points');
 
-  const { data: tournamentDetails, isLoading: isTournamentDetailsLoading } =
-    trpc.tournament.getTournamentDetails.useQuery({ tournamentId });
+  const { data: tournamentDetails, isLoading: isTournamentDetailsLoading } = trpc.tournament.getDetailsForId.useQuery({
+    tournamentId,
+  });
   const { data: tournamentQuestions, isLoading: isTournamentQuestionsLoading } =
-    trpc.tournament.getTournamentQuestionsForId.useQuery({
+    trpc.tournament.getSafelyQuestionsForId.useQuery({
       tournamentId,
     });
   const { data: ranking, isLoading: isRankingLoading } = trpc.ranking.getTournamentRanking.useQuery({

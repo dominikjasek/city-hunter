@@ -157,6 +157,42 @@ export const questionRouter = router({
       };
     }),
 
+  getAdminQuestions: adminProcedure
+    .input(z.object({ tournamentId: z.string().optional(), cityId: z.number().optional() }))
+    .query(async ({ input }) => {
+      const preparedQuery = db
+        .select({
+          id: questions.id,
+          title: questions.title,
+          roundOrder: questions.roundOrder,
+          startDate: questions.startDate,
+          endDate: questions.endDate,
+          questionImageUrl: questions.questionImageUrl,
+          questionDescription: questions.questionDescription,
+          answerDescription: questions.answerDescription,
+          answerImagesUrl: questions.answerImagesUrl,
+          location: questions.location,
+          cityId: cities.id,
+          cityName: cities.name,
+          cityPreviewImageUrl: cities.previewImageUrl,
+          mapZoom: cities.mapZoom,
+          centerPoint: cities.centerPoint,
+        })
+        .from(questions)
+        .innerJoin(cities, eq(questions.cityId, cities.id))
+        .orderBy(questions.roundOrder);
+
+      if (input.tournamentId) {
+        preparedQuery.where(eq(questions.tournamentId, input.tournamentId));
+      }
+      if (input.cityId) {
+        preparedQuery.where(eq(questions.cityId, input.cityId));
+      }
+
+      const result = await preparedQuery;
+      return result.map((question) => ({ ...question, answerImagesUrl: question.answerImagesUrl.split(',') }));
+    }),
+
   getRandomDemoQuestion: publicProcedure.query(async () => {
     const demoQuestions = await db
       .select({

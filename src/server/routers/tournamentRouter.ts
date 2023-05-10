@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm/expressions';
 import { z } from 'zod';
 
 export const tournamentRouter = router({
-  getTournamentDetails: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
+  getDetailsForId: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
     const items = await db.select().from(tournaments).where(eq(tournaments.id, input.tournamentId)).limit(1);
     const tournament = items[0];
     if (!tournament) {
@@ -14,35 +14,33 @@ export const tournamentRouter = router({
     return tournament;
   }),
 
-  getTournamentQuestionsForId: publicProcedure
-    .input(z.object({ tournamentId: z.string() }))
-    .query(async ({ input }) => {
-      const now = new Date();
-      const tournamentQuestions = await db
-        .select({
-          id: questions.id,
-          title: questions.title,
-          roundOrder: questions.roundOrder,
-          startDate: questions.startDate,
-          endDate: questions.endDate,
-          questionImageUrl: questions.questionImageUrl,
-        })
-        .from(questions)
-        .where(eq(questions.tournamentId, input.tournamentId))
-        .orderBy(questions.startDate);
+  getSafelyQuestionsForId: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
+    const now = new Date();
+    const tournamentQuestions = await db
+      .select({
+        id: questions.id,
+        title: questions.title,
+        roundOrder: questions.roundOrder,
+        startDate: questions.startDate,
+        endDate: questions.endDate,
+        questionImageUrl: questions.questionImageUrl,
+      })
+      .from(questions)
+      .where(eq(questions.tournamentId, input.tournamentId))
+      .orderBy(questions.startDate);
 
-      return tournamentQuestions.map((question) => {
-        const isLaunched = question.startDate && now > question.startDate;
-        return {
-          id: question.id,
-          roundOrder: question.roundOrder,
-          startDate: question.startDate!,
-          endDate: question.endDate!,
-          title: isLaunched ? question.title : null,
-          questionImageUrl: isLaunched ? question.questionImageUrl : null,
-        };
-      });
-    }),
+    return tournamentQuestions.map((question) => {
+      const isLaunched = question.startDate && now > question.startDate;
+      return {
+        id: question.id,
+        roundOrder: question.roundOrder,
+        startDate: question.startDate!,
+        endDate: question.endDate!,
+        title: isLaunched ? question.title : null,
+        questionImageUrl: isLaunched ? question.questionImageUrl : null,
+      };
+    });
+  }),
 
   getAllTournaments: publicProcedure.query(async () => {
     const tournamentsItems = await db

@@ -63,7 +63,7 @@ export const TournamentPage: NextPage = () => {
   const { query } = useRouter();
   const { tournamentId } = query;
 
-  const { data: tournament, isLoading: isTournamentDetailsLoading } = trpc.tournament.getTournamentDetails.useQuery(
+  const { data: tournament, isLoading: isTournamentDetailsLoading } = trpc.tournament.getDetailsForId.useQuery(
     {
       tournamentId: tournamentId!.toString(),
     },
@@ -71,7 +71,7 @@ export const TournamentPage: NextPage = () => {
       enabled: Boolean(tournamentId),
     },
   );
-  const { data: questions, isLoading: isQuestionsLoading } = trpc.tournament.getTournamentQuestionsForId.useQuery(
+  const { data: questions, isLoading: isQuestionsLoading } = trpc.tournament.getSafelyQuestionsForId.useQuery(
     {
       tournamentId: tournamentId!.toString(),
     },
@@ -194,8 +194,8 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string }> = async (c
   }
 
   await Promise.all([
-    ssgHelpers.tournament.getTournamentQuestionsForId.prefetch({ tournamentId: tournamentId }),
-    ssgHelpers.tournament.getTournamentDetails.prefetch({ tournamentId: tournamentId }),
+    ssgHelpers.tournament.getSafelyQuestionsForId.prefetch({ tournamentId: tournamentId }),
+    ssgHelpers.tournament.getDetailsForId.prefetch({ tournamentId: tournamentId }),
   ]);
 
   return {
