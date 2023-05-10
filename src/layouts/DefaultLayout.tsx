@@ -11,6 +11,14 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       <Head>
         <title>City Hunter</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta property="description" content="Online hra pro ty, kteří se dívají kolem sebe" />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/dwdwjz5kb/image/upload/v1683751611/city_hunter_logo_tarlnh.png"
+        />
+        <meta property="og:title" content="City Hunter" />
+        <meta property="og:description" content="Online hra pro ty, kteří se dívají kolem sebe" />
+        <meta property="og:url" content="https://cityhunter.cz" />
       </Head>
 
       <Box

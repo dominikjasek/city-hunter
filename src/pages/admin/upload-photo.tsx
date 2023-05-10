@@ -6,6 +6,7 @@ import { Loader } from '~/components/common/Loader/Loader';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { useImageUpload } from '~/hooks/use-image-upload';
 import { ssgHelpers } from '~/server/ssgHelpers';
+import { NextSeo } from 'next-seo';
 
 export const UploadPhoto: NextPage = () => {
   const { uploadImage } = useImageUpload();
@@ -58,6 +59,7 @@ export const UploadPhoto: NextPage = () => {
 
   return (
     <>
+      <NextSeo nofollow={true} noindex={true} />
       <UploadQuestionForm availableCities={availableCities.cities} onSubmit={createQuestion} />
     </>
   );
