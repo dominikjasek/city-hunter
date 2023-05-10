@@ -62,8 +62,10 @@ export const DemoSolution: FC<QuestionSolutionProps> = (props) => {
             ))}
           </Stack>
 
-          <Box sx={{ width: 700, maxWidth: '100%', mx: 'auto', flex: { xs: 'none', md: 2 } }}>
+          <Box sx={{ mx: 'auto', flex: { xs: 'none', md: 2 } }}>
             <MapWithAnswers
+              width={700}
+              height={500}
               locations={props.map.locations ?? []}
               zoom={props.map.zoom}
               centerPoint={props.map.centerPoint}

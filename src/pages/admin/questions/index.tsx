@@ -160,14 +160,14 @@ const AdminQuestionsPages: NextPage = () => {
               })}
             </Stack>
             <Stack>
-              <Box sx={{ width: 300, height: 300 }}>
-                <MapWithAnswers
-                  locations={[{ type: 'solution', location: question.location }]}
-                  zoom={question.mapZoom}
-                  centerPoint={question.centerPoint}
-                  showLegendUserAnswer={false}
-                />
-              </Box>
+              <MapWithAnswers
+                width={300}
+                height={300}
+                locations={[{ type: 'solution', location: question.location }]}
+                zoom={question.mapZoom}
+                centerPoint={question.centerPoint}
+                showLegendUserAnswer={false}
+              />
             </Stack>
           </Stack>
         ))}
