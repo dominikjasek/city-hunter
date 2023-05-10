@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
-import { Badge, Box, Button, Card, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Card, Stack, Tooltip, Typography } from '@mui/material';
 import { db } from '~/db/drizzle';
 import { tournaments } from '~/db/schema';
 import { formatDateTime } from '~/utils/formatter/dateFormatter';
@@ -95,80 +95,71 @@ export const TournamentPage: NextPage = () => {
   return (
     <div>
       <h1>{tournament.name}</h1>
-      <Stack direction={'row'} justifyContent={'center'} flexWrap={'wrap'} alignItems={'center'} gap={2}>
-        {questions.map((question, index) => (
-          <Badge
+      <Stack direction={'row'} justifyContent={'center'} flexWrap={'wrap'} gap={2}>
+        {questions.map((question) => (
+          <Card
             key={question.id}
-            badgeContent={index + 1}
-            color="primary"
-            anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-            sx={{ transform: 'translate(10px, 10px)' }}
+            variant="outlined"
+            sx={{
+              border: 1,
+              borderRadius: 1,
+              m: 0.5,
+              borderColor: 'rgba(255,255,255,0.2)',
+              boxShadow: 2,
+              backgroundColor: 'transparent',
+              width: { xs: '50%', md: '33%', lg: '25%' },
+              display: 'flex',
+            }}
           >
-            <Card
-              variant="outlined"
-              sx={{
-                border: 1,
-                borderRadius: 1,
-                m: 0.5,
-                borderColor: 'rgba(255,255,255,0.2)',
-                boxShadow: 2,
-                backgroundColor: 'transparent',
-                position: 'relative',
-                top: -8,
-                left: -8,
-                width: 300,
-              }}
+            <Stack
+              direction={'column'}
+              justifyContent={'center'}
+              alignItems={'center'}
+              gap={1}
+              sx={{ position: 'relative', p: 2, width: '100%' }}
             >
-              <Stack
-                direction={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                gap={1}
-                sx={{ position: 'relative', p: 2 }}
-              >
-                {question.questionImageUrl ? (
-                  <Box
-                    sx={{
-                      width: 200,
-                      height: 200,
-                      position: 'relative',
+              {question.questionImageUrl ? (
+                <Box
+                  sx={{
+                    width: 200,
+                    height: 200,
+                    position: 'relative',
+                  }}
+                >
+                  <Image
+                    src={question.questionImageUrl}
+                    alt={'Náhledová fotka'}
+                    fill
+                    style={{
+                      objectFit: 'contain',
                     }}
-                  >
-                    <Image
-                      src={question.questionImageUrl}
-                      alt={'Náhledová fotka'}
-                      fill
-                      style={{
-                        objectFit: 'contain',
-                      }}
-                    />
-                  </Box>
-                ) : (
-                  <Stack
-                    sx={{
-                      width: 200,
-                      height: 200,
-                    }}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                  >
-                    <Typography fontSize={100} textAlign={'center'} sx={{ opacity: 0.3 }}>
-                      ?
-                    </Typography>
-                  </Stack>
-                )}
-                {question.title ? <Typography sx={{ flex: 2 }}>{question.title}</Typography> : <br />}
-                <Typography sx={{ flex: 2 }}>{question.startDate && formatDateTime(question.startDate)}</Typography>
-                <ActionButton
-                  endDate={question.endDate}
-                  tournamentId={tournamentId!.toString()}
-                  startDate={question.startDate}
-                  questionId={question.id}
-                  roundOrder={question.roundOrder}
-                ></ActionButton>
-              </Stack>
-            </Card>
-          </Badge>
+                  />
+                </Box>
+              ) : (
+                <Stack
+                  sx={{
+                    width: 200,
+                    height: 200,
+                  }}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                >
+                  <Typography fontSize={100} textAlign={'center'} sx={{ opacity: 0.3 }}>
+                    ?
+                  </Typography>
+                </Stack>
+              )}
+              {question.title ? <Typography>{question.title}</Typography> : <br />}
+              <Typography sx={{ flex: 1 }}>{question.startDate && formatDateTime(question.startDate)}</Typography>
+              <ActionButton
+                endDate={question.endDate}
+                tournamentId={tournamentId!.toString()}
+                startDate={question.startDate}
+                questionId={question.id}
+                roundOrder={question.roundOrder}
+              ></ActionButton>
+            </Stack>
+          </Card>
         ))}
       </Stack>
     </div>
