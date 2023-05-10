@@ -20,8 +20,8 @@ const IndexPage: NextPageWithLayout = () => {
         </Typography>
         <Typography variant={'h6'} sx={{ mb: 6 }}>
           Hrajeme v <SecondaryText>Třebíči</SecondaryText> a v <SecondaryText>Brně</SecondaryText>. Startujeme{' '}
-          <SecondaryText>1. 9. 2023</SecondaryText> a hra bude trvat <SecondaryText>20 dnů</SecondaryText>. Každý večer
-          zveřejníme v 20:00 novou otázku.
+          <SecondaryText>1. 6. 2023</SecondaryText> a hra bude trvat <SecondaryText>20 dnů</SecondaryText>. Každý večer
+          zveřejníme v 20:00 novou otázku a do 21:00 budete mít čas odpovědět. Rozhodují vteřiny, jste připraveni?
         </Typography>
         <Stack direction={'column'} mx={'auto'} gap={1}>
           <Link className={'no-style'} href={'/demo'} passHref>
