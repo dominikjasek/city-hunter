@@ -26,6 +26,14 @@ const FaqPage: NextPage = () => {
       </Typography>
       <Box textAlign={'initial'}>
         <Question>
+          <QuestionTitle>Jaké jsou pravidla hry?</QuestionTitle>
+          <QuestionAnswer>
+            Každý den zveřejníme ve 20:00 novou otázku. Máte 1 hodinu na to, abyste na ni odpověděli. Za každou odpověď
+            můžete získat maximálně 100 bodů. Ve 21:00 budou zveřejněny výsledky kola.
+          </QuestionAnswer>
+        </Question>
+
+        <Question>
           <QuestionTitle>Jak se počítá skóre?</QuestionTitle>
           <QuestionAnswer>
             Skóre se počítá podle vzorce v němž figurují dva parametry - vzdálenost od správné odpovědi a rychlost. Je
@@ -50,6 +58,14 @@ const FaqPage: NextPage = () => {
               <SecondaryText>nastavte si přezdívku</SecondaryText>
             </Link>{' '}
             tak, aby bylo jasné, že se jedná o tým a ne o jednotlivce.
+          </QuestionAnswer>
+        </Question>
+
+        <Question>
+          <QuestionTitle>Jaké jsou ceny?</QuestionTitle>
+          <QuestionAnswer>
+            Žádné. Hrajeme pro dobrý pocit a zábavu. Pokud by se ale našel někdo, kdo by chtěl přece jen věnovat do hry
+            ceny, kontaktujte prosím autora hry.
           </QuestionAnswer>
         </Question>
 
