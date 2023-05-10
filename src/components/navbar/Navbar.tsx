@@ -170,7 +170,7 @@ export const Navbar: React.FC = () => {
 
   const links = useMemo(() => {
     if (isAdmin) {
-      return [...defaultNavbarLinks, { title: 'Přidat místo', href: '/contribute' }];
+      return [...defaultNavbarLinks, { title: 'Přidat místo', href: '/admin/upload-photo' }];
     }
 
     return defaultNavbarLinks;

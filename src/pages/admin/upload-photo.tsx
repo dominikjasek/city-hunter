@@ -7,7 +7,7 @@ import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { useImageUpload } from '~/hooks/use-image-upload';
 import { ssgHelpers } from '~/server/ssgHelpers';
 
-export const Contribute: NextPage = () => {
+export const UploadPhoto: NextPage = () => {
   const { uploadImage } = useImageUpload();
   const { data: availableCities, isLoading } = trpc.city.getAll.useQuery();
   const { mutateAsync, isSuccess, isError, error } = trpc.question.create.useMutation();
@@ -63,7 +63,7 @@ export const Contribute: NextPage = () => {
   );
 };
 
-export default Contribute;
+export default UploadPhoto;
 
 export const getStaticProps = async () => {
   await ssgHelpers.city.getAll.prefetch();

@@ -2,7 +2,7 @@ import { clerkClient, getAuth, withClerkMiddleware } from '@clerk/nextjs/server'
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-const adminRoutes = ['/contribute'];
+const adminRoutes = ['/admin**'];
 
 const protectedRoutes = ['/play**', '/auth/user', '/auth/login-receiver'];
 
