@@ -131,7 +131,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
       <TournamentRoundLinks tournamentId={tournamentDetails.id} tournamentQuestions={tournamentQuestions} />
 
       <Divider sx={{ my: 2 }} />
-      <Accordion defaultExpanded sx={{ backgroundColor: 'transparent' }}>
+      <Accordion defaultExpanded sx={{ backgroundColor: 'transparent' }} disableGutters>
         <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
           <Typography variant={'h6'}>
             {formatDate(questionRanking.question.endDate)} - {questionRanking.question.name}
