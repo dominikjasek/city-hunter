@@ -16,15 +16,15 @@ export const PlayPage: NextPage = () => {
   return (
     <Box>
       <Typography variant={'h5'}>Hrajeme v těchto městech:</Typography>
-      {tournamentsData?.tournaments.map((tournament) => (
+      {tournamentsData?.map((tournament) => (
         <Link key={tournament.id} href={`/play/${tournament.id}`} className={'no-style'} passHref>
           <TournamentPlayContainer
             tournamentId={tournament.id}
-            cityName={tournament.city}
+            cityName={tournament.cityName}
             startDate={tournament.startDate}
             endDate={tournament.endDate}
             previewImageUrl={tournament.previewImageUrl}
-            tournamentName={tournament.name}
+            tournamentName={tournament.tournamentName}
           />
         </Link>
       ))}
