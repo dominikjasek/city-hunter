@@ -266,8 +266,6 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
         </TableContainer>
         <Box sx={{ width: '100%', height: { xs: 300, md: 500 }, position: 'sticky', top: 20, flex: 2 }}>
           <MapWithAnswers
-            width={'100%'}
-            height={'100%'}
             centerPoint={questionRanking.map.centerPoint}
             zoom={questionRanking.map.mapZoom}
             locations={mapLocations}

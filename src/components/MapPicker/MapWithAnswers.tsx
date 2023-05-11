@@ -53,8 +53,8 @@ interface MapPickerProps {
   zoom: number;
   showLegendUserAnswer: boolean;
   locations: AnswerLocation[];
-  width: number | string;
-  height: number | string;
+  width?: number | string;
+  height?: number | string;
 }
 
 export const MapWithAnswers: FC<MapPickerProps> = ({
@@ -62,8 +62,8 @@ export const MapWithAnswers: FC<MapPickerProps> = ({
   centerPoint,
   zoom,
   showLegendUserAnswer,
-  width,
-  height,
+  width = '100%',
+  height = '100%',
 }: MapPickerProps) => {
   const getSrcForLocation = (location: AnswerLocation) => {
     if (location.type === 'solution') return MapMarkerGreen;
@@ -85,7 +85,7 @@ export const MapWithAnswers: FC<MapPickerProps> = ({
     >
       <Legend showUserAnswer={showLegendUserAnswer} />
 
-      <Map height="100%" center={centerPoint} zoom={zoom} loaderApiConfig={{ poi: true }}>
+      <Map height={'100%'} center={centerPoint} zoom={zoom} loaderApiConfig={{ poi: true }}>
         <KeyboardControl />
         <ZoomControl />
         <MouseControl zoom={true} pan={true} wheel={true} />
