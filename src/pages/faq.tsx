@@ -28,18 +28,18 @@ const FaqPage: NextPage = () => {
         <Question>
           <QuestionTitle>Jaké jsou pravidla hry?</QuestionTitle>
           <QuestionAnswer>
-            Každý den zveřejníme ve 20:00 novou otázku. Máte 1 hodinu na to, abyste na ni odpověděli. Za každou odpověď
-            můžete získat maximálně 100 bodů. Ve 21:00 budou zveřejněny výsledky kola.
+            Každý den bude zveřejněna ve 20:00 nová otázka. Máte 1 hodinu na to, abyste na ni odpověděli. Za každou
+            odpověď můžete získat maximálně 100 bodů. Ve 21:00 budou dostupné výsledky kola.
           </QuestionAnswer>
         </Question>
 
         <Question>
           <QuestionTitle>Jak se počítá skóre?</QuestionTitle>
           <QuestionAnswer>
-            Skóre se počítá podle vzorce v němž figurují dva parametry - vzdálenost od správné odpovědi a rychlost. Je
-            důležité trefit místo s co nejvyšší přesností, protože rozdíl pár metrů může výrazně ovlivnit skóre. Časová
-            penalizace je znát hlavně na začátku kola, s rostoucím časem tato penalizace klesá. Pro lepší pochopení
-            výpočtu skóre můžete použít tuto jednoduchou kalkulačku:
+            Skóre se počítá podle vzorce, v němž figurují dva parametry, vzdálenost od správné odpovědi a rychlost. Je
+            důležité trefit místo s co největší přesností, protože i rozdíl pár metrů může výrazně ovlivnit skóre.
+            Časová penalizace je znát hlavně na začátku kola, s přibývajícím časem tato penalizace klesá. Pro lepší
+            pochopení výpočtu skóre můžete použít tuto jednoduchou kalkulačku:
             <ScoreCalculator />
           </QuestionAnswer>
         </Question>
@@ -52,7 +52,7 @@ const FaqPage: NextPage = () => {
         <Question>
           <QuestionTitle>Můžeme hrát jako tým?</QuestionTitle>
           <QuestionAnswer>
-            Ano, můžete a je to dobře! Máme radost, pokud se do hry zapojí například rodina a místa bude pátrat
+            Ano, můžete a je to dobře! Máme radost, pokud se do hry zapojí například rodina a nad místy bude dumat
             společně. Prosím,{' '}
             <Link href={'/auth/user'} className={'no-style'}>
               <SecondaryText>nastavte si přezdívku</SecondaryText>
@@ -78,7 +78,7 @@ const FaqPage: NextPage = () => {
                 Dominik Jašek
               </a>
             </SecondaryText>
-            . Pokud máte jakékoliv dotazy, nápady nebo připomínky, neváhejte mě kontaktovat.
+            . Pokud máte jakékoli dotazy, nápady nebo připomínky, neváhejte mě kontaktovat.
           </QuestionAnswer>
         </Question>
       </Box>
