@@ -70,7 +70,15 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
           color={'secondary'}
           size={'large'}
           disabled={!point || props.isSubmitting}
-          sx={{ width: { xs: '100%', md: 600 }, mt: 3, py: 2 }}
+          sx={{
+            width: 'calc(100% - 20px)',
+            py: 2,
+            mx: 'auto',
+            position: 'relative',
+            top: -85,
+            zIndex: 1,
+            display: point ? 'block' : 'none',
+          }}
           onClick={() => props.onSubmit(point!)}
         >
           Potvrdit
