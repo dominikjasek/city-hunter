@@ -16,7 +16,7 @@ export const rankingRouter = router({
       .where(eq(questions.tournamentId, input.tournamentId));
 
     const groupedByUsers = dbResult.reduce((acc, curr) => {
-      const currUserIndex = acc.findIndex((item) => item.userId === curr.userId);
+      let currUserIndex = acc.findIndex((item) => item.userId === curr.userId);
 
       if (currUserIndex === -1 || !acc[currUserIndex]) {
         acc.push({
@@ -30,11 +30,8 @@ export const rankingRouter = router({
           },
           medalsScore: 0,
         });
-        return acc;
-      }
 
-      if (!acc[currUserIndex]) {
-        throw new Error('userScore is undefined');
+        currUserIndex = acc.length - 1;
       }
 
       const gold = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'GOLD' ? 1 : 0);
