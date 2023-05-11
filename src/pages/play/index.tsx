@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
 import { Box, Typography } from '@mui/material';
-import { TournamentContainer } from '~/components/tournament/TournamentContainer';
+import { TournamentPlayContainer } from '~/components/tournament/TournamentPlayContainer';
 import Link from 'next/link';
 import { ssgHelpers } from '~/server/ssgHelpers';
 
@@ -18,7 +18,7 @@ export const PlayPage: NextPage = () => {
       <Typography variant={'h5'}>Hrajeme v těchto městech:</Typography>
       {tournamentsData?.tournaments.map((tournament) => (
         <Link key={tournament.id} href={`/play/${tournament.id}`} className={'no-style'} passHref>
-          <TournamentContainer
+          <TournamentPlayContainer
             tournamentId={tournament.id}
             cityName={tournament.city}
             startDate={tournament.startDate}

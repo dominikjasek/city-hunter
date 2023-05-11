@@ -1,7 +1,7 @@
 import { publicProcedure, router } from '../trpc';
 import { db } from '~/db/drizzle';
-import { cities, questions, tournaments } from '~/db/schema';
-import { eq } from 'drizzle-orm/expressions';
+import { answers, cities, questions, tournaments } from '~/db/schema';
+import { eq, inArray } from 'drizzle-orm/expressions';
 import { z } from 'zod';
 
 export const tournamentRouter = router({
@@ -54,8 +54,36 @@ export const tournamentRouter = router({
       })
       .from(tournaments)
       .innerJoin(cities, eq(tournaments.cityId, cities.id));
-    return {
-      tournaments: tournamentsItems,
-    };
+
+    return await Promise.all(
+      tournamentsItems.map(async (tournament) => {
+        const questionsItems = await db
+          .select({ id: questions.id })
+          .from(questions)
+          .where(eq(questions.tournamentId, tournament.id));
+
+        const peopleWhoAnsweredAtLeastOnce = await db
+          .select({ userId: answers.userId })
+          .from(answers)
+          .where(
+            inArray(
+              answers.questionId,
+              questionsItems.map((q) => q.id),
+            ),
+          )
+          .groupBy(answers.userId);
+
+        return {
+          cityName: tournament.city,
+          previewImageUrl: tournament.previewImageUrl,
+          id: tournament.id,
+          tournamentName: tournament.name,
+          startDate: tournament.startDate!,
+          endDate: tournament.endDate!,
+          questionsCount: questionsItems.length,
+          contendersCount: peopleWhoAnsweredAtLeastOnce.length,
+        };
+      }),
+    );
   }),
 });

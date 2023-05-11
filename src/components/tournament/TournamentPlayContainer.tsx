@@ -12,7 +12,7 @@ interface TournamentContainerProps {
   endDate: Date | null;
 }
 
-export const TournamentContainer: FC<TournamentContainerProps> = (props) => {
+export const TournamentPlayContainer: FC<TournamentContainerProps> = (props) => {
   return (
     <Card
       variant="outlined"
