@@ -16,9 +16,9 @@ export default async function handler(req: NextRequest) {
     router: appRouter,
     req,
     onError({ error }) {
-      Sentry.captureException(error.message);
       if (error.code === 'INTERNAL_SERVER_ERROR') {
         // send to bug reporting
+        Sentry.captureException(error);
         console.error('❌ Something went wrong', error);
       }
     },
