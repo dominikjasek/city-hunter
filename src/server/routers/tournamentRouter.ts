@@ -62,16 +62,21 @@ export const tournamentRouter = router({
           .from(questions)
           .where(eq(questions.tournamentId, tournament.id));
 
-        const peopleWhoAnsweredAtLeastOnce = await db
+        const peopleWhoAnsweredAtLeastOnceQuery = db
           .select({ userId: answers.userId })
           .from(answers)
-          .where(
+          .groupBy(answers.userId);
+
+        if (questionsItems.length > 0) {
+          peopleWhoAnsweredAtLeastOnceQuery.where(
             inArray(
               answers.questionId,
               questionsItems.map((q) => q.id),
             ),
-          )
-          .groupBy(answers.userId);
+          );
+        }
+
+        const contendersCount = questionsItems.length > 0 ? (await peopleWhoAnsweredAtLeastOnceQuery).length : 0;
 
         return {
           cityName: tournament.city,
@@ -81,7 +86,7 @@ export const tournamentRouter = router({
           startDate: tournament.startDate!,
           endDate: tournament.endDate!,
           questionsCount: questionsItems.length,
-          contendersCount: peopleWhoAnsweredAtLeastOnce.length,
+          contendersCount: contendersCount,
         };
       }),
     );
