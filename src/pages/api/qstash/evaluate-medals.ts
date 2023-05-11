@@ -21,6 +21,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const recentlyEndedQuestions = await db
     .select({
       questionId: questions.id,
+      roundOrder: questions.roundOrder,
       userId: answers.userId,
       score: answers.score,
       answeredAt: answers.answeredAt,
@@ -61,9 +62,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     await Promise.all(dbPromises);
 
+    const roundOrder = filteredAnswers[0].roundOrder;
+
     // Revalidate static pages
     const revalidateTournamentRankingPage = res.revalidate(`/ranking/${tournamentId}`);
-    const revalidateQuestionRankingPage = res.revalidate(`/ranking/${tournamentId}/${questionId}`);
+    const revalidateQuestionRankingPage = res.revalidate(`/ranking/${tournamentId}/${roundOrder}`);
     await Promise.all([revalidateTournamentRankingPage, revalidateQuestionRankingPage]);
   }
 
