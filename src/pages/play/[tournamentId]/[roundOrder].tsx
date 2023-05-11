@@ -8,9 +8,9 @@ import { MapLocation } from '~/components/MapPicker/types';
 import { TRPCError } from '@trpc/server';
 import { useEffect, useMemo, useState } from 'react';
 import { formatTime } from '~/utils/formatter/dateFormatter';
-import { Button } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { createDurationString } from '~/utils/ranking/createDurationString';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export const QuestionPlayPage: NextPage = () => {
   const { query } = useRouter();
@@ -56,7 +56,7 @@ export const QuestionPlayPage: NextPage = () => {
 
   const now = new Date();
 
-  if (isQuestionLoading || isQuestionFetching) {
+  if (isQuestionLoading) {
     return <Loader title={'Načítání...'} />;
   }
 
@@ -83,17 +83,20 @@ export const QuestionPlayPage: NextPage = () => {
           type={'info'}
           message={`Kolo začne za ${createDurationString(
             (questionData.question!.startDate!.getTime() - now.getTime()) / 1000,
+            { format: 'minutes and seconds' },
           )}. Pro aktualizaci klepněte na tlačítko Aktualizovat.`}
         />
-        <Button
+
+        <LoadingButton
           variant={'contained'}
           color={'primary'}
           startIcon={<RefreshIcon />}
           onClick={() => refetch()}
           sx={{ mt: 4 }}
+          loading={isQuestionFetching}
         >
           Aktualizovat
-        </Button>
+        </LoadingButton>
       </>
     );
   }
