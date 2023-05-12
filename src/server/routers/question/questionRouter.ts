@@ -5,89 +5,10 @@ import { answers, cities, questions } from '~/db/schema';
 import { and, eq } from 'drizzle-orm/expressions';
 import { TRPCError } from '@trpc/server';
 import { evaluateResultsFromLocations } from '~/utils/score/evaluate-score';
-import { GetQuestionResponse } from '~/server/routers/question/types';
+import { getRoundQuestion } from '~/server/routers/question/getRoundQuestion';
 
 export const questionRouter = router({
-  getQuestion: protectedProcedure
-    .input(z.object({ tournamentId: z.string(), roundOrder: z.number() }))
-    .query<GetQuestionResponse>(async ({ input, ctx }) => {
-      const question = (
-        await db
-          .select({
-            id: questions.id,
-            title: questions.title,
-            questionDescription: questions.questionDescription,
-            questionImageUrl: questions.questionImageUrl,
-            city: {
-              id: cities.id,
-              name: cities.name,
-              centerPoint: cities.centerPoint,
-              mapZoom: cities.mapZoom,
-            },
-            roundOrder: questions.roundOrder,
-            startDate: questions.startDate,
-            endDate: questions.endDate,
-          })
-          .from(questions)
-          .where(and(eq(questions.roundOrder, input.roundOrder), eq(questions.tournamentId, input.tournamentId)))
-          .innerJoin(cities, eq(questions.cityId, cities.id))
-          .limit(1)
-      )[0];
-      if (!question) {
-        throw new TRPCError({ code: 'NOT_FOUND' });
-      }
-      if (!question.startDate || !question.endDate || !question.roundOrder) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Some of required attributes are nullable. These attributes are: startDate, endDate and roundOrder',
-        });
-      }
-
-      const now = new Date();
-      if (now < question.startDate) {
-        return {
-          status: 'not_started',
-          question: {
-            startDate: question.startDate!,
-          },
-        };
-      }
-
-      const answer = (
-        await db
-          .select({
-            id: answers.id,
-          })
-          .from(answers)
-          .where(and(eq(answers.questionId, question.id), eq(answers.userId, ctx.auth.userId)))
-          .limit(1)
-      )[0];
-
-      if (answer) {
-        return {
-          status: 'answered',
-          question: null,
-        };
-      }
-
-      if (now > question.endDate) {
-        return {
-          status: 'expired_not_answered',
-          question: null,
-        };
-      }
-
-      return {
-        status: 'active',
-        question: {
-          ...question,
-          // override startDate and endDate because typescript doesnt know that we checked they are not null
-          roundOrder: question.roundOrder,
-          startDate: question.startDate,
-          endDate: question.endDate,
-        },
-      };
-    }),
+  getRoundQuestion: getRoundQuestion,
 
   answerQuestion: protectedProcedure
     .input(

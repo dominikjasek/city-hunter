@@ -24,7 +24,7 @@ export const QuestionPlayPage: NextPage = () => {
     isLoading: isQuestionLoading,
     isFetching: isQuestionFetching,
     refetch,
-  } = trpc.question.getQuestion.useQuery(
+  } = trpc.question.getRoundQuestion.useQuery(
     { tournamentId: tournamentId?.toString() ?? 'absurd', roundOrder: Number(roundOrder) },
     { enabled: isRouterReady },
   );

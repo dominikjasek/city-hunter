@@ -36,3 +36,19 @@ interface AnsweredQuestion {
 }
 
 export type GetQuestionResponse = NotStartedQuestion | ActiveQuestion | ExpiredNotAnsweredQuestion | AnsweredQuestion;
+
+export interface QuestionEntity {
+  id: number;
+  title: string;
+  questionDescription: string | null;
+  questionImageUrl: string;
+  city: {
+    id: number;
+    name: string;
+    centerPoint: MapLocation;
+    mapZoom: number;
+  };
+  roundOrder: number | null;
+  startDate: Date | null;
+  endDate: Date | null;
+}
