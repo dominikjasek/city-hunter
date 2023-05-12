@@ -108,7 +108,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
   }, [questionRanking, myAnswer?.id, inspectUserId, showAnswers]);
 
   if (isQuestionRankingLoading || isTournamentDetailsLoading || isTournamentQuestionsLoading) {
-    return <Loader title={'Načítám...'} />;
+    return <Loader title={'Načítám tady...'} />;
   }
 
   if (!questionRanking || !tournamentDetails || !tournamentQuestions) {
@@ -308,9 +308,11 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string; roundOrder: 
     throw new Error('No tournamentId or it is not a string');
   }
 
-  await ssgHelpers.ranking.getQuestionRanking.prefetch({ tournamentId, roundOrder });
-  await ssgHelpers.tournament.getSafelyQuestionsForId.prefetch({ tournamentId });
-  await ssgHelpers.tournament.getDetailsForId.prefetch({ tournamentId });
+  await Promise.all([
+    ssgHelpers.ranking.getQuestionRanking.prefetch({ tournamentId, roundOrder }),
+    ssgHelpers.tournament.getSafelyQuestionsForId.prefetch({ tournamentId }),
+    ssgHelpers.tournament.getDetailsForId.prefetch({ tournamentId }),
+  ]);
 
   return {
     props: {

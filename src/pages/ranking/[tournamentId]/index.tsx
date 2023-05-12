@@ -88,7 +88,11 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string }> = async (c
     throw new Error('No tournamentId or it is not a string');
   }
 
-  await ssgHelpers.ranking.getTournamentRanking.prefetch({ tournamentId });
+  await Promise.all([
+    ssgHelpers.ranking.getTournamentRanking.prefetch({ tournamentId }),
+    ssgHelpers.tournament.getDetailsForId.prefetch({ tournamentId }),
+    ssgHelpers.tournament.getSafelyQuestionsForId.prefetch({ tournamentId }),
+  ]);
 
   return {
     props: {
