@@ -11,9 +11,8 @@ export const authRouter = router({
       .from(users)
       .where(eq(users.id, ctx.auth.userId))
       .limit(1);
-    if (!result[0]) throw new Error('User not found');
 
-    return result[0].nickname;
+    return result[0]?.nickname ?? null;
   }),
 
   updateNickName: protectedProcedure.input(z.object({ nickName: z.string() })).mutation(async ({ input, ctx }) => {
@@ -44,14 +43,14 @@ export const authRouter = router({
 
       if (user.length > 0) {
         return {
-          success: true,
+          createdNewUser: false,
         };
       }
 
       await db.insert(users).values(newUser);
 
       return {
-        success: true,
+        createdNewUser: true,
       };
     }),
 });

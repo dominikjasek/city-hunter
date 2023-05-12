@@ -14,11 +14,26 @@ const LoginReceiver: React.FC = () => {
 
   const createAccount = useCallback(async () => {
     if (!user) return;
+
+    let nickName = '';
+    if (user.firstName && user.lastName) {
+      nickName = `${user.firstName} ${user.lastName?.substring(0, 1)}.`;
+    } else if (user.username) {
+      nickName = user.username;
+    } else if (typeof user.primaryEmailAddress?.emailAddress.split('@')[0] === 'string') {
+      const leftPartOfEmail = user.primaryEmailAddress.emailAddress.split('@')[0] as string;
+      nickName = leftPartOfEmail;
+    } else {
+      nickName = user.id;
+    }
+
     const result = await mutation.mutateAsync({
       id: user.id,
-      nickName: user.fullName ?? user.username ?? user.primaryEmailAddress?.emailAddress.split('@')[0] ?? `${user.id}`,
+      nickName,
     });
-    if (result.success) {
+    if (result.createdNewUser) {
+      await router.replace('/auth/user');
+    } else {
       await router.replace('/');
     }
   }, [router, user, mutation]);

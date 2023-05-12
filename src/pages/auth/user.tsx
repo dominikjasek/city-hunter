@@ -3,10 +3,11 @@ import { NextPage } from 'next';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { trpc } from '~/utils/trpc';
 import { Loader } from '~/components/common/Loader/Loader';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
+import { NickNameForm } from '~/components/form/NickNameForm';
 
 const userProfileValidationSchema = z.object({
   nickName: z.string().min(3, 'Přezdívka musí mít alespoň 3 znaky').max(20, 'Přezdívka může mít maximálně 20 znaků'),
@@ -14,12 +15,7 @@ const userProfileValidationSchema = z.object({
 type UserProfileValidationSchema = z.infer<typeof userProfileValidationSchema>;
 
 const UserPage: NextPage = () => {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<UserProfileValidationSchema>({
+  const { setValue } = useForm<UserProfileValidationSchema>({
     resolver: zodResolver(userProfileValidationSchema),
   });
 
@@ -50,38 +46,12 @@ const UserPage: NextPage = () => {
   return (
     <Box textAlign={'left'}>
       <Typography variant="h5" my={3}>
-        Váš účet
+        Nastavte si přezdívku
       </Typography>
       {isNickNameSuccessfullyChanged ? (
-        <MessageBox
-          message={'Přezdívka byla úspěšně změněna. Změna přezdívky se v žebříčkách projeví do 1 minuty.'}
-          type={'success'}
-        />
+        <MessageBox message={'Přezdívka byla úspěšně změněna.'} type={'success'} />
       ) : (
-        <form onSubmit={handleSubmit(onFormSubmit)}>
-          <Stack direction={'column'} maxWidth={{ xs: 300, md: 500 }}>
-            <TextField
-              fullWidth
-              label={'Přezdívka zobrazená v žebříčku'}
-              variant="filled"
-              color={'secondary'}
-              required
-              error={!!errors['nickName']}
-              helperText={errors['nickName'] ? errors['nickName'].message : ''}
-              {...register('nickName')}
-            />
-
-            <Button
-              variant={'contained'}
-              color={'secondary'}
-              type="submit"
-              sx={{ my: 4, px: 6 }}
-              disabled={isSubmitting}
-            >
-              Uložit
-            </Button>
-          </Stack>
-        </form>
+        <NickNameForm nickName={currentNickName ?? ''} onSubmit={onFormSubmit} isSubmitting={isSubmitting} />
       )}
     </Box>
   );
