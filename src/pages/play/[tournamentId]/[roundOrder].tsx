@@ -6,7 +6,7 @@ import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { QuestionTask } from '~/components/Question/QuestionTask';
 import { MapLocation } from '~/components/MapPicker/types';
 import { TRPCError } from '@trpc/server';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { formatTime } from '~/utils/formatter/dateFormatter';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { createDurationString } from '~/utils/ranking/createDurationString';
@@ -30,13 +30,6 @@ export const QuestionPlayPage: NextPage = () => {
   );
   const { mutateAsync, isLoading: isSubmitting } = trpc.question.answerQuestion.useMutation();
 
-  useEffect(() => {
-    // invalidate on page leave
-    return () => {
-      utils.invalidate();
-    };
-  }, []);
-
   const handleSubmit = async (location: MapLocation) => {
     if (questionData!.status !== 'active') {
       return;
@@ -51,6 +44,7 @@ export const QuestionPlayPage: NextPage = () => {
     );
     if (result?.success) {
       setPageState('answered');
+      await utils.question.invalidate();
     }
   };
 
@@ -62,10 +56,6 @@ export const QuestionPlayPage: NextPage = () => {
 
   if (!questionData) {
     return <MessageBox type={'warning'} message={'Něco se pokazilo, Data k otázce nebyly nalezeny.'} />;
-  }
-
-  if (questionData.status === 'answered') {
-    return <MessageBox type={'success'} message={`Už jste odpověděli`} />;
   }
 
   if (questionData.status === 'expired_not_answered' || pageState === 'expired') {
@@ -101,7 +91,7 @@ export const QuestionPlayPage: NextPage = () => {
     );
   }
 
-  if (pageState === 'answered') {
+  if (pageState === 'answered' || questionData.status === 'answered') {
     return (
       <MessageBox
         type={'success'}

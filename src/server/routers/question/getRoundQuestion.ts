@@ -87,6 +87,7 @@ export const getRoundQuestion = protectedProcedure
         status: 'not_started',
         question: {
           startDate: question.startDate!,
+          endDate: question.endDate!,
         },
       };
     }
@@ -118,14 +119,20 @@ export const getRoundQuestion = protectedProcedure
     if (answer) {
       return {
         status: 'answered',
-        question: null,
+        question: {
+          startDate: question.startDate!,
+          endDate: question.endDate!,
+        },
       };
     }
 
     if (now > question.endDate) {
       return {
         status: 'expired_not_answered',
-        question: null,
+        question: {
+          startDate: question.startDate!,
+          endDate: question.endDate!,
+        },
       };
     }
 

@@ -4,6 +4,7 @@ interface NotStartedQuestion {
   status: 'not_started';
   question: {
     startDate: Date;
+    endDate: Date;
   };
 }
 
@@ -27,12 +28,18 @@ interface ActiveQuestion {
 
 interface ExpiredNotAnsweredQuestion {
   status: 'expired_not_answered';
-  question: null;
+  question: {
+    startDate: Date;
+    endDate: Date;
+  };
 }
 
 interface AnsweredQuestion {
   status: 'answered';
-  question: null;
+  question: {
+    startDate: Date;
+    endDate: Date;
+  };
 }
 
 export type GetQuestionResponse = NotStartedQuestion | ActiveQuestion | ExpiredNotAnsweredQuestion | AnsweredQuestion;
