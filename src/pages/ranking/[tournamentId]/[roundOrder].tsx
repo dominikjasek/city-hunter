@@ -5,7 +5,6 @@ import {
   AccordionSummary,
   Box,
   Button,
-  Divider,
   Paper,
   Stack,
   Table,
@@ -131,7 +130,6 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
       <Typography variant={'h5'}>Výsledky - {tournamentDetails.name}</Typography>
       <TournamentRoundLinks tournamentId={tournamentDetails.id} tournamentQuestions={tournamentQuestions} />
 
-      <Divider sx={{ my: 2 }} />
       <Accordion defaultExpanded sx={{ backgroundColor: 'transparent' }} disableGutters>
         <AccordionSummary expandIcon={<ExpandMore />} aria-controls="panel1a-content" id="panel1a-header">
           <Typography variant={'h6'}>
@@ -199,9 +197,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
         </AccordionDetails>
       </Accordion>
 
-      <Divider sx={{ my: 2 }} />
-
-      <Typography variant={'h6'} mb={2}>
+      <Typography variant={'h6'} my={2}>
         Žebříček
       </Typography>
 
