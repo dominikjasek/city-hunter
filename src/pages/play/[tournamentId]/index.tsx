@@ -27,7 +27,7 @@ const ActionButton: FC<{
   const now = new Date();
   if (now > props.endDate) {
     return (
-      <Link href={`/ranking/${props.tournamentId}/${props.roundOrder}`}>
+      <Link href={`/ranking/${props.tournamentId}/${props.roundOrder}`} className={'no-style'}>
         <Button variant="contained" color="primary" sx={{ width: BUTTON_WIDTH }}>
           Výsledky
         </Button>
@@ -107,7 +107,8 @@ export const TournamentPage: NextPage = () => {
               borderColor: 'rgba(255,255,255,0.2)',
               boxShadow: 2,
               backgroundColor: 'transparent',
-              width: { xs: '50%', md: '33%', lg: '25%' },
+              width: '100%',
+              maxWidth: { xs: '140px', sm: '210ox', md: '250px' },
               display: 'flex',
             }}
           >

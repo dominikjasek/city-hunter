@@ -16,19 +16,19 @@ const getQuestionWithCache = async (tournamentId: string, roundOrder: number) =>
   const redisClient = new RedisClient();
   const redisKey = getRedisKey(tournamentId, roundOrder);
 
-  const redisResult = await redisClient.getObject<QuestionEntity>(redisKey);
-  if (redisResult) {
-    if (!redisResult.startDate || !redisResult.endDate || !redisResult.roundOrder) {
+  const redisQuestion = await redisClient.getObject<QuestionEntity>(redisKey);
+  if (redisQuestion) {
+    if (!redisQuestion.startDate || !redisQuestion.endDate || !redisQuestion.roundOrder) {
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
         message: 'Some of required attributes are nullable. These attributes are: startDate, endDate and roundOrder',
       });
     }
     return {
-      ...redisResult,
-      startDate: redisResult.startDate,
-      endDate: redisResult.endDate,
-      roundOrder: redisResult.roundOrder,
+      ...redisQuestion,
+      startDate: redisQuestion.startDate,
+      endDate: redisQuestion.endDate,
+      roundOrder: redisQuestion.roundOrder,
     };
   }
 
