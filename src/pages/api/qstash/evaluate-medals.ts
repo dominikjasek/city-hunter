@@ -66,8 +66,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     // Revalidate static pages
     const revalidateTournamentRankingPage = res.revalidate(`/ranking/${tournamentId}`);
+    const revalidateTournamentPlayPage = res.revalidate(`/play/${tournamentId}`);
     const revalidateQuestionRankingPage = res.revalidate(`/ranking/${tournamentId}/${roundOrder}`);
-    await Promise.all([revalidateTournamentRankingPage, revalidateQuestionRankingPage]);
+    await Promise.all([revalidateTournamentRankingPage, revalidateTournamentPlayPage, revalidateQuestionRankingPage]);
   }
 
   return res.json({ success: true });
