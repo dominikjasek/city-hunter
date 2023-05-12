@@ -67,8 +67,7 @@ export const DemoSolution: FC<QuestionSolutionProps> = (props) => {
               mx: 'auto',
               width: '100%',
               maxWidth: 700,
-              height: { xs: 300, sm: 500, md: 700 },
-              flex: { xs: 'none', md: 2 },
+              height: { xs: 300, sm: 500 },
             }}
           >
             <MapWithAnswers
