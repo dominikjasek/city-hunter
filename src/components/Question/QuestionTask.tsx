@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { MapLocation } from '~/components/MapPicker/types';
 import { LightBox } from '~/components/LightBox/LightBox';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { SecondaryText } from '~/components/common/Typography/typography';
 
 interface QuestionTaskProps {
   city: {
@@ -27,21 +28,18 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
   return (
     <>
       <LightBox isOpen={isLightboxOpen} imagesUrl={[props.questionImageUrl]} onClose={() => setIsLightboxOpen(false)} />
-      <Box
-        sx={{
-          mx: { xs: 0, sm: 1, md: 6 },
-          px: { xs: 0, sm: 1, md: 2 },
-        }}
-      >
-        <Stack mb={2} direction={'column'} alignItems={'center'} gap={2}>
-          <Box>
-            <Typography variant={'h6'}>{props.title}</Typography>
-            <Typography sx={{ mb: 2 }}>{props.questionDescription}</Typography>
-          </Box>
+      <Stack mb={2} direction={{ xs: 'column', md: 'row' }} alignItems={'center'} gap={2}>
+        <Box flex={1}>
+          <Typography variant={'h6'}>
+            <SecondaryText>{props.title}</SecondaryText>
+          </Typography>
+          <Typography sx={{ my: 1 }} fontSize={theme.typography.fontSize * 1.2}>
+            {props.questionDescription}
+          </Typography>
           <Box
             sx={{
-              minWidth: 300,
-              minHeight: 300,
+              minWidth: { xs: 300, sm: 370, md: 450, xl: 500 },
+              minHeight: { xs: 300, sm: 370, md: 450, xl: 500 },
               position: 'relative',
               flex: { xs: 'none' },
               cursor: 'pointer',
@@ -57,7 +55,22 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
               onClick={() => setIsLightboxOpen(true)}
             />
           </Box>
-          <Box sx={{ width: '100%', flex: { xs: 'none', md: 3 } }}>
+        </Box>
+
+        <Stack
+          sx={{
+            width: '100%',
+            height: { xs: 550, md: `calc(100vh - 140px)` },
+            position: 'relative',
+          }}
+          direction={'column'}
+        >
+          <Box
+            sx={{
+              width: '100%',
+              height: `100%`,
+            }}
+          >
             <MapPicker
               centerPoint={props.city.centerPoint}
               zoom={props.city.mapZoom}
@@ -74,9 +87,10 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
               width: 'calc(100% - 20px)',
               py: 2,
               mx: 'auto',
-              position: 'relative',
-              top: -85,
-              zIndex: 1000,
+              position: 'absolute',
+              top: 'calc(100% - 70px)',
+              left: 'calc(10px)',
+              zIndex: 1,
               display: point ? 'inherit' : 'none',
               '&.Mui-disabled': {
                 backgroundColor: theme.palette.grey.A400,
@@ -87,7 +101,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
             Potvrdit
           </LoadingButton>
         </Stack>
-      </Box>
+      </Stack>
     </>
   );
 };

@@ -37,12 +37,19 @@ export const MapPicker: FC<MapPickerProps> = ({ point, centerPoint, zoom, onClic
         touchAction: 'none',
         cursor: 'crosshair',
         width: '100%',
-        height: { xs: 500, sm: 600, md: 600, lg: 700, xl: 800 },
+        height: '100%',
         borderRadius: 2,
         overflow: 'hidden',
       }}
     >
-      <Map height="100%" center={centerPoint} zoom={zoom} onEvent={handleMapClick} loaderApiConfig={{ poi: true }}>
+      <Map
+        width="100%"
+        height="100%"
+        center={centerPoint}
+        zoom={zoom}
+        onEvent={handleMapClick}
+        loaderApiConfig={{ poi: true }}
+      >
         <KeyboardControl />
         <ZoomControl />
         <MouseControl zoom={true} pan={true} wheel={true} />
