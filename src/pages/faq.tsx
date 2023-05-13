@@ -46,10 +46,7 @@ const FaqPage: NextPage = () => {
 
         <Question>
           <QuestionTitle>Od jaké chvíle se mi počítá čas?</QuestionTitle>
-          <QuestionAnswer>
-            Čas začíná bežet všem stejně bez ohledu na to, kdy si otázku otevřete.
-            <ScoreCalculator />
-          </QuestionAnswer>
+          <QuestionAnswer>Čas začíná bežet všem stejně bez ohledu na to, kdy si otázku otevřete.</QuestionAnswer>
         </Question>
 
         <Question>
