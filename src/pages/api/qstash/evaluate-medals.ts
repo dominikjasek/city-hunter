@@ -5,6 +5,7 @@ import { add, sub } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifySignature } from '@upstash/qstash/nextjs';
 import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
+import { revalidateRankingPages } from '~/server/revalidate/revalidate';
 
 const setMedalForQuestionId = async (questionId: number, userId: string, medal: Answer['medal']) => {
   return db
@@ -49,27 +50,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const sortedAnswers = sortAnswersByPoints(filteredAnswers);
 
-    const dbPromises: Promise<unknown>[] = [];
+    const updateMedalPromises: Promise<unknown>[] = [];
     if (sortedAnswers[0]) {
-      dbPromises.push(setMedalForQuestionId(questionId, sortedAnswers[0].userId, 'GOLD'));
+      updateMedalPromises.push(setMedalForQuestionId(questionId, sortedAnswers[0].userId, 'GOLD'));
     }
     if (sortedAnswers[1]) {
-      dbPromises.push(setMedalForQuestionId(questionId, sortedAnswers[1].userId, 'SILVER'));
+      updateMedalPromises.push(setMedalForQuestionId(questionId, sortedAnswers[1].userId, 'SILVER'));
     }
     if (sortedAnswers[2]) {
-      dbPromises.push(setMedalForQuestionId(questionId, sortedAnswers[2].userId, 'BRONZE'));
+      updateMedalPromises.push(setMedalForQuestionId(questionId, sortedAnswers[2].userId, 'BRONZE'));
     }
 
-    await Promise.all(dbPromises);
-
-    const roundOrder = filteredAnswers[0].roundOrder;
-
-    // Revalidate static pages
-    const revalidateTournamentRankingPage = res.revalidate(`/ranking/${tournamentId}`);
-    const revalidateTournamentPlayPage = res.revalidate(`/play/${tournamentId}`);
-    const revalidateQuestionRankingPage = res.revalidate(`/ranking/${tournamentId}/${roundOrder}`);
-    await Promise.all([revalidateTournamentRankingPage, revalidateTournamentPlayPage, revalidateQuestionRankingPage]);
+    await Promise.all(updateMedalPromises);
   }
+
+  await revalidateRankingPages(res, recentlyEndedQuestions);
 
   return res.json({ success: true });
 }
