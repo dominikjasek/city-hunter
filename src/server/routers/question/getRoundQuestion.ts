@@ -5,7 +5,7 @@ import { db } from '~/db/drizzle';
 import { answers, cities, questions } from '~/db/schema';
 import { and, eq } from 'drizzle-orm/expressions';
 import { TRPCError } from '@trpc/server';
-import { RedisClient } from '~/server/redis';
+import { RedisClient } from '~/server/redis/redis';
 
 const OPTIMIZATION_OFFSET_FROM_START_NOT_TO_CHECK_ANSWER = 5000; // 5 seconds
 

@@ -3,6 +3,7 @@ import { db } from '~/db/drizzle';
 import { CreateUser, users } from '~/db/schema';
 import { protectedProcedure, publicProcedure, router } from '~/server/trpc';
 import { eq } from 'drizzle-orm/expressions';
+import { emitQStashEvent } from '~/server/qstash/qstash';
 
 export const authRouter = router({
   getNickName: protectedProcedure.query(async ({ ctx }) => {
@@ -17,6 +18,14 @@ export const authRouter = router({
 
   updateNickName: protectedProcedure.input(z.object({ nickName: z.string() })).mutation(async ({ input, ctx }) => {
     await db.update(users).set({ nickName: input.nickName }).where(eq(users.id, ctx.auth.userId));
+
+    await emitQStashEvent({
+      topic: 'update-nickname',
+      value: {
+        userId: ctx.auth.userId,
+        nickName: input.nickName,
+      },
+    });
 
     return {
       success: true,
