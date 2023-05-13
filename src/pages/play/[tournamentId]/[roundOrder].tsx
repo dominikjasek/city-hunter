@@ -44,7 +44,7 @@ export const QuestionPlayPage: NextPage = () => {
     );
     if (result?.success) {
       setPageState('answered');
-      await utils.question.invalidate();
+      await utils.question.getRoundQuestion.invalidate();
     }
   };
 
