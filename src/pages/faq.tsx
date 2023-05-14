@@ -28,8 +28,20 @@ const FaqPage: NextPage = () => {
         <Question>
           <QuestionTitle>Jaké jsou pravidla hry?</QuestionTitle>
           <QuestionAnswer>
-            Každý den bude zveřejněna ve 20:00 nová otázka. Máte 1 hodinu na to, abyste na ni odpověděli. Za každou
-            odpověď můžete získat maximálně 100 bodů. Ve 21:00 budou dostupné výsledky kola.
+            Každý den bude zveřejněna ve 20:00 nová otázka. Máte 1 hodinu na to, abyste na ni odpověděli tím, že
+            označíte místo na mapě, kde si myslíte, že se nachází daný objekt zachycený na fotce. Vždy vyznačujte střed
+            objektu. Za každou odpověď můžete získat maximálně 100 bodů. Ve 21:00 budou dostupné výsledky kola.
+          </QuestionAnswer>
+        </Question>
+
+        <Question>
+          <QuestionTitle>Jak se zaregistruji do hry?</QuestionTitle>
+          <QuestionAnswer>
+            Stačí{' '}
+            <Link href={'/auth/login'} className={'no-style'}>
+              <SecondaryText>se přihlásit</SecondaryText>
+            </Link>{' '}
+            a můžete začít odpovídat na otázky v Třebíči nebo v Brně.
           </QuestionAnswer>
         </Question>
 
@@ -52,6 +64,17 @@ const FaqPage: NextPage = () => {
         <Question>
           <QuestionTitle>Můžu svou odpověď změnit?</QuestionTitle>
           <QuestionAnswer>Ne, jakmile odpovíte, odpověď už nelze změnit.</QuestionAnswer>
+        </Question>
+
+        <Question>
+          <QuestionTitle>Můžu změnit svou přezdívku?</QuestionTitle>
+          <QuestionAnswer>
+            Ano, přezdívku si můžete změnit{' '}
+            <Link href={'/auth/user'} className={'no-style'}>
+              <SecondaryText>zde</SecondaryText>
+            </Link>
+            .
+          </QuestionAnswer>
         </Question>
 
         <Question>
