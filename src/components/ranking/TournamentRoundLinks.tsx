@@ -36,7 +36,7 @@ export const TournamentRoundLinks: FC<TournamentRoundLinksProps> = ({ tournament
   return (
     <Stack direction={'row'} my={3} gap={2} justifyContent={{ xs: 'start', lg: 'center' }} sx={{ overflowX: 'auto' }}>
       <Typography fontSize={theme.typography.fontSize * FONT_SIZE_MULTIPLIER}>Kolo:</Typography>
-      <Link href={`/vysledky/${tournamentId}`} className={'no-style'}>
+      <Link href={`/ranking/${tournamentId}`} className={'no-style'}>
         <RoundOrderLink isActive={router.query.roundOrder === undefined} mr={2}>
           CELKOVĚ
         </RoundOrderLink>
@@ -48,8 +48,8 @@ export const TournamentRoundLinks: FC<TournamentRoundLinksProps> = ({ tournament
               {question.roundOrder}
             </Typography>
           ) : (
-            <Link href={`/vysledky/${tournamentId}/${question.roundOrder}`} className={'no-style'}>
-              <RoundOrderLink isActive={router.asPath === `/vysledky/${tournamentId}/${question.roundOrder}`}>
+            <Link href={`/ranking/${tournamentId}/${question.roundOrder}`} className={'no-style'}>
+              <RoundOrderLink isActive={router.asPath === `/ranking/${tournamentId}/${question.roundOrder}`}>
                 {question.roundOrder}
               </RoundOrderLink>
             </Link>

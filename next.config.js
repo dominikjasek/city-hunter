@@ -25,18 +25,6 @@ function getConfig(config) {
  * @link https://nextjs.org/docs/api-reference/next.config.js/introduction
  */
 const nextConfig = getConfig({
-  async rewrites() {
-    return [
-      {
-        source: '/hrat/:tournamentId*',
-        destination: '/play/:tournamentId*',
-      },
-      {
-        source: '/vysledky/:tournamentId*',
-        destination: '/ranking/:tournamentId*',
-      },
-    ];
-  },
   publicRuntimeConfig: {
     NODE_ENV: env.NODE_ENV,
   },

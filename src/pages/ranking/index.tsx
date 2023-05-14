@@ -33,7 +33,7 @@ export const Index: NextPage = () => {
               maxWidth: 700,
             }}
           >
-            <Link href={`/vysledky/${tournament.id}`} className={'no-style'} passHref>
+            <Link href={`/ranking/${tournament.id}`} className={'no-style'} passHref>
               <CardActionArea sx={{ zIndex: 1, px: 8, py: 4 }}>
                 <Stack direction={'column'} alignItems={'center'} justifyContent={'center'}>
                   <Typography variant={'h5'}>
