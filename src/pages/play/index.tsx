@@ -17,7 +17,7 @@ export const PlayPage: NextPage = () => {
     <Box>
       <Typography variant={'h5'}>Hrajeme v těchto městech:</Typography>
       {tournamentsData?.map((tournament) => (
-        <Link key={tournament.id} href={`/play/${tournament.id}`} className={'no-style'} passHref>
+        <Link key={tournament.id} href={`/hrat/${tournament.id}`} className={'no-style'} passHref>
           <TournamentPlayContainer
             tournamentId={tournament.id}
             cityName={tournament.cityName}

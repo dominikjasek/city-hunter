@@ -28,12 +28,10 @@ interface NavbarLink {
   href: string;
 }
 
-export const DESKTOP_NAVBAR_HEIGHT = 88; // this value was read from devtools, not beast apporach tho 😄
-
 const drawerWidth = 250;
 const defaultNavbarLinks: NavbarLink[] = [
-  { title: 'Hrát', href: '/play' },
-  { title: 'Výsledky', href: '/ranking' },
+  { title: 'Hrát', href: '/hrat' },
+  { title: 'Výsledky', href: '/vysledky' },
   { title: 'FAQ', href: '/faq' },
 ];
 

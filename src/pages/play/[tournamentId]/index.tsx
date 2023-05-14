@@ -27,7 +27,7 @@ const ActionButton: FC<{
   const now = new Date();
   if (now > props.endDate) {
     return (
-      <Link href={`/ranking/${props.tournamentId}/${props.roundOrder}`} className={'no-style'}>
+      <Link href={`/vysledky/${props.tournamentId}/${props.roundOrder}`} className={'no-style'}>
         <Button variant="contained" color="primary" sx={{ width: BUTTON_WIDTH }}>
           Výsledky
         </Button>
@@ -40,7 +40,7 @@ const ActionButton: FC<{
 
   if (isActive) {
     return (
-      <Link href={`/play/${props.tournamentId}/${props.roundOrder}`}>
+      <Link href={`/hrat/${props.tournamentId}/${props.roundOrder}`}>
         <Button variant="contained" color="secondary" sx={{ width: BUTTON_WIDTH }}>
           Hrát
         </Button>
