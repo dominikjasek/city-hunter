@@ -55,27 +55,25 @@ export const MapPicker: FC<MapPickerProps> = ({ point, centerPoint, zoom, onClic
         <MouseControl zoom={true} pan={true} wheel={true} />
         <SyncControl />
         <POILayer />
-        {point && (
-          <MarkerLayer>
-            <Marker
-              coords={point}
-              options={{
-                url: () => (
-                  <Image
-                    alt={'Map marker'}
-                    src={MapMarker}
-                    style={{
-                      width: '30px',
-                      height: '40px',
-                      transform: 'translate(-4px, -10px)',
-                      opacity: 0.9,
-                    }}
-                  />
-                ),
-              }}
-            />
-          </MarkerLayer>
-        )}
+        <MarkerLayer>
+          <Marker
+            coords={point ?? { lat: 0, lng: 0 }}
+            options={{
+              url: () => (
+                <Image
+                  alt={'Map marker'}
+                  src={MapMarker}
+                  style={{
+                    width: '30px',
+                    height: '40px',
+                    transform: 'translate(-4px, -10px)',
+                    opacity: Boolean(point) ? 0.9 : 0,
+                  }}
+                />
+              ),
+            }}
+          />
+        </MarkerLayer>
       </Map>
     </Box>
   );
