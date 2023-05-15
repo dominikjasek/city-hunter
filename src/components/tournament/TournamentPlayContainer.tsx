@@ -39,8 +39,7 @@ export const TournamentPlayContainer: FC<TournamentContainerProps> = (props) => 
             justifyContent={'center'}
             sx={{ ml: 1, zIndex: 1, mr: -10 }}
           >
-            <Typography variant={'h4'}>{props.cityName}</Typography>
-            <Typography variant={'h5'}>{props.tournamentName}</Typography>
+            <Typography variant={'h4'}>{props.tournamentName}</Typography>
             {props.startDate && props.endDate && (
               <Typography variant={'h6'}>{`${formatDate(props.startDate)} - ${formatDate(props.endDate)}`}</Typography>
             )}

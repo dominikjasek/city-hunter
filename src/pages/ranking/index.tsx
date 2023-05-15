@@ -39,9 +39,9 @@ export const Index: NextPage = () => {
                   <Typography variant={'h5'}>
                     <SecondaryText>{tournament.tournamentName}</SecondaryText>
                   </Typography>
-                  <Typography variant={'h6'}>{`${formatDate(tournament.startDate)} - ${formatDate(
-                    tournament.endDate,
-                  )}`}</Typography>
+                  <Typography variant={'h6'}>
+                    {`${formatDate(tournament.startDate)} - ${formatDate(tournament.endDate)}`}
+                  </Typography>
                   <Typography>Počet kol: {tournament.questionsCount}</Typography>
                   <Typography>Počet hráčů: {tournament.contendersCount}</Typography>
                 </Stack>

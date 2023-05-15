@@ -61,8 +61,6 @@ export default UserPage;
 
 export async function getStaticProps() {
   return {
-    props: {
-      currentNickName: 'test',
-    },
+    props: {},
   };
 }
