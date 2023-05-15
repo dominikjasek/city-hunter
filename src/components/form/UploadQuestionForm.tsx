@@ -241,7 +241,12 @@ export const UploadQuestionForm = ({
         </Box>
       </Stack>
 
-      <Stack sx={{ width: '100%' }}>
+      <Stack
+        sx={{
+          width: '100%',
+          height: 600,
+        }}
+      >
         <MapPicker
           centerPoint={selectedCity.centerPoint}
           zoom={selectedCity.mapZoom}
