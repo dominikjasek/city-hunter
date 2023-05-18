@@ -28,12 +28,12 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
   return (
     <>
       <LightBox isOpen={isLightboxOpen} imagesUrl={[props.questionImageUrl]} onClose={() => setIsLightboxOpen(false)} />
-      <Stack mb={2} direction={{ xs: 'column', md: 'row' }} alignItems={'center'} gap={2}>
+      <Stack mb={2} direction={{ xs: 'column', md: 'row' }} alignItems={'center'} gap={4}>
         <Box flex={1}>
           <Typography variant={'h6'}>
             <SecondaryText>{props.title}</SecondaryText>
           </Typography>
-          <Typography sx={{ my: 1 }} fontSize={theme.typography.fontSize * 1.2}>
+          <Typography sx={{ mt: 1, mb: 10 }} fontSize={theme.typography.fontSize * 1.2}>
             {props.questionDescription}
           </Typography>
           <Box

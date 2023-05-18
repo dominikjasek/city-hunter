@@ -24,7 +24,7 @@ const UserPage: NextPage = () => {
     if (currentNickName) {
       setValue('nickName', currentNickName);
     }
-  }, [currentNickName]);
+  }, [currentNickName, setValue]);
 
   const {
     mutateAsync,

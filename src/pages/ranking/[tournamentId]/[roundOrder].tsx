@@ -81,7 +81,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
   const [inspectUserId, setInspectUserId] = useState<string | null>(null);
   const myAnswer = useMemo(
     () => questionRanking?.answers.find((answer) => answer.userId === user.user?.id),
-    [questionRanking, questionRanking?.answers, user, user.user?.id],
+    [questionRanking, user],
   );
 
   const mapLocations = useMemo<AnswerLocation[]>(() => {
@@ -104,7 +104,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
     }
 
     return locations;
-  }, [questionRanking, myAnswer?.id, inspectUserId, showAnswers]);
+  }, [questionRanking, myAnswer, inspectUserId, showAnswers]);
 
   if (isQuestionRankingLoading || isTournamentDetailsLoading || isTournamentQuestionsLoading) {
     return <Loader title={'Načítám tady...'} />;
