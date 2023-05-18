@@ -29,8 +29,9 @@ const FaqPage: NextPage = () => {
           <QuestionTitle>Jaké jsou pravidla hry?</QuestionTitle>
           <QuestionAnswer>
             Každý den bude zveřejněna ve 20:00 nová otázka. Máte 1 hodinu na to, abyste na ni odpověděli tím, že
-            označíte místo na mapě, kde si myslíte, že se nachází daný objekt zachycený na fotce. Vždy vyznačujte střed
-            objektu. Za každou odpověď můžete získat maximálně 100 bodů. Ve 21:00 budou dostupné výsledky kola.
+            označíte místo na mapě, kde si myslíte, že se nachází daný objekt zachycený na fotce. Pokud nejsou v zadání
+            napsány jiné pokyny, vyznačujte vždy střed objektu. Za každou odpověď můžete získat maximálně 100 bodů. Ve
+            21:00 budou dostupné výsledky kola.
           </QuestionAnswer>
         </Question>
 
@@ -58,7 +59,9 @@ const FaqPage: NextPage = () => {
 
         <Question>
           <QuestionTitle>Od jaké chvíle se mi počítá čas?</QuestionTitle>
-          <QuestionAnswer>Čas začíná bežet všem stejně bez ohledu na to, kdy si otázku otevřete.</QuestionAnswer>
+          <QuestionAnswer>
+            Čas začíná bežet všem stejně bez ohledu na to, kdy si otázku otevřete. Tedy v 20:00.
+          </QuestionAnswer>
         </Question>
 
         <Question>
