@@ -44,7 +44,7 @@ const UserPage: NextPage = () => {
   }
 
   return (
-    <Box textAlign={'left'}>
+    <Box textAlign={'center'}>
       <Typography variant="h5" my={3}>
         Nastavte si přezdívku
       </Typography>

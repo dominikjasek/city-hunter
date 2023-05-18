@@ -32,7 +32,7 @@ export const NickNameForm: FC<{
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack direction={'column'} maxWidth={{ xs: 300, md: 500 }}>
+      <Stack direction={'column'} mx={'auto'} maxWidth={{ xs: 300, md: 500 }}>
         <TextField
           fullWidth
           label={'Přezdívka zobrazená v žebříčku'}
