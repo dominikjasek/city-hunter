@@ -44,7 +44,7 @@ export const TournamentRankingPage: NextPage = () => {
 
   return (
     <Box>
-      <Typography variant={'h5'}>Žebříček - {tournamentDetails.name}</Typography>
+      <Typography variant={'h5'}>Výsledky - {tournamentDetails.name}</Typography>
       <TournamentRoundLinks tournamentId={tournamentDetails.id} tournamentQuestions={tournamentQuestions} />
       <Stack direction={'column'} justifyContent={'space-between'} gap={2}>
         <Stack sx={{ mr: 8 }} direction={'row'} justifyContent={'center'} alignItems={'center'} gap={2}>
