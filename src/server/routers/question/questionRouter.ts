@@ -62,8 +62,8 @@ export const questionRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Question already finished' });
       }
 
-      const duration = now.getTime() - question.startDate.getTime();
-      const { score } = evaluateResultsFromLocations(input.answer, question.correctLocation, duration);
+      const durationInSeconds = (now.getTime() - question.startDate.getTime()) / 1000;
+      const { score } = evaluateResultsFromLocations(input.answer, question.correctLocation, durationInSeconds);
 
       await db.insert(answers).values({
         questionId: input.questionId,
