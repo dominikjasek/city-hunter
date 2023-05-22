@@ -109,7 +109,8 @@ const FaqPage: NextPage = () => {
                 Dominik Jašek
               </a>
             </SecondaryText>
-            . Pokud máte jakékoli dotazy, nápady nebo připomínky, neváhejte mě kontaktovat.
+            . Brněnskými spoluautory jsou Maruška a Šimon Bendovi. Pokud máte jakékoli dotazy, nápady nebo připomínky,
+            neváhejte mě kontaktovat.
           </QuestionAnswer>
         </Question>
       </Box>
