@@ -45,7 +45,7 @@ const AdminQuestionsPages: NextPage = () => {
       <Box>
         {tournamentId && (
           <Stack direction={'column'} justifyContent={'center'} alignItems={'center'} gap={2} sx={{ p: 2 }}>
-            <SecondaryText>Kontrola turnaje:</SecondaryText>
+            <SecondaryText>Kontrola soutěže:</SecondaryText>
             <Typography>
               Jsou definovány všechna ({EXPECTED_QUESTION_LENGTH}) kola <code>roundOrder</code>{' '}
               {renderBoolean(

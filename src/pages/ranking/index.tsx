@@ -16,7 +16,7 @@ export const Index: NextPage = () => {
 
   return (
     <Box>
-      <Typography variant={'h5'}>Výsledky turnajů:</Typography>
+      <Typography variant={'h5'}>Výsledky soutěží:</Typography>
       <Stack direction={'row'} flexWrap={'wrap'} gap={2} justifyContent={'center'}>
         {tournamentsData?.map((tournament) => (
           <Card

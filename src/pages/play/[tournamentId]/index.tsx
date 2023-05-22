@@ -85,11 +85,11 @@ export const TournamentPage: NextPage = () => {
   }
 
   if (!tournament) {
-    return <Box>Turnaj s id {tournamentId} nebyl nalezen</Box>;
+    return <Box>Soutěž s id {tournamentId} nebyl nalezen</Box>;
   }
 
   if (!questions || questions.length === 0) {
-    return <Box>K tomuto turnaji nebyly nalezeny žádná data</Box>;
+    return <Box>K této soutěži nebyly nalezeny žádná data</Box>;
   }
 
   return (
