@@ -8,9 +8,14 @@ import { MapLocation } from '~/components/MapPicker/types';
 import { TRPCError } from '@trpc/server';
 import { useMemo, useState } from 'react';
 import { formatTime } from '~/utils/formatter/dateFormatter';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { createDurationString } from '~/utils/ranking/createDurationString';
-import LoadingButton from '@mui/lab/LoadingButton';
+import Countdown, { zeroPad } from 'react-countdown';
+import { Box } from '@mui/material';
+
+const renderer = ({ hours, minutes, seconds }: { hours: number; minutes: number; seconds: number }) => (
+  <span>
+    {zeroPad(minutes)}:{zeroPad(seconds)}
+  </span>
+);
 
 export const QuestionPlayPage: NextPage = () => {
   const { query } = useRouter();
@@ -48,9 +53,7 @@ export const QuestionPlayPage: NextPage = () => {
     }
   };
 
-  const now = new Date();
-
-  if (isQuestionLoading) {
+  if (isQuestionLoading || isQuestionFetching) {
     return <Loader title={'Načítání...'} />;
   }
 
@@ -69,24 +72,23 @@ export const QuestionPlayPage: NextPage = () => {
   if (questionData.status === 'not_started') {
     return (
       <>
-        <MessageBox
-          type={'info'}
-          message={`Kolo začne za ${createDurationString(
-            (questionData.question!.startDate!.getTime() - now.getTime()) / 1000,
-            { format: 'minutes and seconds' },
-          )}. Pro aktualizaci klepněte na tlačítko Aktualizovat.`}
-        />
-
-        <LoadingButton
-          variant={'contained'}
-          color={'primary'}
-          startIcon={<RefreshIcon />}
-          onClick={() => refetch()}
-          sx={{ mt: 4 }}
-          loading={isQuestionFetching}
-        >
-          Aktualizovat
-        </LoadingButton>
+        {questionData.question.startDate && (
+          <Box maxWidth={600} mx={'auto'}>
+            <MessageBox
+              type={'info'}
+              message={
+                <>
+                  {`Kolo začne v ${formatTime(questionData.question.startDate)}. Otázka se vám automaticky načte za `}
+                  <Countdown
+                    renderer={renderer}
+                    onComplete={() => setTimeout(refetch, 300)}
+                    date={questionData.question.startDate}
+                  />
+                </>
+              }
+            />
+          </Box>
+        )}
       </>
     );
   }

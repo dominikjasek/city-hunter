@@ -75,6 +75,9 @@ dependencies:
   clsx:
     specifier: ^1.1.1
     version: 1.1.1
+  countdown:
+    specifier: ^2.6.0
+    version: 2.6.0
   date-fns:
     specifier: ^2.29.3
     version: 2.29.3
@@ -2866,6 +2869,10 @@ packages:
       parse-json: 5.2.0
       path-type: 4.0.0
       yaml: 1.10.2
+    dev: false
+
+  /countdown@2.6.0:
+    resolution: {integrity: sha512-96C3ntj6/Q0KiikjRxDTrnw09VHI1x930gDTxBnTN8spEjySAT4ftvPXbM22Wn1pp5X0HvZ9uw6DOIf2d8g7rg==}
     dev: false
 
   /cross-spawn@6.0.5:
