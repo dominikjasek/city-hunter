@@ -1,7 +1,7 @@
 import { publicProcedure, router } from '../trpc';
 import { db } from '~/db/drizzle';
 import { answers, cities, questions, tournaments } from '~/db/schema';
-import { eq, inArray } from 'drizzle-orm/expressions';
+import { eq, inArray } from 'drizzle-orm';
 import { z } from 'zod';
 
 export const tournamentRouter = router({

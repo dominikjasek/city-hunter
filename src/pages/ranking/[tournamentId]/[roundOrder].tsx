@@ -22,7 +22,7 @@ import { Loader } from '~/components/common/Loader/Loader';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 import { db } from '~/db/drizzle';
 import { questions } from '~/db/schema';
-import { and, isNotNull } from 'drizzle-orm/expressions';
+import { and, isNotNull } from 'drizzle-orm';
 import { ssgHelpers } from '~/server/ssgHelpers';
 import { MapWithAnswers } from '~/components/MapPicker/MapWithAnswers';
 import { useUser } from '@clerk/nextjs';

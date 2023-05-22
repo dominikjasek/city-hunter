@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { GetQuestionResponse, QuestionEntity } from '~/server/routers/question/types';
 import { db } from '~/db/drizzle';
 import { answers, cities, questions } from '~/db/schema';
-import { and, eq } from 'drizzle-orm/expressions';
+import { and, eq } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { RedisClient } from '~/server/redis/redis';
 

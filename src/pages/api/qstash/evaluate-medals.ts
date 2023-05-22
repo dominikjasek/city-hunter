@@ -1,6 +1,6 @@
 import { db } from '~/db/drizzle';
 import { Answer, answers, questions } from '~/db/schema';
-import { and, between, eq } from 'drizzle-orm/expressions';
+import { and, between, eq } from 'drizzle-orm';
 import { add, sub } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifySignature } from '@upstash/qstash/nextjs';

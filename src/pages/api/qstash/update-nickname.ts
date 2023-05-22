@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { verifySignature } from '@upstash/qstash/nextjs';
 import { db } from '~/db/drizzle';
-import { eq } from 'drizzle-orm/expressions';
+import { eq } from 'drizzle-orm';
 import { answers, questions } from '~/db/schema';
 import { UpdateNicknameEvent } from '~/server/qstash/types';
 import { revalidateRankingPages } from '~/server/revalidate/revalidate';

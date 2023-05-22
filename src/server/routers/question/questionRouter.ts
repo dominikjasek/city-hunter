@@ -2,7 +2,7 @@ import { adminProcedure, protectedProcedure, publicProcedure, router } from '~/s
 import { z } from 'zod';
 import { db } from '~/db/drizzle';
 import { answers, cities, questions } from '~/db/schema';
-import { and, eq } from 'drizzle-orm/expressions';
+import { and, eq } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { evaluateResultsFromLocations } from '~/utils/score/evaluate-score';
 import { getRoundQuestion } from '~/server/routers/question/getRoundQuestion';

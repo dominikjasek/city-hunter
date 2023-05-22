@@ -1,7 +1,7 @@
 import { publicProcedure, router } from '~/server/trpc';
 import { db } from '~/db/drizzle';
 import { answers, cities, questions, users } from '~/db/schema';
-import { and, eq, lt } from 'drizzle-orm/expressions';
+import { and, eq, lt } from 'drizzle-orm';
 import { z } from 'zod';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
 import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { db } from '~/db/drizzle';
 import { CreateUser, users } from '~/db/schema';
 import { protectedProcedure, publicProcedure, router } from '~/server/trpc';
-import { eq } from 'drizzle-orm/expressions';
+import { eq } from 'drizzle-orm';
 import { emitQStashEvent } from '~/server/qstash/qstash';
 
 export const authRouter = router({
