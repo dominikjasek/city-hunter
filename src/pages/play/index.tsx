@@ -20,6 +20,7 @@ export const PlayPage: NextPage = () => {
         <Link key={tournament.id} href={`/play/${tournament.id}`} className={'no-style'} passHref>
           <TournamentPlayContainer
             tournamentId={tournament.id}
+            description={tournament.tournamentDescription}
             cityName={tournament.cityName}
             startDate={tournament.startDate}
             endDate={tournament.endDate}

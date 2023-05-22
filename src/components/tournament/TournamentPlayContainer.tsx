@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 interface TournamentContainerProps {
   cityName?: string;
+  description: string | null;
   tournamentId: string;
   tournamentName: string;
   previewImageUrl: string | null;
@@ -40,6 +41,7 @@ export const TournamentPlayContainer: FC<TournamentContainerProps> = (props) => 
             sx={{ ml: 1, zIndex: 1, mr: -10 }}
           >
             <Typography variant={'h4'}>{props.tournamentName}</Typography>
+            <Typography variant={'h6'}>{props.description}</Typography>
             {props.startDate && props.endDate && (
               <Typography variant={'h6'}>{`${formatDate(props.startDate)} - ${formatDate(props.endDate)}`}</Typography>
             )}

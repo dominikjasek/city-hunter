@@ -49,6 +49,7 @@ export const tournamentRouter = router({
         previewImageUrl: cities.previewImageUrl,
         id: tournaments.id,
         name: tournaments.name,
+        description: tournaments.description,
         startDate: tournaments.startDate,
         endDate: tournaments.endDate,
       })
@@ -83,6 +84,7 @@ export const tournamentRouter = router({
           previewImageUrl: tournament.previewImageUrl,
           id: tournament.id,
           tournamentName: tournament.name,
+          tournamentDescription: tournament.description,
           startDate: tournament.startDate!,
           endDate: tournament.endDate!,
           questionsCount: questionsItems.length,
