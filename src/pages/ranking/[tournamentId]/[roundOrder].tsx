@@ -176,7 +176,10 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
               <Stack textAlign={'initial'} sx={{ height: '100%' }}>
                 {showAnswers ? (
                   <Typography>
-                    <SecondaryText>Řešení</SecondaryText>: {questionRanking.question.answerDescription}
+                    <SecondaryText>Řešení</SecondaryText>:{' '}
+                    <Typography
+                      dangerouslySetInnerHTML={{ __html: questionRanking.question.answerDescription ?? '' }}
+                    ></Typography>
                   </Typography>
                 ) : (
                   <>
