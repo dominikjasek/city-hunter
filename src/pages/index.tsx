@@ -29,16 +29,6 @@ const IndexPage: NextPageWithLayout = () => {
               Vyzkoušet demo
             </Button>
           </Link>
-          <Link className={'no-style'} href={'/play'} passHref>
-            <Button color={'secondary'} variant={'outlined'} sx={{ width: '250px' }}>
-              Hrát
-            </Button>
-          </Link>
-          <Link className={'no-style'} href={'/faq'} passHref>
-            <Button color={'secondary'} variant={'outlined'} sx={{ width: '250px' }}>
-              FAQ
-            </Button>
-          </Link>
         </Stack>
       </Box>
     </Stack>
