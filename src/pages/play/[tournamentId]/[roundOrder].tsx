@@ -66,8 +66,21 @@ export const QuestionPlayPage: NextPage = () => {
     return <MessageBox type={'info'} message={'Kolo už je ukonečené. Bohužel jste nestihli odpovědět.'} />;
   }
 
+  if (questionData.status === 'expired_answered') {
+    return <MessageBox type={'info'} message={'Kolo už je ukonečené, vaši odpověď jsme zaznamenali.'} />;
+  }
+
   if (!questionData.question) {
     return <MessageBox type={'warning'} message={'Otázka nebyla nalezena. Kontaktujte administrátora.'} />;
+  }
+
+  if (pageState === 'answered' || questionData.status === 'answered') {
+    return (
+      <MessageBox
+        type={'success'}
+        message={`Vaše odpověď byla uložena. Výsledky budou zveřejněny v ${formatTime(questionData.question.endDate)}`}
+      />
+    );
   }
 
   if (questionData.status === 'not_started') {
@@ -91,15 +104,6 @@ export const QuestionPlayPage: NextPage = () => {
           </Box>
         )}
       </>
-    );
-  }
-
-  if (pageState === 'answered' || questionData.status === 'answered') {
-    return (
-      <MessageBox
-        type={'success'}
-        message={`Vaše odpověď byla uložena. Výsledky budou zveřejněny v ${formatTime(questionData.question.endDate)}`}
-      />
     );
   }
 

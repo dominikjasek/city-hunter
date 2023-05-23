@@ -34,6 +34,14 @@ interface ExpiredNotAnsweredQuestion {
   };
 }
 
+interface ExpiredAnsweredQuestion {
+  status: 'expired_answered';
+  question: {
+    startDate: Date;
+    endDate: Date;
+  };
+}
+
 interface AnsweredQuestion {
   status: 'answered';
   question: {
@@ -42,7 +50,12 @@ interface AnsweredQuestion {
   };
 }
 
-export type GetQuestionResponse = NotStartedQuestion | ActiveQuestion | ExpiredNotAnsweredQuestion | AnsweredQuestion;
+export type GetQuestionResponse =
+  | NotStartedQuestion
+  | ActiveQuestion
+  | ExpiredAnsweredQuestion
+  | ExpiredNotAnsweredQuestion
+  | AnsweredQuestion;
 
 export interface QuestionEntity {
   id: number;

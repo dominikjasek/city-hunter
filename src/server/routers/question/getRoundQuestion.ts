@@ -112,9 +112,9 @@ export const getRoundQuestion = protectedProcedure
         .limit(1)
     )[0];
 
-    if (answer) {
+    if (now > question.endDate) {
       return {
-        status: 'answered',
+        status: answer ? 'expired_answered' : 'expired_not_answered',
         question: {
           startDate: question.startDate!,
           endDate: question.endDate!,
@@ -122,9 +122,9 @@ export const getRoundQuestion = protectedProcedure
       };
     }
 
-    if (now > question.endDate) {
+    if (answer) {
       return {
-        status: 'expired_not_answered',
+        status: 'answered',
         question: {
           startDate: question.startDate!,
           endDate: question.endDate!,
