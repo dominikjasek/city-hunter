@@ -13,7 +13,7 @@ import { Box } from '@mui/material';
 
 const renderer = ({ hours, minutes, seconds }: { hours: number; minutes: number; seconds: number }) => (
   <span>
-    {zeroPad(minutes)}:{zeroPad(seconds)}
+    {hours || ''}:{zeroPad(minutes)}:{zeroPad(seconds)}
   </span>
 );
 
