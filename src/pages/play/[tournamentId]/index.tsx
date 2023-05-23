@@ -40,7 +40,7 @@ const ActionButton: FC<{
 
   if (isActive) {
     return (
-      <Link href={`/play/${props.tournamentId}/${props.roundOrder}`}>
+      <Link href={`/play/${props.tournamentId}/${props.roundOrder}`} className={'no-style'}>
         <Button variant="contained" color="secondary" sx={{ width: BUTTON_WIDTH }}>
           Hrát
         </Button>
