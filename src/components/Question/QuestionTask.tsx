@@ -33,7 +33,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
           <Typography variant={'h6'}>
             <SecondaryText>{props.title}</SecondaryText>
           </Typography>
-          <Typography sx={{ mt: 1, mb: 10 }} fontSize={theme.typography.fontSize * 1.2}>
+          <Typography sx={{ mt: 1, mb: 4 }} fontSize={theme.typography.fontSize * 1.2}>
             {props.questionDescription}
           </Typography>
           <Box
