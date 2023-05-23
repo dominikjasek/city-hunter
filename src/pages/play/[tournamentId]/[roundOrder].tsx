@@ -13,7 +13,8 @@ import { Box } from '@mui/material';
 
 const renderer = ({ hours, minutes, seconds }: { hours: number; minutes: number; seconds: number }) => (
   <span>
-    {hours || ''}:{zeroPad(minutes)}:{zeroPad(seconds)}
+    {hours > 0 ? `${hours}:` : ''}
+    {zeroPad(minutes)}:{zeroPad(seconds)}
   </span>
 );
 

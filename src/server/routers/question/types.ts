@@ -55,7 +55,7 @@ export interface QuestionEntity {
     centerPoint: MapLocation;
     mapZoom: number;
   };
-  roundOrder: number | null;
-  startDate: Date | null;
-  endDate: Date | null;
+  roundOrder: number;
+  startDate: Date;
+  endDate: Date;
 }

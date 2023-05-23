@@ -11,10 +11,10 @@ import {
   timestamp,
   varchar,
 } from 'drizzle-orm/mysql-core';
-import { InferModel } from 'drizzle-orm';
+import { InferModel, relations } from 'drizzle-orm';
 import { MapLocation } from '~/db/types';
 
-// User
+// User -----------------------------------------------------
 export const users = mysqlTable('users', {
   id: varchar('id', { length: 100 }).primaryKey(),
   nickName: varchar('nick_name', { length: 40 }).notNull(),
@@ -24,17 +24,12 @@ export const users = mysqlTable('users', {
 export type User = InferModel<typeof users>;
 export type CreateUser = InferModel<typeof users, 'insert'>;
 
-// Tournament
-export const tournaments = mysqlTable('tournaments', {
-  id: varchar('id', { length: 100 }).primaryKey(),
-  name: varchar('name', { length: 100 }).notNull(),
-  description: text('description'),
-  startDate: date('start_date'),
-  endDate: date('end_date'),
-  cityId: int('city_id').notNull(),
-});
+export const usersRelations = relations(users, ({ many }) => ({
+  questions: many(questions),
+  answers: many(answers),
+}));
 
-// City
+// City -----------------------------------------------------
 export const cities = mysqlTable('cities', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 50 }).notNull(),
@@ -49,7 +44,27 @@ export const cities = mysqlTable('cities', {
 
 export type City = InferModel<typeof cities>;
 
-// Question
+export const citiesRelations = relations(cities, ({ many }) => ({
+  tournaments: many(tournaments),
+  questions: many(questions),
+}));
+
+// Tournament -----------------------------------------------------
+export const tournaments = mysqlTable('tournaments', {
+  id: varchar('id', { length: 100 }).primaryKey(),
+  name: varchar('name', { length: 100 }).notNull(),
+  description: text('description'),
+  startDate: date('start_date'),
+  endDate: date('end_date'),
+  cityId: int('city_id').notNull(),
+});
+
+export const tournamentsRelations = relations(tournaments, ({ one, many }) => ({
+  city: one(cities, { fields: [tournaments.cityId], references: [cities.id] }),
+  questions: many(questions),
+}));
+
+// Question -----------------------------------------------------
 export const questions = mysqlTable(
   'questions',
   {
@@ -76,7 +91,17 @@ export const questions = mysqlTable(
 
 export type Question = InferModel<typeof questions>;
 
-// Answer
+export const questionsRelations = relations(questions, ({ one, many }) => ({
+  city: one(cities, { fields: [questions.cityId], references: [cities.id] }),
+  tournament: one(tournaments, {
+    fields: [questions.tournamentId],
+    references: [tournaments.id],
+  }),
+  author: one(users, { fields: [questions.authorId], references: [users.id] }),
+  answers: many(answers),
+}));
+
+// Answer -----------------------------------------------------
 export const answers = mysqlTable('answers', {
   id: serial('id').primaryKey(),
   location: json('location').$type<MapLocation>().notNull(),
@@ -89,3 +114,8 @@ export const answers = mysqlTable('answers', {
 
 export type Answer = InferModel<typeof answers>;
 export type CreateAnswer = InferModel<typeof answers, 'insert'>;
+
+export const answersRelations = relations(answers, ({ one }) => ({
+  question: one(questions, { fields: [answers.questionId], references: [questions.id] }),
+  user: one(users, { fields: [answers.userId], references: [users.id] }),
+}));

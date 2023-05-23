@@ -2,7 +2,7 @@ import { protectedProcedure } from '~/server/trpc';
 import { z } from 'zod';
 import { GetQuestionResponse, QuestionEntity } from '~/server/routers/question/types';
 import { db } from '~/db/drizzle';
-import { answers, cities, questions } from '~/db/schema';
+import { answers, questions } from '~/db/schema';
 import { and, eq } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { RedisClient } from '~/server/redis/redis';
@@ -18,61 +18,57 @@ const getQuestionWithCache = async (tournamentId: string, roundOrder: number) =>
 
   const redisQuestion = await redisClient.getObject<QuestionEntity>(redisKey);
   if (redisQuestion) {
-    if (!redisQuestion.startDate || !redisQuestion.endDate || !redisQuestion.roundOrder) {
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Some of required attributes are nullable. These attributes are: startDate, endDate and roundOrder',
-      });
-    }
-    return {
-      ...redisQuestion,
-      startDate: redisQuestion.startDate,
-      endDate: redisQuestion.endDate,
-      roundOrder: redisQuestion.roundOrder,
-    };
+    return redisQuestion;
   }
 
-  const question: QuestionEntity | undefined = (
-    await db
-      .select({
-        id: questions.id,
-        title: questions.title,
-        questionDescription: questions.questionDescription,
-        questionImageUrl: questions.questionImageUrl,
-        city: {
-          id: cities.id,
-          name: cities.name,
-          centerPoint: cities.centerPoint,
-          mapZoom: cities.mapZoom,
+  const dbResult = await db.query.questions.findFirst({
+    where: and(eq(questions.roundOrder, roundOrder), eq(questions.tournamentId, tournamentId)),
+    columns: {
+      id: true,
+      title: true,
+      questionDescription: true,
+      questionImageUrl: true,
+      roundOrder: true,
+      startDate: true,
+      endDate: true,
+    },
+    with: {
+      city: {
+        columns: {
+          id: true,
+          name: true,
+          centerPoint: true,
+          mapZoom: true,
         },
-        roundOrder: questions.roundOrder,
-        startDate: questions.startDate,
-        endDate: questions.endDate,
-      })
-      .from(questions)
-      .where(and(eq(questions.roundOrder, roundOrder), eq(questions.tournamentId, tournamentId)))
-      .innerJoin(cities, eq(questions.cityId, cities.id))
-      .limit(1)
-  )[0];
-  if (!question) {
-    throw new TRPCError({ code: 'NOT_FOUND' });
+      },
+    },
+  });
+
+  if (!dbResult) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'Question was not found' });
   }
-  if (!question.startDate || !question.endDate || !question.roundOrder) {
+  if (dbResult.city === null) {
+    throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Question is not assigned to any city.' });
+  }
+  if (!dbResult.startDate || !dbResult.endDate || !dbResult.roundOrder) {
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
       message: 'Some of required attributes are nullable. These attributes are: startDate, endDate and roundOrder',
     });
   }
 
+  // override startDate and endDate because typescript doesnt know that we checked they are not null
+  const question = {
+    ...dbResult,
+    city: dbResult.city,
+    startDate: dbResult.startDate,
+    endDate: dbResult.endDate,
+    roundOrder: dbResult.roundOrder,
+  } satisfies QuestionEntity;
+
   await redisClient.setObject(redisKey, question);
 
-  return {
-    ...question,
-    // override startDate and endDate because typescript doesnt know that we checked they are not null
-    startDate: question.startDate,
-    endDate: question.endDate,
-    roundOrder: question.roundOrder,
-  };
+  return question;
 };
 
 export const getRoundQuestion = protectedProcedure
