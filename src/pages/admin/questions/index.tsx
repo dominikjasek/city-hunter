@@ -11,8 +11,10 @@ import { SecondaryText } from '~/components/common/Typography/typography';
 import { NextSeo } from 'next-seo';
 
 const EXPECTED_QUESTION_LENGTH = 20;
-const EXPECTED_START_TIME = '20:00'; //getMinutes returns only single digit
-const EXPECTED_END_TIME = '21:00'; //getMinutes returns only single digit
+const EXPECTED_START_TIME_BRNO = '20:00'; //getMinutes returns only single digit
+const EXPECTED_END_TIME_BRNO = '21:00'; //getMinutes returns only single digit
+const EXPECTED_START_TIME_TREBIC = '19:00'; //getMinutes returns only single digit
+const EXPECTED_END_TIME_TREBIC = '20:00'; //getMinutes returns only single digit
 
 const renderBoolean = (value: boolean) => {
   return value ? '✅' : '❌';
@@ -54,23 +56,30 @@ const AdminQuestionsPages: NextPage = () => {
               )}
             </Typography>
             <Typography>
-              Všechny otázky začínají v čase {EXPECTED_START_TIME}{' '}
+              Všechny otázky začínají v čase{' '}
+              {tournamentId === 'trebic' ? EXPECTED_START_TIME_TREBIC : EXPECTED_START_TIME_BRNO}{' '}
               {renderBoolean(
-                questions.every(
-                  (q) =>
-                    `${q.startDate?.getHours()}:${q.startDate?.getMinutes().toString().padStart(2, '0')}` ===
-                    EXPECTED_START_TIME,
-                ),
+                questions.every((q) => {
+                  const startDate = `${q.startDate?.getHours()}:${q.startDate
+                    ?.getMinutes()
+                    .toString()
+                    .padStart(2, '0')}`;
+                  return tournamentId === 'trebic'
+                    ? startDate === EXPECTED_START_TIME_TREBIC
+                    : startDate === EXPECTED_START_TIME_BRNO;
+                }),
               )}
             </Typography>
             <Typography>
-              Všechny otázky končí v čase {EXPECTED_END_TIME}{' '}
+              Všechny otázky začínají v čase{' '}
+              {tournamentId === 'trebic' ? EXPECTED_END_TIME_TREBIC : EXPECTED_END_TIME_BRNO}{' '}
               {renderBoolean(
-                questions.every(
-                  (q) =>
-                    `${q.endDate?.getHours()}:${q.endDate?.getMinutes().toString().padStart(2, '0')}` ===
-                    EXPECTED_END_TIME,
-                ),
+                questions.every((q) => {
+                  const endDate = `${q.endDate?.getHours()}:${q.endDate?.getMinutes().toString().padStart(2, '0')}`;
+                  return tournamentId === 'trebic'
+                    ? endDate === EXPECTED_END_TIME_TREBIC
+                    : endDate === EXPECTED_END_TIME_BRNO;
+                }),
               )}
             </Typography>
             <Typography>
