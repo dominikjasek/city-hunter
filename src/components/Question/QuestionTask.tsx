@@ -51,6 +51,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
               fill
               style={{
                 objectFit: 'contain',
+                objectPosition: 'top',
               }}
               onClick={() => setIsLightboxOpen(true)}
             />
