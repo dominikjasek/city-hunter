@@ -1,10 +1,14 @@
 import { NextPageWithLayout } from './_app';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import Link from 'next/link';
 import { SecondaryText } from '~/components/common/Typography/typography';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 const IndexPage: NextPageWithLayout = () => {
+  const theme = useTheme();
+
   return (
     <Stack
       direction={'column'}
@@ -28,6 +32,26 @@ const IndexPage: NextPageWithLayout = () => {
             <Button color={'secondary'} variant={'contained'} sx={{ width: '250px' }}>
               Vyzkoušet demo
             </Button>
+          </Link>
+        </Stack>
+        <Stack direction="row" gap={2} justifyContent={'center'} mt={4}>
+          <Link className={'no-style'} href={'https://www.facebook.com/people/City-Hunter/100092175761017/'} passHref>
+            <FacebookIcon
+              sx={{
+                '&:hover': {
+                  color: theme.palette.secondary.main,
+                },
+              }}
+            />
+          </Link>
+          <Link className={'no-style'} href={'https://www.instagram.com/cityhunter.cz'} passHref>
+            <InstagramIcon
+              sx={{
+                '&:hover': {
+                  color: theme.palette.secondary.main,
+                },
+              }}
+            />
           </Link>
         </Stack>
       </Box>
