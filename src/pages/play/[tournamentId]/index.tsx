@@ -94,7 +94,7 @@ export const TournamentPage: NextPage = () => {
 
   return (
     <div>
-      <h1>{tournament.name}</h1>
+      <Typography variant={'h5'}>{tournament.name}</Typography>
       <Stack direction={'row'} justifyContent={'center'} flexWrap={'wrap'} gap={2}>
         {questions.map((question) => (
           <Card
