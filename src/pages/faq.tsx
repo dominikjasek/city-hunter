@@ -28,10 +28,23 @@ const FaqPage: NextPage = () => {
         <Question>
           <QuestionTitle>Jaké jsou pravidla hry?</QuestionTitle>
           <QuestionAnswer>
-            Každý den bude zveřejněna ve 20:00 nová otázka. Máte 1 hodinu na to, abyste na ni odpověděli tím, že
-            označíte místo na mapě, kde si myslíte, že se nachází daný objekt zachycený na fotce. Pokud nejsou v zadání
-            napsány jiné pokyny, vyznačujte vždy střed objektu. Za každou odpověď můžete získat maximálně 100 bodů. Ve
-            21:00 budou dostupné výsledky kola.
+            <p>
+              Hra začíná 5. 6. 2023 a trvá 20 dní. Každý večer bude zveřejněna nová otázka. V Třebíči v 19:00 a v Brně
+              ve 20:00.
+            </p>
+            <p>
+              Máte 1 hodinu na to, abyste na ni odpověděli tím, že označíte místo na mapě, kde si myslíte, že se nachází
+              daný objekt zachycený na fotce. Pokud nejsou v zadání napsány jiné pokyny, vyznačujte vždy střed objektu.
+              Za každou odpověď můžete získat maximálně 100 bodů.
+            </p>
+          </QuestionAnswer>
+        </Question>
+
+        <Question>
+          <QuestionTitle>Od jaké chvíle se mi počítá čas?</QuestionTitle>
+          <QuestionAnswer>
+            Čas začíná bežet všem stejně bez ohledu na to, kdy si otázku otevřete. Tedy pro Třebíč v 19:00 a pro Brno ve
+            20:00.
           </QuestionAnswer>
         </Question>
 
@@ -42,7 +55,7 @@ const FaqPage: NextPage = () => {
             <Link href={'/auth/login'} className={'no-style'}>
               <SecondaryText>se přihlásit</SecondaryText>
             </Link>{' '}
-            a můžete začít odpovídat na otázky v Třebíči nebo v Brně.
+            a můžete začít odpovídat na otázky v Třebíči nebo (i) v Brně.
           </QuestionAnswer>
         </Question>
 
@@ -54,13 +67,6 @@ const FaqPage: NextPage = () => {
             Časová penalizace je znát hlavně na začátku kola, s přibývajícím časem tato penalizace klesá. Pro lepší
             pochopení výpočtu skóre můžete použít tuto jednoduchou kalkulačku:
             <ScoreCalculator />
-          </QuestionAnswer>
-        </Question>
-
-        <Question>
-          <QuestionTitle>Od jaké chvíle se mi počítá čas?</QuestionTitle>
-          <QuestionAnswer>
-            Čas začíná bežet všem stejně bez ohledu na to, kdy si otázku otevřete. Tedy v 20:00.
           </QuestionAnswer>
         </Question>
 
@@ -103,14 +109,25 @@ const FaqPage: NextPage = () => {
         <Question>
           <QuestionTitle>Kdo je autorem hry?</QuestionTitle>
           <QuestionAnswer>
-            Autorem hry je{' '}
-            <SecondaryText>
-              <a className="no-style" href="mailto: dominik@dominikjasek.cz">
-                Dominik Jašek
-              </a>
-            </SecondaryText>
-            . Brněnskými spoluautory jsou Maruška a Šimon Bendovi. Pokud máte jakékoli dotazy, nápady nebo připomínky,
-            neváhejte mě kontaktovat.
+            <p>
+              Autorem hry je{' '}
+              <SecondaryText>
+                <a className="no-style" href="mailto: dominik@dominikjasek.cz">
+                  Dominik Jašek
+                </a>
+              </SecondaryText>
+              . Brněnskými spoluautory jsou Maruška a Šimon Bendovi. Pokud máte jakékoli dotazy, nápady nebo připomínky,
+              neváhejte mě kontaktovat.
+            </p>
+            <p>
+              Hra City Hunter je inspirována online hrou{' '}
+              <SecondaryText>
+                <a className={'no-style'} href={'https://trebicsquared.cz'}>
+                  trebicsquared
+                </a>
+              </SecondaryText>
+              . Určitě se podívejte na otázky, které se v ní objevily. A nebojte, otázky se nebudou duplikovat.
+            </p>
           </QuestionAnswer>
         </Question>
       </Box>

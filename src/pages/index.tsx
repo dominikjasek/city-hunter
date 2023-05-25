@@ -17,15 +17,21 @@ const IndexPage: NextPageWithLayout = () => {
       alignItems={'center'}
       sx={{ maxWidth: '800px', mx: 'auto', mt: { xs: 0, md: 2 }, mb: 6 }}
     >
-      <Box mt={8}>
+      <Box mt={4}>
         <Typography variant={'h6'} sx={{ mb: 4 }}>
           Díváte se kolem sebe? <SecondaryText>City Hunter</SecondaryText> je online hra, která to prověří. Úkolem je
           vyznačit místo na mapě, které je zachyceno na obrázku.
         </Typography>
         <Typography variant={'h6'} sx={{ mb: 6 }}>
-          Hrajeme v <SecondaryText>Třebíči</SecondaryText> a v <SecondaryText>Brně</SecondaryText>. Startujeme{' '}
-          <SecondaryText>1. 6. 2023</SecondaryText> a hra bude trvat <SecondaryText>20 dnů</SecondaryText>. Každý večer
-          bude zveřejněna v 20:00 nová otázka a do 21:00 budete mít čas odpovědět. Rozhodují vteřiny, jste připraveni?
+          <p>
+            Hrajeme v <SecondaryText>Třebíči</SecondaryText> a v <SecondaryText>Brně</SecondaryText>. Startujeme{' '}
+            <SecondaryText>5. 6. 2023</SecondaryText> a hra bude trvat <SecondaryText>20 dnů</SecondaryText>.
+          </p>
+          <p>
+            Každý večer bude zveřejněna nová otázka a budete mít 1 hodinu aby jste odpověděli. V Třebíči bude
+            zveřejňována otázka v 19:00 a hrajeme do 20:00, v Brně pak začínáme v 20:00 a hrajeme až do 21:00.
+          </p>
+          <p>Rozhodují vteřiny, jste připraveni?</p>
         </Typography>
         <Stack direction={'column'} mx={'auto'} gap={1}>
           <Link className={'no-style'} href={'/demo'} passHref>
