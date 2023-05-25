@@ -46,26 +46,30 @@ export const TournamentRankingPage: NextPage = () => {
     <Box>
       <Typography variant={'h5'}>Výsledky - {tournamentDetails.name}</Typography>
       <TournamentRoundLinks tournamentId={tournamentDetails.id} tournamentQuestions={tournamentQuestions} />
-      <Stack direction={'column'} justifyContent={'space-between'} gap={2}>
-        <Stack sx={{ mr: 8 }} direction={'row'} justifyContent={'center'} alignItems={'center'} gap={2}>
-          <Typography>Hodnocení podle</Typography>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={viewMode}
-            sx={{ width: 120 }}
-            onChange={(e) => setViewMode(e.target.value as typeof viewMode)}
-          >
-            <MenuItem value={'points'}>Skóre</MenuItem>
-            <MenuItem value={'medals'}>Medaile</MenuItem>
-          </Select>
+      {ranking.length === 0 ? (
+        <Box>Výsledky zatím nejsou k dispozici</Box>
+      ) : (
+        <Stack direction={'column'} justifyContent={'space-between'} gap={2}>
+          <Stack sx={{ mr: 8 }} direction={'row'} justifyContent={'center'} alignItems={'center'} gap={2}>
+            <Typography>Hodnocení podle</Typography>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={viewMode}
+              sx={{ width: 120 }}
+              onChange={(e) => setViewMode(e.target.value as typeof viewMode)}
+            >
+              <MenuItem value={'points'}>Skóre</MenuItem>
+              <MenuItem value={'medals'}>Medaile</MenuItem>
+            </Select>
+          </Stack>
+          {viewMode === 'points' ? (
+            <TableTournamentPoints ranking={ranking.sort((a, b) => b.score - a.score)} />
+          ) : (
+            <TableMedals ranking={ranking.sort((a, b) => b.medalsScore - a.medalsScore)} />
+          )}
         </Stack>
-        {viewMode === 'points' ? (
-          <TableTournamentPoints ranking={ranking.sort((a, b) => b.score - a.score)} />
-        ) : (
-          <TableMedals ranking={ranking.sort((a, b) => b.medalsScore - a.medalsScore)} />
-        )}
-      </Stack>
+      )}
     </Box>
   );
 };
