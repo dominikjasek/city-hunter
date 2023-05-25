@@ -2,7 +2,7 @@ import { adminProcedure, protectedProcedure, publicProcedure, router } from '~/s
 import { z } from 'zod';
 import { db } from '~/db/drizzle';
 import { answers, cities, questions } from '~/db/schema';
-import { and, eq } from 'drizzle-orm';
+import { and, asc, eq } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { evaluateResultsFromLocations } from '~/utils/score/evaluate-score';
 import { getRoundQuestion } from '~/server/routers/question/getRoundQuestion';
@@ -101,7 +101,7 @@ export const questionRouter = router({
         })
         .from(questions)
         .innerJoin(cities, eq(questions.cityId, cities.id))
-        .orderBy(questions.roundOrder);
+        .orderBy(asc(questions.roundOrder), asc(questions.id));
 
       if (input.tournamentId) {
         preparedQuery.where(eq(questions.tournamentId, input.tournamentId));
