@@ -6,7 +6,7 @@ export const usePageLoader = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const handleStart = (url: string) => {
+    const handleStart = () => {
       NProgress.start();
     };
 

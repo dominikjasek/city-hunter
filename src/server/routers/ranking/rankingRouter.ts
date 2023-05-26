@@ -5,6 +5,7 @@ import { and, eq, lt } from 'drizzle-orm';
 import { z } from 'zod';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
 import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
+import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
 
 export const rankingRouter = router({
   getTournamentRanking: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
@@ -60,7 +61,7 @@ export const rankingRouter = router({
     .query(async ({ input }) => {
       const now = new Date();
 
-      const questionDetails = (
+      const questionDetailsDbResult = (
         await db
           .select({
             id: questions.id,
@@ -85,9 +86,11 @@ export const rankingRouter = router({
           .limit(1)
       )[0];
 
-      if (!questionDetails) {
+      if (!questionDetailsDbResult) {
         throw new Error('Question not found');
       }
+
+      const questionDetails = assertRequiredFields(questionDetailsDbResult, ['startDate', 'endDate', 'cityId']);
 
       const userAnswers = await db
         .select({
@@ -104,19 +107,17 @@ export const rankingRouter = router({
         .innerJoin(users, eq(answers.userId, users.id))
         .where(eq(answers.questionId, questionDetails.id));
 
-      const city = (await db.select().from(cities).where(eq(cities.id, questionDetails.cityId!)).limit(1))[0]!;
+      const city = (await db.select().from(cities).where(eq(cities.id, questionDetails.cityId)).limit(1))[0]!;
 
       return {
         answers: sortAnswersByPoints(
           userAnswers.map((answer) => ({
             ...answer,
-            durationInSeconds: (answer.answeredAt.getTime() - questionDetails.startDate!.getTime()) / 1000,
+            durationInSeconds: (answer.answeredAt.getTime() - questionDetails.startDate.getTime()) / 1000,
           })),
         ),
         question: {
           ...questionDetails,
-          endDate: questionDetails.endDate!,
-          startDate: questionDetails.startDate!,
           answerImagesUrl: questionDetails.answerImagesUrl.split(','),
         },
         map: {

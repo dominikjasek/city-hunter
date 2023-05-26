@@ -3,6 +3,7 @@ import { db } from '~/db/drizzle';
 import { answers, cities, questions, tournaments } from '~/db/schema';
 import { eq, inArray } from 'drizzle-orm';
 import { z } from 'zod';
+import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
 
 export const tournamentRouter = router({
   getDetailsForId: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
@@ -29,13 +30,14 @@ export const tournamentRouter = router({
       .where(eq(questions.tournamentId, input.tournamentId))
       .orderBy(questions.startDate);
 
-    return tournamentQuestions.map((question) => {
+    return tournamentQuestions.map((questionNullableFields) => {
+      const question = assertRequiredFields(questionNullableFields, ['roundOrder', 'startDate', 'endDate']);
       const isLaunched = question.startDate && now > question.startDate;
       return {
         id: question.id,
         roundOrder: question.roundOrder,
-        startDate: question.startDate!,
-        endDate: question.endDate!,
+        startDate: question.startDate,
+        endDate: question.endDate,
         title: isLaunched ? question.title : null,
         questionImageUrl: isLaunched ? question.questionImageUrl : null,
       };
@@ -57,7 +59,9 @@ export const tournamentRouter = router({
       .innerJoin(cities, eq(tournaments.cityId, cities.id));
 
     return await Promise.all(
-      tournamentsItems.map(async (tournament) => {
+      tournamentsItems.map(async (tournamentNullableDates) => {
+        const tournament = assertRequiredFields(tournamentNullableDates, ['startDate', 'endDate']);
+
         const questionsItems = await db
           .select({ id: questions.id })
           .from(questions)
@@ -85,8 +89,8 @@ export const tournamentRouter = router({
           id: tournament.id,
           tournamentName: tournament.name,
           tournamentDescription: tournament.description,
-          startDate: tournament.startDate!,
-          endDate: tournament.endDate!,
+          startDate: tournament.startDate,
+          endDate: tournament.endDate,
           questionsCount: questionsItems.length,
           contendersCount: contendersCount,
         };
