@@ -140,7 +140,7 @@ const AdminQuestionsPages: NextPage = () => {
               <Typography>ID: {question.id}</Typography>
               <Typography>Název: {question.title}</Typography>
               <Typography>Popis otázky: {question.questionDescription}</Typography>
-              <Typography>Popis odpovědi: {question.answerDescription}</Typography>
+              <Typography dangerouslySetInnerHTML={{ __html: `Popis odpovědi: ${question.answerDescription}` }} />
             </Stack>
             <Stack>
               {[question.questionImageUrl, ...question.answerImagesUrl].map((image, index) => {
