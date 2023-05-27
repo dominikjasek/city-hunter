@@ -9,6 +9,7 @@ import { formatDateTime } from '~/utils/formatter/dateFormatter';
 import Image from 'next/image';
 import { SecondaryText } from '~/components/common/Typography/typography';
 import { NextSeo } from 'next-seo';
+import { imagePlaceholderProps } from '~/utils/image-placeholder/image-placeholder';
 
 const EXPECTED_QUESTION_LENGTH = 20;
 const EXPECTED_START_TIME_BRNO = '20:00'; //getMinutes returns only single digit
@@ -160,6 +161,7 @@ const AdminQuestionsPages: NextPage = () => {
                       src={image}
                       alt={image}
                       fill
+                      {...imagePlaceholderProps}
                       style={{
                         objectFit: 'contain',
                       }}

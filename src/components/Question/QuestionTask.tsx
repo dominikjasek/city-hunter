@@ -6,6 +6,7 @@ import { MapLocation } from '~/components/MapPicker/types';
 import { LightBox } from '~/components/LightBox/LightBox';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { SecondaryText } from '~/components/common/Typography/typography';
+import { imagePlaceholderProps } from '~/utils/image-placeholder/image-placeholder';
 
 interface QuestionTaskProps {
   city: {
@@ -49,6 +50,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
               src={props.questionImageUrl}
               alt={props.title}
               fill
+              {...imagePlaceholderProps}
               style={{
                 objectFit: 'contain',
                 objectPosition: 'top',

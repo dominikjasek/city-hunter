@@ -7,6 +7,7 @@ import 'yet-another-react-lightbox/styles.css';
 import Image from 'next/image';
 import { LightBox } from '~/components/LightBox/LightBox';
 import { createDurationString } from '~/utils/ranking/createDurationString';
+import { imagePlaceholderProps } from '~/utils/image-placeholder/image-placeholder';
 
 export interface QuestionSolutionProps {
   name: string;
@@ -53,6 +54,7 @@ export const DemoSolution: FC<QuestionSolutionProps> = (props) => {
                   src={image}
                   alt={props.name}
                   fill
+                  {...imagePlaceholderProps}
                   style={{
                     objectFit: 'contain',
                   }}

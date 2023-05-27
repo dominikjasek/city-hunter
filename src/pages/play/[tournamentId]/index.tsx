@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 import Image from 'next/image';
 import { ssgHelpers } from '~/server/ssgHelpers';
+import { imagePlaceholderProps } from '~/utils/image-placeholder/image-placeholder';
 
 const ActionButton: FC<{
   tournamentId: string;
@@ -130,6 +131,7 @@ export const TournamentPage: NextPage = () => {
                   <Image
                     src={question.questionImageUrl}
                     alt={'Náhledová fotka'}
+                    {...imagePlaceholderProps}
                     fill
                     style={{
                       objectFit: 'contain',

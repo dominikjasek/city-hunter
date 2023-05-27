@@ -36,6 +36,7 @@ import { formatDate } from '~/utils/formatter/dateFormatter';
 import LockOpen from '@mui/icons-material/LockOpen';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { createDurationString } from '~/utils/ranking/createDurationString';
+import { imagePlaceholderProps } from '~/utils/image-placeholder/image-placeholder';
 
 interface TournamentRoundRankingPageProps {
   tournamentId: string;
@@ -161,6 +162,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                     src={image}
                     alt={questionRanking.question.name}
                     fill
+                    {...imagePlaceholderProps}
                     style={{
                       objectFit: 'contain',
                     }}
