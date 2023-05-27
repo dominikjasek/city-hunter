@@ -180,6 +180,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                   <Typography>
                     <SecondaryText>Řešení</SecondaryText>:{' '}
                     <Typography
+                      className={'answer'}
                       dangerouslySetInnerHTML={{ __html: questionRanking.question.answerDescription ?? '' }}
                     ></Typography>
                   </Typography>

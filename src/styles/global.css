@@ -9,6 +9,15 @@ body {
     color: inherit;
 }
 
+.answer > a {
+    color: #f1bf14;
+    text-decoration: none;
+}
+
+.answer > a:hover {
+    text-decoration: underline;
+}
+
 /*hide Clerk footer in <UserButton /> component */
 .cl-userButtonPopoverFooter {
     display: none;
