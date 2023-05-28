@@ -25,7 +25,7 @@ const IndexPage: NextPageWithLayout = () => {
         <Typography variant={'h6'} sx={{ mb: 6 }}>
           <p>
             Hrajeme v <SecondaryText>Třebíči</SecondaryText> a v <SecondaryText>Brně</SecondaryText>. Startujeme{' '}
-            <SecondaryText>5. 6. 2023</SecondaryText> a hra bude trvat <SecondaryText>20 dnů</SecondaryText>.
+            <SecondaryText>4. 6. 2023</SecondaryText> a hra bude trvat <SecondaryText>20 dnů</SecondaryText>.
           </p>
           <p>
             Každý večer bude zveřejněna nová otázka a budete mít 1 hodinu aby jste odpověděli. V Třebíči bude
