@@ -29,7 +29,7 @@ const FaqPage: NextPage = () => {
           <QuestionTitle>Jaké jsou pravidla hry?</QuestionTitle>
           <QuestionAnswer>
             <p>
-              Hra začíná 5. 6. 2023 a trvá 20 dní. Každý večer bude zveřejněna nová otázka. V Třebíči v 19:00 a v Brně
+              Hra začíná 4. 6. 2023 a trvá 20 dní. Každý večer bude zveřejněna nová otázka. V Třebíči v 19:00 a v Brně
               ve 20:00.
             </p>
             <p>
@@ -71,7 +71,7 @@ const FaqPage: NextPage = () => {
         </Question>
 
         <Question>
-          <QuestionTitle>Můžu svou odpověď změnit?</QuestionTitle>
+          <QuestionTitle>Můžu změnit svou odpověď?</QuestionTitle>
           <QuestionAnswer>Ne, jakmile odpovíte, odpověď už nelze změnit.</QuestionAnswer>
         </Question>
 
@@ -89,7 +89,7 @@ const FaqPage: NextPage = () => {
         <Question>
           <QuestionTitle>Můžeme hrát jako tým?</QuestionTitle>
           <QuestionAnswer>
-            Ano, můžete a je to dobře! Máme radost, pokud se do hry zapojí například rodina a nad místy bude dumat
+            Ano, můžete a je to dobře! Mám radost, pokud se do hry zapojí například rodina a nad místy bude dumat
             společně. Prosím,{' '}
             <Link href={'/auth/user'} className={'no-style'}>
               <SecondaryText>nastavte si přezdívku</SecondaryText>
