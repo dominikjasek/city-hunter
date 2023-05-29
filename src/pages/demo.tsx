@@ -10,7 +10,7 @@ import { MessageBox } from '~/components/common/MessageBox/MessageBox';
 const DemoPlayPage: NextPage = () => {
   const startDate = useMemo(() => new Date(), []);
   const [solutionData, setSolutionData] = useState<QuestionSolutionProps | null>(null);
-  const { data: demoQuestion, isLoading } = trpc.question.getRandomDemoQuestion.useQuery(undefined, {
+  const { data: demoQuestion, isFetching } = trpc.question.getRandomDemoQuestion.useQuery(undefined, {
     refetchOnMount: true,
   });
   const { mutateAsync, isLoading: isSubmitting } = trpc.question.answerDemoQuestion.useMutation();
@@ -47,7 +47,7 @@ const DemoPlayPage: NextPage = () => {
     });
   };
 
-  if (isLoading) {
+  if (isFetching) {
     return <Loader title="Načítám..." />;
   }
 
