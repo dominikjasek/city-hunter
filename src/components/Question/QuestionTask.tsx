@@ -26,6 +26,8 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
 
   const theme = useTheme();
 
+  const timestamp = useState(Date.now());
+
   return (
     <>
       <LightBox isOpen={isLightboxOpen} imagesUrl={[props.questionImageUrl]} onClose={() => setIsLightboxOpen(false)} />
@@ -47,7 +49,7 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
             }}
           >
             <Image
-              src={props.questionImageUrl}
+              src={props.questionImageUrl + '?' + timestamp}
               alt={props.title}
               fill
               {...imagePlaceholderProps}
