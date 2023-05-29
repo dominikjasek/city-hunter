@@ -93,6 +93,9 @@ dependencies:
   google-maps-react-markers:
     specifier: ^1.2.1
     version: 1.2.1(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
+  is-ua-webview:
+    specifier: ^1.1.2
+    version: 1.1.2
   jose:
     specifier: ^4.13.1
     version: 4.13.1
@@ -4510,6 +4513,10 @@ packages:
       gopd: 1.0.1
       has-tostringtag: 1.0.0
     dev: true
+
+  /is-ua-webview@1.1.2:
+    resolution: {integrity: sha512-xX3WpvJGmT0EjmGRQxs4AgaBd4EWNr4lWCWGOgd40by6DWOQZN9RIOCsEaVp41crZqzWr8AsM+2x8UC2ZAuLPA==}
+    dev: false
 
   /is-weakmap@2.0.1:
     resolution: {integrity: sha512-NSBR4kH5oVj1Uwvv970ruUkCV7O1mzgVFO4/rev2cLRda9Tm9HrL70ZPut4rOHgY0FNrUu9BCbXA2sdQ+x0chA==}

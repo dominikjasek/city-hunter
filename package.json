@@ -52,6 +52,7 @@
     "drizzle-orm": "0.26.0",
     "google-map-react": "^2.2.0",
     "google-maps-react-markers": "^1.2.1",
+    "is-ua-webview": "^1.1.2",
     "jose": "^4.13.1",
     "mysql2": "^3.2.0",
     "next": "^13.2.1",
