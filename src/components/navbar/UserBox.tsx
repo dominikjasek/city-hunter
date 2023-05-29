@@ -1,12 +1,10 @@
 import React, { FC } from 'react';
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs';
 import { Button, Skeleton } from '@mui/material';
-import { useDialog } from '~/components/contexts/DialogProvider';
 import { useRouter } from 'next/router';
 import isWebview from 'is-ua-webview';
 
 export const UserBox: FC = () => {
-  const { setOpenLoginDialog } = useDialog();
   const { pathname, push } = useRouter();
   const { isSignedIn } = useUser();
 
@@ -17,7 +15,7 @@ export const UserBox: FC = () => {
   const isWebView = isWebview(window.navigator.userAgent);
   const handleLoginClick = () => {
     if (!isWebView) {
-      setOpenLoginDialog(true);
+      push('/auth/login');
     } else {
       push('/auth/webview');
     }

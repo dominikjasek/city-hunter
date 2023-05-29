@@ -14,6 +14,7 @@ const LoginPage: NextPage = () => {
       </SignedIn>
       <SignIn
         redirectUrl={'/auth/login-receiver'}
+        path={'/auth/login'}
         appearance={{
           elements: {
             rootBox: {

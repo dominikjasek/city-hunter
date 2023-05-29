@@ -14,6 +14,7 @@ import { DialogProvider } from '~/components/contexts/DialogProvider';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import 'nprogress/nprogress.css';
 import { usePageLoader } from '~/hooks/use-page-loader';
+import { useRouter } from 'next/router';
 
 export type NextPageWithLayout<TProps = Record<string, unknown>, TInitialProps = TProps> = NextPage<
   TProps,
@@ -31,13 +32,19 @@ const clientSideEmotionCache = createEmotionCache();
 
 const MyApp = (({ Component, pageProps, emotionCache = clientSideEmotionCache }: AppPropsWithLayout) => {
   usePageLoader();
+  const { push } = useRouter();
 
   return (
     <>
       <VercelAnalytics />
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
-          <ClerkProvider {...pageProps} localization={localization}>
+          <ClerkProvider
+            {...pageProps}
+            localization={localization}
+            publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+            navigate={(to) => push(to)}
+          >
             <CssBaseline />
             <DialogProvider>
               <DefaultLayout>
