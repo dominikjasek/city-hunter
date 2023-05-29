@@ -17,7 +17,7 @@ const Webview: NextPage = () => {
   return (
     <MessageBox
       message={
-        'Používáte mobilní WebView prohlížeč. Z bezpečnostních důvodů je pro přihlášení potřebné, abyste otevřeli tuto stránku ve vašem výchozím prohlížeči.'
+        'Používáte mobilní WebView prohlížeč. Z bezpečnostních důvodů je pro přihlášení potřebné, abyste otevřeli tuto stránku ve vašem výchozím systémovém prohlížeči.'
       }
       type={'warning'}
     />
