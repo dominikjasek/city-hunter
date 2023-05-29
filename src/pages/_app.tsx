@@ -10,7 +10,6 @@ import createEmotionCache from '~/createEmotionCache';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '~/theme';
-import { DialogProvider } from '~/components/contexts/DialogProvider';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import 'nprogress/nprogress.css';
 import { usePageLoader } from '~/hooks/use-page-loader';
@@ -46,11 +45,9 @@ const MyApp = (({ Component, pageProps, emotionCache = clientSideEmotionCache }:
             navigate={(to) => push(to)}
           >
             <CssBaseline />
-            <DialogProvider>
-              <DefaultLayout>
-                <Component {...pageProps} />
-              </DefaultLayout>
-            </DialogProvider>
+            <DefaultLayout>
+              <Component {...pageProps} />
+            </DefaultLayout>
           </ClerkProvider>
         </ThemeProvider>
       </CacheProvider>
