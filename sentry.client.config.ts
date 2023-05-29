@@ -1,8 +1,5 @@
-// This file configures the initialization of Sentry on the browser.
-// The config you add here will be used whenever a page is visited.
-// https://docs.sentry.io/platforms/javascript/guides/nextjs/
-
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/nextjs';
+import * as SentryBrowser from '@sentry/browser';
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
@@ -11,7 +8,7 @@ Sentry.init({
   tracesSampleRate: 1.0,
   replaysOnErrorSampleRate: 1.0,
   integrations: [
-    new Sentry.Replay({
+    new SentryBrowser.Replay({
       maskAllText: false,
       blockAllMedia: false,
     }),
