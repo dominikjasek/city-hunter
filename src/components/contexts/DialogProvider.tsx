@@ -33,6 +33,7 @@ export const DialogProvider = ({ children }: PropsWithChildren<unknown>) => {
         open={openLoginDialog}
       >
         <SignIn
+          redirectUrl={'/auth/login-receiver'}
           appearance={{
             elements: {
               rootBox: {

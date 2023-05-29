@@ -13,6 +13,7 @@ const LoginPage: NextPage = () => {
         <Typography>Už jste přihlášeni, budete přesměrováni...</Typography>
       </SignedIn>
       <SignIn
+        redirectUrl={'/auth/login-receiver'}
         appearance={{
           elements: {
             rootBox: {
