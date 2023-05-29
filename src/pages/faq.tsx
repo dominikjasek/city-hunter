@@ -41,6 +41,14 @@ const FaqPage: NextPage = () => {
         </Question>
 
         <Question>
+          <QuestionTitle>Na jakém území se hraje?</QuestionTitle>
+          <QuestionAnswer>
+            V Třebíči budou fotky rozesety po celém městě nebo dokonce v blízkém okolí města. V Brně se zaměříme pouze
+            na centrum a jeho nejbližší okolí.
+          </QuestionAnswer>
+        </Question>
+
+        <Question>
           <QuestionTitle>Od jaké chvíle se mi počítá čas?</QuestionTitle>
           <QuestionAnswer>
             Čas začíná bežet všem stejně bez ohledu na to, kdy si otázku otevřete. Tedy pro Třebíč v 19:00 a pro Brno ve
