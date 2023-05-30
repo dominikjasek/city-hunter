@@ -212,7 +212,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
       <Stack>
         <Typography variant={'h6'} my={2}>
           Průměrný bodový zisk byl <SecondaryText>{questionRanking.statistics.averageScore} bodů</SecondaryText> a
-          odpověď vám zabrala průměrně{' '}
+          odpověď zabrala průměrně{' '}
           <SecondaryText>
             {createDurationString(questionRanking.statistics.averageDurationInSeconds, {
               format: 'minutes and seconds',
