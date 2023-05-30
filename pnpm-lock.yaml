@@ -2,7 +2,7 @@ lockfileVersion: '6.0'
 
 patchedDependencies:
   react-mapycz@1.2.0:
-    hash: qv5zquwnjdm2rce77quexfh7w4
+    hash: hmo4in2qxt7mrbl2jl7cdhle3m
     path: patches/react-mapycz@1.2.0.patch
 
 dependencies:
@@ -134,7 +134,7 @@ dependencies:
     version: 7.43.9(react@18.2.0)
   react-mapycz:
     specifier: ^1.2.0
-    version: 1.2.0(patch_hash=qv5zquwnjdm2rce77quexfh7w4)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
+    version: 1.2.0(patch_hash=hmo4in2qxt7mrbl2jl7cdhle3m)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
   react-photo-album:
     specifier: ^2.1.0
     version: 2.1.0(react@18.2.0)
@@ -5454,7 +5454,7 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
-  /react-mapycz@1.2.0(patch_hash=qv5zquwnjdm2rce77quexfh7w4)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
+  /react-mapycz@1.2.0(patch_hash=hmo4in2qxt7mrbl2jl7cdhle3m)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-i/K59T4p+tL1dT2+MQvA8/v9ehrJOdsqybisQV0dqR4DGhu6sELDURRwFrBSr8j9s96u/8rWRHdwAmV7ZYjapg==}
     peerDependencies:
       react: '>=16.13.1'

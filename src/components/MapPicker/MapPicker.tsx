@@ -32,7 +32,6 @@ export const MapPicker: FC<MapPickerProps> = ({ point, centerPoint, zoom, onClic
     onClick?.({ lat: coordinates.y, lng: coordinates.x });
   };
 
-  console.log('MapMarker', MapMarker.src);
   return (
     <>
       <Head>
