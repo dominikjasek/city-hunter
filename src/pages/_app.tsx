@@ -14,6 +14,7 @@ import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import 'nprogress/nprogress.css';
 import { usePageLoader } from '~/hooks/use-page-loader';
 import { useRouter } from 'next/router';
+import ErrorBoundary from '~/components/ErrorBoundary/ErrorBoundary';
 
 export type NextPageWithLayout<TProps = Record<string, unknown>, TInitialProps = TProps> = NextPage<
   TProps,
@@ -37,19 +38,21 @@ const MyApp = (({ Component, pageProps, emotionCache = clientSideEmotionCache }:
     <>
       <VercelAnalytics />
       <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={theme}>
-          <ClerkProvider
-            {...pageProps}
-            localization={localization}
-            publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-            navigate={(to) => push(to)}
-          >
-            <CssBaseline />
-            <DefaultLayout>
-              <Component {...pageProps} />
-            </DefaultLayout>
-          </ClerkProvider>
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider theme={theme}>
+            <ClerkProvider
+              {...pageProps}
+              localization={localization}
+              publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+              navigate={(to) => push(to)}
+            >
+              <CssBaseline />
+              <DefaultLayout>
+                <Component {...pageProps} />
+              </DefaultLayout>
+            </ClerkProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
       </CacheProvider>
     </>
   );
