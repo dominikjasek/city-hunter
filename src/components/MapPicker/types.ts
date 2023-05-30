@@ -17,7 +17,7 @@ interface BaseAnswerLocation {
 
 interface UserAnswerLocation extends BaseAnswerLocation {
   type: 'user-answer';
-  isHighlighted: boolean;
+  isMyAnswer: boolean;
 }
 
 interface SolutionLocation extends BaseAnswerLocation {

@@ -47,7 +47,7 @@ interface TournamentRoundRankingPageProps {
 export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProps> = (props) => {
   const tournamentId = props.tournamentId;
   const roundOrder = props.roundOrder;
-  const user = useUser();
+  const { user } = useUser();
 
   const [showAnswers, setShowAnswers] = useState(false);
   // React remains the value of useState when using dynamic routing
@@ -82,7 +82,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
 
   const [inspectUserId, setInspectUserId] = useState<string | null>(null);
   const myAnswer = useMemo(
-    () => questionRanking?.answers.find((answer) => answer.userId === user.user?.id),
+    () => questionRanking?.answers.find((answer) => answer.userId === user?.id),
     [questionRanking, user],
   );
 
@@ -92,7 +92,11 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
     if (inspectUserId) {
       const inspectUserAnswer = questionRanking?.answers.find((answer) => answer.userId === inspectUserId);
       if (inspectUserAnswer) {
-        locations.push({ type: 'user-answer', location: inspectUserAnswer.location, isHighlighted: false });
+        locations.push({
+          type: 'user-answer',
+          location: inspectUserAnswer.location,
+          isMyAnswer: inspectUserId === user?.id,
+        });
       }
       return locations;
     }
@@ -102,11 +106,11 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
     }
 
     if (myAnswer) {
-      locations.push({ type: 'user-answer', location: myAnswer.location, isHighlighted: true });
+      locations.push({ type: 'user-answer', location: myAnswer.location, isMyAnswer: true });
     }
 
     return locations;
-  }, [questionRanking, myAnswer, inspectUserId, showAnswers]);
+  }, [user?.id, questionRanking, myAnswer, inspectUserId, showAnswers]);
 
   if (isQuestionRankingLoading || isTournamentDetailsLoading || isTournamentQuestionsLoading) {
     return <Loader title={'Načítám tady...'} />;
@@ -250,7 +254,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                   key={row.userId}
                   sx={{
                     '&:last-child td, &:last-child th': { border: 0 },
-                    backgroundColor: 'transparent',
+                    backgroundColor: user?.id === row.userId ? theme.palette.primary.main : 'transparent',
                     '&:hover': { backgroundColor: theme.palette.primary.main },
                   }}
                   onMouseEnter={() => setInspectUserId(row.userId)}
@@ -286,7 +290,6 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
             centerPoint={questionRanking.map.centerPoint}
             zoom={questionRanking.map.mapZoom}
             locations={mapLocations}
-            showLegendUserAnswer={true}
           />
         </Box>
       </Stack>

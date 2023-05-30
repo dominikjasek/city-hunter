@@ -180,7 +180,6 @@ const AdminQuestionsPages: NextPage = () => {
                 locations={[{ type: 'solution', location: question.location }]}
                 zoom={question.mapZoom}
                 centerPoint={question.centerPoint}
-                showLegendUserAnswer={false}
               />
             </Stack>
           </Stack>

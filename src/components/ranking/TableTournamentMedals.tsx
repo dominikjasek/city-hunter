@@ -1,9 +1,11 @@
 import { FC } from 'react';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme } from '@mui/material';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
+import { useUser } from '@clerk/nextjs';
 
 export const TableMedals: FC<{ ranking: TournamentUserScore[] }> = ({ ranking }) => {
   const theme = useTheme();
+  const { user } = useUser();
 
   return (
     <TableContainer
@@ -33,7 +35,7 @@ export const TableMedals: FC<{ ranking: TournamentUserScore[] }> = ({ ranking })
               key={row.userId}
               sx={{
                 '&:last-child td, &:last-child th': { border: 0 },
-                backgroundColor: 'transparent',
+                backgroundColor: user?.id === row.userId ? theme.palette.primary.main : 'transparent',
                 '&:hover': { backgroundColor: theme.palette.primary.main },
               }}
             >

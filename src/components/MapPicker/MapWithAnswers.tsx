@@ -15,6 +15,7 @@ import {
   ZoomControl,
 } from 'react-mapycz';
 import Image from 'next/image';
+import { useUser } from '@clerk/nextjs';
 
 const LegendRow = ({ color, text }: { color: string; text: string }) => {
   return (
@@ -27,7 +28,13 @@ const LegendRow = ({ color, text }: { color: string; text: string }) => {
   );
 };
 
-const Legend = ({ showUserAnswer }: { showUserAnswer: boolean }) => {
+const Legend: FC<{ locations: AnswerLocation[] }> = ({ locations }) => {
+  const { user } = useUser();
+
+  const showMyAnswer = user?.id && locations.some((location) => location.type === 'user-answer' && location.isMyAnswer);
+  const showCorrectAnswer = locations.some((location) => location.type === 'solution');
+  const showSelectedAnswer = locations.some((location) => location.type === 'user-answer' && !location.isMyAnswer);
+
   return (
     <Stack
       direction={'column'}
@@ -41,9 +48,9 @@ const Legend = ({ showUserAnswer }: { showUserAnswer: boolean }) => {
       }}
       gap={0.5}
     >
-      <LegendRow color="#FF9F10" text={'Vaše odpověď'} />
-      <LegendRow color="#10DB61" text={'Správná odpověď'} />
-      {showUserAnswer && <LegendRow color="#A7A7A7" text={'Odpověď uživatele'} />}
+      {showMyAnswer && <LegendRow color="#FF9F10" text={'Vaše odpověď'} />}
+      {showCorrectAnswer && <LegendRow color="#10DB61" text={'Správná odpověď'} />}
+      {showSelectedAnswer && <LegendRow color="#A7A7A7" text={'Vybraná odpověď'} />}
     </Stack>
   );
 };
@@ -51,7 +58,6 @@ const Legend = ({ showUserAnswer }: { showUserAnswer: boolean }) => {
 interface MapPickerProps {
   centerPoint: MapLocation;
   zoom: number;
-  showLegendUserAnswer: boolean;
   locations: AnswerLocation[];
   width?: number | string;
   height?: number | string;
@@ -61,13 +67,12 @@ export const MapWithAnswers: FC<MapPickerProps> = ({
   locations,
   centerPoint,
   zoom,
-  showLegendUserAnswer,
   width = '100%',
   height = '100%',
 }: MapPickerProps) => {
   const getSrcForLocation = (location: AnswerLocation) => {
     if (location.type === 'solution') return MapMarkerGreen;
-    if (location.isHighlighted) return MapMarkerOrange;
+    if (location.isMyAnswer) return MapMarkerOrange;
     return MapMarkerGrey;
   };
 
@@ -83,7 +88,7 @@ export const MapWithAnswers: FC<MapPickerProps> = ({
         overflow: 'hidden',
       }}
     >
-      <Legend showUserAnswer={showLegendUserAnswer} />
+      <Legend locations={locations} />
 
       <Map height={'100%'} center={centerPoint} zoom={zoom} loaderApiConfig={{ poi: true }}>
         <KeyboardControl />

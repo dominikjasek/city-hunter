@@ -38,7 +38,7 @@ const DemoPlayPage: NextPage = () => {
           {
             type: 'user-answer',
             location: response.answerLocation,
-            isHighlighted: true,
+            isMyAnswer: true,
           },
         ],
         zoom: demoQuestion!.city.mapZoom,
