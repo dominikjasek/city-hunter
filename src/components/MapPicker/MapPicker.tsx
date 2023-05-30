@@ -14,6 +14,7 @@ import MapMarker from '@public/map-marker-orange.svg';
 import Image from 'next/image';
 import { MapLocation } from '~/components/MapPicker/types';
 import { Box } from '@mui/material';
+import Head from 'next/head';
 
 interface MapPickerProps {
   centerPoint: MapLocation;
@@ -31,50 +32,56 @@ export const MapPicker: FC<MapPickerProps> = ({ point, centerPoint, zoom, onClic
     onClick?.({ lat: coordinates.y, lng: coordinates.x });
   };
 
+  console.log('MapMarker', MapMarker.src);
   return (
-    <Box
-      sx={{
-        touchAction: 'none',
-        cursor: 'crosshair',
-        width: '100%',
-        height: '100%',
-        borderRadius: 2,
-        overflow: 'hidden',
-      }}
-    >
-      <Map
-        width="100%"
-        height="100%"
-        center={centerPoint}
-        zoom={zoom}
-        onEvent={handleMapClick}
-        loaderApiConfig={{ poi: true }}
+    <>
+      <Head>
+        <link rel="preload" href={MapMarker.src} as="image" />
+      </Head>
+      <Box
+        sx={{
+          touchAction: 'none',
+          cursor: 'crosshair',
+          width: '100%',
+          height: '100%',
+          borderRadius: 2,
+          overflow: 'hidden',
+        }}
       >
-        <KeyboardControl />
-        <ZoomControl />
-        <MouseControl zoom={true} pan={true} wheel={true} />
-        <SyncControl />
-        <POILayer />
-        <MarkerLayer>
-          <Marker
-            coords={point ?? { lat: 0, lng: 0 }}
-            options={{
-              url: () => (
-                <Image
-                  alt={'Map marker'}
-                  src={MapMarker}
-                  style={{
-                    width: '30px',
-                    height: '40px',
-                    transform: 'translate(-4px, -10px)',
-                    opacity: Boolean(point) ? 0.9 : 0,
-                  }}
-                />
-              ),
-            }}
-          />
-        </MarkerLayer>
-      </Map>
-    </Box>
+        <Map
+          width="100%"
+          height="100%"
+          center={centerPoint}
+          zoom={zoom}
+          onEvent={handleMapClick}
+          loaderApiConfig={{ poi: true }}
+        >
+          <KeyboardControl />
+          <ZoomControl />
+          <MouseControl zoom={true} pan={true} wheel={true} />
+          <SyncControl />
+          <POILayer />
+          <MarkerLayer>
+            <Marker
+              coords={point ?? { lat: 0, lng: 0 }}
+              options={{
+                url: () => (
+                  <Image
+                    alt={'Map marker'}
+                    src={MapMarker}
+                    style={{
+                      width: '30px',
+                      height: '40px',
+                      transform: 'translate(-4px, -10px)',
+                      opacity: Boolean(point) ? 0.9 : 0,
+                    }}
+                  />
+                ),
+              }}
+            />
+          </MarkerLayer>
+        </Map>
+      </Box>
+    </>
   );
 };
