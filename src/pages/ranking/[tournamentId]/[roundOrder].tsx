@@ -5,6 +5,7 @@ import {
   AccordionSummary,
   Box,
   Button,
+  Divider,
   Paper,
   Stack,
   Table,
@@ -26,7 +27,7 @@ import { and, isNotNull } from 'drizzle-orm';
 import { ssgHelpers } from '~/server/ssgHelpers';
 import { MapWithAnswers } from '~/components/MapPicker/MapWithAnswers';
 import { useUser } from '@clerk/nextjs';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AnswerLocation } from '~/components/MapPicker/types';
 import { haversineDistance } from '~/utils/score/evaluate-score';
 import Image from 'next/image';
@@ -191,6 +192,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                       sx={{ mx: 'auto', mt: 2 }}
                       color={'secondary'}
                       startIcon={<LockOpen />}
+                      size={'large'}
                       onClick={() => setShowAnswers(true)}
                     >
                       Zobrazit řešení
@@ -203,9 +205,20 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
         </AccordionDetails>
       </Accordion>
 
-      <Typography variant={'h6'} my={2}>
-        Žebříček
-      </Typography>
+      <Stack>
+        <Typography variant={'h6'} my={2}>
+          Průměrný bodový zisk byl <SecondaryText>{questionRanking.statistics.averageScore} bodů</SecondaryText> a
+          odpověď vám zabrala průměrně{' '}
+          <SecondaryText>
+            {createDurationString(questionRanking.statistics.averageDurationInSeconds, {
+              format: 'minutes and seconds',
+            })}
+          </SecondaryText>
+          .
+        </Typography>
+      </Stack>
+
+      <Divider sx={{ mb: 2 }} />
 
       <Stack direction={{ xs: 'column', md: 'row' }} gap={2} justifyContent={'start'} alignItems={'start'}>
         <TableContainer

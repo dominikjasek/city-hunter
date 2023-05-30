@@ -109,6 +109,14 @@ export const rankingRouter = router({
 
       const city = (await db.select().from(cities).where(eq(cities.id, questionDetails.cityId)).limit(1))[0]!;
 
+      const averageScoreFloatingDecimal = userAnswers.reduce((acc, curr) => acc + curr.score, 0) / userAnswers.length;
+      const averageScoreRoundedToOneDecimal = Math.round(averageScoreFloatingDecimal * 10) / 10;
+      const averageDurationInSeconds =
+        userAnswers.reduce(
+          (acc, curr) => acc + (curr.answeredAt.getTime() - questionDetails.startDate.getTime()) / 1000,
+          0,
+        ) / userAnswers.length;
+
       return {
         answers: sortAnswersByPoints(
           userAnswers.map((answer) => ({
@@ -123,6 +131,10 @@ export const rankingRouter = router({
         map: {
           centerPoint: city.centerPoint,
           mapZoom: city.mapZoom,
+        },
+        statistics: {
+          averageScore: averageScoreRoundedToOneDecimal,
+          averageDurationInSeconds,
         },
       };
     }),
