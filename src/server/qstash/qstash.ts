@@ -1,7 +1,7 @@
 import { QStashEvent } from '~/server/qstash/types';
 
 export const emitQStashEvent = async (event: QStashEvent) => {
-  const res = await fetch(`${process.env.QSTASH_URL}${event.topic}`, {
+  await fetch(`${process.env.QSTASH_URL}${event.topic}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -9,5 +9,4 @@ export const emitQStashEvent = async (event: QStashEvent) => {
     },
     body: JSON.stringify(event.value),
   });
-  console.log('res', res);
 };

@@ -6,11 +6,25 @@ import { DemoSolution, QuestionSolutionProps } from '~/components/Demo/DemoSolut
 import { Loader } from '~/components/common/Loader/Loader';
 import { MapLocation } from '~/components/MapPicker/types';
 import { MessageBox } from '~/components/common/MessageBox/MessageBox';
+import { Button } from '@mui/material';
+import Cached from '@mui/icons-material/Cached';
+
+const NextDemoQuestionButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+  return (
+    <Button sx={{ my: 2 }} onClick={onClick} variant={'outlined'} color={'secondary'} startIcon={<Cached />}>
+      Další otázka
+    </Button>
+  );
+};
 
 const DemoPlayPage: NextPage = () => {
   const startDate = useMemo(() => new Date(), []);
   const [solutionData, setSolutionData] = useState<QuestionSolutionProps | null>(null);
-  const { data: demoQuestion, isFetching } = trpc.question.getRandomDemoQuestion.useQuery(undefined, {
+  const {
+    data: demoQuestion,
+    isFetching,
+    refetch: refetchDemoQuestion,
+  } = trpc.question.getRandomDemoQuestion.useQuery(undefined, {
     refetchOnMount: true,
   });
   const { mutateAsync, isLoading: isSubmitting } = trpc.question.answerDemoQuestion.useMutation();
@@ -59,20 +73,38 @@ const DemoPlayPage: NextPage = () => {
     return (
       <>
         {demoQuestion && (
-          <QuestionTask
-            questionDescription={demoQuestion.questionDescription}
-            city={demoQuestion.city}
-            title={demoQuestion.title}
-            questionImageUrl={demoQuestion.questionImageUrl}
-            isSubmitting={isSubmitting}
-            onSubmit={submitAnswer}
-          />
+          <>
+            <QuestionTask
+              questionDescription={demoQuestion.questionDescription}
+              city={demoQuestion.city}
+              title={demoQuestion.title}
+              questionImageUrl={demoQuestion.questionImageUrl}
+              isSubmitting={isSubmitting}
+              onSubmit={submitAnswer}
+            />
+            <NextDemoQuestionButton
+              onClick={() => {
+                setSolutionData(null);
+                refetchDemoQuestion();
+              }}
+            />
+          </>
         )}
       </>
     );
   }
 
-  return <DemoSolution {...solutionData} />;
+  return (
+    <>
+      <DemoSolution {...solutionData} />
+      <NextDemoQuestionButton
+        onClick={() => {
+          setSolutionData(null);
+          refetchDemoQuestion();
+        }}
+      />
+    </>
+  );
 };
 
 export default DemoPlayPage;
