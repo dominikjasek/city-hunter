@@ -43,7 +43,7 @@ const FaqPage: NextPage = () => {
         <Question>
           <QuestionTitle>Na jakém území se hraje?</QuestionTitle>
           <QuestionAnswer>
-            V Třebíči budou fotky rozesety po celém městě nebo dokonce v blízkém okolí města. V Brně se zaměříme pouze
+            V Třebíči budou fotky rozmístěny po celém městě nebo dokonce v blízkém okolí města. V Brně se zaměříme pouze
             na centrum a jeho nejbližší okolí.
           </QuestionAnswer>
         </Question>
