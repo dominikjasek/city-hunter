@@ -136,6 +136,8 @@ export const TournamentPage: NextPage = () => {
                     style={{
                       objectFit: 'contain',
                     }}
+                    quality={35}
+                    sizes="(max-width: 768px) 75vw, 25vw"
                   />
                 </Box>
               ) : (

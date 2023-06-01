@@ -55,6 +55,8 @@ export const QuestionTask: FC<QuestionTaskProps> = (props) => {
                 objectFit: 'contain',
                 objectPosition: 'top',
               }}
+              quality={35}
+              sizes="(max-width: 768px) 100vw, 33vw"
               onClick={() => setIsLightboxOpen(true)}
             />
           </Box>

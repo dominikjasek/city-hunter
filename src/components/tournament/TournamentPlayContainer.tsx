@@ -57,6 +57,8 @@ export const TournamentPlayContainer: FC<TournamentContainerProps> = (props) => 
                 width: 'auto',
                 WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 100%)',
               }}
+              quality={50}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           )}
         </Stack>

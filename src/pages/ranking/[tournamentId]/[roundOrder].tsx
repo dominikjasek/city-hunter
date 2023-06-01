@@ -171,6 +171,8 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
                     style={{
                       objectFit: 'contain',
                     }}
+                    quality={35}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     onClick={() => setLightboxIndex(images.indexOf(image))}
                   />
                 </Box>

@@ -58,6 +58,8 @@ export const DemoSolution: FC<QuestionSolutionProps> = (props) => {
                   style={{
                     objectFit: 'contain',
                   }}
+                  quality={35}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   onClick={() => setIndex(props.images.indexOf(image))}
                 />
               </Box>
