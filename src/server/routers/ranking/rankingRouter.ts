@@ -8,53 +8,79 @@ import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
 import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
 
 export const rankingRouter = router({
-  getTournamentRanking: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
-    const dbResult = await db
-      .select({ userId: answers.userId, nickName: users.nickName, score: answers.score, medal: answers.medal })
-      .from(questions)
-      .innerJoin(answers, eq(answers.questionId, questions.id))
-      .innerJoin(users, eq(answers.userId, users.id))
-      .where(eq(questions.tournamentId, input.tournamentId));
-
-    const groupedByUsers = dbResult.reduce((acc, curr) => {
-      let currUserIndex = acc.findIndex((item) => item.userId === curr.userId);
-
-      if (currUserIndex === -1 || !acc[currUserIndex]) {
-        acc.push({
-          userId: curr.userId,
-          nickName: curr.nickName,
-          score: 0,
-          medals: {
-            GOLD: 0,
-            SILVER: 0,
-            BRONZE: 0,
+  getTournamentRanking: publicProcedure
+    .input(z.object({ tournamentId: z.string() }))
+    .query<TournamentUserScore[]>(async ({ input }) => {
+      const dbQueryResult = await db.query.questions.findMany({
+        where: eq(questions.tournamentId, input.tournamentId),
+        columns: {
+          id: true,
+        },
+        with: {
+          answers: {
+            columns: {
+              score: true,
+              medal: true,
+            },
+            with: {
+              user: {
+                columns: {
+                  id: true,
+                  nickName: true,
+                },
+              },
+            },
           },
-          medalsScore: 0,
-        });
+        },
+      });
 
-        currUserIndex = acc.length - 1;
+      if (!dbQueryResult) {
+        throw new Error(`Tournament ${input.tournamentId} was not found`);
       }
 
-      const gold = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'GOLD' ? 1 : 0);
-      const silver = acc[currUserIndex]!.medals.SILVER + (curr.medal === 'SILVER' ? 1 : 0);
-      const bronze = acc[currUserIndex]!.medals.BRONZE + (curr.medal === 'BRONZE' ? 1 : 0);
+      const tournamentAnswers = dbQueryResult.flatMap((question) => question.answers);
 
-      acc[currUserIndex] = {
-        userId: curr.userId,
-        nickName: curr.nickName,
-        score: acc[currUserIndex]!.score + curr.score,
-        medals: {
-          GOLD: gold,
-          SILVER: silver,
-          BRONZE: bronze,
-        },
-        medalsScore: gold * 3 + silver * 2 + bronze,
-      };
-      return acc;
-    }, [] as TournamentUserScore[]);
+      console.log('tournamentAnswers', tournamentAnswers);
 
-    return groupedByUsers;
-  }),
+      const groupedByUsers = tournamentAnswers.reduce((acc, curr) => {
+        let currUserIndex = acc.findIndex((item) => item.userId === curr.user.id);
+
+        if (currUserIndex === -1 || !acc[currUserIndex]) {
+          acc.push({
+            userId: curr.user.id,
+            nickName: curr.user.nickName,
+            score: 0,
+            medals: {
+              GOLD: 0,
+              SILVER: 0,
+              BRONZE: 0,
+            },
+            medalsScore: 0,
+          });
+
+          currUserIndex = acc.length - 1;
+        }
+
+        const gold = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'GOLD' ? 1 : 0);
+        const silver = acc[currUserIndex]!.medals.SILVER + (curr.medal === 'SILVER' ? 1 : 0);
+        const bronze = acc[currUserIndex]!.medals.BRONZE + (curr.medal === 'BRONZE' ? 1 : 0);
+
+        acc[currUserIndex] = {
+          userId: curr.user.id,
+          nickName: curr.user.nickName,
+          score: acc[currUserIndex]!.score + curr.score,
+          medals: {
+            GOLD: gold,
+            SILVER: silver,
+            BRONZE: bronze,
+          },
+          medalsScore: gold * 3 + silver * 2 + bronze,
+        };
+        return acc;
+      }, [] as TournamentUserScore[]);
+
+      return groupedByUsers;
+    }),
 
   getQuestionRanking: publicProcedure
     .input(z.object({ tournamentId: z.string(), roundOrder: z.number() }))
