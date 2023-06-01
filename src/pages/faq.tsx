@@ -26,7 +26,7 @@ const FaqPage: NextPage = () => {
       </Typography>
       <Box textAlign={'initial'}>
         <Question>
-          <QuestionTitle>Jaké jsou pravidla hry?</QuestionTitle>
+          <QuestionTitle>Jaká jsou pravidla hry?</QuestionTitle>
           <QuestionAnswer>
             <p>
               Hra začíná 4. 6. 2023 a trvá 20 dní. Každý večer bude zveřejněna nová otázka. V Třebíči v 19:00 a v Brně
