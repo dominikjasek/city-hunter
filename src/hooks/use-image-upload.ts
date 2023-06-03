@@ -12,7 +12,7 @@ export const useImageUpload = () => {
       },
     );
     const cloudinaryData: any = await cloudinaryResponse.json();
-    return cloudinaryData.url as string;
+    return cloudinaryData.url.replace('/upload/', '/upload/q_40/') as string;
   };
 
   return {
