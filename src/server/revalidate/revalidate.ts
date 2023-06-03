@@ -1,43 +1,28 @@
 import { NextApiResponse } from 'next';
+import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
 
 type UpdatedQuestion = {
-  roundOrder: number | null;
-  tournamentId: string | null;
-};
-
-type NonNullUpdatedQuestion = {
-  [K in keyof UpdatedQuestion]: NonNullable<UpdatedQuestion[K]>;
+  roundOrder: number;
+  tournamentId: string;
 };
 
 export const revalidateRankingPages = async (res: NextApiResponse, questions: UpdatedQuestion[]) => {
   const promises: Promise<unknown>[] = [];
-  const revalidatedTournamentIds: string[] = [];
-  const revalidatedTournamentRoundOrders: NonNullUpdatedQuestion[] = [];
+  const revalidatedRoutes: Set<string> = new Set();
+
+  const revalidateRoute = (route: string) => {
+    if (revalidatedRoutes.has(route)) {
+      return;
+    }
+    promises.push(res.revalidate(route));
+    revalidatedRoutes.add(route);
+  };
 
   for (const question of questions) {
-    if (!question.tournamentId) {
-      continue;
-    }
+    const nonNullableQuestion = assertRequiredFields(question, ['tournamentId', 'roundOrder']);
 
-    if (!revalidatedTournamentIds.includes(question.tournamentId)) {
-      promises.push(res.revalidate(`/ranking/${question.tournamentId}`));
-      revalidatedTournamentIds.push(question.tournamentId);
-    }
-
-    if (
-      !question.roundOrder ||
-      revalidatedTournamentRoundOrders.some(
-        (item) => item.tournamentId === question.tournamentId && item.roundOrder === question.roundOrder,
-      )
-    ) {
-      continue;
-    }
-
-    promises.push(res.revalidate(`/ranking/${question.tournamentId}/${question.roundOrder}`));
-    revalidatedTournamentRoundOrders.push({
-      tournamentId: question.tournamentId,
-      roundOrder: question.roundOrder,
-    });
+    revalidateRoute(`/ranking/${nonNullableQuestion.tournamentId}`);
+    revalidateRoute(`/ranking/${nonNullableQuestion.tournamentId}/${nonNullableQuestion.roundOrder}`);
   }
 
   await Promise.all(promises);

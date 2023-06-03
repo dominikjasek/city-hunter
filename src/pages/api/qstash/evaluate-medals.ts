@@ -6,6 +6,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { verifySignature } from '@upstash/qstash/nextjs';
 import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
 import { revalidateRankingPages } from '~/server/revalidate/revalidate';
+import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
 
 const setMedalForQuestionId = async (questionId: number, userId: string, medal: Answer['medal']) => {
   return db
@@ -39,15 +40,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   for (const questionId of questionIdsToEvaluate) {
     const filteredAnswers = recentlyEndedQuestions.filter((item) => item.questionId === questionId);
-    if (filteredAnswers.length === 0 || !filteredAnswers[0]) {
-      throw new Error(`There are no answers for questionId=${questionId}`);
-    }
-
-    const tournamentId = filteredAnswers[0].tournamentId;
-    if (!tournamentId) {
-      throw new Error('TournamentId is null');
-    }
-
     const sortedAnswers = sortAnswersByPoints(filteredAnswers);
 
     const updateMedalPromises: Promise<unknown>[] = [];
@@ -64,7 +56,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     await Promise.all(updateMedalPromises);
   }
 
-  await revalidateRankingPages(res, recentlyEndedQuestions);
+  await res.revalidate('/ranking');
+  await revalidateRankingPages(
+    res,
+    recentlyEndedQuestions.map((question) => assertRequiredFields(question, ['tournamentId', 'roundOrder'])),
+  );
 
   return res.json({ success: true });
 }
