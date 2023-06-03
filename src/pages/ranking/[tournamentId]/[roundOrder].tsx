@@ -113,7 +113,7 @@ export const TournamentRoundRankingPage: NextPage<TournamentRoundRankingPageProp
   }, [user?.id, questionRanking, myAnswer, inspectUserId, showAnswers]);
 
   if (isQuestionRankingLoading || isTournamentDetailsLoading || isTournamentQuestionsLoading) {
-    return <Loader title={'Načítám tady...'} />;
+    return <Loader title={'Načítám...'} />;
   }
 
   if (!questionRanking || !tournamentDetails || !tournamentQuestions) {

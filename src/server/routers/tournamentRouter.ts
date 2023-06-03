@@ -72,6 +72,7 @@ export const tournamentRouter = router({
           .from(answers)
           .groupBy(answers.userId);
 
+        // inArray requires at least one value
         if (questionsItems.length > 0) {
           peopleWhoAnsweredAtLeastOnceQuery.where(
             inArray(
