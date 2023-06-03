@@ -12,7 +12,7 @@ export const rankingRouter = router({
     .input(z.object({ tournamentId: z.string() }))
     .query<TournamentUserScore[]>(async ({ input }) => {
       const dbQueryResult = await db.query.questions.findMany({
-        where: eq(questions.tournamentId, input.tournamentId),
+        where: (questions, { eq }) => eq(questions.tournamentId, input.tournamentId),
         columns: {
           id: true,
         },
