@@ -36,7 +36,7 @@ const IndexPage: NextPageWithLayout = () => {
         <Stack direction={'column'} mx={'auto'} gap={1}>
           <Link className={'no-style'} href={'/demo'} passHref>
             <Button color={'secondary'} variant={'contained'} sx={{ width: '250px' }}>
-              Vyzkoušet demo
+              Vyzkoušet ukázku
             </Button>
           </Link>
         </Stack>
