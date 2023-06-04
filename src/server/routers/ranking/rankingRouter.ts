@@ -21,6 +21,7 @@ export const rankingRouter = router({
             columns: {
               score: true,
               medal: true,
+              answeredAt: true,
             },
             with: {
               user: {
@@ -34,52 +35,48 @@ export const rankingRouter = router({
         },
       });
 
-      if (!dbQueryResult) {
-        throw new Error(`Tournament ${input.tournamentId} was not found`);
-      }
+      const usersRanking: TournamentUserScore[] = [];
 
-      const tournamentAnswers = dbQueryResult.flatMap((question) => question.answers);
+      dbQueryResult.forEach((question) => {
+        const sortedAnswers = sortAnswersByPoints(question.answers);
+        sortedAnswers.forEach((answer) => {
+          let currUserIndex = usersRanking.findIndex((item) => item.userId === answer.user.id);
 
-      console.log('tournamentAnswers', tournamentAnswers);
+          if (currUserIndex === -1 || !usersRanking[currUserIndex]) {
+            usersRanking.push({
+              userId: answer.user.id,
+              nickName: answer.user.nickName,
+              score: 0,
+              medals: {
+                GOLD: 0,
+                SILVER: 0,
+                BRONZE: 0,
+              },
+              medalsScore: 0,
+            });
 
-      const groupedByUsers = tournamentAnswers.reduce((acc, curr) => {
-        let currUserIndex = acc.findIndex((item) => item.userId === curr.user.id);
+            currUserIndex = usersRanking.length - 1;
+          }
 
-        if (currUserIndex === -1 || !acc[currUserIndex]) {
-          acc.push({
-            userId: curr.user.id,
-            nickName: curr.user.nickName,
-            score: 0,
+          const gold = usersRanking[currUserIndex]!.medals.GOLD + (answer.medal === 'GOLD' ? 1 : 0);
+          const silver = usersRanking[currUserIndex]!.medals.SILVER + (answer.medal === 'SILVER' ? 1 : 0);
+          const bronze = usersRanking[currUserIndex]!.medals.BRONZE + (answer.medal === 'BRONZE' ? 1 : 0);
+
+          usersRanking[currUserIndex] = {
+            userId: answer.user.id,
+            nickName: answer.user.nickName,
             medals: {
-              GOLD: 0,
-              SILVER: 0,
-              BRONZE: 0,
+              GOLD: gold,
+              SILVER: silver,
+              BRONZE: bronze,
             },
-            medalsScore: 0,
-          });
+            score: usersRanking[currUserIndex]!.score + answer.score,
+            medalsScore: gold * 3 + silver * 2 + bronze,
+          };
+        });
+      });
 
-          currUserIndex = acc.length - 1;
-        }
-
-        const gold = acc[currUserIndex]!.medals.GOLD + (curr.medal === 'GOLD' ? 1 : 0);
-        const silver = acc[currUserIndex]!.medals.SILVER + (curr.medal === 'SILVER' ? 1 : 0);
-        const bronze = acc[currUserIndex]!.medals.BRONZE + (curr.medal === 'BRONZE' ? 1 : 0);
-
-        acc[currUserIndex] = {
-          userId: curr.user.id,
-          nickName: curr.user.nickName,
-          score: acc[currUserIndex]!.score + curr.score,
-          medals: {
-            GOLD: gold,
-            SILVER: silver,
-            BRONZE: bronze,
-          },
-          medalsScore: gold * 3 + silver * 2 + bronze,
-        };
-        return acc;
-      }, [] as TournamentUserScore[]);
-
-      return groupedByUsers;
+      return usersRanking;
     }),
 
   getQuestionRanking: publicProcedure

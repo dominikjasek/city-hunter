@@ -1,5 +1,4 @@
 import { NextApiResponse } from 'next';
-import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
 
 type UpdatedQuestion = {
   roundOrder: number;
@@ -19,10 +18,8 @@ export const revalidateRankingPages = async (res: NextApiResponse, questions: Up
   };
 
   for (const question of questions) {
-    const nonNullableQuestion = assertRequiredFields(question, ['tournamentId', 'roundOrder']);
-
-    revalidateRoute(`/ranking/${nonNullableQuestion.tournamentId}`);
-    revalidateRoute(`/ranking/${nonNullableQuestion.tournamentId}/${nonNullableQuestion.roundOrder}`);
+    revalidateRoute(`/ranking/${question.tournamentId}`);
+    revalidateRoute(`/ranking/${question.tournamentId}/${question.roundOrder}`);
   }
 
   await Promise.all(promises);
