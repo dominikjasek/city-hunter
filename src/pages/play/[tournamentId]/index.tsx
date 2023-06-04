@@ -199,6 +199,5 @@ export const getStaticProps: GetStaticProps<{ tournamentId: string }> = async (c
       trpcState: ssgHelpers.dehydrate(),
       tournamentId,
     },
-    revalidate: 60,
   };
 };

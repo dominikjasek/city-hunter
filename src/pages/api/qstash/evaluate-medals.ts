@@ -68,6 +68,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     ),
   ]);
 
+  // revalidate tournament play page
+  const tournamentsAffected = new Set<string>();
+  recentlyEndedQuestions.forEach((question) => {
+    const { tournamentId } = assertRequiredFields(question, ['tournamentId']);
+    tournamentsAffected.add(tournamentId);
+  });
+  await Promise.all(Array.from(tournamentsAffected).map((tournamentId) => res.revalidate(`/play/${tournamentId}`)));
+
   return res.json({ success: true });
 }
 
