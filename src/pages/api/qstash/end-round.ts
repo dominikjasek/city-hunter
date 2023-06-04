@@ -39,7 +39,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  // update medals
+  // Update medals
   await Promise.all(
     recentlyEndedQuestions.map(async (question) => {
       const sortedAnswers = sortAnswersByPoints(question.answers);
@@ -59,7 +59,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }),
   );
 
-  // revalidate ranking pages
+  // Revalidate ranking pages
   await Promise.all([
     res.revalidate('/ranking'),
     revalidateRankingPages(
@@ -68,7 +68,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     ),
   ]);
 
-  // revalidate tournament play page
+  // Revalidate tournament play page
   const tournamentsAffected = new Set<string>();
   recentlyEndedQuestions.forEach((question) => {
     const { tournamentId } = assertRequiredFields(question, ['tournamentId']);
