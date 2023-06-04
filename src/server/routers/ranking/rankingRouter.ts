@@ -11,10 +11,12 @@ export const rankingRouter = router({
   getTournamentRanking: publicProcedure
     .input(z.object({ tournamentId: z.string() }))
     .query<TournamentUserScore[]>(async ({ input }) => {
-      const dbQueryResult = await db.query.questions.findMany({
-        where: (questions, { eq }) => eq(questions.tournamentId, input.tournamentId),
+      const endedQuestions = await db.query.questions.findMany({
+        where: (questions, { eq, and }) =>
+          and(eq(questions.tournamentId, input.tournamentId), lt(questions.endDate, new Date())),
         columns: {
           id: true,
+          endDate: true,
         },
         with: {
           answers: {
@@ -37,7 +39,7 @@ export const rankingRouter = router({
 
       const usersRanking: TournamentUserScore[] = [];
 
-      dbQueryResult.forEach((question) => {
+      endedQuestions.forEach((question) => {
         const sortedAnswers = sortAnswersByPoints(question.answers);
         sortedAnswers.forEach((answer) => {
           let currUserIndex = usersRanking.findIndex((item) => item.userId === answer.user.id);
