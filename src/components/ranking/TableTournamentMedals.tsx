@@ -43,7 +43,7 @@ export const TableMedals: FC<{ ranking: TournamentUserScore[] }> = ({ ranking })
               <TableCell component="th" scope="row">
                 {row.nickName}
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="right">
                 <Box>
                   {Array(row.medals.GOLD)
                     .fill(0)
