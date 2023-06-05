@@ -7,7 +7,7 @@ import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
 import { revalidateRankingPages } from '~/server/revalidate/revalidate';
 import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
 import { ExecutedQuery } from '@planetscale/database';
-import { verifySignature } from '@upstash/qstash/nextjs';
+import { haversineDistance } from '~/utils/score/evaluate-score';
 
 const setMedalForQuestionId = async (questionId: number, userId: string, medal: Answer['medal']) => {
   return db
@@ -27,6 +27,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       id: true,
       roundOrder: true,
       tournamentId: true,
+      location: true,
     },
     with: {
       answers: {
@@ -34,6 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           userId: true,
           score: true,
           answeredAt: true,
+          location: true,
         },
       },
     },
@@ -42,7 +44,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Update medals
   await Promise.all(
     recentlyEndedQuestions.map(async (question) => {
-      const sortedAnswers = sortAnswersByPoints(question.answers);
+      // const sortedAnswers = sortAnswersByPoints(question.answers);
+      const sortedAnswers = sortAnswersByPoints(
+        question.answers.map((answer) => ({
+          ...answer,
+          distance: haversineDistance(answer.location, question.location),
+        })),
+      );
 
       const updateMedalPromises: Promise<ExecutedQuery>[] = [];
       if (sortedAnswers[0]) {
@@ -79,7 +87,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   return res.json({ success: true });
 }
 
-export default verifySignature(handler);
+export default handler;
 
 export const config = {
   api: {

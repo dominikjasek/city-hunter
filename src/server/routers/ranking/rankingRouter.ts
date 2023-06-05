@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
 import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
 import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
+import { haversineDistance } from '~/utils/score/evaluate-score';
 
 export const rankingRouter = router({
   getTournamentRanking: publicProcedure
@@ -17,6 +18,7 @@ export const rankingRouter = router({
         columns: {
           id: true,
           endDate: true,
+          location: true,
         },
         with: {
           answers: {
@@ -24,6 +26,7 @@ export const rankingRouter = router({
               score: true,
               medal: true,
               answeredAt: true,
+              location: true,
             },
             with: {
               user: {
@@ -40,7 +43,12 @@ export const rankingRouter = router({
       const usersRanking: TournamentUserScore[] = [];
 
       endedQuestions.forEach((question) => {
-        const sortedAnswers = sortAnswersByPoints(question.answers);
+        const sortedAnswers = sortAnswersByPoints(
+          question.answers.map((answer) => ({
+            ...answer,
+            distance: haversineDistance(answer.location, question.location),
+          })),
+        );
         sortedAnswers.forEach((answer) => {
           let currUserIndex = usersRanking.findIndex((item) => item.userId === answer.user.id);
 
@@ -146,6 +154,7 @@ export const rankingRouter = router({
         answers: sortAnswersByPoints(
           userAnswers.map((answer) => ({
             ...answer,
+            distance: haversineDistance(answer.location, questionDetails.correctLocation),
             durationInSeconds: (answer.answeredAt.getTime() - questionDetails.startDate.getTime()) / 1000,
           })),
         ),
