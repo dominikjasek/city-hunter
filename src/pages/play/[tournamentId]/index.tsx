@@ -36,8 +36,8 @@ const ActionButton: FC<{
     );
   }
 
-  // Button is enabled if startDate is in next 24 hours
-  const isActive = now.getTime() + 1000 * 60 * 60 * 24 > props.startDate.getTime();
+  // Button is enabled if startDate is in next 23 hours
+  const isActive = now.getTime() + 1000 * 60 * 60 * 23 > props.startDate.getTime();
 
   if (isActive) {
     return (
@@ -50,7 +50,7 @@ const ActionButton: FC<{
   }
 
   return (
-    <Tooltip title="Odkaz bude aktivní 24 hodin před začátkem">
+    <Tooltip title="Odkaz bude aktivní 23 hodin před začátkem">
       <span>
         <Button variant="contained" color="secondary" sx={{ width: BUTTON_WIDTH }} disabled>
           Hrát
