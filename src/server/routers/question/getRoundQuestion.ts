@@ -6,7 +6,7 @@ import { answers, questions } from '~/db/schema';
 import { and, eq } from 'drizzle-orm';
 import { TRPCError } from '@trpc/server';
 import { RedisClient } from '~/server/redis/redis';
-import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
+import { assertRequiredProperties } from 'required-properties';
 
 const OPTIMIZATION_OFFSET_FROM_START_NOT_TO_CHECK_ANSWER = 5000; // 5 seconds
 
@@ -22,7 +22,7 @@ const getQuestionWithCache = async (tournamentId: string, roundOrder: number): P
     return redisQuestion;
   }
 
-  const dbResult = await db.query.questions.findFirst({
+  const question = await db.query.questions.findFirst({
     where: and(eq(questions.roundOrder, roundOrder), eq(questions.tournamentId, tournamentId)),
     columns: {
       id: true,
@@ -45,10 +45,10 @@ const getQuestionWithCache = async (tournamentId: string, roundOrder: number): P
     },
   });
 
-  if (!dbResult) {
+  if (!question) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Question was not found' });
   }
-  const question = assertRequiredFields(dbResult, ['city', 'startDate', 'endDate', 'roundOrder']);
+  assertRequiredProperties(question, ['city', 'startDate', 'endDate', 'roundOrder']);
 
   await redisClient.setObject(redisKey, question);
 

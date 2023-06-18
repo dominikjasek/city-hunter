@@ -3,7 +3,7 @@ import { db } from '~/db/drizzle';
 import { answers, cities, questions, tournaments } from '~/db/schema';
 import { eq, inArray } from 'drizzle-orm';
 import { z } from 'zod';
-import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
+import { assertRequiredProperties } from 'required-properties';
 
 export const tournamentRouter = router({
   getDetailsForId: publicProcedure.input(z.object({ tournamentId: z.string() })).query(async ({ input }) => {
@@ -30,8 +30,8 @@ export const tournamentRouter = router({
       .where(eq(questions.tournamentId, input.tournamentId))
       .orderBy(questions.startDate);
 
-    return tournamentQuestions.map((questionNullableFields) => {
-      const question = assertRequiredFields(questionNullableFields, ['roundOrder', 'startDate', 'endDate']);
+    return tournamentQuestions.map((question) => {
+      assertRequiredProperties(question, ['roundOrder', 'startDate', 'endDate']);
       const isLaunched = question.startDate && now > question.startDate;
       return {
         id: question.id,
@@ -59,8 +59,8 @@ export const tournamentRouter = router({
       .innerJoin(cities, eq(tournaments.cityId, cities.id));
 
     return await Promise.all(
-      tournamentsItems.map(async (tournamentNullableDates) => {
-        const tournament = assertRequiredFields(tournamentNullableDates, ['startDate', 'endDate']);
+      tournamentsItems.map(async (tournament) => {
+        assertRequiredProperties(tournament, ['startDate', 'endDate']);
 
         const questionsItems = await db
           .select({ id: questions.id })

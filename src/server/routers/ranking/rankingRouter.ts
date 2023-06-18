@@ -5,8 +5,8 @@ import { and, eq, lt } from 'drizzle-orm';
 import { z } from 'zod';
 import { TournamentUserScore } from '~/server/routers/ranking/types';
 import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
-import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
 import { haversineDistance } from '~/utils/score/evaluate-score';
+import { assertRequiredProperties } from 'required-properties';
 
 export const rankingRouter = router({
   getTournamentRanking: publicProcedure
@@ -94,7 +94,7 @@ export const rankingRouter = router({
     .query(async ({ input }) => {
       const now = new Date();
 
-      const questionDetailsDbResult = (
+      const questionDetails = (
         await db
           .select({
             id: questions.id,
@@ -119,11 +119,11 @@ export const rankingRouter = router({
           .limit(1)
       )[0];
 
-      if (!questionDetailsDbResult) {
+      if (!questionDetails) {
         throw new Error('Question not found');
       }
 
-      const questionDetails = assertRequiredFields(questionDetailsDbResult, ['startDate', 'endDate', 'cityId']);
+      assertRequiredProperties(questionDetails, ['startDate', 'endDate', 'cityId']);
 
       const userAnswers = await db
         .select({

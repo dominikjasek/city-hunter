@@ -138,6 +138,9 @@ dependencies:
   react-photo-album:
     specifier: ^2.1.0
     version: 2.1.0(react@18.2.0)
+  required-properties:
+    specifier: ^1.0.0
+    version: 1.0.0
   styled-components:
     specifier: ^5.3.9
     version: 5.3.9(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
@@ -5552,6 +5555,10 @@ packages:
     resolution: {integrity: sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==}
     engines: {node: '>=8'}
     dev: true
+
+  /required-properties@1.0.0:
+    resolution: {integrity: sha512-qiE9Vzu0XfmHRZWbwkr2avw9BboZY7waT9CM6GFEN95QZglHK4gRR394DQrQUrkMUP5WOhOFYHrcKe4OIKurHg==}
+    dev: false
 
   /resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}

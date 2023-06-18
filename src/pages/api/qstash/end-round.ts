@@ -5,9 +5,9 @@ import { add, sub } from 'date-fns';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sortAnswersByPoints } from '~/utils/ranking/sortAnswers';
 import { revalidateRankingPages } from '~/server/revalidate/revalidate';
-import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
 import { ExecutedQuery } from '@planetscale/database';
 import { haversineDistance } from '~/utils/score/evaluate-score';
+import { assertRequiredProperties } from 'required-properties';
 
 const setMedalForQuestionId = async (questionId: number, userId: string, medal: Answer['medal']) => {
   return db
@@ -72,15 +72,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     res.revalidate('/ranking'),
     revalidateRankingPages(
       res,
-      recentlyEndedQuestions.map((question) => assertRequiredFields(question, ['tournamentId', 'roundOrder'])),
+      recentlyEndedQuestions.map((question) => {
+        assertRequiredProperties(question, ['tournamentId', 'roundOrder']);
+        return question;
+      }),
     ),
   ]);
 
   // Revalidate tournament play page
   const tournamentsAffected = new Set<string>();
   recentlyEndedQuestions.forEach((question) => {
-    const { tournamentId } = assertRequiredFields(question, ['tournamentId']);
-    tournamentsAffected.add(tournamentId);
+    assertRequiredProperties(question, ['tournamentId']);
+    tournamentsAffected.add(question.tournamentId);
   });
   await Promise.all(Array.from(tournamentsAffected).map((tournamentId) => res.revalidate(`/play/${tournamentId}`)));
 

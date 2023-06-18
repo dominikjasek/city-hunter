@@ -5,7 +5,7 @@ import { and, eq, lt } from 'drizzle-orm';
 import { answers, questions } from '~/db/schema';
 import { UpdateNicknameEvent } from '~/server/qstash/types';
 import { revalidateRankingPages } from '~/server/revalidate/revalidate';
-import { assertRequiredFields } from '~/utils/typescript/assertRequiredFields';
+import { assertRequiredProperties } from 'required-properties';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const updateNickNameEvent = req.body as UpdateNicknameEvent['value'];
@@ -18,7 +18,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   await revalidateRankingPages(
     res,
-    answeredQuestions.map((question) => assertRequiredFields(question, ['tournamentId', 'roundOrder'])),
+    answeredQuestions.map((question) => {
+      assertRequiredProperties(question, ['tournamentId', 'roundOrder']);
+      return question;
+    }),
   );
 
   return res.json({ success: true });
