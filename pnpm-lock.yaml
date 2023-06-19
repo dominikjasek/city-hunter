@@ -155,6 +155,9 @@ devDependencies:
   '@playwright/test':
     specifier: ^1.26.1
     version: 1.26.1
+  '@total-typescript/shoehorn':
+    specifier: ^0.1.1
+    version: 0.1.1
   '@types/google-map-react':
     specifier: ^2.1.7
     version: 2.1.7
@@ -1901,6 +1904,10 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
+
+  /@total-typescript/shoehorn@0.1.1:
+    resolution: {integrity: sha512-XSPcazQsC2Cr7eCiAI+M2bTmMziBvFWYTYMgUDKLbU6i+7m3I2BF5gXF5vKDO8577fONs9CvmTvVa7+nMHMfxg==}
+    dev: true
 
   /@total-typescript/ts-reset@0.4.2:
     resolution: {integrity: sha512-vqd7ZUDSrXFVT1n8b2kc3LnklncDQFPvR58yUS1kEP23/nHPAO9l1lMjUfnPrXYYk4Hj54rrLKMW5ipwk7k09A==}

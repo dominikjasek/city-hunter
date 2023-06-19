@@ -16,7 +16,7 @@ App for experimenting with Next.js + tRPC + Edge Functions + PlanetScale DB serv
 - I am using Edge functions for serverless solution, because AWS Lambda has cold starts
 
 ### Messaging
-- I am using [Upstash Qstash](https://upstash.com/) for messaging, there is also serverless Kafka but so far I didn't have a reason to go for it
+- I am using [Upstash](https://upstash.com/)  Qstash for asynchronnous work and Kafka for messaging
 
 ### Monitoring
 - Sentry for logging errors

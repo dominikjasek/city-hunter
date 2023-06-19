@@ -8,6 +8,8 @@ import { revalidateRankingPages } from '~/server/revalidate/revalidate';
 import { ExecutedQuery } from '@planetscale/database';
 import { haversineDistance } from '~/utils/score/evaluate-score';
 import { assertRequiredProperties } from 'required-properties';
+import { findDupliciteAnswers } from '~/utils/answer/find-duplicite-answers';
+import { emitKafkaEvent } from '~/server/kafka/kafka';
 
 const setMedalForQuestionId = async (questionId: number, userId: string, medal: Answer['medal']) => {
   return db
@@ -21,25 +23,41 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const before2Minutes = sub(now, { minutes: 2 });
   const after2Minutes = add(now, { minutes: 2 });
 
-  const recentlyEndedQuestions = await db.query.questions.findMany({
-    where: between(questions.endDate, before2Minutes, after2Minutes),
-    columns: {
-      id: true,
-      roundOrder: true,
-      tournamentId: true,
-      location: true,
-    },
-    with: {
-      answers: {
-        columns: {
-          userId: true,
-          score: true,
-          answeredAt: true,
-          location: true,
-        },
+  const getRecentlyEndedQuestionsQuery = db.query.questions
+    .findMany({
+      where: between(questions.endDate, before2Minutes, after2Minutes),
+      columns: {
+        id: true,
+        roundOrder: true,
+        tournamentId: true,
+        location: true,
       },
-    },
-  });
+      with: {
+        answers: {},
+      },
+    })
+    .prepare();
+
+  const recentlyEndedQuestionsWithDuplicates = await getRecentlyEndedQuestionsQuery.execute();
+
+  // Remove duplicate answers
+  // there is a race condition problem where the same question can be answered twice (this should be handled on frontend, but hacker can still make 2 concurrent requests and our backend can not handle that)
+  const answersToBeRemoved: Answer[] = [];
+  for (const question of recentlyEndedQuestionsWithDuplicates) {
+    answersToBeRemoved.push(...findDupliciteAnswers(question.answers));
+  }
+
+  await Promise.all(
+    answersToBeRemoved.map((answerToRemove) =>
+      emitKafkaEvent({ topic: 'remove-duplicate-answer', message: JSON.stringify(answerToRemove) }),
+    ),
+  );
+  await Promise.all(
+    answersToBeRemoved.map((answerToRemove) => db.delete(answers).where(eq(answers.id, answerToRemove.id))),
+  );
+
+  // refetch questions without answers duplicates
+  const recentlyEndedQuestions = await getRecentlyEndedQuestionsQuery.execute();
 
   // Update medals
   await Promise.all(
