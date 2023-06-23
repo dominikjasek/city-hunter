@@ -24,14 +24,15 @@ const IndexPage: NextPageWithLayout = () => {
         </Typography>
         <Typography variant={'h6'} sx={{ mb: 6 }}>
           <p>
-            Hrajeme v <SecondaryText>Třebíči</SecondaryText> a v <SecondaryText>Brně</SecondaryText>. Startujeme{' '}
-            <SecondaryText>4. 6. 2023</SecondaryText> a hra potrvá <SecondaryText>20 dní</SecondaryText>.
+            Hra už skončila 🙂 Hráli jsme v <SecondaryText>Třebíči</SecondaryText> a v{' '}
+            <SecondaryText>Brně</SecondaryText>. Startovali jsme <SecondaryText>4. 6. 2023</SecondaryText> a hra trvala{' '}
+            <SecondaryText>20 dní</SecondaryText>.
           </p>
           <p>
-            Každý večer bude zveřejněna nová otázka a budete mít 1 hodinu, abyste odpověděli. V Třebíči začínáme každý
-            den v 19:00, v Brně pak o hodinu později - ve 20:00.
+            Každý večer byla zveřejněna nová otázka a měli jste 1 hodinu, abyste odpověděli. V Třebíči jsme začínali
+            každý den v 19:00, v Brně pak o hodinu později - ve 20:00.
           </p>
-          <p>Rozhodují vteřiny, jste připraveni?</p>
+          <p>Děkuji všem, kdo se hry zúčastnili, pokud by ji někdo chtěl uspořádat ve svém měste, kontaktujte mě 🥳</p>
         </Typography>
         <Stack direction={'column'} mx={'auto'} gap={1}>
           <Link className={'no-style'} href={'/demo'} passHref>
