@@ -27,6 +27,8 @@ const DemoPlayPage: NextPage = () => {
   } = trpc.question.getRandomDemoQuestion.useQuery(undefined, {
     refetchOnMount: true,
   });
+  const {} = trpc.question.jirkaDominikQuestion.useQuery(undefined, {});
+
   const { mutateAsync, isLoading: isSubmitting } = trpc.question.answerDemoQuestion.useMutation();
 
   const submitAnswer = async (point: MapLocation) => {

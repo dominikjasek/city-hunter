@@ -135,6 +135,12 @@ export const questionRouter = router({
     return demoQuestions[Math.floor(Math.random() * demoQuestions.length)];
   }),
 
+  jirkaDominikQuestion: publicProcedure.query(async () => {
+    return {
+      ahoj: 123,
+    };
+  }),
+
   answerDemoQuestion: publicProcedure
     .input(
       z.object({
