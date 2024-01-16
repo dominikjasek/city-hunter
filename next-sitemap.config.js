@@ -10,11 +10,8 @@ module.exports = {
     policies: [
       {
         userAgent: '*',
-        allow: '/',
-      },
-      {
-        userAgent: '*',
-        allow: ['/admin', '/admin/**', '/auth/login-receiver', '/unauthorized'],
+        allow: '/*',
+        disallow: ['/admin', '/admin/**', '/auth/login-receiver', '/unauthorized'],
       },
     ],
   },
